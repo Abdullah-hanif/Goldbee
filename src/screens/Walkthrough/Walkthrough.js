@@ -38,7 +38,7 @@ const slides = [
     image: ImageSource.slider3,
   },
 ];
-const Walkthrough = () => {
+const Walkthrough = ({navigation}) => {
   // const { width, height } = Dimensions.get("window")
   const renderItem = ({item}) => {
     return (
@@ -78,9 +78,7 @@ const Walkthrough = () => {
   };
   const renderDoneButton = () => {
     return (
-      <TouchableOpacity
-      // onPress={() => navigation.navigate('ApplicationDecline')}
-      >
+      <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
         <View style={[styles.buttonCircle]}>
           <Text style={{color: Color.darkOrange, fontWeight: 'bold'}}>
             Next
