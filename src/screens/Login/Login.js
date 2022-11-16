@@ -10,8 +10,10 @@ import {Color} from '../../constants/colors';
 import TextField from '../../components/TextField';
 import Buttons from '../../components/Buttons';
 import {Checkbox} from 'react-native-paper';
+import {useNavigation} from '@react-navigation/native';
 
 const Login = () => {
+  const navigation = useNavigation();
   const [checked, setChecked] = React.useState(false);
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
@@ -30,20 +32,26 @@ const Login = () => {
           style={{
             flexDirection: 'row',
             justifyContent: 'space-between',
-            marginTop: 20,
+            marginTop: 10,
           }}>
           <View style={{flexDirection: 'row'}}>
             {/* <Text>checkBox</Text> */}
             <Checkbox
+              color={checked ? Color.darkOrange : 'black'}
               status={checked ? 'checked' : 'unchecked'}
               onPress={() => {
                 setChecked(!checked);
               }}
             />
-            <Text>Remember me ?</Text>
+            <Text style={{marginTop: 10}}>Remember me ?</Text>
           </View>
           <TouchableOpacity>
-            <Text style={{color: Color.darkOrange, fontWeight: 'bold'}}>
+            <Text
+              style={{
+                color: Color.darkOrange,
+                fontWeight: 'bold',
+                marginTop: 10,
+              }}>
               Forget Password?
             </Text>
           </TouchableOpacity>
@@ -60,7 +68,8 @@ const Login = () => {
               alignItems: 'center',
             }}>
             <Text>Don't have an account? </Text>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('BottomNavigation')}>
               <Text style={{color: Color.darkOrange, fontWeight: 'bold'}}>
                 Sign Up
               </Text>
@@ -78,6 +87,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Color.splashWhite,
-    margin: 10,
+    padding: 10,
   },
 });

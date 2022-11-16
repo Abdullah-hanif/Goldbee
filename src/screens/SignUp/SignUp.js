@@ -1,12 +1,20 @@
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React from 'react';
 import {Color} from '../../constants/colors';
 import TextField from '../../components/TextField';
 import Buttons from '../../components/Buttons';
 // import CheckBox from 'react-native-check-box';
 import {Checkbox} from 'react-native-paper';
+import {useNavigation} from '@react-navigation/native';
 
 const SignUp = () => {
+  const navigation = useNavigation();
   const [checked, setChecked] = React.useState(false);
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
@@ -24,6 +32,7 @@ const SignUp = () => {
       </View>
       <View style={styles.checkBox}>
         <Checkbox
+          color={checked ? Color.darkOrange : 'black'}
           status={checked ? 'checked' : 'unchecked'}
           onPress={() => {
             setChecked(!checked);
@@ -35,12 +44,12 @@ const SignUp = () => {
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <Text style={{color: 'black', right: 10}}>I agree to Goldbee</Text>
+          <Text style={{color: 'black'}}>I agree to Goldbee</Text>
 
           <Text
             style={{
               textDecorationLine: 'underline',
-
+              left: 10,
               fontWeight: 'bold',
               color: 'black',
             }}>
@@ -53,7 +62,9 @@ const SignUp = () => {
       </View>
       <View style={styles.bottomTxt}>
         <Text>Already have an account ?</Text>
-        <Text style={styles.loginTxt}>LOGIN </Text>
+        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+          <Text style={styles.loginTxt}>LOGIN </Text>
+        </TouchableOpacity>
       </View>
     </ScrollView>
   );
@@ -65,7 +76,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Color.splashWhite,
-    margin: 10,
+    padding: 10,
   },
   txtInputs: {
     marginTop: 20,
@@ -79,6 +90,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+    marginBottom: 30,
   },
   loginTxt: {
     fontWeight: 'bold',

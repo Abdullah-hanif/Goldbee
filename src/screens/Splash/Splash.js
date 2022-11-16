@@ -9,8 +9,13 @@ import {
 import React from 'react';
 import {ImageSource} from '../../constants/ImageSource';
 import {Color} from '../../constants/colors';
+import {useNavigation} from '@react-navigation/native';
 
 const Splash = () => {
+  const navigation = useNavigation();
+  setTimeout(() => {
+    navigation.navigate('Walkthrough');
+  }, 2000);
   return (
     <>
       <StatusBar hidden />
