@@ -8,6 +8,8 @@ import {Color} from '../constants/colors';
 //Screens
 import Home from '../screens/Home/Home';
 import Favorites from '../screens/Favorites/Favorites';
+import Inbox from '../screens/Inbox/Inbox';
+import Profile from '../screens/Profile/Profile';
 
 // Icons
 const Homess = require('../assets/Icons/Good.png');
@@ -147,24 +149,24 @@ const Sell = () => {
     </>
   );
 };
-const Inbox = () => {
-  return (
-    <>
-      <View>
-        <Text>Inbox</Text>
-      </View>
-    </>
-  );
-};
-const Profile = () => {
-  return (
-    <>
-      <View>
-        <Text>Profile</Text>
-      </View>
-    </>
-  );
-};
+// const Inbox = () => {
+//   return (
+//     <>
+//       <View>
+//         <Text>Inbox</Text>
+//       </View>
+//     </>
+//   );
+// };
+// const Profile = () => {
+//   return (
+//     <>
+//       <View>
+//         <Text>Profile</Text>
+//       </View>
+//     </>
+//   );
+// };
 
 export default BottomNavigation;
 

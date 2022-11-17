@@ -2,6 +2,7 @@ import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 
 const Card = ({name, price, bgImage}) => {
+  const [addFav, setAddFav] = React.useState(false);
   return (
     <View style={styles.container}>
       <Image
@@ -21,11 +22,15 @@ const Card = ({name, price, bgImage}) => {
           margin: 10,
         }}>
         <Text>{price}</Text>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => setAddFav(!addFav)}>
           <Image
             resizeMode="contain"
             style={{height: 20, width: 20}}
-            source={require('../assets/Icons/Group13735.png')}
+            source={
+              !addFav
+                ? require('../assets/Icons/Group13735.png')
+                : require('../assets/Icons/Group13718.png')
+            }
           />
         </TouchableOpacity>
       </View>
