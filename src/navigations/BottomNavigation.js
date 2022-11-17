@@ -10,12 +10,23 @@ import Home from '../screens/Home/Home';
 import Favorites from '../screens/Favorites/Favorites';
 import Inbox from '../screens/Inbox/Inbox';
 import Profile from '../screens/Profile/Profile';
-
+import Sell from '../screens/Sell/Sell';
 // Icons
 const Homess = require('../assets/Icons/Good.png');
 
 const Tab = createBottomTabNavigator();
 const BottomNavigation = () => {
+  const config = {
+    animation: 'spring',
+    config: {
+      stiffness: 1000,
+      damping: 500,
+      mass: 3,
+      overshootClamping: true,
+      restDisplacementThreshold: 0.01,
+      restSpeedThreshold: 0.01,
+    },
+  };
   return (
     <Tab.Navigator
       initialRouteName="Home"
@@ -72,6 +83,7 @@ const BottomNavigation = () => {
       />
       <Tab.Screen
         options={{
+          tabBarStyle: {position: 'absolute', zIndex: -1},
           tabBarIcon: ({focused}) => (
             <Image
               source={BottomTabIcon.Sell}
@@ -79,7 +91,7 @@ const BottomNavigation = () => {
                 height: 70,
                 width: 70,
                 bottom: 30,
-                tintColor: focused ? Color.darkOrange : null,
+                tintColor: focused ? null : null,
               }}
             />
           ),
@@ -121,52 +133,6 @@ const BottomNavigation = () => {
     </Tab.Navigator>
   );
 };
-
-// const Home = () => {
-//   return (
-//     <>
-//       <View>
-//         <Text>Home</Text>
-//       </View>
-//     </>
-//   );
-// };
-// const Favorite = () => {
-//   return (
-//     <>
-//       <View>
-//         <Text>Favorite</Text>
-//       </View>
-//     </>
-//   );
-// };
-const Sell = () => {
-  return (
-    <>
-      <View>
-        <Text>Favorite</Text>
-      </View>
-    </>
-  );
-};
-// const Inbox = () => {
-//   return (
-//     <>
-//       <View>
-//         <Text>Inbox</Text>
-//       </View>
-//     </>
-//   );
-// };
-// const Profile = () => {
-//   return (
-//     <>
-//       <View>
-//         <Text>Profile</Text>
-//       </View>
-//     </>
-//   );
-// };
 
 export default BottomNavigation;
 
