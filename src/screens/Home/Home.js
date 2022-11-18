@@ -5,7 +5,7 @@ import SearchBar from '../../components/SearchBar';
 import CategoryContainer from '../../components/CategoryContainer';
 import Card from '../../components/Card';
 
-const Home = () => {
+const Home = ({naviagtion}) => {
   return (
     <View style={styles.container}>
       <SearchBar />

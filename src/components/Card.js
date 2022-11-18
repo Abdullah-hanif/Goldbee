@@ -1,10 +1,15 @@
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
-
-const Card = ({name, price, bgImage}) => {
+import Heart from 'react-native-vector-icons/AntDesign';
+import {Color} from '../constants/colors';
+import {useNavigation} from '@react-navigation/native';
+const Card = ({name, price, bgImage, onpress}) => {
   const [addFav, setAddFav] = React.useState(false);
+  const nav = useNavigation();
   return (
-    <View style={styles.container}>
+    <TouchableOpacity
+      onPress={() => nav.navigate('ProductDetails')}
+      style={styles.container}>
       <Image
         // resizeMode="contain"
         style={{
@@ -23,21 +28,17 @@ const Card = ({name, price, bgImage}) => {
         }}>
         <Text>{price}</Text>
         <TouchableOpacity onPress={() => setAddFav(!addFav)}>
-          <Image
-            resizeMode="contain"
-            style={{height: 20, width: 20}}
-            source={
-              !addFav
-                ? require('../assets/Icons/Group13735.png')
-                : require('../assets/Icons/Group13718.png')
-            }
+          <Heart
+            name={!addFav ? 'hearto' : 'heart'}
+            size={20}
+            color={Color.darkOrange}
           />
         </TouchableOpacity>
       </View>
       <Text style={{padding: 10, fontWeight: 'bold', color: 'black'}}>
         {name}
       </Text>
-    </View>
+    </TouchableOpacity>
   );
 };
 
