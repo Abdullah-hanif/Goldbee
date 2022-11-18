@@ -107,6 +107,7 @@ const BottomNavigation = () => {
               style={{
                 height: 25,
                 width: 25,
+                tintColor: focused ? Color.darkOrange : null,
               }}
             />
           ),

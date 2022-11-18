@@ -27,6 +27,7 @@ const Inbox = () => {
                 imageUri={data.imageUri}
                 time={data.time}
                 message={data.message}
+                price={data.price}
               />
             );
           })}

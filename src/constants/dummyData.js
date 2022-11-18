@@ -29,6 +29,7 @@ export const InboxPeople = [
     message: 'Hello',
     time: '12:36',
     imageUri: require('../assets/SamplePictures/1.png'),
+    price: '$2500',
   },
   {
     id: 2,
@@ -37,6 +38,7 @@ export const InboxPeople = [
     message: 'Final Price Plese',
     time: '10:24',
     imageUri: require('../assets/SamplePictures/2.png'),
+    price: '$2500',
   },
   {
     id: 3,
@@ -45,6 +47,7 @@ export const InboxPeople = [
     message: 'what is the exact size',
     time: 'Yeasterday',
     imageUri: require('../assets/SamplePictures/3.png'),
+    price: '$2500',
   },
   {
     id: 4,
@@ -53,5 +56,6 @@ export const InboxPeople = [
     message: 'Full and Final Demand plz',
     time: '2 days ago',
     imageUri: require('../assets/SamplePictures/4.png'),
+    price: '$2500',
   },
 ];

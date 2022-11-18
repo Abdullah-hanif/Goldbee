@@ -4,6 +4,7 @@ import {Color} from '../constants/colors';
 
 const CategoryContainer = ({name, Icon}) => {
   const [color, setColor] = React.useState('white');
+
   return (
     <TouchableOpacity
       onPress={() => setColor(Color.darkOrange)}
