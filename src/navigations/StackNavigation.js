@@ -11,6 +11,7 @@ import Login from '../screens/Login/Login';
 import Walkthrough from '../screens/Walkthrough/Walkthrough';
 import SignUp from '../screens/SignUp/SignUp';
 import BottomNavigation from './BottomNavigation';
+import ChatScreen from '../screens/ChatScreen/ChatScreen';
 
 const Stack = createStackNavigator();
 const StackNavigation = () => {
@@ -52,6 +53,7 @@ const StackNavigation = () => {
         component={Login}
       />
       <Stack.Screen name="BottomNavigation" component={BottomNavigation} />
+      <Stack.Screen name="ChatScreen" component={ChatScreen} />
     </Stack.Navigator>
   );
 };

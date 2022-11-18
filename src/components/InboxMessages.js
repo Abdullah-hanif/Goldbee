@@ -1,9 +1,13 @@
 import {StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
 import React from 'react';
+import Check from 'react-native-vector-icons/AntDesign';
+import {useNavigation} from '@react-navigation/native';
 
-const InboxMessages = ({name, productName, message, time, imageUri}) => {
+const InboxMessages = ({name, productName, message, time, imageUri, price}) => {
+  const nav = useNavigation();
   return (
     <TouchableOpacity
+      onPress={() => nav.navigate('ChatScreen', {imageUri, name, price})}
       style={{
         //   backgroundColor: 'yellow',
         flexDirection: 'row',
@@ -24,7 +28,7 @@ const InboxMessages = ({name, productName, message, time, imageUri}) => {
             {productName}
           </Text>
           <View style={{flexDirection: 'row'}}>
-            <Text>tick</Text>
+            <Check name="check" size={10} style={{top: 5, right: 5}} />
             <Text>{message}</Text>
           </View>
         </View>
