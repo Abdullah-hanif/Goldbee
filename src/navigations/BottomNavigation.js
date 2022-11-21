@@ -33,6 +33,7 @@ const BottomNavigation = () => {
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: Color.darkOrange,
+        tabBarLabelStyle: {padding: 10, color: 'black'},
         tabBarStyle: {
           borderTopLeftRadius: 10,
           borderTopRightRadius: 10,
@@ -88,9 +89,9 @@ const BottomNavigation = () => {
             <Image
               source={BottomTabIcon.Sell}
               style={{
-                height: 70,
-                width: 70,
-                bottom: 30,
+                height: 60,
+                width: 60,
+                bottom: 20,
                 tintColor: focused ? null : null,
               }}
             />

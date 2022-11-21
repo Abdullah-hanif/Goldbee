@@ -8,9 +8,14 @@ import Card from '../../components/Card';
 const Home = ({naviagtion}) => {
   return (
     <View style={styles.container}>
-      <SearchBar />
+      <View style={{padding: 20}}>
+        <SearchBar />
+      </View>
       <View>
-        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+        <ScrollView
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+          style={{width: '100%'}}>
           <CategoryContainer
             name="All"
             Icon={
@@ -59,7 +64,7 @@ const Home = ({naviagtion}) => {
         </ScrollView>
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <View>
+        <View style={{padding: 20}}>
           <View style={{flexDirection: 'row'}}>
             <Card
               name="Pearl Ring"
@@ -96,6 +101,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Color.splashWhite,
-    padding: 20,
+    // padding: 20,
   },
 });

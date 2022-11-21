@@ -8,7 +8,7 @@ const Profile = () => {
       <View style={styles.innerContainer}>
         {/* Profile Header Started */}
         <View
-          style={{flexDirection: 'row', alignItems: 'center', marginTop: 30}}>
+          style={{flexDirection: 'row', alignItems: 'center', marginTop: 50}}>
           <Image
             style={{height: 65, width: 65}}
             source={require('../../assets/Icons/Ellipse28.png')}
@@ -26,7 +26,7 @@ const Profile = () => {
           </View>
         </View>
         {/* Profile Header END */}
-        <View style={{marginTop: 20}}>
+        <View style={{marginTop: 30}}>
           <ProfileItemComp
             name="Profile"
             Icon={require('../../assets/Icons/Group13538.png')}
