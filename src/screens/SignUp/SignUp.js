@@ -1,4 +1,5 @@
 import {
+  Dimensions,
   ScrollView,
   StyleSheet,
   Text,
@@ -12,16 +13,22 @@ import Buttons from '../../components/Buttons';
 // import CheckBox from 'react-native-check-box';
 import {Checkbox} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
+import Back from 'react-native-vector-icons/AntDesign';
 
 const SignUp = () => {
   const navigation = useNavigation();
   const [checked, setChecked] = React.useState(false);
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
-      <Text style={{fontWeight: 'bold', color: Color.black, fontSize: 28}}>
-        Sign Up
-      </Text>
-      <Text>Let's get started</Text>
+      <TouchableOpacity onPress={() => navigation.goBack()}>
+        <Back name="left" size={20} color="black" />
+      </TouchableOpacity>
+      <View style={{marginTop: 20}}>
+        <Text style={{fontWeight: 'bold', color: Color.black, fontSize: 28}}>
+          Sign Up
+        </Text>
+        <Text style={{color: 'gray'}}>Let's get started</Text>
+      </View>
       <View style={styles.txtInputs}>
         <TextField placeHolder="First Name" />
         <TextField placeHolder="Last Name" />
@@ -76,7 +83,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Color.splashWhite,
-    padding: 10,
+    padding: 20,
   },
   txtInputs: {
     marginTop: 20,
@@ -84,13 +91,14 @@ const styles = StyleSheet.create({
   checkBox: {
     flexDirection: 'row',
     marginTop: 20,
-    marginHorizontal: 10,
+    // marginHorizontal: 10,
   },
   bottomTxt: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 30,
+    marginBottom: 80,
+    top: 20,
   },
   loginTxt: {
     fontWeight: 'bold',

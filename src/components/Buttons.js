@@ -15,12 +15,12 @@ export default Buttons;
 const styles = StyleSheet.create({
   container: {
     marginTop: 30,
-    margin: 20,
+    // margin: 20,
     borderWidth: 1,
     borderColor: Color.yellow,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 18,
+    padding: 15,
     borderRadius: 30,
   },
   SignUp: {

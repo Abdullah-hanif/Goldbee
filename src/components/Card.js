@@ -14,30 +14,32 @@ const Card = ({name, price, bgImage, onpress}) => {
         // resizeMode="contain"
         style={{
           height: 120,
-          width: 150,
+          width: '100%',
           borderTopLeftRadius: 10,
           borderTopRightRadius: 10,
         }}
         source={bgImage}
       />
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          margin: 10,
-        }}>
-        <Text>{price}</Text>
-        <TouchableOpacity onPress={() => setAddFav(!addFav)}>
-          <Heart
-            name={!addFav ? 'hearto' : 'heart'}
-            size={20}
-            color={Color.darkOrange}
-          />
-        </TouchableOpacity>
+      <View style={{padding: 10}}>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            // margin: 10,
+          }}>
+          <Text style={{color: 'gray'}}>{price}</Text>
+          <TouchableOpacity onPress={() => setAddFav(!addFav)}>
+            <Heart
+              name={!addFav ? 'hearto' : 'heart'}
+              size={20}
+              color={Color.darkOrange}
+            />
+          </TouchableOpacity>
+        </View>
+        <Text style={{marginBottom: 10, fontWeight: 'bold', color: 'black'}}>
+          {name}
+        </Text>
       </View>
-      <Text style={{padding: 10, fontWeight: 'bold', color: 'black'}}>
-        {name}
-      </Text>
     </TouchableOpacity>
   );
 };
@@ -48,6 +50,7 @@ const styles = StyleSheet.create({
   container: {
     // height: 290,
     // width: 150,
+
     margin: 5,
     backgroundColor: 'white',
     borderWidth: 1,

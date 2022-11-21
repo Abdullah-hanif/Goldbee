@@ -11,13 +11,17 @@ import TextField from '../../components/TextField';
 import Buttons from '../../components/Buttons';
 import {Checkbox} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
+import Back from 'react-native-vector-icons/AntDesign';
 
 const Login = () => {
   const navigation = useNavigation();
   const [checked, setChecked] = React.useState(false);
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
-      <View style={{marginTop: 50}}>
+      <TouchableOpacity onPress={() => navigation.goBack()}>
+        <Back name="left" size={20} color="black" />
+      </TouchableOpacity>
+      <View style={{marginTop: 20}}>
         <Text style={{fontWeight: 'bold', color: Color.black, fontSize: 28}}>
           Login
         </Text>
@@ -43,7 +47,7 @@ const Login = () => {
                 setChecked(!checked);
               }}
             />
-            <Text style={{marginTop: 10}}>Remember me ?</Text>
+            <Text style={{marginTop: 10, color: 'black'}}>Remember me ?</Text>
           </View>
           <TouchableOpacity>
             <Text
@@ -66,8 +70,9 @@ const Login = () => {
               flexDirection: 'row',
               justifyContent: 'center',
               alignItems: 'center',
+              marginTop: 10,
             }}>
-            <Text>Don't have an account? </Text>
+            <Text style={{color: 'black'}}>Don't have an account? </Text>
             <TouchableOpacity
               onPress={() => navigation.navigate('BottomNavigation')}>
               <Text style={{color: Color.darkOrange, fontWeight: 'bold'}}>
@@ -87,6 +92,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Color.splashWhite,
-    padding: 10,
+    padding: 20,
   },
 });

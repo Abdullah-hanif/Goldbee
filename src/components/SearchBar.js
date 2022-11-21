@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     width: '100%',
     borderWidth: 1,
     borderColor: Color.gray,
-    padding: 1,
+
     borderRadius: 20,
     flexDirection: 'row',
     alignItems: 'center',
