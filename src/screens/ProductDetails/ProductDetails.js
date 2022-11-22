@@ -5,29 +5,68 @@ import {
   StyleSheet,
   Text,
   Image,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import React from 'react';
 import {Color} from '../../constants/colors';
 import Back from 'react-native-vector-icons/AntDesign';
+import Dots from 'react-native-vector-icons/Entypo';
 import Buttons from '../../components/Buttons';
 
-const ProductDetails = () => {
+const ProductDetails = ({navigation}) => {
+  const [addFav, setAddFav] = React.useState(false);
   return (
-    <View style={styles.container}>
+    <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
+      {/* Topbar ICONS */}
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          position: 'absolute',
+          // marginTop: 120,
+          padding: 20,
+          // backgroundColor: 'blue',
+          zIndex: 1,
+          width: '100%',
+        }}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Back name="left" size={20} color="white" />
+        </TouchableOpacity>
+        <View style={{flexDirection: 'row'}}>
+          <TouchableOpacity onPress={() => setAddFav(!addFav)}>
+            <Back
+              name={addFav ? 'heart' : 'hearto'}
+              style={{right: 20}}
+              size={20}
+              color="white"
+            />
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Dots name="dots-three-vertical" size={20} color="white" />
+          </TouchableOpacity>
+        </View>
+      </View>
+      {/*END Topbar ICONS */}
       <ScrollView
         showsHorizontalScrollIndicator={false}
         horizontal
-        style={{backgroundColor: 'green', flex: 1}}>
+        style={{backgroundColor: 'green'}}>
         <Image
-          // style={{height: 300, width: '100%'}}
+          resizeMode="contain"
           source={require('../../assets/SamplePictures/2.png')}
         />
         <Image source={require('../../assets/SamplePictures/2.png')} />
         <Image source={require('../../assets/SamplePictures/2.png')} />
       </ScrollView>
       {/* //PRofile VIew */}
-      <View style={{backgroundColor: Color.splashWhite, flex: 1}}>
+      <View
+        style={{
+          backgroundColor: Color.splashWhite,
+          flex: 1,
+          // marginVertical: 20,
+          marginHorizontal: 20,
+        }}>
         <View
           style={{flexDirection: 'row', alignItems: 'center', marginTop: 30}}>
           <Image
@@ -49,7 +88,7 @@ const ProductDetails = () => {
 
         <View
           style={{
-            margin: 10,
+            // margin: 10,
             flexDirection: 'row',
             justifyContent: 'space-between',
           }}>
@@ -66,15 +105,22 @@ const ProductDetails = () => {
         </View>
         {/* Description Details */}
         <View>
-          <Text>dlsdkfdskjfskdhksdhkjdshfksdhfkjdshfkjdsk</Text>
+          <Text>
+            dlsdkfdskjfskdhksdhkjdshfksdhfkjdshfkjdsk {'\n'}
+            dlsdkfdskjfskdhksdhkjdshfksdhfkjdshfkjdsk {'\n'}
+            dlsdkfdskjfskdhksdhkjdshfksdhfkjdshfkjdsk {'\n'}
+            dlsdkfdskjfskdhksdhkjdshfksdhfkjdshfkjdsk {'\n'}
+            dlsdkfdskjfskdhksdhkjdshfksdhfkjdshfkjdsk {'\n'}
+            dlsdkfdskjfskdhksdh
+          </Text>
         </View>
-        <View style={{flexDirection: 'column-reverse'}}>
+        <View style={{flexDirection: 'column-reverse', marginBottom: 40}}>
           <Buttons name="Buy Now" />
         </View>
       </View>
 
       {/* //END PROFILE VIEW */}
-    </View>
+    </ScrollView>
   );
 };
 

@@ -60,7 +60,7 @@ const ChatScreen = ({navigation, route}) => {
     <>
       <View
         style={{
-          height: '15%',
+          // height: '15%',
           backgroundColor: Color.splashWhite,
           padding: 20,
           flexDirection: 'row',
