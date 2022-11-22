@@ -67,7 +67,8 @@ const ProductDetails = ({navigation}) => {
           // marginVertical: 20,
           marginHorizontal: 20,
         }}>
-        <View
+        <TouchableOpacity
+          onPress={() => navigation.navigate('ProfileDetails')}
           style={{flexDirection: 'row', alignItems: 'center', marginTop: 30}}>
           <Image
             style={{height: 50, width: 50}}
@@ -84,7 +85,7 @@ const ProductDetails = ({navigation}) => {
               Chicago - USA
             </Text>
           </View>
-        </View>
+        </TouchableOpacity>
 
         <View
           style={{
