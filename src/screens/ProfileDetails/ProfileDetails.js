@@ -11,7 +11,7 @@ import {Color} from '../../constants/colors';
 import Back from 'react-native-vector-icons/AntDesign';
 import Card from '../../components/Card';
 
-const ProfileDetails = () => {
+const ProfileDetails = ({navigation}) => {
   return (
     <ScrollView style={styles.container}>
       <TouchableOpacity onPress={() => navigation.goBack()}>
