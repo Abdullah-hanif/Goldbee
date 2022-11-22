@@ -48,7 +48,7 @@ const Walkthrough = ({navigation}) => {
           <Image style={{width: '100%', height: 300}} source={item.image} />
 
           <ScrollView>
-            <View style={{marginTop: 25, margin: 5, backgroundColor: 'white'}}>
+            <View style={{marginTop: 25, margin: 20, backgroundColor: 'white'}}>
               <View>
                 <Text
                   style={{
@@ -59,9 +59,7 @@ const Walkthrough = ({navigation}) => {
                   {item.title}
                 </Text>
               </View>
-              <Text style={{color: 'black', fontSize: 14, margin: 5}}>
-                {item.text}
-              </Text>
+              <Text style={{color: 'black', fontSize: 14}}>{item.text}</Text>
             </View>
           </ScrollView>
         </View>
@@ -96,8 +94,8 @@ const Walkthrough = ({navigation}) => {
         renderItem={renderItem}
         renderDoneButton={renderDoneButton}
         renderNextButton={renderNextButton}
-        dotStyle={{backgroundColor: Color.darkOrange, marginBottom: 150}}
-        activeDotStyle={{marginBottom: 150, backgroundColor: Color.darkGray}}
+        dotStyle={{backgroundColor: Color.darkOrange, marginBottom: 100}}
+        activeDotStyle={{marginBottom: 100, backgroundColor: Color.darkGray}}
         contentContainerStyle={{marginBottom: 60}}
 
         // ya dots ko chupa dyta ha
@@ -110,7 +108,7 @@ const Walkthrough = ({navigation}) => {
           flexDirection: 'row',
           justifyContent: 'center',
           backgroundColor: 'white',
-          // marginBottom: 20,
+
           padding: 10,
         }}>
         <Text style={{color: 'black'}}>Already have an account? </Text>
@@ -122,7 +120,7 @@ const Walkthrough = ({navigation}) => {
 };
 const styles = StyleSheet.create({
   buttonCircle: {
-    width: 300,
+    width: 290,
     // height: 40,
     marginRight: 30,
 
