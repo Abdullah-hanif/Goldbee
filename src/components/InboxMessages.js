@@ -7,7 +7,9 @@ const InboxMessages = ({name, productName, message, time, imageUri, price}) => {
   const nav = useNavigation();
   return (
     <TouchableOpacity
-      onPress={() => nav.navigate('ChatScreen', {imageUri, name, price})}
+      onPress={() =>
+        nav.navigate('ChatScreen', {imageUri, name, price, productName})
+      }
       style={{
         //   backgroundColor: 'yellow',
         flexDirection: 'row',

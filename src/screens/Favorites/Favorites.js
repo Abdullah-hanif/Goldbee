@@ -15,11 +15,13 @@ const Favorites = () => {
         <View>
           <View style={{flexDirection: 'row'}}>
             <Card
+              isFav={true}
               name="Pearl Ring"
               price="$ 545.00"
               bgImage={require('../../assets/SamplePictures/1.png')}
             />
             <Card
+              isFav={true}
               name="Beaded Necklace"
               price=" $ 175.00"
               bgImage={require('../../assets/SamplePictures/2.png')}
@@ -27,11 +29,13 @@ const Favorites = () => {
           </View>
           <View style={{flexDirection: 'row'}}>
             <Card
+              isFav={true}
               name="Wedding Ring"
               price="$ 360.00"
               bgImage={require('../../assets/SamplePictures/3.png')}
             />
             <Card
+              isFav={true}
               name="Earring Bracelet"
               price="$ 437.00"
               bgImage={require('../../assets/SamplePictures/4.png')}
@@ -39,11 +43,13 @@ const Favorites = () => {
           </View>
           <View style={{flexDirection: 'row'}}>
             <Card
+              isFav={true}
               name="Wedding Ring"
               price="$ 360.00"
               bgImage={require('../../assets/SamplePictures/3.png')}
             />
             <Card
+              isFav={true}
               name="Earring Bracelet"
               price="$ 437.00"
               bgImage={require('../../assets/SamplePictures/4.png')}

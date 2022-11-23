@@ -46,7 +46,7 @@ const SwitchButton = () => {
           flexDirection: 'row',
           justifyContent: 'center',
           borderRadius: 30,
-          margin: 20,
+          margin: 35,
         }}>
         <TouchableOpacity
           onPress={() => setClicked(true)}
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
   screenContainer: {
     flex: 1,
     backgroundColor: Color.splashWhite,
-    padding: 20,
+    padding: 10,
   },
 
   buttonStyle: {

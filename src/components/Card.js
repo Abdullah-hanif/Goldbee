@@ -3,8 +3,8 @@ import React from 'react';
 import Heart from 'react-native-vector-icons/AntDesign';
 import {Color} from '../constants/colors';
 import {useNavigation} from '@react-navigation/native';
-const Card = ({name, price, bgImage, onpress}) => {
-  const [addFav, setAddFav] = React.useState(false);
+const Card = ({name, price, bgImage, onpress, isFav}) => {
+  const [addFav, setAddFav] = React.useState(isFav);
   const nav = useNavigation();
   return (
     <TouchableOpacity
