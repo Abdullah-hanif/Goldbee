@@ -9,11 +9,11 @@ const ProfileItemComp = ({name, Icon}) => {
         flexDirection: 'row',
         borderBottomWidth: 1,
         borderColor: 'lightgray',
-
-        paddingVertical: 22,
+        alignItems: 'center',
+        paddingVertical: 20,
         justifyContent: 'space-between',
       }}>
-      <View style={{flexDirection: 'row'}}>
+      <View style={{flexDirection: 'row', alignItems: 'center'}}>
         <Image
           style={{height: 25, width: 25, tintColor: Color.darkGray}}
           source={Icon}
