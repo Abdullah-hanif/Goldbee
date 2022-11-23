@@ -8,7 +8,7 @@ import Attachment from 'react-native-vector-icons/Entypo';
 
 const ChatScreen = ({navigation, route}) => {
   const [messages, setMessages] = useState([]);
-  const {imageUri, name, price} = route.params;
+  const {imageUri, name, price, productName} = route.params;
   console.log('=======>', imageUri, name, price);
   const customtInputToolbar = props => {
     return (
@@ -108,7 +108,7 @@ const ChatScreen = ({navigation, route}) => {
                 top: 5,
                 fontSize: 15,
               }}>
-              {name}
+              {productName}
             </Text>
           </View>
         </View>

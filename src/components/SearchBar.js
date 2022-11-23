@@ -12,7 +12,7 @@ const SearchBar = () => {
         source={require('../assets/Icons/Group13732.png')}
       />
       <TextInput
-        style={{left: 10}}
+        style={{left: 20}}
         placeholder="Search"
         placeholderTextColor={'gray'}
       />

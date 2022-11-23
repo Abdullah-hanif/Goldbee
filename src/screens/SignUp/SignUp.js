@@ -23,11 +23,11 @@ const SignUp = () => {
       <TouchableOpacity onPress={() => navigation.goBack()}>
         <Back name="left" size={20} color="black" />
       </TouchableOpacity>
-      <View style={{marginTop: 20}}>
+      <View style={{marginTop: '15%'}}>
         <Text style={{fontWeight: 'bold', color: Color.black, fontSize: 28}}>
           Sign Up
         </Text>
-        <Text style={{color: 'gray'}}>Let's get started</Text>
+        <Text style={{color: 'black'}}>Let's get started</Text>
       </View>
       <View style={styles.txtInputs}>
         <TextField placeHolder="First Name" />
@@ -68,7 +68,7 @@ const SignUp = () => {
         <Buttons name="Sign Up" />
       </View>
       <View style={styles.bottomTxt}>
-        <Text>Already have an account ?</Text>
+        <Text style={{color: 'black'}}>Already have an account?</Text>
         <TouchableOpacity onPress={() => navigation.navigate('Login')}>
           <Text style={styles.loginTxt}>LOGIN </Text>
         </TouchableOpacity>
@@ -102,7 +102,8 @@ const styles = StyleSheet.create({
   },
   loginTxt: {
     fontWeight: 'bold',
-    fontSize: 18,
+    fontSize: 15,
+    left: 10,
     color: Color.darkOrange,
   },
 });

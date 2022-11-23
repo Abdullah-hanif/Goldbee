@@ -33,7 +33,7 @@ const Profile = () => {
           />
           <ProfileItemComp
             name="Change Password"
-            Icon={require('../../assets/Icons/Group13727.png')}
+            Icon={require('../../assets/Icons/lock.png')}
           />
           <ProfileItemComp
             name="Contact Us"

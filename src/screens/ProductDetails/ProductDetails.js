@@ -53,19 +53,28 @@ const ProductDetails = ({navigation}) => {
         horizontal
         style={{backgroundColor: 'green'}}>
         <Image
-          resizeMode="contain"
+          // resizeMode="contain"
+          style={{height: '100%', width: Dimensions.get('screen').width}}
           source={require('../../assets/SamplePictures/2.png')}
         />
-        <Image source={require('../../assets/SamplePictures/2.png')} />
-        <Image source={require('../../assets/SamplePictures/2.png')} />
+        <Image
+          style={{height: 230, width: Dimensions.get('screen').width}}
+          source={require('../../assets/SamplePictures/2.png')}
+        />
+        <Image
+          style={{height: 230, width: Dimensions.get('screen').width}}
+          source={require('../../assets/SamplePictures/2.png')}
+        />
       </ScrollView>
       {/* //PRofile VIew */}
       <View
         style={{
           backgroundColor: Color.splashWhite,
+
+          padding: 20,
           flex: 1,
           // marginVertical: 20,
-          marginHorizontal: 20,
+          // marginHorizontal: 20,
         }}>
         <TouchableOpacity
           onPress={() => navigation.navigate('ProfileDetails')}
@@ -94,10 +103,18 @@ const ProductDetails = ({navigation}) => {
             justifyContent: 'space-between',
           }}>
           <View>
-            <Text style={{fontWeight: 'bold', fontSize: 19, color: 'black'}}>
+            <Text
+              style={{
+                fontWeight: 'bold',
+                fontSize: 19,
+                color: 'black',
+                marginTop: 10,
+              }}>
               Beaded Necklaces
             </Text>
-            <Text style={{fontSize: 16}}>$ 175:00</Text>
+            <Text style={{fontSize: 18, color: 'black', marginTop: 10}}>
+              $ 175:00
+            </Text>
           </View>
           <Image
             style={{height: 70, width: 70, bottom: 20}}
@@ -105,17 +122,16 @@ const ProductDetails = ({navigation}) => {
           />
         </View>
         {/* Description Details */}
-        <View>
-          <Text>
-            dlsdkfdskjfskdhksdhkjdshfksdhfkjdshfkjdsk {'\n'}
-            dlsdkfdskjfskdhksdhkjdshfksdhfkjdshfkjdsk {'\n'}
-            dlsdkfdskjfskdhksdhkjdshfksdhfkjdshfkjdsk {'\n'}
-            dlsdkfdskjfskdhksdhkjdshfksdhfkjdshfkjdsk {'\n'}
-            dlsdkfdskjfskdhksdhkjdshfksdhfkjdshfkjdsk {'\n'}
-            dlsdkfdskjfskdhksdh
+        <View style={{marginTop: 20}}>
+          <Text style={{fontSize: 16, color: 'black'}}>
+            Sed tempus mollis fringilla, Integer vulputate nisi {'\n'} trinbita,
+            lamcorper justo at omare tortor Ut eu auctor epet uttrices punes
+            Cras molestie a augue ac scelate bus ex nis, enamus malesuada aid
+            {'\n'}
+            porta posuere augue
           </Text>
         </View>
-        <View style={{flexDirection: 'column-reverse', marginBottom: 40}}>
+        <View style={{flexDirection: 'column-reverse', marginTop: '20%'}}>
           <Buttons name="Buy Now" />
         </View>
       </View>

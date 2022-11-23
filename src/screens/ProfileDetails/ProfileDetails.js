@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   Image,
   ScrollView,
+  Dimensions,
 } from 'react-native';
 import React from 'react';
 import {Color} from '../../constants/colors';
@@ -14,7 +15,9 @@ import Card from '../../components/Card';
 const ProfileDetails = ({navigation}) => {
   return (
     <ScrollView style={styles.container}>
-      <TouchableOpacity onPress={() => navigation.goBack()}>
+      <TouchableOpacity
+        style={{marginTop: 20}}
+        onPress={() => navigation.goBack()}>
         <Back name="left" size={20} color="black" />
       </TouchableOpacity>
       {/* //Profile Section  */}
@@ -56,7 +59,7 @@ const ProfileDetails = ({navigation}) => {
         <Text style={{fontWeight: 'bold', color: 'black', fontSize: 18}}>
           About
         </Text>
-        <Text style={{color: 'black'}}>
+        <Text style={{color: 'black', marginTop: 10}}>
           Lorem ipsum dolor sit amet consectetur adipisicing{'\n'}
           molestiae quas vel sint commodi repudiandae {'\n'}
           numquam blanditiis harum quisquam eius sed
@@ -73,7 +76,7 @@ const ProfileDetails = ({navigation}) => {
           Listings
         </Text>
 
-        <View style={{marginBottom: 30}}>
+        <View style={{marginBottom: 30, marginTop: 10, right: 3}}>
           <View style={{flexDirection: 'row'}}>
             <Card
               name="Pearl Ring"

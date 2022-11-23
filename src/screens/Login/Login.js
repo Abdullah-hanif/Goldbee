@@ -21,7 +21,7 @@ const Login = () => {
       <TouchableOpacity onPress={() => navigation.goBack()}>
         <Back name="left" size={20} color="black" />
       </TouchableOpacity>
-      <View style={{marginTop: 20}}>
+      <View style={{marginTop: '15%'}}>
         <Text style={{fontWeight: 'bold', color: Color.black, fontSize: 28}}>
           Login
         </Text>
@@ -47,7 +47,7 @@ const Login = () => {
                 setChecked(!checked);
               }}
             />
-            <Text style={{marginTop: 10, color: 'black'}}>Remember me ?</Text>
+            <Text style={{marginTop: 8, color: 'black'}}>Remember me ?</Text>
           </View>
           <TouchableOpacity>
             <Text
@@ -62,7 +62,7 @@ const Login = () => {
         </View>
         <View
           style={{
-            marginTop: 80,
+            marginTop: '50%',
           }}>
           <Buttons name="Login" />
           <View
@@ -70,7 +70,7 @@ const Login = () => {
               flexDirection: 'row',
               justifyContent: 'center',
               alignItems: 'center',
-              marginTop: 10,
+              marginTop: '5%',
             }}>
             <Text style={{color: 'black'}}>Don't have an account? </Text>
             <TouchableOpacity

@@ -45,7 +45,10 @@ const Walkthrough = ({navigation}) => {
       <>
         <StatusBar hidden />
         <View style={{flex: 1, backgroundColor: 'white', marginBottom: 20}}>
-          <Image style={{width: '100%', height: 300}} source={item.image} />
+          <Image
+            style={{width: '100%', height: Dimensions.get('screen').width}}
+            source={item.image}
+          />
 
           <ScrollView>
             <View style={{marginTop: 25, margin: 20, backgroundColor: 'white'}}>
@@ -55,11 +58,14 @@ const Walkthrough = ({navigation}) => {
                     fontWeight: '700',
                     color: 'black',
                     fontSize: 19,
+                    marginTop: 20,
                   }}>
                   {item.title}
                 </Text>
               </View>
-              <Text style={{color: 'black', fontSize: 14}}>{item.text}</Text>
+              <Text style={{color: 'black', fontSize: 14, marginTop: 10}}>
+                {item.text}
+              </Text>
             </View>
           </ScrollView>
         </View>
@@ -77,7 +83,7 @@ const Walkthrough = ({navigation}) => {
   const renderDoneButton = () => {
     return (
       <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
-        <View style={[styles.buttonCircle]}>
+        <View style={styles.buttonCircle}>
           <Text style={{color: Color.darkOrange, fontWeight: 'bold'}}>
             Next
           </Text>
@@ -88,44 +94,57 @@ const Walkthrough = ({navigation}) => {
   return (
     <>
       {/* <ScrollView style={{flex: 1, backgroundColor: 'blue'}}> */}
-      <AppIntroSlider
-        style={{backgroundColor: 'white'}}
-        data={slides}
-        renderItem={renderItem}
-        renderDoneButton={renderDoneButton}
-        renderNextButton={renderNextButton}
-        dotStyle={{backgroundColor: Color.darkOrange, marginBottom: 100}}
-        activeDotStyle={{marginBottom: 100, backgroundColor: Color.darkGray}}
-        contentContainerStyle={{marginBottom: 60}}
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={{flex: 1, backgroundColor: Color.splashWhite}}>
+        <AppIntroSlider
+          style={{backgroundColor: 'white'}}
+          data={slides}
+          renderItem={renderItem}
+          renderDoneButton={renderDoneButton}
+          renderNextButton={renderNextButton}
+          dotStyle={{
+            backgroundColor: Color.darkOrange,
+            marginBottom: Dimensions.get('screen').height / 4,
+          }}
+          activeDotStyle={{
+            marginBottom: Dimensions.get('screen').height / 4,
+            backgroundColor: Color.darkGray,
+          }}
+          contentContainerStyle={{marginBottom: 160}}
 
-        // ya dots ko chupa dyta ha
-        // renderPagination={() => null}
-      />
+          // ya dots ko chupa dyta ha
+          // renderPagination={() => null}
+        />
 
-      <View
-        style={{
-          alignItems: 'center',
-          flexDirection: 'row',
-          justifyContent: 'center',
-          backgroundColor: 'white',
+        <View
+          style={{
+            alignItems: 'center',
+            flexDirection: 'row',
+            justifyContent: 'center',
+            backgroundColor: 'white',
 
-          padding: 10,
-        }}>
-        <Text style={{color: 'black'}}>Already have an account? </Text>
-        <Text style={{color: Color.darkOrange, fontWeight: 'bold'}}>LOGIN</Text>
-      </View>
-      {/* </ScrollView> */}
+            padding: 10,
+            marginBottom: 30,
+          }}>
+          <Text style={{color: 'black'}}>Already have an account? </Text>
+          <Text style={{color: Color.darkOrange, fontWeight: 'bold'}}>
+            LOGIN
+          </Text>
+        </View>
+        {/* </ScrollView> */}
+      </ScrollView>
     </>
   );
 };
 const styles = StyleSheet.create({
   buttonCircle: {
-    width: 290,
+    width: Dimensions.get('screen').width - 40,
     // height: 40,
-    marginRight: 30,
+    // marginRight: 30,
 
     padding: 15,
-    marginBottom: 10,
+    // marginBottom: 10,
     borderWidth: 1,
     borderColor: Color.yellow,
     borderRadius: 20,
