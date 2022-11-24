@@ -29,7 +29,7 @@ const ProfileDetails = ({navigation}) => {
             source={require('../../assets/Icons/Ellipse28.png')}
           />
           <View style={{left: 10}}>
-            <Text style={{fontWeight: 'bold', fontSize: 15, color: 'black'}}>
+            <Text style={{fontWeight: 'bold', fontSize: 24, color: 'black'}}>
               John Micheal
             </Text>
             <Text
@@ -59,20 +59,17 @@ const ProfileDetails = ({navigation}) => {
         <Text style={{fontWeight: 'bold', color: 'black', fontSize: 18}}>
           About
         </Text>
-        <Text style={{color: 'black', marginTop: 10}}>
-          Lorem ipsum dolor sit amet consectetur adipisicing{'\n'}
-          molestiae quas vel sint commodi repudiandae {'\n'}
-          numquam blanditiis harum quisquam eius sed
-          {'\n'}
-          optio, eaque rerum! Provident similique ac{'\n'}
-          obcaecati tenetur
+        <Text style={{color: 'black', marginTop: 10, flexWrap: 'wrap'}}>
+          Lorem ipsum dolor sit amet consectetur adipisicing molestiae quas vel
+          sint commodi repudiandae numquam blanditiis harum quisquam eius sed
+          optio, eaque rerum! Provident similique ac obcaecati tenetur
         </Text>
       </View>
       {/* END ABOUT SECTION */}
 
       {/* Listing View */}
       <View style={{marginTop: 20}}>
-        <Text style={{fontWeight: 'bold', color: 'black', fontSize: 22}}>
+        <Text style={{fontWeight: 'bold', color: 'black', fontSize: 18}}>
           Listings
         </Text>
 

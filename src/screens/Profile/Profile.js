@@ -29,19 +29,19 @@ const Profile = () => {
         <View style={{marginTop: 30}}>
           <ProfileItemComp
             name="Profile"
-            Icon={require('../../assets/Icons/Group13538.png')}
+            Icon={require('../../assets/Icons/Group4076.png')}
           />
           <ProfileItemComp
             name="Change Password"
-            Icon={require('../../assets/Icons/lock.png')}
+            Icon={require('../../assets/Icons/Group4085.png')}
           />
           <ProfileItemComp
             name="Contact Us"
-            Icon={require('../../assets/Icons/Group13729.png')}
+            Icon={require('../../assets/Icons/Group13736.png')}
           />
           <ProfileItemComp
             name="Logout"
-            Icon={require('../../assets/Icons/Group4090.png')}
+            Icon={require('../../assets/Icons/Group40901.png')}
           />
         </View>
       </View>

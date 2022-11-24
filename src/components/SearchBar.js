@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: Color.gray,
 
-    borderRadius: 20,
+    borderRadius: 30,
     flexDirection: 'row',
     alignItems: 'center',
   },

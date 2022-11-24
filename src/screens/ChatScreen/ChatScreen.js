@@ -1,6 +1,11 @@
 import React, {useState, useCallback, useEffect} from 'react';
 import {View, Image, Text, Dimensions, TouchableOpacity} from 'react-native';
-import {GiftedChat, InputToolbar} from 'react-native-gifted-chat';
+import {
+  GiftedChat,
+  InputToolbar,
+  Bubble,
+  MessageImage,
+} from 'react-native-gifted-chat';
 import {Color} from '../../constants/colors';
 
 import Send from 'react-native-vector-icons/Feather';
@@ -74,7 +79,7 @@ const ChatScreen = ({navigation, route}) => {
           shadowOpacity: 0.44,
           shadowRadius: 10.32,
 
-          elevation: 16,
+          elevation: 26,
         }}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Image
@@ -117,7 +122,7 @@ const ChatScreen = ({navigation, route}) => {
         messagesContainerStyle={{
           backgroundColor: 'white',
           height: '100%',
-          paddingVertical: 120,
+          // paddingVertical: 120,
         }}
         showAvatarForEveryMessage={true}
         alwaysShowSend={true}
@@ -127,6 +132,7 @@ const ChatScreen = ({navigation, route}) => {
               style={{
                 backgroundColor: Color.darkOrange,
                 padding: 15,
+                right: 10,
                 borderRadius: 30,
               }}>
               <Send name="send" size={20} color="white" />
@@ -135,14 +141,77 @@ const ChatScreen = ({navigation, route}) => {
         }}
         renderBubble={props => {
           return (
+            <Bubble
+              {...props}
+              textStyle={{
+                right: {
+                  color: 'white',
+                },
+              }}
+              wrapperStyle={{
+                left: {
+                  // backgroundColor: 'green',
+                  backgroundColor: Color.splashWhite,
+
+                  width: '70%',
+                  padding: 20,
+                  borderRadius: 20,
+                  shadowColor: '#000',
+                  shadowOffset: {
+                    width: 0,
+                    height: 2,
+                  },
+
+                  shadowOpacity: 0.25,
+                  shadowRadius: 3.84,
+
+                  elevation: 5,
+                },
+                right: {
+                  backgroundColor: Color.darkOrange,
+
+                  width: '70%',
+                  padding: 20,
+                  borderRadius: 20,
+                  shadowColor: '#000',
+                  shadowOffset: {
+                    width: 0,
+                    height: 2,
+                  },
+
+                  shadowOpacity: 0.25,
+                  shadowRadius: 3.84,
+
+                  elevation: 5,
+                },
+              }}
+            />
+          );
+        }}
+        renderChatFooter={() => {
+          return (
             <View
               style={{
-                backgroundColor: Color.darkOrange,
-                width: '70%',
-                padding: 30,
-                borderRadius: 20,
+                height: '30%',
+                justifyContent: 'center',
               }}>
-              <Text>Hello</Text>
+              {/* <View
+                style={{
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  flexDirection: 'row',
+                  backgroundColor: Color.gray,
+                  margin: 20,
+                  padding: 10,
+                  paddingHorizontal: 70,
+                  borderRadius: 30,
+                  alignContent: 'center',
+                }}>
+                <Text>Lock</Text>
+                <Text style={{flexWrap: 'wrap', textAlign: 'center'}}>
+                  For security reasion never share your private data
+                </Text>
+              </View> */}
             </View>
           );
         }}
@@ -151,7 +220,8 @@ const ChatScreen = ({navigation, route}) => {
             <TouchableOpacity
               style={{
                 // backgroundColor: Color.darkOrange,
-                padding: 10,
+                padding: 15,
+                alignItems: 'center',
                 borderRadius: 30,
               }}>
               <Attachment name="attachment" size={20} color="black" />

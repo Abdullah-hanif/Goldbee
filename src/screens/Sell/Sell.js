@@ -30,17 +30,17 @@ const Sell = () => {
         <View
           style={{
             backgroundColor: '#F3F3F3',
-            padding: 25,
+            padding: 20,
             marginTop: 10,
             flexDirection: 'row',
           }}>
           <TouchableOpacity onPress={() => nav.navigate('Home')}>
             <Image
-              style={{height: 30, width: 30, right: 10}}
+              style={{height: 25, width: 25, right: 10}}
               source={require('../../assets/Icons/Group13726.png')}
             />
           </TouchableOpacity>
-          <Text style={{color: 'black', fontSize: 19}}>
+          <Text style={{color: 'black', fontWeight: 'bold', fontSize: 19}}>
             What you are selling?
           </Text>
         </View>

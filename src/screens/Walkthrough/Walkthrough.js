@@ -22,19 +22,19 @@ const slides = [
   {
     key: 1,
     title: 'Sell your Jewelery',
-    text: 'Create listing for free. Sell you jewelery and \n earn money. Keep it all for yourself',
+    text: 'Create listing for free. Sell you jewelery and \nearn money. Keep it all for yourself',
     image: ImageSource.slider1,
   },
   {
     key: 2,
     title: 'Sell your Jewelery',
-    text: 'Find what your are looking. There are lots of\n jewelery you will see',
+    text: 'Find what your are looking. There are lots of\njewelery you will see',
     image: ImageSource.slider2,
   },
   {
     key: 3,
     title: 'Use Goldybee your way',
-    text: 'There are two ways to sell and buy,in person\n or through shippinng.',
+    text: 'There are two ways to sell and buy,in person\nor through shippinng.',
     image: ImageSource.slider3,
   },
 ];
@@ -50,14 +50,14 @@ const Walkthrough = ({navigation}) => {
             source={item.image}
           />
 
-          <ScrollView>
+          <ScrollView showsVerticalScrollIndicator={false}>
             <View style={{marginTop: 25, margin: 20, backgroundColor: 'white'}}>
               <View>
                 <Text
                   style={{
                     fontWeight: '700',
                     color: 'black',
-                    fontSize: 19,
+                    fontSize: 24,
                     marginTop: 20,
                   }}>
                   {item.title}
@@ -139,15 +139,13 @@ const Walkthrough = ({navigation}) => {
 };
 const styles = StyleSheet.create({
   buttonCircle: {
-    width: Dimensions.get('screen').width - 40,
-    // height: 40,
-    // marginRight: 30,
+    width: Dimensions.get('screen').width - 35,
 
     padding: 15,
     // marginBottom: 10,
     borderWidth: 1,
     borderColor: Color.yellow,
-    borderRadius: 20,
+    borderRadius: 30,
     justifyContent: 'center',
     alignItems: 'center',
   },

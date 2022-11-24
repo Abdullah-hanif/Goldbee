@@ -51,18 +51,21 @@ const ProductDetails = ({navigation}) => {
       <ScrollView
         showsHorizontalScrollIndicator={false}
         horizontal
-        style={{backgroundColor: 'green'}}>
+        style={{
+          backgroundColor: 'green',
+          height: Dimensions.get('screen').height / 2.3,
+        }}>
         <Image
           // resizeMode="contain"
           style={{height: '100%', width: Dimensions.get('screen').width}}
           source={require('../../assets/SamplePictures/2.png')}
         />
         <Image
-          style={{height: 230, width: Dimensions.get('screen').width}}
+          style={{height: '100%', width: Dimensions.get('screen').width}}
           source={require('../../assets/SamplePictures/2.png')}
         />
         <Image
-          style={{height: 230, width: Dimensions.get('screen').width}}
+          style={{height: '100%', width: Dimensions.get('screen').width}}
           source={require('../../assets/SamplePictures/2.png')}
         />
       </ScrollView>
@@ -122,12 +125,20 @@ const ProductDetails = ({navigation}) => {
           />
         </View>
         {/* Description Details */}
-        <View style={{marginTop: 20}}>
-          <Text style={{fontSize: 16, color: 'black'}}>
-            Sed tempus mollis fringilla, Integer vulputate nisi {'\n'} trinbita,
+        <View
+          style={{
+            marginTop: 20,
+          }}>
+          <Text
+            style={{
+              fontSize: 16,
+              color: 'black',
+              textAlign: 'left',
+              flexWrap: 'wrap',
+            }}>
+            Sed tempus mollis fringilla, Integer vulputate nisi frin trinbita,
             lamcorper justo at omare tortor Ut eu auctor epet uttrices punes
             Cras molestie a augue ac scelate bus ex nis, enamus malesuada aid
-            {'\n'}
             porta posuere augue
           </Text>
         </View>
