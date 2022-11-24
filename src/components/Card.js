@@ -56,7 +56,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'lightgray',
     width: '47%',
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
+    borderRadius: 10,
+    // borderTopLeftRadius: 10,
+    // borderTopRightRadius: 10,
   },
 });

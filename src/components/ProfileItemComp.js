@@ -2,9 +2,10 @@ import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {Color} from '../constants/colors';
 
-const ProfileItemComp = ({name, Icon}) => {
+const ProfileItemComp = ({name, Icon, onClick}) => {
   return (
     <TouchableOpacity
+      onPress={onClick}
       style={{
         flexDirection: 'row',
         borderBottomWidth: 1,
@@ -18,7 +19,15 @@ const ProfileItemComp = ({name, Icon}) => {
           style={{height: 25, width: 25, tintColor: Color.darkGray}}
           source={Icon}
         />
-        <Text style={{left: 10, color: 'black', fontSize: 16}}>{name}</Text>
+        <Text
+          style={{
+            left: 10,
+            color: 'black',
+            fontSize: 16,
+            textAlignVertical: 'center',
+          }}>
+          {name}
+        </Text>
       </View>
       <Image
         style={{height: 20, width: 20, tintColor: 'gray'}}

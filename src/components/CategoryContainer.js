@@ -1,13 +1,12 @@
 import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {Color} from '../constants/colors';
+import {white} from 'react-native-paper/lib/typescript/styles/colors';
 
-const CategoryContainer = ({name, Icon}) => {
-  const [color, setColor] = React.useState(false);
-
+const CategoryContainer = ({name, Icon, onPress, value}) => {
   return (
     <TouchableOpacity
-      onPress={() => setColor(!color)}
+      onPress={() => onPress(name)}
       style={{
         width: 60,
         margin: 10,
@@ -17,7 +16,14 @@ const CategoryContainer = ({name, Icon}) => {
       <View
         style={[
           styles.container,
-          {backgroundColor: !color ? 'white' : Color.darkOrange},
+          {
+            backgroundColor:
+              name == 'All'
+                ? Color.darkOrange
+                : value === name
+                ? Color.darkOrange
+                : 'white',
+          },
         ]}>
         {Icon}
       </View>

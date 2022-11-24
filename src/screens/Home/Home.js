@@ -6,6 +6,10 @@ import CategoryContainer from '../../components/CategoryContainer';
 import Card from '../../components/Card';
 
 const Home = ({naviagtion}) => {
+  const [selected, setSelected] = React.useState(null);
+  const handleSelected = value => {
+    setSelected(value);
+  };
   return (
     <View style={styles.container}>
       <View style={{padding: 20}}>
@@ -17,6 +21,8 @@ const Home = ({naviagtion}) => {
           showsHorizontalScrollIndicator={false}
           style={{width: '100%'}}>
           <CategoryContainer
+            onPress={handleSelected}
+            value={selected}
             name="All"
             Icon={
               <Image
@@ -26,6 +32,8 @@ const Home = ({naviagtion}) => {
             }
           />
           <CategoryContainer
+            onPress={handleSelected}
+            value={selected}
             name="Rings"
             Icon={
               <Image
@@ -35,6 +43,8 @@ const Home = ({naviagtion}) => {
             }
           />
           <CategoryContainer
+            onPress={handleSelected}
+            value={selected}
             name="Necklaces"
             Icon={
               <Image
@@ -44,6 +54,8 @@ const Home = ({naviagtion}) => {
             }
           />
           <CategoryContainer
+            onPress={handleSelected}
+            value={selected}
             name="Earnings"
             Icon={
               <Image
@@ -53,6 +65,8 @@ const Home = ({naviagtion}) => {
             }
           />
           <CategoryContainer
+            onPress={handleSelected}
+            value={selected}
             name="Bracelat"
             Icon={
               <Image
