@@ -83,6 +83,8 @@ const SwitchButton = () => {
   );
 };
 
+export {SwitchButton};
+
 export default Inbox;
 
 const styles = StyleSheet.create({

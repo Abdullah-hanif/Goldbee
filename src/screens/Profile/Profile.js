@@ -2,7 +2,7 @@ import {StyleSheet, Text, View, Image} from 'react-native';
 import React from 'react';
 import {Color} from '../../constants/colors';
 import ProfileItemComp from '../../components/ProfileItemComp';
-const Profile = () => {
+const Profile = ({navigation}) => {
   return (
     <View style={styles.container}>
       <View style={styles.innerContainer}>
@@ -28,6 +28,7 @@ const Profile = () => {
         {/* Profile Header END */}
         <View style={{marginTop: 30}}>
           <ProfileItemComp
+            onClick={() => navigation.navigate('MyProfile')}
             name="Profile"
             Icon={require('../../assets/Icons/Group4076.png')}
           />

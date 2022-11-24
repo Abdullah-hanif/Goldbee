@@ -2,9 +2,10 @@ import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {Color} from '../constants/colors';
 
-const ProfileItemComp = ({name, Icon}) => {
+const ProfileItemComp = ({name, Icon, onClick}) => {
   return (
     <TouchableOpacity
+      onPress={onClick}
       style={{
         flexDirection: 'row',
         borderBottomWidth: 1,
