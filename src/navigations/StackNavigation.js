@@ -16,6 +16,7 @@ import ProductDetails from '../screens/ProductDetails/ProductDetails';
 import Home from '../screens/Home/Home';
 import ProfileDetails from '../screens/ProfileDetails/ProfileDetails';
 import MyProfile from '../screens/MyProfile/MyProfile';
+import PostingListing from '../screens/PostListing/PostingListing';
 
 const Stack = createStackNavigator();
 const StackNavigation = () => {
@@ -62,6 +63,7 @@ const StackNavigation = () => {
       <Stack.Screen name="ProductDetails" component={ProductDetails} />
       <Stack.Screen name="ProfileDetails" component={ProfileDetails} />
       <Stack.Screen name="MyProfile" component={MyProfile} />
+      <Stack.Screen name="PostingListing" component={PostingListing} />
     </Stack.Navigator>
   );
 };

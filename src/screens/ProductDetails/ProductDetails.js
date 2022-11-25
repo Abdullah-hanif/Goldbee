@@ -14,8 +14,25 @@ import Back from 'react-native-vector-icons/AntDesign';
 import Dots from 'react-native-vector-icons/Entypo';
 import Buttons from '../../components/Buttons';
 
+const images = [
+  require('../../assets/SamplePictures/2.png'),
+  require('../../assets/SamplePictures/2.png'),
+  require('../../assets/SamplePictures/2.png'),
+];
+
 const ProductDetails = ({navigation}) => {
   const [addFav, setAddFav] = React.useState(false);
+  const [imgActive, setimgActive] = React.useState(0);
+  onchange = nativeEvent => {
+    if (nativeEvent) {
+      const slide = Math.ceil(
+        nativeEvent.contentOffset.x / nativeEvent.layoutMeasurement.width,
+      );
+      if (slide != imgActive) {
+        setimgActive(slide);
+      }
+    }
+  };
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
       {/* Topbar ICONS */}
@@ -50,25 +67,47 @@ const ProductDetails = ({navigation}) => {
       {/*END Topbar ICONS */}
       <ScrollView
         showsHorizontalScrollIndicator={false}
+        onScroll={({nativeEvent}) => onchange(nativeEvent)}
         horizontal
+        pagingEnabled
         style={{
           backgroundColor: 'green',
           height: Dimensions.get('screen').height / 2.3,
         }}>
-        <Image
-          // resizeMode="contain"
+        {images.map((e, index) => (
+          <Image
+            // resizeMode="contain"
+            key={index}
+            style={{height: '100%', width: Dimensions.get('screen').width}}
+            source={e}
+          />
+        ))}
+        {/* <Image
           style={{height: '100%', width: Dimensions.get('screen').width}}
           source={require('../../assets/SamplePictures/2.png')}
         />
         <Image
           style={{height: '100%', width: Dimensions.get('screen').width}}
           source={require('../../assets/SamplePictures/2.png')}
-        />
-        <Image
-          style={{height: '100%', width: Dimensions.get('screen').width}}
-          source={require('../../assets/SamplePictures/2.png')}
-        />
+        /> */}
       </ScrollView>
+
+      <View
+        style={{
+          bottom: 0,
+
+          flexDirection: 'row',
+          alignSelf: 'center',
+          // backgroundColor: 'black',
+        }}>
+        {images.map((e, index) => (
+          <Text
+            key={Math.random() * 1000}
+            style={imgActive == index ? styles.dotActive : styles.dot}>
+            ●
+          </Text>
+        ))}
+      </View>
       {/* //PRofile VIew */}
       <View
         style={{
@@ -158,5 +197,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Color.splashWhite,
+  },
+  dotActive: {
+    margin: 3,
+    fontWeight: 'bold',
+    fontSize: 20,
+    color: Color.darkOrange,
+  },
+  dot: {
+    margin: 3,
+    color: Color.gray,
+    fontWeight: 'bold',
+    fontSize: 20,
   },
 });

@@ -2,9 +2,10 @@ import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {Color} from '../constants/colors';
 
-const SellCategoryContainer = ({name, Icon}) => {
+const SellCategoryContainer = ({name, Icon, nexScreen}) => {
   return (
     <TouchableOpacity
+      onPress={nexScreen}
       style={{
         width: '100%',
         padding: 10,
