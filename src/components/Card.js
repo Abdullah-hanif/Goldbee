@@ -1,9 +1,9 @@
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
-import Heart from 'react-native-vector-icons/AntDesign';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import {Color} from '../constants/colors';
 import {useNavigation} from '@react-navigation/native';
-const Card = ({name, price, bgImage, onpress, isFav}) => {
+const Card = ({name, price, bgImage, onpress, isFav, deleteIcon}) => {
   const [addFav, setAddFav] = React.useState(isFav);
   const nav = useNavigation();
   return (
@@ -28,13 +28,23 @@ const Card = ({name, price, bgImage, onpress, isFav}) => {
             // margin: 10,
           }}>
           <Text style={{color: 'gray'}}>{price}</Text>
-          <TouchableOpacity onPress={() => setAddFav(!addFav)}>
-            <Heart
-              name={!addFav ? 'hearto' : 'heart'}
-              size={20}
-              color={Color.darkOrange}
-            />
-          </TouchableOpacity>
+          {!deleteIcon ? (
+            <TouchableOpacity onPress={() => setAddFav(!addFav)}>
+              <AntDesign
+                name={!addFav ? 'hearto' : 'heart'}
+                size={20}
+                color={Color.darkOrange}
+              />
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity onPress={() => alert('DELETE')}>
+              {/* <AntDesign name="delete" size={20} color={Color.black} /> */}
+              <Image
+                style={{height: 20, width: 20}}
+                source={require('../assets/Icons/Group5268.png')}
+              />
+            </TouchableOpacity>
+          )}
         </View>
         <Text style={{marginBottom: 10, fontWeight: 'bold', color: 'black'}}>
           {name}
