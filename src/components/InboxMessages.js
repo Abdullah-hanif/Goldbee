@@ -30,12 +30,17 @@ const InboxMessages = ({name, productName, message, time, imageUri, price}) => {
             {productName}
           </Text>
           <View style={{flexDirection: 'row'}}>
-            <Check name="check" size={10} style={{top: 5, right: 5}} />
-            <Text>{message}</Text>
+            <Check
+              name="check"
+              color={'#000000'}
+              size={10}
+              style={{top: 5, right: 5}}
+            />
+            <Text style={{color: '#000000'}}>{message}</Text>
           </View>
         </View>
       </View>
-      <Text>{time}</Text>
+      <Text style={{color: '#000000'}}>{time}</Text>
     </TouchableOpacity>
   );
 };
