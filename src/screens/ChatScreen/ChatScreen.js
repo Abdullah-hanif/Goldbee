@@ -19,10 +19,12 @@ const ChatScreen = ({navigation, route}) => {
     return (
       <InputToolbar
         {...props}
+        placeholderTextColor="#000000"
         containerStyle={{
           backgroundColor: Color.splashWhite,
           borderTopColor: '#E8E8E8',
           borderTopWidth: 1,
+
           padding: 5,
           margin: 20,
           borderRadius: 30,
@@ -122,6 +124,7 @@ const ChatScreen = ({navigation, route}) => {
         messagesContainerStyle={{
           backgroundColor: 'white',
           height: '100%',
+
           // paddingVertical: 120,
         }}
         showAvatarForEveryMessage={true}
@@ -194,25 +197,7 @@ const ChatScreen = ({navigation, route}) => {
               style={{
                 height: '30%',
                 justifyContent: 'center',
-              }}>
-              {/* <View
-                style={{
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  flexDirection: 'row',
-                  backgroundColor: Color.gray,
-                  margin: 20,
-                  padding: 10,
-                  paddingHorizontal: 70,
-                  borderRadius: 30,
-                  alignContent: 'center',
-                }}>
-                <Text>Lock</Text>
-                <Text style={{flexWrap: 'wrap', textAlign: 'center'}}>
-                  For security reasion never share your private data
-                </Text>
-              </View> */}
-            </View>
+              }}></View>
           );
         }}
         renderActions={() => {

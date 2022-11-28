@@ -18,7 +18,7 @@ const CategoryContainer = ({name, Icon, onPress, value}) => {
           styles.container,
           {
             backgroundColor:
-              name == 'All'
+              name == 'All' && !name == 'All'
                 ? Color.darkOrange
                 : value === name
                 ? Color.darkOrange

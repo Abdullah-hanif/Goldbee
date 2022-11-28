@@ -41,7 +41,7 @@ const ProfileDetails = ({navigation}) => {
           </View>
         </TouchableOpacity>
         <Image
-          style={{height: 70, width: 70}}
+          style={{height: 70, width: 70, alignSelf: 'center', top: 22}}
           source={require('../../assets/Icons/Group13720.png')}
         />
       </View>

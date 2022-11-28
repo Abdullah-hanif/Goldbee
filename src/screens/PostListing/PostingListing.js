@@ -8,6 +8,7 @@ import {
   ScrollView,
   Modal,
   Dimensions,
+  StatusBar,
 } from 'react-native';
 import React from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -24,6 +25,7 @@ const PostingListing = ({navigation}) => {
     {id: 1, imgUri: require('../../assets/SamplePictures/1.png')},
     {id: 2, imgUri: require('../../assets/SamplePictures/2.png')},
   ];
+
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
       <View style={styles.secoundContainer}>
@@ -48,7 +50,7 @@ const PostingListing = ({navigation}) => {
               marginTop: 10,
             }}>
             <TouchableOpacity>
-              <Text>Upload Upto 10 Pictures</Text>
+              <Text style={{color: '#000000'}}>Upload Upto 10 Pictures</Text>
             </TouchableOpacity>
             <AntDesign name="right" size={15} color="black" />
           </View>
@@ -128,7 +130,13 @@ const PostingListing = ({navigation}) => {
         </View>
         {/* @Button */}
         <Buttons
-          onpress={() => setModalVisible(!modalVisible)}
+          onpress={() => {
+            setModalVisible(!modalVisible),
+              setTimeout(() => {
+                setModalVisible(false);
+                navigation.navigate('MyProfile');
+              }, 3000);
+          }}
           name="Post Listing"
         />
         <Modal
@@ -139,11 +147,14 @@ const PostingListing = ({navigation}) => {
             Alert.alert('Modal has been closed.');
             setModalVisible(!modalVisible);
           }}>
+          <StatusBar hidden />
           <TouchableOpacity
             onPress={() => setModalVisible(false)}
             style={{
               flex: 1,
+              height: Dimensions.get('screen').height,
               backgroundColor: 'rgba(0,0,0,0.61)',
+
               justifyContent: 'center',
               alignItems: 'center',
             }}>

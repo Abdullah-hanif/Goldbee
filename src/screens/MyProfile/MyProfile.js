@@ -91,7 +91,7 @@ const MyProfile = ({navigation}) => {
                     text2="+1 773 567 8790"
                     icon={
                       <Image
-                        style={{height: 20, width: 20}}
+                        style={{height: 30, width: 30}}
                         source={require('../../assets/Icons/Group4060.png')}
                       />
                     }
@@ -101,7 +101,7 @@ const MyProfile = ({navigation}) => {
                     text2="+773 567 8790"
                     icon={
                       <Image
-                        style={{height: 20, width: 20}}
+                        style={{height: 30, width: 30}}
                         source={require('../../assets/Icons/Group4067.png')}
                       />
                     }
@@ -111,7 +111,7 @@ const MyProfile = ({navigation}) => {
                     text2="Chicago-USA"
                     icon={
                       <Image
-                        style={{height: 20, width: 20}}
+                        style={{height: 30, width: 30}}
                         source={require('../../assets/Icons/Group4039.png')}
                       />
                     }
@@ -157,7 +157,7 @@ const MyProfile = ({navigation}) => {
                 </View>
               </View>
               {/* Button */}
-              <View style={{marginBottom: 20}}>
+              <View style={{marginTop: 30}}>
                 <Buttons name="Upload New" />
               </View>
             </>

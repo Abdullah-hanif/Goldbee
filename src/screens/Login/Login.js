@@ -64,7 +64,10 @@ const Login = () => {
           style={{
             marginTop: '50%',
           }}>
-          <Buttons name="Login" />
+          <Buttons
+            onpress={() => navigation.navigate('BottomNavigation')}
+            name="Login"
+          />
           <View
             style={{
               flexDirection: 'row',

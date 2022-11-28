@@ -6,7 +6,7 @@ import CategoryContainer from '../../components/CategoryContainer';
 import Card from '../../components/Card';
 
 const Home = ({naviagtion}) => {
-  const [selected, setSelected] = React.useState(null);
+  const [selected, setSelected] = React.useState('All');
   const handleSelected = value => {
     setSelected(value);
   };

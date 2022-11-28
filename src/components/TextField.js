@@ -5,7 +5,7 @@ import {Color} from '../constants/colors';
 const TextField = ({placeHolder}) => {
   return (
     <TextInput
-      placeholderTextColor={'gray'}
+      placeholderTextColor={Color.darkGray}
       style={styles.container}
       placeholder={placeHolder}
     />
