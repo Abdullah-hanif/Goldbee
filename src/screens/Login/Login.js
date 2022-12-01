@@ -13,9 +13,13 @@ import {Checkbox} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
 import Back from 'react-native-vector-icons/AntDesign';
 
+// @LANGUGE IMPORTS
+import {useTranslation} from 'react-i18next';
+
 const Login = () => {
   const navigation = useNavigation();
   const [checked, setChecked] = React.useState(false);
+  const {t} = useTranslation();
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
       <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -23,10 +27,10 @@ const Login = () => {
       </TouchableOpacity>
       <View style={{marginTop: '15%'}}>
         <Text style={{fontWeight: 'bold', color: Color.black, fontSize: 28}}>
-          Login
+          {t('common:Login')}
         </Text>
         <Text style={{color: Color.darkGray, fontSize: 15}}>
-          Goldybee Seller
+          {t('common:Goldybeeseller')}
         </Text>
         <View style={{marginTop: 20}}>
           <TextField placeHolder="Email" />
@@ -47,7 +51,9 @@ const Login = () => {
                 setChecked(!checked);
               }}
             />
-            <Text style={{marginTop: 8, color: 'black'}}>Remember me ?</Text>
+            <Text style={{marginTop: 8, color: 'black'}}>
+              {t('common:rememberme')}
+            </Text>
           </View>
           <TouchableOpacity>
             <Text
@@ -56,7 +62,7 @@ const Login = () => {
                 fontWeight: 'bold',
                 marginTop: 10,
               }}>
-              Forget Password?
+              {t('common:forgotpassword')}
             </Text>
           </TouchableOpacity>
         </View>
@@ -66,7 +72,7 @@ const Login = () => {
           }}>
           <Buttons
             onpress={() => navigation.navigate('BottomNavigation')}
-            name="Login"
+            name={t('common:Login')}
           />
           <View
             style={{
@@ -75,11 +81,13 @@ const Login = () => {
               alignItems: 'center',
               marginTop: '5%',
             }}>
-            <Text style={{color: 'black'}}>Don't have an account? </Text>
+            <Text style={{color: 'black'}}>
+              {t('common:donthaveanaccount')}{' '}
+            </Text>
             <TouchableOpacity
               onPress={() => navigation.navigate('BottomNavigation')}>
               <Text style={{color: Color.darkOrange, fontWeight: 'bold'}}>
-                Sign Up
+                {t('common:Signup')}
               </Text>
             </TouchableOpacity>
           </View>

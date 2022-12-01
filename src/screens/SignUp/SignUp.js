@@ -14,10 +14,12 @@ import Buttons from '../../components/Buttons';
 import {Checkbox} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
 import Back from 'react-native-vector-icons/AntDesign';
+import {useTranslation} from 'react-i18next';
 
 const SignUp = () => {
   const navigation = useNavigation();
   const [checked, setChecked] = React.useState(false);
+  const {t} = useTranslation();
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
       <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -25,17 +27,17 @@ const SignUp = () => {
       </TouchableOpacity>
       <View style={{marginTop: '15%'}}>
         <Text style={{fontWeight: 'bold', color: Color.black, fontSize: 28}}>
-          Sign Up
+          {t('common:Signup')}
         </Text>
-        <Text style={{color: 'black'}}>Let's get started</Text>
+        <Text style={{color: 'black'}}>{t('common:letsgetstarted')}</Text>
       </View>
       <View style={styles.txtInputs}>
-        <TextField placeHolder="First Name" />
-        <TextField placeHolder="Last Name" />
-        <TextField placeHolder="Email" />
-        <TextField placeHolder="Country" />
-        <TextField placeHolder="Password" />
-        <TextField placeHolder="Conform Password" />
+        <TextField placeHolder={t('common:firstname')} />
+        <TextField placeHolder={t('common:lastname')} />
+        <TextField placeHolder={t('common:email')} />
+        <TextField placeHolder={t('common:country')} />
+        <TextField placeHolder={t('common:password')} />
+        <TextField placeHolder={t('common:conformpassword')} />
       </View>
       <View style={styles.checkBox}>
         <Checkbox
@@ -50,8 +52,9 @@ const SignUp = () => {
             flexDirection: 'row',
             justifyContent: 'center',
             alignItems: 'center',
+            flexWrap: 'wrap',
           }}>
-          <Text style={{color: 'black'}}>I agree to Goldbee</Text>
+          <Text style={{color: 'black'}}>{t('common:iagreetoGoldbee')}</Text>
 
           <Text
             style={{
@@ -60,17 +63,19 @@ const SignUp = () => {
               fontWeight: 'bold',
               color: 'black',
             }}>
-            terms and condition
+            {t('common:termsandCondition')}
           </Text>
         </View>
       </View>
       <View>
-        <Buttons name="Sign Up" />
+        <Buttons name={t('common:Signup')} />
       </View>
       <View style={styles.bottomTxt}>
-        <Text style={{color: 'black'}}>Already have an account?</Text>
+        <Text style={{color: 'black'}}>
+          {t('common:Alreadyhaveandaccount')}
+        </Text>
         <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-          <Text style={styles.loginTxt}>LOGIN </Text>
+          <Text style={styles.loginTxt}>{t('common:Login')} </Text>
         </TouchableOpacity>
       </View>
     </ScrollView>
@@ -91,6 +96,7 @@ const styles = StyleSheet.create({
   checkBox: {
     flexDirection: 'row',
     marginTop: 20,
+
     // marginHorizontal: 10,
   },
   bottomTxt: {

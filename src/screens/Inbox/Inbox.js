@@ -10,8 +10,10 @@ import React from 'react';
 import {Color} from '../../constants/colors';
 import InboxMessages from '../../components/InboxMessages';
 import {InboxPeople} from '../../constants/dummyData';
+import {useTranslation} from 'react-i18next';
 
 const Inbox = () => {
+  const {t} = useTranslation();
   return (
     <View style={styles.container}>
       <View style={styles.screenContainer}>

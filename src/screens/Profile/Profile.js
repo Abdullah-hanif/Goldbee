@@ -1,8 +1,42 @@
-import {StyleSheet, Text, View, Image} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  Pressable,
+  NativeModule,
+  NativeModules,
+} from 'react-native';
 import React from 'react';
 import {Color} from '../../constants/colors';
 import ProfileItemComp from '../../components/ProfileItemComp';
+
+// @Languge import
+import {useTranslation} from 'react-i18next';
+
 const Profile = ({navigation}) => {
+  // const {t, i18n} = useTranslation();
+  // const locale = NativeModules.I18nManager.localeIdentifier;
+  // console.log('==>LOCAL BEFORE===>', locale);
+  // const localLang = locale.split('_');
+
+  // // const localLang = ['sp', 'en'];
+  // // es mean spanish
+  // console.log('====>DEVICE LANG', localLang[0]);
+
+  // const selectLangugeCode = i18n.language;
+  // const LANGUGE = [
+  //   {code: 'en', lable: 'English'},
+  //   {code: 'es', lable: 'Spanish'},
+  // ];
+  // React.useEffect(() => {
+  //   setLanguge(localLang[0]);
+  // }, []);
+
+  // const setLanguge = code => {
+  //   return i18n.changeLanguage(code);
+  // };
+
   return (
     <View style={styles.container}>
       <View style={styles.innerContainer}>
@@ -22,6 +56,18 @@ const Profile = ({navigation}) => {
                 color: Color.darkOrange,
               }}>
               Chicago - USA
+            </Text>
+            <Text
+              style={{
+                color: Color.darkOrange,
+              }}>
+              {t('common:hey')}
+            </Text>
+            <Text
+              style={{
+                color: Color.darkOrange,
+              }}>
+              {t('common:languageSelector')}
             </Text>
           </View>
         </View>
@@ -46,6 +92,26 @@ const Profile = ({navigation}) => {
           />
         </View>
       </View>
+      {/* //CHANGE LANGUGE */}
+      <View
+        style={{
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginBottom: 50,
+        }}>
+        {LANGUGE.map(languge => {
+          const selectLanguge = languge.code == selectLangugeCode;
+          return (
+            <Pressable
+              disabled={selectLanguge}
+              onPress={() => setLanguge(localLang[0])}>
+              <Text style={[selectLanguge ? styles.selectedTxt : styles.txt]}>
+                {languge.lable}
+              </Text>
+            </Pressable>
+          );
+        })}
+      </View>
     </View>
   );
 };
@@ -61,5 +127,15 @@ const styles = StyleSheet.create({
     backgroundColor: Color.splashWhite,
     padding: 20,
     flex: 1,
+  },
+  selectedTxt: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: 'green',
+  },
+  txt: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: 'black',
   },
 });

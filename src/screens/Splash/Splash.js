@@ -5,17 +5,19 @@ import {
   Image,
   Dimensions,
   StatusBar,
+  NativeModules,
 } from 'react-native';
 import React from 'react';
 import {ImageSource} from '../../constants/ImageSource';
 import {Color} from '../../constants/colors';
 import {useNavigation} from '@react-navigation/native';
+import {useTranslation} from 'react-i18next';
 
 const Splash = () => {
   const navigation = useNavigation();
   setTimeout(() => {
     navigation.navigate('Walkthrough');
-  }, 2000);
+  }, 4000);
   return (
     <>
       <StatusBar hidden />

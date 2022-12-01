@@ -17,29 +17,32 @@ import AppIntroSlider from 'react-native-app-intro-slider';
 import Ico from 'react-native-vector-icons/MaterialCommunityIcons';
 import {ImageSource} from '../../constants/ImageSource';
 import {Color} from '../../constants/colors';
+import {useTranslation} from 'react-i18next';
 
-const slides = [
-  {
-    key: 1,
-    title: 'Sell your Jewelery',
-    text: 'Create listing for free. Sell you jewelery and \nearn money. Keep it all for yourself',
-    image: ImageSource.slider1,
-  },
-  {
-    key: 2,
-    title: 'Sell your Jewelery',
-    text: 'Find what your are looking. There are lots of\njewelery you will see',
-    image: ImageSource.slider2,
-  },
-  {
-    key: 3,
-    title: 'Use Goldybee your way',
-    text: 'There are two ways to sell and buy,in person\nor through shippinng.',
-    image: ImageSource.slider3,
-  },
-];
 const Walkthrough = ({navigation}) => {
   // const { width, height } = Dimensions.get("window")
+  const {t} = useTranslation();
+
+  const slides = [
+    {
+      key: 1,
+      title: t('common:slide1Title'),
+      text: t('common:slide1Txt'),
+      image: ImageSource.slider1,
+    },
+    {
+      key: 2,
+      title: t('common:slide2Title'),
+      text: t('common:slide2Txt'),
+      image: ImageSource.slider2,
+    },
+    {
+      key: 3,
+      title: t('common:slide2Title'),
+      text: t('common:slide2Txt'),
+      image: ImageSource.slider3,
+    },
+  ];
   const renderItem = ({item}) => {
     return (
       <>
@@ -76,7 +79,9 @@ const Walkthrough = ({navigation}) => {
   const renderNextButton = () => {
     return (
       <View style={styles.buttonCircle}>
-        <Text style={{color: Color.darkOrange, fontWeight: 'bold'}}>Next</Text>
+        <Text style={{color: Color.darkOrange, fontWeight: 'bold'}}>
+          {t('common:Next')}
+        </Text>
       </View>
     );
   };
@@ -85,7 +90,7 @@ const Walkthrough = ({navigation}) => {
       <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
         <View style={styles.buttonCircle}>
           <Text style={{color: Color.darkOrange, fontWeight: 'bold'}}>
-            Next
+            {t('common:Next')}
           </Text>
         </View>
       </TouchableOpacity>
@@ -127,9 +132,11 @@ const Walkthrough = ({navigation}) => {
             padding: 10,
             marginBottom: 30,
           }}>
-          <Text style={{color: 'black'}}>Already have an account? </Text>
+          <Text style={{color: 'black'}}>
+            {t('common:Alreadyhaveandaccount')}
+          </Text>
           <Text style={{color: Color.darkOrange, fontWeight: 'bold'}}>
-            LOGIN
+            {t('common:Login')}
           </Text>
         </View>
         {/* </ScrollView> */}
