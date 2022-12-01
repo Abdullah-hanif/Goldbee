@@ -9,7 +9,7 @@ export default {
     'Create listing for free. Sell you jewelery and \nearn money. Keep it all for yourself',
   //Slider 2
   slide2Title: 'Sell your Jewelery',
-  slider2Txt:
+  slide2Txt:
     'Find what your are looking. There are lots of\njewelery you will see',
   //Slider 3
   slide3Title: 'Use Goldybee your way',

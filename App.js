@@ -16,10 +16,10 @@ import './src/constants/DCSLocalize';
 const App = () => {
   const locale = NativeModules.I18nManager.localeIdentifier;
   console.log('==>LOCAL BEFORE===>', locale);
-  // const localLang = locale.split('_');
+  const localLang = locale.split('_');
   const {t, i18n} = useTranslation();
 
-  const localLang = ['en', 'es'];
+  // const localLang = ['en', 'es'];
   // es mean spanish
   console.log('====>DEVICE LANG', localLang[0]);
 
