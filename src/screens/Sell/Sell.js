@@ -61,6 +61,7 @@ const Sell = () => {
                   source={require('../../assets/Icons/Group13722.png')}
                 />
               }
+              nexScreen={() => nav.navigate('PostingListing')}
               name={t('common:rings')}
             />
             <SellCategoryContainer
@@ -70,7 +71,6 @@ const Sell = () => {
                   source={require('../../assets/Icons/Group13723.png')}
                 />
               }
-              nexScreen={() => nav.navigate('PostingListing')}
               name={t('common:necklaces')}
             />
             <SellCategoryContainer
