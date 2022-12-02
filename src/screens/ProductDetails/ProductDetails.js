@@ -14,6 +14,9 @@ import Back from 'react-native-vector-icons/AntDesign';
 import Dots from 'react-native-vector-icons/Entypo';
 import Buttons from '../../components/Buttons';
 
+// @translator
+import {useTranslation} from 'react-i18next';
+
 const images = [
   require('../../assets/SamplePictures/2.png'),
   require('../../assets/SamplePictures/2.png'),
@@ -21,6 +24,7 @@ const images = [
 ];
 
 const ProductDetails = ({navigation}) => {
+  const {t} = useTranslation();
   const [addFav, setAddFav] = React.useState(false);
   const [imgActive, setimgActive] = React.useState(0);
   onchange = nativeEvent => {
@@ -82,14 +86,6 @@ const ProductDetails = ({navigation}) => {
             source={e}
           />
         ))}
-        {/* <Image
-          style={{height: '100%', width: Dimensions.get('screen').width}}
-          source={require('../../assets/SamplePictures/2.png')}
-        />
-        <Image
-          style={{height: '100%', width: Dimensions.get('screen').width}}
-          source={require('../../assets/SamplePictures/2.png')}
-        /> */}
       </ScrollView>
 
       <View
@@ -152,7 +148,7 @@ const ProductDetails = ({navigation}) => {
                 color: 'black',
                 marginTop: 10,
               }}>
-              Beaded Necklaces
+              {t('common:beadednecklaces')}
             </Text>
             <Text style={{fontSize: 18, color: 'black', marginTop: 10}}>
               $ 175:00
@@ -175,14 +171,11 @@ const ProductDetails = ({navigation}) => {
               textAlign: 'left',
               flexWrap: 'wrap',
             }}>
-            Sed tempus mollis fringilla, Integer vulputate nisi frin trinbita,
-            lamcorper justo at omare tortor Ut eu auctor epet uttrices punes
-            Cras molestie a augue ac scelate bus ex nis, enamus malesuada aid
-            porta posuere augue
+            {t('common:productdetails')}
           </Text>
         </View>
         <View style={{flexDirection: 'column-reverse', marginTop: '20%'}}>
-          <Buttons name="Buy Now" />
+          <Buttons name={t('common:buynow')} />
         </View>
       </View>
 

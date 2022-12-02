@@ -11,8 +11,11 @@ import React from 'react';
 import {Color} from '../../constants/colors';
 import Back from 'react-native-vector-icons/AntDesign';
 import Card from '../../components/Card';
+import {useTranslation} from 'react-i18next';
 
 const ProfileDetails = ({navigation}) => {
+  const {t} = useTranslation();
+
   return (
     <ScrollView style={styles.container}>
       <TouchableOpacity
@@ -57,12 +60,10 @@ const ProfileDetails = ({navigation}) => {
           borderColor: 'lightgray',
         }}>
         <Text style={{fontWeight: 'bold', color: 'black', fontSize: 18}}>
-          About
+          {t('common:about')}
         </Text>
         <Text style={{color: 'black', marginTop: 10, flexWrap: 'wrap'}}>
-          Lorem ipsum dolor sit amet consectetur adipisicing molestiae quas vel
-          sint commodi repudiandae numquam blanditiis harum quisquam eius sed
-          optio, eaque rerum! Provident similique ac obcaecati tenetur
+          {t('common:myprofiledetail')}
         </Text>
       </View>
       {/* END ABOUT SECTION */}
@@ -70,30 +71,30 @@ const ProfileDetails = ({navigation}) => {
       {/* Listing View */}
       <View style={{marginTop: 20}}>
         <Text style={{fontWeight: 'bold', color: 'black', fontSize: 18}}>
-          Listings
+          {t('common:listings')}
         </Text>
 
         <View style={{marginBottom: 30, marginTop: 10, right: 3}}>
           <View style={{flexDirection: 'row'}}>
             <Card
-              name="Pearl Ring"
+              name={t('common:pearlring')}
               price="$ 545.00"
               bgImage={require('../../assets/SamplePictures/1.png')}
             />
             <Card
-              name="Beaded Necklace"
+              name={t('common:beadednecklaces')}
               price=" $ 175.00"
               bgImage={require('../../assets/SamplePictures/2.png')}
             />
           </View>
           <View style={{flexDirection: 'row'}}>
             <Card
-              name="Wedding Ring"
+              name={t('common:weddingring')}
               price="$ 360.00"
               bgImage={require('../../assets/SamplePictures/3.png')}
             />
             <Card
-              name="Earring Bracelet"
+              name={t('common:earringbracelet')}
               price="$ 437.00"
               bgImage={require('../../assets/SamplePictures/4.png')}
             />

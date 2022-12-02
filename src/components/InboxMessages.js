@@ -40,7 +40,7 @@ const InboxMessages = ({name, productName, message, time, imageUri, price}) => {
           </View>
         </View>
       </View>
-      <Text style={{color: '#000000'}}>{time}</Text>
+      <Text style={{color: '#000000', right: 10}}>{time}</Text>
     </TouchableOpacity>
   );
 };

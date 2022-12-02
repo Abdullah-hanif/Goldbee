@@ -4,9 +4,11 @@ import {Color} from '../../constants/colors';
 import SearchBar from '../../components/SearchBar';
 import CategoryContainer from '../../components/CategoryContainer';
 import Card from '../../components/Card';
+import {useTranslation} from 'react-i18next';
 
 const Home = ({naviagtion}) => {
-  const [selected, setSelected] = React.useState('All');
+  const {t} = useTranslation();
+  const [selected, setSelected] = React.useState(t('common:all'));
   const handleSelected = value => {
     setSelected(value);
   };
@@ -23,7 +25,7 @@ const Home = ({naviagtion}) => {
           <CategoryContainer
             onPress={handleSelected}
             value={selected}
-            name="All"
+            name={t('common:all')}
             Icon={
               <Image
                 style={{height: 20, width: 20}}
@@ -34,7 +36,7 @@ const Home = ({naviagtion}) => {
           <CategoryContainer
             onPress={handleSelected}
             value={selected}
-            name="Rings"
+            name={t('common:rings')}
             Icon={
               <Image
                 style={{height: 20, width: 20}}
@@ -45,7 +47,7 @@ const Home = ({naviagtion}) => {
           <CategoryContainer
             onPress={handleSelected}
             value={selected}
-            name="Necklaces"
+            name={t('common:necklaces')}
             Icon={
               <Image
                 style={{height: 20, width: 20}}
@@ -56,7 +58,7 @@ const Home = ({naviagtion}) => {
           <CategoryContainer
             onPress={handleSelected}
             value={selected}
-            name="Earnings"
+            name={t('common:earrings')}
             Icon={
               <Image
                 style={{height: 20, width: 20}}
@@ -67,7 +69,7 @@ const Home = ({naviagtion}) => {
           <CategoryContainer
             onPress={handleSelected}
             value={selected}
-            name="Bracelat"
+            name={t('common:bracelat')}
             Icon={
               <Image
                 style={{height: 20, width: 20}}
@@ -81,24 +83,24 @@ const Home = ({naviagtion}) => {
         <View style={{padding: 20}}>
           <View style={{flexDirection: 'row'}}>
             <Card
-              name="Pearl Ring"
+              name={t('common:pearlring')}
               price="$ 545.00"
               bgImage={require('../../assets/SamplePictures/1.png')}
             />
             <Card
-              name="Beaded Necklace"
+              name={t('common:beadednecklaces')}
               price=" $ 175.00"
               bgImage={require('../../assets/SamplePictures/2.png')}
             />
           </View>
           <View style={{flexDirection: 'row'}}>
             <Card
-              name="Wedding Ring"
+              name={t('common:weddingring')}
               price="$ 360.00"
               bgImage={require('../../assets/SamplePictures/3.png')}
             />
             <Card
-              name="Earring Bracelet"
+              name={t('common:earringbracelet')}
               price="$ 437.00"
               bgImage={require('../../assets/SamplePictures/4.png')}
             />

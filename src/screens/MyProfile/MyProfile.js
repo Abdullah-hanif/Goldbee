@@ -12,7 +12,10 @@ import {Color} from '../../constants/colors';
 import Buttons from '../../components/Buttons';
 import Card from '../../components/Card';
 
+import {useTranslation} from 'react-i18next';
+
 const MyProfile = ({navigation}) => {
+  const {t} = useTranslation();
   const [switchName, setSwitch] = React.useState('MyProfile');
   const hadleSwitc = data => {
     setSwitch(data);
@@ -20,7 +23,7 @@ const MyProfile = ({navigation}) => {
   };
   return (
     <>
-      <ScrollView style={styles.container}>
+      <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
         {/* <Text>MyProfile</Text> */}
         <View style={styles.secoundContainer}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -68,13 +71,10 @@ const MyProfile = ({navigation}) => {
               <View style={{marginVertical: 20}}>
                 <Text
                   style={{fontWeight: 'bold', fontSize: 18, color: 'black'}}>
-                  About
+                  {t('common:about')}
                 </Text>
                 <Text style={{color: 'black', flexWrap: 'wrap', top: 10}}>
-                  Frank Doew is an Emmy award winning desing, foun and CEO
-                  Blind,Inc., where he over sees the create and strategic
-                  director of the company. He received his BFA from Art
-                  Center\College of Design and Graphic
+                  {t('common:myprofiledetail')}
                 </Text>
               </View>
               {/* End About section */}
@@ -83,11 +83,11 @@ const MyProfile = ({navigation}) => {
               <View>
                 <Text
                   style={{fontWeight: 'bold', fontSize: 18, color: 'black'}}>
-                  Seller Information
+                  {t('common:sellerinformation')}
                 </Text>
                 <View style={{marginVertical: 20}}>
                   <InforamtionConainer
-                    text1="Phone number"
+                    text1={t('common:phonnumber')}
                     text2="+1 773 567 8790"
                     icon={
                       <Image
@@ -107,7 +107,7 @@ const MyProfile = ({navigation}) => {
                     }
                   />
                   <InforamtionConainer
-                    text1="Location"
+                    text1={t('common:location')}
                     text2="Chicago-USA"
                     icon={
                       <Image
@@ -121,7 +121,7 @@ const MyProfile = ({navigation}) => {
               {/*END Seller Information Section  */}
               {/* Button */}
               <View style={{marginBottom: 20}}>
-                <Buttons name="Edit Profile" />
+                <Buttons name={t('common:editprofile')} />
               </View>
             </>
           ) : (
@@ -129,13 +129,13 @@ const MyProfile = ({navigation}) => {
               <View>
                 <View style={{flexDirection: 'row'}}>
                   <Card
-                    name="Pearl Ring"
+                    name={t('common:pearlring')}
                     price="$ 545.00"
                     bgImage={require('../../assets/SamplePictures/1.png')}
                     deleteIcon={true}
                   />
                   <Card
-                    name="Beaded Necklace"
+                    name={t('common:beadednecklaces')}
                     price=" $ 175.00"
                     bgImage={require('../../assets/SamplePictures/2.png')}
                     deleteIcon={true}
@@ -143,13 +143,13 @@ const MyProfile = ({navigation}) => {
                 </View>
                 <View style={{flexDirection: 'row'}}>
                   <Card
-                    name="Wedding Ring"
+                    name={t('common:weddingring')}
                     price="$ 360.00"
                     bgImage={require('../../assets/SamplePictures/3.png')}
                     deleteIcon={true}
                   />
                   <Card
-                    name="Earring Bracelet"
+                    name={t('common:earringbracelet')}
                     price="$ 437.00"
                     bgImage={require('../../assets/SamplePictures/4.png')}
                     deleteIcon={true}
@@ -158,7 +158,7 @@ const MyProfile = ({navigation}) => {
               </View>
               {/* Button */}
               <View style={{marginTop: 30}}>
-                <Buttons name="Upload New" />
+                <Buttons name={t('common:uploadnew')} />
               </View>
             </>
           )}
@@ -169,6 +169,8 @@ const MyProfile = ({navigation}) => {
 };
 
 const SwitchButton = ({func}) => {
+  const {t} = useTranslation();
+
   const [clicked, setClicked] = React.useState(true);
   return (
     <>
@@ -193,7 +195,7 @@ const SwitchButton = ({func}) => {
           ]}>
           <Text
             style={{textAlign: 'center', color: clicked ? 'white' : 'black'}}>
-            My Profile
+            {t('common:myprofile')}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -210,7 +212,7 @@ const SwitchButton = ({func}) => {
           ]}>
           <Text
             style={{textAlign: 'center', color: clicked ? 'black' : 'white'}}>
-            My Listings
+            {t('common:mylistings')}
           </Text>
         </TouchableOpacity>
       </View>

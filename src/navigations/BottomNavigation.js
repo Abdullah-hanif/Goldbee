@@ -14,8 +14,12 @@ import Sell from '../screens/Sell/Sell';
 // Icons
 const Homess = require('../assets/Icons/Good.png');
 
+// @lanuguge convert
+import {useTranslation} from 'react-i18next';
+
 const Tab = createBottomTabNavigator();
 const BottomNavigation = () => {
+  const {t} = useTranslation();
   const config = {
     animation: 'spring',
     config: {
@@ -52,6 +56,7 @@ const BottomNavigation = () => {
       }}>
       <Tab.Screen
         options={{
+          title: t('common:home'),
           tabBarIcon: ({focused}) => (
             <Image
               source={BottomTabIcon.Home}
@@ -68,6 +73,7 @@ const BottomNavigation = () => {
       />
       <Tab.Screen
         options={{
+          title: t('common:favorites'),
           tabBarIcon: ({focused}) => (
             <Image
               source={BottomTabIcon.Favorite}
@@ -84,6 +90,8 @@ const BottomNavigation = () => {
       />
       <Tab.Screen
         options={{
+          title: t('common:sell'),
+
           tabBarStyle: {position: 'absolute', zIndex: -1},
           tabBarIcon: ({focused}) => (
             <Image
@@ -102,6 +110,8 @@ const BottomNavigation = () => {
       />
       <Tab.Screen
         options={{
+          title: t('common:inbox'),
+
           tabBarIcon: ({focused}) => (
             <Image
               source={BottomTabIcon.Inbox}
@@ -118,6 +128,8 @@ const BottomNavigation = () => {
       />
       <Tab.Screen
         options={{
+          title: t('common:profile'),
+
           tabBarIcon: ({focused}) => (
             <Image
               source={BottomTabIcon.Profile}

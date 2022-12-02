@@ -21,7 +21,10 @@ const Login = () => {
   const [checked, setChecked] = React.useState(false);
   const {t} = useTranslation();
   return (
-    <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
+    <ScrollView
+      scrollEnabled={true}
+      showsVerticalScrollIndicator={false}
+      style={styles.container}>
       <TouchableOpacity onPress={() => navigation.goBack()}>
         <Back name="left" size={20} color="black" />
       </TouchableOpacity>
@@ -33,8 +36,8 @@ const Login = () => {
           {t('common:Goldybeeseller')}
         </Text>
         <View style={{marginTop: 20}}>
-          <TextField placeHolder="Email" />
-          <TextField placeHolder="Password" />
+          <TextField placeHolder={t('common:email')} />
+          <TextField placeHolder={t('common:password')} />
         </View>
         <View
           style={{
@@ -84,8 +87,7 @@ const Login = () => {
             <Text style={{color: 'black'}}>
               {t('common:donthaveanaccount')}{' '}
             </Text>
-            <TouchableOpacity
-              onPress={() => navigation.navigate('BottomNavigation')}>
+            <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
               <Text style={{color: Color.darkOrange, fontWeight: 'bold'}}>
                 {t('common:Signup')}
               </Text>

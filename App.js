@@ -19,7 +19,7 @@ const App = () => {
   const localLang = locale.split('_');
   const {t, i18n} = useTranslation();
 
-  // const localLang = ['en', 'es'];
+  // const localLang = ['es', 'es'];
   // es mean spanish
   console.log('====>DEVICE LANG', localLang[0]);
 

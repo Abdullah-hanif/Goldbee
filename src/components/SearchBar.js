@@ -3,7 +3,10 @@ import React from 'react';
 import {Color} from '../constants/colors';
 import Search from 'react-native-vector-icons/AntDesign';
 
+import {useTranslation} from 'react-i18next';
+
 const SearchBar = () => {
+  const {t} = useTranslation();
   return (
     <View style={styles.container}>
       <Image
@@ -13,7 +16,7 @@ const SearchBar = () => {
       />
       <TextInput
         style={{left: 20}}
-        placeholder="Search"
+        placeholder={t('common:Search')}
         placeholderTextColor={'gray'}
       />
     </View>

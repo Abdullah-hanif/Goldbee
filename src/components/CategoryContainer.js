@@ -2,8 +2,11 @@ import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {Color} from '../constants/colors';
 import {white} from 'react-native-paper/lib/typescript/styles/colors';
+import {useTranslation} from 'react-i18next';
 
 const CategoryContainer = ({name, Icon, onPress, value}) => {
+  const {t} = useTranslation();
+
   return (
     <TouchableOpacity
       onPress={() => onPress(name)}
@@ -18,7 +21,7 @@ const CategoryContainer = ({name, Icon, onPress, value}) => {
           styles.container,
           {
             backgroundColor:
-              name == 'All' && !name == 'All'
+              name == t('common:all') && !name == t('common:all')
                 ? Color.darkOrange
                 : value === name
                 ? Color.darkOrange

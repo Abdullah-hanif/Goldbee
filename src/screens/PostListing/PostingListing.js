@@ -17,7 +17,10 @@ import Buttons from '../../components/Buttons';
 import {Color} from '../../constants/colors';
 import {Checkbox} from 'react-native-paper';
 
+import {useTranslation} from 'react-i18next';
+
 const PostingListing = ({navigation}) => {
+  const {t} = useTranslation();
   const [checked, setChecked] = React.useState(false);
   const [modalVisible, setModalVisible] = React.useState(false);
 
@@ -50,7 +53,9 @@ const PostingListing = ({navigation}) => {
               marginTop: 10,
             }}>
             <TouchableOpacity>
-              <Text style={{color: '#000000'}}>Upload Upto 10 Pictures</Text>
+              <Text style={{color: '#000000'}}>
+                {t('common:uploadupto10pictures')}
+              </Text>
             </TouchableOpacity>
             <AntDesign name="right" size={15} color="black" />
           </View>
@@ -89,15 +94,15 @@ const PostingListing = ({navigation}) => {
           </View>
         </View>
         {/* First Container END */}
-        <TextField placeHolder="Listing Title" />
-        <TextField placeHolder="Price" />
-        <TextField placeHolder="Country" />
-        <TextField placeHolder="Select Area / Location" />
+        <TextField placeHolder={t('common:listingtitle')} />
+        <TextField placeHolder={t('common:price')} />
+        <TextField placeHolder={t('common:country')} />
+        <TextField placeHolder={t('common:selectarealocation')} />
         <View>
           <TextInput
             placeholderTextColor={'gray'}
             style={styles.txtContainer}
-            placeholder="Describ about your listing..."
+            placeholder={t('common:Describeaboutyoulisting')}
           />
         </View>
 
@@ -112,10 +117,12 @@ const PostingListing = ({navigation}) => {
           <View
             style={{
               flexDirection: 'row',
-              justifyContent: 'center',
+              // justifyContent: 'center',
+              top: 8,
               alignItems: 'center',
+              flexWrap: 'wrap',
             }}>
-            <Text style={{color: 'black'}}>I agree to Goldbee</Text>
+            <Text style={{color: 'black'}}>{t('common:iagreetoGoldbee')}</Text>
 
             <Text
               style={{
@@ -124,7 +131,7 @@ const PostingListing = ({navigation}) => {
                 fontWeight: 'bold',
                 color: 'black',
               }}>
-              terms and condition
+              {t('common:termsandCondition')}
             </Text>
           </View>
         </View>
@@ -137,7 +144,7 @@ const PostingListing = ({navigation}) => {
                 navigation.navigate('MyProfile');
               }, 3000);
           }}
-          name="Post Listing"
+          name={t('common:postlisting')}
         />
         <Modal
           animationType="slide"
@@ -179,10 +186,10 @@ const PostingListing = ({navigation}) => {
                 }}>
                 <Text
                   style={{fontWeight: 'bold', color: 'black', fontSize: 17}}>
-                  Posted Scucessfully
+                  {t('common:postedscucessfully')}
                 </Text>
                 <Text style={{color: 'black'}}>
-                  Your listing posted successfully
+                  {t('common:yourlistingpostedsuccessfully')}
                 </Text>
               </View>
             </View>

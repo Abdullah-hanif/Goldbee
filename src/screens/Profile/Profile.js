@@ -15,28 +15,7 @@ import ProfileItemComp from '../../components/ProfileItemComp';
 import {useTranslation} from 'react-i18next';
 
 const Profile = ({navigation}) => {
-  // const {t, i18n} = useTranslation();
-  // const locale = NativeModules.I18nManager.localeIdentifier;
-  // console.log('==>LOCAL BEFORE===>', locale);
-  // const localLang = locale.split('_');
-
-  // // const localLang = ['sp', 'en'];
-  // // es mean spanish
-  // console.log('====>DEVICE LANG', localLang[0]);
-
-  // const selectLangugeCode = i18n.language;
-  // const LANGUGE = [
-  //   {code: 'en', lable: 'English'},
-  //   {code: 'es', lable: 'Spanish'},
-  // ];
-  // React.useEffect(() => {
-  //   setLanguge(localLang[0]);
-  // }, []);
-
-  // const setLanguge = code => {
-  //   return i18n.changeLanguage(code);
-  // };
-
+  const {t} = useTranslation();
   return (
     <View style={styles.container}>
       <View style={styles.innerContainer}>
@@ -57,43 +36,31 @@ const Profile = ({navigation}) => {
               }}>
               Chicago - USA
             </Text>
-            <Text
-              style={{
-                color: Color.darkOrange,
-              }}>
-              {t('common:hey')}
-            </Text>
-            <Text
-              style={{
-                color: Color.darkOrange,
-              }}>
-              {t('common:languageSelector')}
-            </Text>
           </View>
         </View>
         {/* Profile Header END */}
         <View style={{marginTop: 30}}>
           <ProfileItemComp
             onClick={() => navigation.navigate('MyProfile')}
-            name="Profile"
+            name={t('common:profile')}
             Icon={require('../../assets/Icons/Group4076.png')}
           />
           <ProfileItemComp
-            name="Change Password"
+            name={t('common:changepassword')}
             Icon={require('../../assets/Icons/Group4085.png')}
           />
           <ProfileItemComp
-            name="Contact Us"
+            name={t('common:contactus')}
             Icon={require('../../assets/Icons/Group13736.png')}
           />
           <ProfileItemComp
-            name="Logout"
+            name={t('common:logout')}
             Icon={require('../../assets/Icons/Group40901.png')}
           />
         </View>
       </View>
       {/* //CHANGE LANGUGE */}
-      <View
+      {/* <View
         style={{
           justifyContent: 'center',
           alignItems: 'center',
@@ -111,7 +78,7 @@ const Profile = ({navigation}) => {
             </Pressable>
           );
         })}
-      </View>
+      </View> */}
     </View>
   );
 };

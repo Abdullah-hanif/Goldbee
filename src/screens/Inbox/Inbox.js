@@ -11,6 +11,7 @@ import {Color} from '../../constants/colors';
 import InboxMessages from '../../components/InboxMessages';
 import {InboxPeople} from '../../constants/dummyData';
 import {useTranslation} from 'react-i18next';
+import {t} from 'i18next';
 
 const Inbox = () => {
   const {t} = useTranslation();
@@ -40,6 +41,8 @@ const Inbox = () => {
 };
 
 const SwitchButton = () => {
+  const {t} = useTranslation();
+
   const [clicked, setClicked] = React.useState(true);
   return (
     <>
@@ -62,7 +65,7 @@ const SwitchButton = () => {
           ]}>
           <Text
             style={{textAlign: 'center', color: clicked ? 'white' : 'black'}}>
-            Buying
+            {t('common:buying')}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -77,7 +80,7 @@ const SwitchButton = () => {
           ]}>
           <Text
             style={{textAlign: 'center', color: clicked ? 'black' : 'white'}}>
-            Selling
+            {t('common:selling')}
           </Text>
         </TouchableOpacity>
       </View>

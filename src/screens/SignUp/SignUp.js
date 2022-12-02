@@ -50,7 +50,8 @@ const SignUp = () => {
         <View
           style={{
             flexDirection: 'row',
-            justifyContent: 'center',
+            // justifyContent: 'center',
+            top: 8,
             alignItems: 'center',
             flexWrap: 'wrap',
           }}>

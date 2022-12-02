@@ -12,8 +12,10 @@ import React, {useState, useEffect} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {Color} from '../../constants/colors';
 import SellCategoryContainer from '../../components/SellCategoryContainer';
+import {useTranslation} from 'react-i18next';
 
 const Sell = () => {
+  const {t} = useTranslation();
   const [modal, setModal] = useState(true);
   const nav = useNavigation();
 
@@ -41,7 +43,7 @@ const Sell = () => {
             />
           </TouchableOpacity>
           <Text style={{color: 'black', fontWeight: 'bold', fontSize: 19}}>
-            What you are selling?
+            {t('common:whatyouareselling')}
           </Text>
         </View>
         {/* TOP BANNER END */}
@@ -49,7 +51,7 @@ const Sell = () => {
           style={{margin: 10, marginTop: 30}}
           showsVerticalScrollIndicator={false}>
           <Text style={{fontWeight: 'bold', fontSize: 17, color: 'black'}}>
-            Categories
+            {t('common:categories')}
           </Text>
           <View style={{marginTop: 20}}>
             <SellCategoryContainer
@@ -59,7 +61,7 @@ const Sell = () => {
                   source={require('../../assets/Icons/Group13722.png')}
                 />
               }
-              name="Rings"
+              name={t('common:rings')}
             />
             <SellCategoryContainer
               Icon={
@@ -69,7 +71,7 @@ const Sell = () => {
                 />
               }
               nexScreen={() => nav.navigate('PostingListing')}
-              name="Necklaces"
+              name={t('common:necklaces')}
             />
             <SellCategoryContainer
               Icon={
@@ -78,7 +80,7 @@ const Sell = () => {
                   source={require('../../assets/Icons/Group13724.png')}
                 />
               }
-              name="Earings"
+              name={t('common:earrings')}
             />
             <SellCategoryContainer
               Icon={
@@ -87,7 +89,7 @@ const Sell = () => {
                   source={require('../../assets/Icons/Group13725.png')}
                 />
               }
-              name="Bracelets"
+              name={t('common:bracelat')}
             />
             <SellCategoryContainer
               Icon={
@@ -96,7 +98,7 @@ const Sell = () => {
                   source={require('../../assets/Icons/Group13731.png')}
                 />
               }
-              name="Bangles"
+              name={t('common:bangles')}
             />
             <SellCategoryContainer
               Icon={
@@ -105,7 +107,7 @@ const Sell = () => {
                   source={require('../../assets/Icons/Group13730.png')}
                 />
               }
-              name="Diamonds"
+              name={t('common:diamonds')}
             />
           </View>
         </ScrollView>

@@ -11,7 +11,10 @@ import {Color} from '../../constants/colors';
 import Send from 'react-native-vector-icons/Feather';
 import Attachment from 'react-native-vector-icons/Entypo';
 
+import {useTranslation} from 'react-i18next';
+
 const ChatScreen = ({navigation, route}) => {
+  const {t} = useTranslation();
   const [messages, setMessages] = useState([]);
   const {imageUri, name, price, productName} = route.params;
   console.log('=======>', imageUri, name, price);
@@ -213,7 +216,7 @@ const ChatScreen = ({navigation, route}) => {
             </TouchableOpacity>
           );
         }}
-        placeholder="Send Message"
+        placeholder={t('common:sendmessage')}
         messages={messages}
         onSend={messages => onSend(messages)}
         renderInputToolbar={props => customtInputToolbar(props)}
