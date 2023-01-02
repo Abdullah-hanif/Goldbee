@@ -13,13 +13,47 @@ import {Checkbox} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
 import Back from 'react-native-vector-icons/AntDesign';
 
+// @API_Call
+import {Base_Url, loginUser} from '../../api/Api';
+
 // @LANGUGE IMPORTS
 import {useTranslation} from 'react-i18next';
 
 const Login = () => {
   const navigation = useNavigation();
   const [checked, setChecked] = React.useState(false);
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
   const {t} = useTranslation();
+
+  const loginUser = () => {
+    console.log('USERNAME===>', email);
+    console.log('PASSWORD===>', password);
+
+    fetch(`${Base_Url}/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({email: email, password: password}),
+    })
+      .then(response => response.json())
+      .then(data => {
+        //   const res = data.json();
+        const respo = data;
+        console.log(respo?.status, '=====>');
+        if (respo?.message == 'Logged In successfully') {
+          alert(respo?.message);
+          navigation.navigate('BottomNavigation');
+        } else {
+          alert(respo?.message);
+        }
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
+
   return (
     <ScrollView
       scrollEnabled={true}
@@ -36,8 +70,14 @@ const Login = () => {
           {t('common:Goldybeeseller')}
         </Text>
         <View style={{marginTop: 20}}>
-          <TextField placeHolder={t('common:email')} />
-          <TextField placeHolder={t('common:password')} />
+          <TextField
+            setTxt={txt => setEmail(txt)}
+            placeHolder={t('common:email')}
+          />
+          <TextField
+            setTxt={txt => setPassword(txt)}
+            placeHolder={t('common:password')}
+          />
         </View>
         <View
           style={{
@@ -73,10 +113,7 @@ const Login = () => {
           style={{
             marginTop: '50%',
           }}>
-          <Buttons
-            onpress={() => navigation.navigate('BottomNavigation')}
-            name={t('common:Login')}
-          />
+          <Buttons onpress={loginUser} name={t('common:Login')} />
           <View
             style={{
               flexDirection: 'row',

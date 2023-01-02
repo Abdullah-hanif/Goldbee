@@ -5,6 +5,7 @@ import {
   View,
   TouchableOpacity,
   Image,
+  FlatList,
 } from 'react-native';
 import React from 'react';
 
@@ -13,10 +14,77 @@ import Buttons from '../../components/Buttons';
 import Card from '../../components/Card';
 
 import {useTranslation} from 'react-i18next';
+import {Base_Url} from '../../api/Api';
+import {useIsFocused} from '@react-navigation/native';
 
 const MyProfile = ({navigation}) => {
   const {t} = useTranslation();
   const [switchName, setSwitch] = React.useState('MyProfile');
+  const [allListing, setAllListing] = React.useState();
+  const focused = useIsFocused();
+  React.useEffect(() => {
+    getMylisting();
+  }, [focused == true]);
+
+  const getMylisting = async () => [
+    await fetch(`${Base_Url}/get-my-listings`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({user_id: 1}),
+    })
+      .then(response => response.json())
+      .then(data => {
+        //   const res = data.json();
+        const respo = data;
+        setAllListing(respo?.data);
+
+        console.log(respo?.data, '=====>MY LISTING');
+      })
+      .catch(error => {
+        console.error(error);
+      }),
+  ];
+
+  const dummydata = [
+    {
+      id: 1,
+      images: null,
+      title: 'Test',
+      price: '100',
+      location: 'test',
+      description: 'test',
+      category: 'test',
+      user_id: '1',
+      created_at: '2023-01-02T12:08:12.000000Z',
+      updated_at: '2023-01-02T12:08:12.000000Z',
+    },
+    {
+      id: 2,
+      images: null,
+      title: 'Test2',
+      price: '100',
+      location: 'test',
+      description: 'test',
+      category: 'test',
+      user_id: '1',
+      created_at: '2023-01-02T12:08:12.000000Z',
+      updated_at: '2023-01-02T12:08:12.000000Z',
+    },
+    {
+      id: 3,
+      images: null,
+      title: 'Test3',
+      price: '100',
+      location: 'test',
+      description: 'test',
+      category: 'test',
+      user_id: '1',
+      created_at: '2023-01-02T12:08:12.000000Z',
+      updated_at: '2023-01-02T12:08:12.000000Z',
+    },
+  ];
   const hadleSwitc = data => {
     setSwitch(data);
     // alert(switchName, '===>');
@@ -128,7 +196,26 @@ const MyProfile = ({navigation}) => {
             <>
               <View>
                 <View style={{flexDirection: 'row'}}>
-                  <Card
+                  <FlatList
+                    key={Math.random() * 1000}
+                    data={allListing}
+                    numColumns={2}
+                    renderItem={data => {
+                      console.log('INSIDE FLATLIST==>', data);
+                      return (
+                        <>
+                          <Card
+                            // name={t('common:pearlring')}
+                            name={data?.item?.title}
+                            price={`$ ${data?.item?.price}`}
+                            bgImage={require('../../assets/SamplePictures/1.png')}
+                            deleteIcon={true}
+                          />
+                        </>
+                      );
+                    }}
+                  />
+                  {/* <Card
                     name={t('common:pearlring')}
                     price="$ 545.00"
                     bgImage={require('../../assets/SamplePictures/1.png')}
@@ -153,7 +240,7 @@ const MyProfile = ({navigation}) => {
                     price="$ 437.00"
                     bgImage={require('../../assets/SamplePictures/4.png')}
                     deleteIcon={true}
-                  />
+                  /> */}
                 </View>
               </View>
               {/* Button */}
