@@ -17,6 +17,8 @@ import {useTranslation} from 'react-i18next';
 import {Base_Url} from '../../api/Api';
 import {useIsFocused} from '@react-navigation/native';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 const MyProfile = ({navigation}) => {
   const {t} = useTranslation();
   const [switchName, setSwitch] = React.useState('MyProfile');
@@ -26,13 +28,16 @@ const MyProfile = ({navigation}) => {
     getMylisting();
   }, [focused == true]);
 
-  const getMylisting = async () => [
-    await fetch(`${Base_Url}/get-my-listings`, {
+  const getMylisting = async () => {
+    const userId = await AsyncStorage.getItem('uid');
+    console.log('USER ID ====>', userId);
+    // alert(userId);
+    fetch(`${Base_Url}/get-my-listings`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({user_id: 1}),
+      body: JSON.stringify({user_id: userId}),
     })
       .then(response => response.json())
       .then(data => {
@@ -44,47 +49,9 @@ const MyProfile = ({navigation}) => {
       })
       .catch(error => {
         console.error(error);
-      }),
-  ];
+      });
+  };
 
-  const dummydata = [
-    {
-      id: 1,
-      images: null,
-      title: 'Test',
-      price: '100',
-      location: 'test',
-      description: 'test',
-      category: 'test',
-      user_id: '1',
-      created_at: '2023-01-02T12:08:12.000000Z',
-      updated_at: '2023-01-02T12:08:12.000000Z',
-    },
-    {
-      id: 2,
-      images: null,
-      title: 'Test2',
-      price: '100',
-      location: 'test',
-      description: 'test',
-      category: 'test',
-      user_id: '1',
-      created_at: '2023-01-02T12:08:12.000000Z',
-      updated_at: '2023-01-02T12:08:12.000000Z',
-    },
-    {
-      id: 3,
-      images: null,
-      title: 'Test3',
-      price: '100',
-      location: 'test',
-      description: 'test',
-      category: 'test',
-      user_id: '1',
-      created_at: '2023-01-02T12:08:12.000000Z',
-      updated_at: '2023-01-02T12:08:12.000000Z',
-    },
-  ];
   const hadleSwitc = data => {
     setSwitch(data);
     // alert(switchName, '===>');

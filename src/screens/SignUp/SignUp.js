@@ -16,6 +16,7 @@ import {useNavigation} from '@react-navigation/native';
 import Back from 'react-native-vector-icons/AntDesign';
 import {useTranslation} from 'react-i18next';
 import {Base_Url} from '../../api/Api';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SignUp = () => {
   const navigation = useNavigation();

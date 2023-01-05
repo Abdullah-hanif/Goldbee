@@ -12,6 +12,7 @@ import Buttons from '../../components/Buttons';
 import {Checkbox} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
 import Back from 'react-native-vector-icons/AntDesign';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // @API_Call
 import {Base_Url, loginUser} from '../../api/Api';
@@ -26,7 +27,7 @@ const Login = () => {
   const [password, setPassword] = React.useState('');
   const {t} = useTranslation();
 
-  const loginUser = () => {
+  const loginUser = async () => {
     console.log('USERNAME===>', email);
     console.log('PASSWORD===>', password);
 
@@ -43,7 +44,11 @@ const Login = () => {
         const respo = data;
         console.log(respo?.status, '=====>');
         if (respo?.message == 'Logged In successfully') {
-          alert(respo?.message);
+          alert(respo?.data?.id);
+          const uid = respo?.data?.id;
+          console.log('logggg', typeof uid);
+          AsyncStorage.setItem('uid', JSON.stringify(uid));
+
           navigation.navigate('BottomNavigation');
         } else {
           alert(respo?.message);
