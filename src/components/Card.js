@@ -3,8 +3,35 @@ import React from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {Color} from '../constants/colors';
 import {useNavigation} from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {Base_Url} from '../api/Api';
 const Card = ({name, price, bgImage, onpress, isFav, deleteIcon}) => {
-  const [addFav, setAddFav] = React.useState(isFav);
+  const AddFav = async () => {
+    const userId = await AsyncStorage.getItem('uid');
+    console.log('USER ID ====>', userId);
+    await fetch(`${Base_Url}/follow-listing`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({user_id: userId, listing_id: 15}),
+    })
+      .then(response => response.json())
+      .then(data => {
+        //   const res = data.json();
+        const respo = data;
+        console.log('RESPONSE HOME', respo?.data);
+
+        if (respo?.message == 'Followed successfully') {
+          alert('Followed Sucessfully');
+        } else {
+          console.log(respo?.message);
+        }
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
   const nav = useNavigation();
   return (
     <TouchableOpacity
@@ -29,9 +56,9 @@ const Card = ({name, price, bgImage, onpress, isFav, deleteIcon}) => {
           }}>
           <Text style={{color: 'gray'}}>{price}</Text>
           {!deleteIcon ? (
-            <TouchableOpacity onPress={() => setAddFav(!addFav)}>
+            <TouchableOpacity onPress={() => AddFav()}>
               <AntDesign
-                name={!addFav ? 'hearto' : 'heart'}
+                name={isFav == 'no' ? 'hearto' : 'heart'}
                 size={20}
                 color={Color.darkOrange}
               />

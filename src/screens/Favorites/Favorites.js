@@ -4,9 +4,46 @@ import {Color} from '../../constants/colors';
 import Card from '../../components/Card';
 
 import {useTranslation} from 'react-i18next';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useIsFocused} from '@react-navigation/native';
+import {Base_Url} from '../../api/Api';
 
 const Favorites = () => {
   const {t} = useTranslation();
+  const [data, setData] = React.useState();
+
+  const getAllFav = async () => {
+    const userId = await AsyncStorage.getItem('uid');
+    console.log('USER ID ====>', userId);
+    await fetch(`${Base_Url}/get-followed-listings`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({user_id: userId}),
+    })
+      .then(response => response.json())
+      .then(data => {
+        //   const res = data.json();
+        const respo = data;
+        console.log('RESPONSE HOME', respo?.data);
+        setData(respo?.data);
+        if (respo?.status == 200) {
+          console.log(respo?.status, '=====>');
+        } else {
+          console.log(respo?.message);
+        }
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
+
+  const focused = useIsFocused();
+
+  React.useEffect(() => {
+    getAllFav();
+  }, [focused == true]);
 
   return (
     <View style={styles.container}>
@@ -17,7 +54,7 @@ const Favorites = () => {
         {t('common:yousavewishlist')}
       </Text>
 
-      <ScrollView showsVerticalScrollIndicator={false} style={{marginTop: 30}}>
+      {/* <ScrollView showsVerticalScrollIndicator={false} style={{marginTop: 30}}>
         <View>
           <View style={{flexDirection: 'row'}}>
             <Card
@@ -62,7 +99,29 @@ const Favorites = () => {
             />
           </View>
         </View>
-      </ScrollView>
+      </ScrollView> */}
+
+      <FlatList
+        key={Math.random() * 100000}
+        showsVerticalScrollIndicator={false}
+        scrollEnabled
+        data={data}
+        numColumns={2}
+        renderItem={item => {
+          return (
+            <>
+              <Card
+                name={item?.item?.title}
+                price={`$ ${item?.item?.price}`}
+                bgImage={require('../../assets/SamplePictures/1.png')}
+                isFav={item?.item?.isFollowed}
+              />
+
+              {/* {/* </View> */}
+            </>
+          );
+        }}
+      />
     </View>
   );
 };
