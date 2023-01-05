@@ -18,11 +18,63 @@ import {Color} from '../../constants/colors';
 import {Checkbox} from 'react-native-paper';
 
 import {useTranslation} from 'react-i18next';
+import {Base_Url} from '../../api/Api';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const PostingListing = ({navigation}) => {
   const {t} = useTranslation();
   const [checked, setChecked] = React.useState(false);
   const [modalVisible, setModalVisible] = React.useState(false);
+
+  //data of Fields
+  const [title, setTitle] = React.useState('');
+  const [price, setPrice] = React.useState('');
+  const [country, setCountry] = React.useState('');
+  const [selectArea, setSelectArea] = React.useState('');
+  const [description, setDescription] = React.useState('');
+
+  console.log('title===>', title, price, country, selectArea, description);
+
+  //posing Listing
+  const postListing = async () => {
+    const userId = await AsyncStorage.getItem('uid');
+
+    const data = new FormData();
+    data.append('user_id', userId);
+    data.append('title', title);
+    data.append('price', price);
+
+    data.append('category', country);
+    data.append('description', description);
+    data.append('location', selectArea);
+
+    await fetch(`${Base_Url}/listings-store`, {
+      method: 'POST',
+      // headers: {
+      //   'Content-Type': 'application/json',
+      // },
+      body: data,
+    })
+      .then(response => response.json())
+      .then(data => {
+        //   const res = data.json();
+        const respo = data;
+        console.log(respo?.status, '=====>');
+        if (respo?.message == 'Something missing. All fields are required') {
+          alert(respo?.message);
+        } else {
+          // alert(respo?.message);
+          setModalVisible(!modalVisible),
+            setTimeout(() => {
+              setModalVisible(false);
+              navigation.navigate('MyProfile');
+            }, 3000);
+        }
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
 
   const selectedImg = [
     {id: 1, imgUri: require('../../assets/SamplePictures/1.png')},
@@ -94,12 +146,25 @@ const PostingListing = ({navigation}) => {
           </View>
         </View>
         {/* First Container END */}
-        <TextField placeHolder={t('common:listingtitle')} />
-        <TextField placeHolder={t('common:price')} />
-        <TextField placeHolder={t('common:country')} />
-        <TextField placeHolder={t('common:selectarealocation')} />
+        <TextField
+          setTxt={txt => setTitle(txt)}
+          placeHolder={t('common:listingtitle')}
+        />
+        <TextField
+          setTxt={txt => setPrice(txt)}
+          placeHolder={t('common:price')}
+        />
+        <TextField
+          setTxt={txt => setCountry(txt)}
+          placeHolder={t('common:country')}
+        />
+        <TextField
+          setTxt={txt => setSelectArea(txt)}
+          placeHolder={t('common:selectarealocation')}
+        />
         <View>
           <TextInput
+            onChangeText={txt => setDescription(txt)}
             placeholderTextColor={'gray'}
             style={styles.txtContainer}
             placeholder={t('common:Describeaboutyoulisting')}
@@ -138,11 +203,7 @@ const PostingListing = ({navigation}) => {
         {/* @Button */}
         <Buttons
           onpress={() => {
-            setModalVisible(!modalVisible),
-              setTimeout(() => {
-                setModalVisible(false);
-                navigation.navigate('MyProfile');
-              }, 3000);
+            postListing();
           }}
           name={t('common:postlisting')}
         />
