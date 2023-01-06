@@ -22,11 +22,12 @@ import {Checkbox} from 'react-native-paper';
 import Ico from 'react-native-vector-icons/AntDesign';
 import Edit from 'react-native-vector-icons/Feather';
 import Gender from 'react-native-vector-icons/MaterialCommunityIcons';
-import Emial from 'react-native-vector-icons/Fontisto';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import {useTranslation} from 'react-i18next';
 import {Base_Url} from '../../api/Api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import ImagePicker, {
   launchCamera,
   launchImageLibrary,
@@ -36,6 +37,9 @@ const PostingListing = ({navigation}) => {
   const {t} = useTranslation();
   const [checked, setChecked] = React.useState(false);
   const [modalVisible, setModalVisible] = React.useState(false);
+  const [countryModal, setCountryModal] = React.useState(false);
+
+  const [color, setColor] = React.useState('red');
 
   //data of Fields
   const [title, setTitle] = React.useState('');
@@ -44,12 +48,34 @@ const PostingListing = ({navigation}) => {
   const [selectArea, setSelectArea] = React.useState('');
   const [description, setDescription] = React.useState('');
   const [openModal1, setopenModal1] = React.useState(false);
-
-  console.log('title===>', title, price, country, selectArea, description);
-
   const [images, setImages] = React.useState([]);
-  console.log('Imags Arry===>', images);
+  // const [city, setCity] = React.useState(null);
+  // // console.log('title===>', title, price, country, selectArea, description);
+  // const spainCities = [
+  //   {label: 'Madrid', value: 'madrid'},
+  //   {label: 'Barcelona', value: 'barcelona'},
+  //   {label: 'Valencia', value: 'valencia'},
+  //   {label: 'Seville', value: 'seville'},
+  //   {label: 'Bilbao', value: 'bilbao'},
+  //   {label: 'Zaragoza', value: 'zaragoza'},
+  //   {label: 'Málaga', value: 'malaga'},
+  // ];
+
+  const cities = [
+    'Madrid',
+    'Barcelona',
+    'Valencia',
+    'Sevilla',
+    'Málaga',
+    'Murcia',
+    'Bilbao',
+    'Zaragoza',
+    'Palma de Mallorca',
+    'Las Palmas de Gran Canaria',
+  ];
+  // console.log('Imags Arry===>', images);
   //posing Listing
+
   const postListing = async () => {
     const userId = await AsyncStorage.getItem('uid');
 
@@ -183,7 +209,6 @@ const PostingListing = ({navigation}) => {
       }
     });
   };
-
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
       <View style={styles.secoundContainer}>
@@ -263,10 +288,37 @@ const PostingListing = ({navigation}) => {
           setTxt={txt => setPrice(txt)}
           placeHolder={t('common:price')}
         />
-        <TextField
-          setTxt={txt => setCountry(txt)}
-          placeHolder={t('common:country')}
-        />
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            width: '100%',
+            // padding: 5,
+
+            borderWidth: 1,
+            marginVertical: 10,
+            borderRadius: 20,
+            borderColor: 'gray',
+            top: 5,
+          }}>
+          <TextInput
+            setTxt={txt => setCountry(txt)}
+            placeholderTextColor={Color.darkGray}
+            placeholder={'Country'}
+          />
+          {/* <TextField
+      
+            setTxt={txt => setCountry(txt)}
+            placeHolder={t('common:country')}
+          /> */}
+          <TouchableOpacity
+            style={{right: 10}}
+            onPress={() => setCountryModal(true)}>
+            <Text>Open</Text>
+          </TouchableOpacity>
+        </View>
+
         <TextField
           setTxt={txt => setSelectArea(txt)}
           placeHolder={t('common:selectarealocation')}
@@ -413,6 +465,55 @@ const PostingListing = ({navigation}) => {
               </Text>
             </TouchableOpacity>
           </View>
+        </View>
+      </Modal>
+
+      <Modal
+        statusBarTranslucent={true}
+        animationType="slide"
+        transparent={true}
+        visible={countryModal}
+        onRequestClose={() => {
+          alert('Modal has been closed.');
+          setCountryModal(!countryModal);
+        }}>
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: 'rgba(0,0,0,0.61)',
+            flexDirection: 'column-reverse',
+          }}>
+          <ScrollView
+            style={{
+              backgroundColor: 'white',
+              padding: 20,
+              margin: 30,
+              marginVertical: 230,
+
+              borderRadius: 20,
+              // justifyContent: 'flex-end',
+            }}>
+            {cities.map((data, index) => {
+              return (
+                <>
+                  <TouchableOpacity
+                    onPress={() => {
+                      setCountryModal(false), alert(data);
+                    }}
+                    style={{
+                      borderBottomWidth: 1,
+                      borderColor: 'black',
+                      padding: 10,
+                      marginBottom: 30,
+                    }}>
+                    <Text style={{color: 'black', fontWeight: 'bold'}}>
+                      {data}
+                    </Text>
+                  </TouchableOpacity>
+                </>
+              );
+            })}
+          </ScrollView>
         </View>
       </Modal>
     </ScrollView>
