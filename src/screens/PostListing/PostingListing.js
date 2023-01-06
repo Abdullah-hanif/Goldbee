@@ -20,6 +20,10 @@ import {Checkbox} from 'react-native-paper';
 import {useTranslation} from 'react-i18next';
 import {Base_Url} from '../../api/Api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import ImagePicker, {
+  launchCamera,
+  launchImageLibrary,
+} from 'react-native-image-picker';
 
 const PostingListing = ({navigation}) => {
   const {t} = useTranslation();
@@ -35,6 +39,8 @@ const PostingListing = ({navigation}) => {
 
   console.log('title===>', title, price, country, selectArea, description);
 
+  const [images, setImages] = React.useState([]);
+  console.log('Imags Arry===>', images);
   //posing Listing
   const postListing = async () => {
     const userId = await AsyncStorage.getItem('uid');
@@ -81,6 +87,39 @@ const PostingListing = ({navigation}) => {
     {id: 2, imgUri: require('../../assets/SamplePictures/2.png')},
   ];
 
+  const LaunchImageLibrary = () => {
+    const options = {
+      selectionLimit: 10,
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+
+    launchImageLibrary(options, response => {
+      // console.log('Image LibraResponse = ', response);
+
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+      } else {
+        const source = response;
+        setImages([...images, source.assets[0].uri]);
+      }
+    });
+  };
+
+  const RemoveImage = val => {
+    // console.log(val, '========>REMOVE ITEM');
+    const imags = images.filter(image => image !== val);
+    // console.log('=====>FILTER FUNCTION KEY====>', imags);
+    setImages(imags);
+    console.log(images, '====>UPDATED ARRY');
+  };
+
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
       <View style={styles.secoundContainer}>
@@ -104,19 +143,22 @@ const PostingListing = ({navigation}) => {
               justifyContent: 'space-between',
               marginTop: 10,
             }}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={LaunchImageLibrary}>
               <Text style={{color: '#000000'}}>
                 {t('common:uploadupto10pictures')}
               </Text>
             </TouchableOpacity>
             <AntDesign name="right" size={15} color="black" />
           </View>
-          <View style={{flexDirection: 'row'}}>
-            {selectedImg.map((val, index) => {
+          <ScrollView horizontal>
+            {images.map((val, index) => {
+              // console.log(val);
               return (
                 <>
                   <View>
                     <TouchableOpacity
+                      // key={Math.random() * 1000}
+                      onPress={() => RemoveImage(val)}
                       style={{
                         flexDirection: 'row-reverse',
                         // position: 'absolute',
@@ -137,13 +179,14 @@ const PostingListing = ({navigation}) => {
                         borderRadius: 10,
                         marginHorizontal: 5,
                       }}
-                      source={val.imgUri}
+                      source={{uri: val == undefined ? null : val}}
+                      // source={{uri: val}}
                     />
                   </View>
                 </>
               );
             })}
-          </View>
+          </ScrollView>
         </View>
         {/* First Container END */}
         <TextField
