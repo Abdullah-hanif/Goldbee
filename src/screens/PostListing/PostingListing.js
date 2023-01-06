@@ -9,6 +9,7 @@ import {
   Modal,
   Dimensions,
   StatusBar,
+  PermissionsAndroid,
 } from 'react-native';
 import React from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -16,6 +17,12 @@ import TextField from '../../components/TextField';
 import Buttons from '../../components/Buttons';
 import {Color} from '../../constants/colors';
 import {Checkbox} from 'react-native-paper';
+
+// @Vector Icon
+import Ico from 'react-native-vector-icons/AntDesign';
+import Edit from 'react-native-vector-icons/Feather';
+import Gender from 'react-native-vector-icons/MaterialCommunityIcons';
+import Emial from 'react-native-vector-icons/Fontisto';
 
 import {useTranslation} from 'react-i18next';
 import {Base_Url} from '../../api/Api';
@@ -36,6 +43,7 @@ const PostingListing = ({navigation}) => {
   const [country, setCountry] = React.useState('');
   const [selectArea, setSelectArea] = React.useState('');
   const [description, setDescription] = React.useState('');
+  const [openModal1, setopenModal1] = React.useState(false);
 
   console.log('title===>', title, price, country, selectArea, description);
 
@@ -120,6 +128,62 @@ const PostingListing = ({navigation}) => {
     console.log(images, '====>UPDATED ARRY');
   };
 
+  //CAMERA LAUNCH
+  const LaunchCamera = () => {
+    const options = {
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+    launchCamera(options, response => {
+      console.log('Response = ', response);
+
+      // Permissions for launchng camera
+      const requestCameraPermission = async () => {
+        try {
+          const granted = await PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSIONS.CAMERA,
+            {
+              title: 'Cool Photo App Camera Permission',
+              message:
+                'Cool Photo App needs access to your camera ' +
+                'so you can take awesome pictures.',
+              buttonNeutral: 'Ask Me Later',
+              buttonNegative: 'Cancel',
+              buttonPositive: 'OK',
+            },
+          );
+          if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+            console.log('You can use the camera');
+          } else {
+            console.log('Camera permission denied');
+          }
+        } catch (err) {
+          console.warn(err);
+        }
+      };
+
+      requestCameraPermission();
+
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+        alert(response.customButton);
+      } else {
+        const source = response;
+        console.log('===>URL============>', source);
+        setImages([...images, source.assets[0].uri]);
+        // imgUri(source.assets[0].uri);
+
+        // setBackLicence(source.assets[0].uri);
+      }
+    });
+  };
+
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
       <View style={styles.secoundContainer}>
@@ -143,7 +207,9 @@ const PostingListing = ({navigation}) => {
               justifyContent: 'space-between',
               marginTop: 10,
             }}>
-            <TouchableOpacity onPress={LaunchImageLibrary}>
+            <TouchableOpacity
+              // onPress={LaunchImageLibrary}
+              onPress={() => setopenModal1(true)}>
               <Text style={{color: '#000000'}}>
                 {t('common:uploadupto10pictures')}
               </Text>
@@ -300,6 +366,55 @@ const PostingListing = ({navigation}) => {
           </TouchableOpacity>
         </Modal>
       </View>
+
+      <Modal
+        statusBarTranslucent={true}
+        animationType="slide"
+        transparent={true}
+        visible={openModal1}
+        onRequestClose={() => {
+          alert('Modal has been closed.');
+          setopenModal1(!openModal1);
+        }}>
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: 'rgba(0,0,0,0.61)',
+            flexDirection: 'column-reverse',
+          }}>
+          <View
+            style={{
+              backgroundColor: 'white',
+              padding: 20,
+              margin: 30,
+              borderRadius: 20,
+              justifyContent: 'flex-end',
+            }}>
+            <TouchableOpacity
+              onPress={() => {
+                LaunchCamera(), setopenModal1(false);
+              }}
+              style={{flexDirection: 'row'}}>
+              <Ico name="camerao" size={30} color="black" />
+              <Text style={{fontSize: 15, color: 'black', top: 5, left: 10}}>
+                {t('common:takeaphoto')}
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              // onPress={LaunchImageLibrary}
+              onPress={() => {
+                LaunchImageLibrary(), setopenModal1(false);
+              }}
+              style={{flexDirection: 'row'}}>
+              <Gender name="view-dashboard-outline" size={30} color="black" />
+              <Text style={{fontSize: 15, color: 'black', top: 5, left: 10}}>
+                {t('common:chosefromGallery')}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </ScrollView>
   );
 };
