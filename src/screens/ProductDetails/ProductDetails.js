@@ -23,8 +23,12 @@ const images = [
   require('../../assets/SamplePictures/2.png'),
 ];
 
-const ProductDetails = ({navigation}) => {
+const ProductDetails = ({navigation, route}) => {
   const {t} = useTranslation();
+  const {productDetails} = route.params;
+
+  const sellerDetail = productDetails['seller-details'];
+  // console.log('MY PRODUCT DETAILS=====>', productDetails);
   const [addFav, setAddFav] = React.useState(false);
   const [imgActive, setimgActive] = React.useState(0);
   onchange = nativeEvent => {
@@ -57,10 +61,12 @@ const ProductDetails = ({navigation}) => {
         <View style={{flexDirection: 'row'}}>
           <TouchableOpacity onPress={() => setAddFav(!addFav)}>
             <Back
-              name={addFav ? 'heart' : 'hearto'}
+              name={productDetails?.isFollowed == 'yes' ? 'heart' : 'hearto'}
               style={{right: 20}}
               size={20}
-              color="white"
+              color={
+                productDetails?.isFollowed == 'yes' ? Color.yellow : 'white'
+              }
             />
           </TouchableOpacity>
           <TouchableOpacity>
@@ -123,7 +129,7 @@ const ProductDetails = ({navigation}) => {
           />
           <View style={{left: 10}}>
             <Text style={{fontWeight: 'bold', fontSize: 15, color: 'black'}}>
-              John Micheal
+              {sellerDetail?.name}
             </Text>
             <Text
               style={{
@@ -148,10 +154,11 @@ const ProductDetails = ({navigation}) => {
                 color: 'black',
                 marginTop: 10,
               }}>
-              {t('common:beadednecklaces')}
+              {/* {t('common:beadednecklaces')} */}
+              {productDetails?.title}
             </Text>
             <Text style={{fontSize: 18, color: 'black', marginTop: 10}}>
-              $ 175:00
+              $ {productDetails?.price}
             </Text>
           </View>
           <Image
@@ -171,7 +178,8 @@ const ProductDetails = ({navigation}) => {
               textAlign: 'left',
               flexWrap: 'wrap',
             }}>
-            {t('common:productdetails')}
+            {/* {t('common:productdetails')} */}
+            {productDetails?.description}
           </Text>
         </View>
         <View style={{flexDirection: 'column-reverse', marginTop: '20%'}}>

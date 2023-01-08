@@ -5,10 +5,18 @@ import {Color} from '../constants/colors';
 import {useNavigation} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Base_Url} from '../api/Api';
-const Card = ({name, price, bgImage, onPress, isFav, deleteIcon}) => {
+const Card = ({
+  name,
+  price,
+  bgImage,
+  onPress,
+  isFav,
+  deleteIcon,
+  productDetails,
+}) => {
   const AddFav = async () => {
     const userId = await AsyncStorage.getItem('uid');
-    console.log('USER ID ====>', userId);
+    // console.log('USER ID ====>', userId);
     await fetch(`${Base_Url}/follow-listing`, {
       method: 'POST',
       headers: {
@@ -20,7 +28,7 @@ const Card = ({name, price, bgImage, onPress, isFav, deleteIcon}) => {
       .then(data => {
         //   const res = data.json();
         const respo = data;
-        console.log('RESPONSE HOME', respo?.data);
+        // console.log('RESPONSE HOME', respo?.data);
 
         if (respo?.message == 'Followed successfully') {
           alert('Followed Sucessfully');
@@ -35,7 +43,9 @@ const Card = ({name, price, bgImage, onPress, isFav, deleteIcon}) => {
   const nav = useNavigation();
   return (
     <TouchableOpacity
-      onPress={() => nav.navigate('ProductDetails')}
+      onPress={() =>
+        nav.navigate('ProductDetails', {productDetails: productDetails})
+      }
       style={styles.container}>
       <Image
         // resizeMode="contain"

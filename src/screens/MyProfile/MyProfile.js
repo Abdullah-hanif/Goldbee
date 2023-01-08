@@ -10,18 +10,18 @@ import {
 } from 'react-native';
 import React from 'react';
 
-import { Color } from '../../constants/colors';
+import {Color} from '../../constants/colors';
 import Buttons from '../../components/Buttons';
 import Card from '../../components/Card';
 
-import { useTranslation } from 'react-i18next';
-import { Base_Url } from '../../api/Api';
-import { useIsFocused } from '@react-navigation/native';
+import {useTranslation} from 'react-i18next';
+import {Base_Url} from '../../api/Api';
+import {useIsFocused} from '@react-navigation/native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const MyProfile = ({ navigation }) => {
-  const { t } = useTranslation();
+const MyProfile = ({navigation}) => {
+  const {t} = useTranslation();
   const [switchName, setSwitch] = React.useState('MyProfile');
   const [allListing, setAllListing] = React.useState();
   const focused = useIsFocused();
@@ -38,7 +38,7 @@ const MyProfile = ({ navigation }) => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ user_id: userId }),
+      body: JSON.stringify({user_id: userId}),
     })
       .then(response => response.json())
       .then(data => {
@@ -46,22 +46,28 @@ const MyProfile = ({ navigation }) => {
         const respo = data;
         setAllListing(respo?.data);
 
-        console.log(respo?.data, '=====>MY LISTING');
+        // console.log(respo?.data, '=====>MY LISTING');
       })
       .catch(error => {
         console.error(error);
       });
   };
-  const deleteListing = async (listing_id) => {
-
-    fetch(`${Base_Url}/listings-delete${listing_id}`, {
+  const deleteListing = async listing_id => {
+    fetch(`${Base_Url}/listings-delete`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
+      body: JSON.stringify({listing_id: listing_id}),
     })
-      .then(res => {
-        return res.json();
+      .then(response => response.json())
+      .then(data => {
+        //   const res = data.json();
+        const respo = data;
+
+        console.log(respo, 'DLETE RESPONSE');
+        alert(respo?.message);
+        getMylisting();
       })
       .catch(err => {
         console.log(err);
@@ -100,12 +106,12 @@ const MyProfile = ({ navigation }) => {
                   alignItems: 'center',
                 }}>
                 <Image
-                  style={{ height: 65, width: 65 }}
+                  style={{height: 65, width: 65}}
                   source={require('../../assets/Icons/Ellipse28.png')}
                 />
-                <View style={{ left: 10 }}>
+                <View style={{left: 10}}>
                   <Text
-                    style={{ fontWeight: 'bold', fontSize: 20, color: 'black' }}>
+                    style={{fontWeight: 'bold', fontSize: 20, color: 'black'}}>
                     John Micheal
                   </Text>
                   <Text
@@ -119,12 +125,12 @@ const MyProfile = ({ navigation }) => {
               {/* END PROFILE HEADER */}
 
               {/* @About Section */}
-              <View style={{ marginVertical: 20 }}>
+              <View style={{marginVertical: 20}}>
                 <Text
-                  style={{ fontWeight: 'bold', fontSize: 18, color: 'black' }}>
+                  style={{fontWeight: 'bold', fontSize: 18, color: 'black'}}>
                   {t('common:about')}
                 </Text>
-                <Text style={{ color: 'black', flexWrap: 'wrap', top: 10 }}>
+                <Text style={{color: 'black', flexWrap: 'wrap', top: 10}}>
                   {t('common:myprofiledetail')}
                 </Text>
               </View>
@@ -133,16 +139,16 @@ const MyProfile = ({ navigation }) => {
               {/* Seller Information Section  */}
               <View>
                 <Text
-                  style={{ fontWeight: 'bold', fontSize: 18, color: 'black' }}>
+                  style={{fontWeight: 'bold', fontSize: 18, color: 'black'}}>
                   {t('common:sellerinformation')}
                 </Text>
-                <View style={{ marginVertical: 20 }}>
+                <View style={{marginVertical: 20}}>
                   <InforamtionConainer
                     text1={t('common:phonnumber')}
                     text2="+1 773 567 8790"
                     icon={
                       <Image
-                        style={{ height: 30, width: 30 }}
+                        style={{height: 30, width: 30}}
                         source={require('../../assets/Icons/Group4060.png')}
                       />
                     }
@@ -152,7 +158,7 @@ const MyProfile = ({ navigation }) => {
                     text2="+773 567 8790"
                     icon={
                       <Image
-                        style={{ height: 30, width: 30 }}
+                        style={{height: 30, width: 30}}
                         source={require('../../assets/Icons/Group4067.png')}
                       />
                     }
@@ -162,7 +168,7 @@ const MyProfile = ({ navigation }) => {
                     text2="Chicago-USA"
                     icon={
                       <Image
-                        style={{ height: 30, width: 30 }}
+                        style={{height: 30, width: 30}}
                         source={require('../../assets/Icons/Group4039.png')}
                       />
                     }
@@ -171,29 +177,38 @@ const MyProfile = ({ navigation }) => {
               </View>
               {/*END Seller Information Section  */}
               {/* Button */}
-              <View style={{ marginBottom: 20 }}>
+              <View style={{marginBottom: 20}}>
                 <Buttons name={t('common:editprofile')} />
               </View>
             </>
           ) : (
             <>
               <View>
-                <View style={{ flexDirection: 'row' }}>
+                <View style={{flexDirection: 'row'}}>
                   <FlatList
                     key={Math.random() * 1000}
                     data={allListing}
                     numColumns={2}
                     renderItem={data => {
-                      console.log('INSIDE FLATLIST==>', data?.item?.id);
+                      // console.log('INSIDE FLATLIST==>', data?.item);
                       return (
                         <>
                           <Card
                             // name={t('common:pearlring')}
                             name={data?.item?.title}
                             price={`$ ${data?.item?.price}`}
-                            bgImage={{ uri: `${data?.item?.images ? data?.item?.images : data?.item?.images == null ? [1] : data?.item?.images}` }}
+                            bgImage={{
+                              uri: `${
+                                data?.item?.images
+                                  ? data?.item?.images
+                                  : data?.item?.images == null
+                                  ? [1]
+                                  : data?.item?.images
+                              }`,
+                            }}
                             deleteIcon={true}
-                            onPress={()=>(deleteListing(data?.item?.id))}
+                            onPress={() => deleteListing(data?.item?.id)}
+                            productDetails={data?.item}
                           />
                         </>
                       );
@@ -228,7 +243,7 @@ const MyProfile = ({ navigation }) => {
                 </View>
               </View>
               {/* Button */}
-              <View style={{ marginTop: 30 }}>
+              <View style={{marginTop: 30}}>
                 <Buttons name={t('common:uploadnew')} />
               </View>
             </>
@@ -239,8 +254,8 @@ const MyProfile = ({ navigation }) => {
   );
 };
 
-const SwitchButton = ({ func }) => {
-  const { t } = useTranslation();
+const SwitchButton = ({func}) => {
+  const {t} = useTranslation();
 
   const [clicked, setClicked] = React.useState(true);
   return (
@@ -265,7 +280,7 @@ const SwitchButton = ({ func }) => {
             },
           ]}>
           <Text
-            style={{ textAlign: 'center', color: clicked ? 'white' : 'black' }}>
+            style={{textAlign: 'center', color: clicked ? 'white' : 'black'}}>
             {t('common:myprofile')}
           </Text>
         </TouchableOpacity>
@@ -282,7 +297,7 @@ const SwitchButton = ({ func }) => {
             },
           ]}>
           <Text
-            style={{ textAlign: 'center', color: clicked ? 'black' : 'white' }}>
+            style={{textAlign: 'center', color: clicked ? 'black' : 'white'}}>
             {t('common:mylistings')}
           </Text>
         </TouchableOpacity>
@@ -291,7 +306,7 @@ const SwitchButton = ({ func }) => {
   );
 };
 
-const InforamtionConainer = ({ text1, text2, icon }) => {
+const InforamtionConainer = ({text1, text2, icon}) => {
   return (
     <>
       <View
@@ -306,7 +321,7 @@ const InforamtionConainer = ({ text1, text2, icon }) => {
         {/* <Text style={{textAlignVertical: 'center'}}>Phone</Text>
         {} */}
         {icon}
-        <View style={{ left: 10 }}>
+        <View style={{left: 10}}>
           <Text style={styles.txtStyle}>{text1}</Text>
           <Text style={styles.txtStyle}>{text2}</Text>
         </View>

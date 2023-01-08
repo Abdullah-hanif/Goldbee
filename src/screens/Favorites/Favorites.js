@@ -113,8 +113,17 @@ const Favorites = () => {
               <Card
                 name={item?.item?.title}
                 price={`$ ${item?.item?.price}`}
-                bgImage={{uri:`${item?.item?.images ? item?.item?.images : item?.item?.images == null ? [1] : item?.item?.images}`}}
+                bgImage={{
+                  uri: `${
+                    item?.item?.images
+                      ? item?.item?.images
+                      : item?.item?.images == null
+                      ? [1]
+                      : item?.item?.images
+                  }`,
+                }}
                 isFav={item?.item?.isFollowed}
+                productDetails={item?.item}
               />
 
               {/* {/* </View> */}
