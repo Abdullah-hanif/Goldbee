@@ -5,7 +5,7 @@ import {Color} from '../constants/colors';
 import {useNavigation} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Base_Url} from '../api/Api';
-const Card = ({name, price, bgImage, onpress, isFav, deleteIcon}) => {
+const Card = ({name, price, bgImage, onPress, isFav, deleteIcon}) => {
   const AddFav = async () => {
     const userId = await AsyncStorage.getItem('uid');
     console.log('USER ID ====>', userId);
@@ -64,7 +64,7 @@ const Card = ({name, price, bgImage, onpress, isFav, deleteIcon}) => {
               />
             </TouchableOpacity>
           ) : (
-            <TouchableOpacity onPress={() => alert('DELETE')}>
+            <TouchableOpacity onPress={onPress}>
               {/* <AntDesign name="delete" size={20} color={Color.black} /> */}
               <Image
                 style={{height: 20, width: 20}}

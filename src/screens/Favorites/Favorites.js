@@ -113,7 +113,7 @@ const Favorites = () => {
               <Card
                 name={item?.item?.title}
                 price={`$ ${item?.item?.price}`}
-                bgImage={require('../../assets/SamplePictures/1.png')}
+                bgImage={{uri:`${item?.item?.images ? item?.item?.images : item?.item?.images == null ? [1] : item?.item?.images}`}}
                 isFav={item?.item?.isFollowed}
               />
 
