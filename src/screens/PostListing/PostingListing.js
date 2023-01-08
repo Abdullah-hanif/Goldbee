@@ -498,7 +498,7 @@ const PostingListing = ({navigation}) => {
                 <>
                   <TouchableOpacity
                     onPress={() => {
-                      setCountryModal(false), alert(data);
+                      setCountryModal(false), setCountry(data), alert(data);
                     }}
                     style={{
                       borderBottomWidth: 1,

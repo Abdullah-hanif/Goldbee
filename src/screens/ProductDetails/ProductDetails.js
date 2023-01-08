@@ -28,7 +28,7 @@ const ProductDetails = ({navigation, route}) => {
   const {productDetails} = route.params;
 
   const sellerDetail = productDetails['seller-details'];
-  // console.log('MY PRODUCT DETAILS=====>', productDetails);
+  console.log('MY PRODUCT DETAILS=====>', sellerDetail);
   const [addFav, setAddFav] = React.useState(false);
   const [imgActive, setimgActive] = React.useState(0);
   onchange = nativeEvent => {
@@ -135,7 +135,7 @@ const ProductDetails = ({navigation, route}) => {
               style={{
                 color: Color.darkOrange,
               }}>
-              Chicago - USA
+              {productDetails?.location}
             </Text>
           </View>
         </TouchableOpacity>
