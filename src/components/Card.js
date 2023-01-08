@@ -8,11 +8,13 @@ import {Base_Url} from '../api/Api';
 const Card = ({
   name,
   price,
+  id,
   bgImage,
   onPress,
   isFav,
   deleteIcon,
   productDetails,
+  getFUN,
 }) => {
   const AddFav = async () => {
     const userId = await AsyncStorage.getItem('uid');
@@ -22,7 +24,7 @@ const Card = ({
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({user_id: userId, listing_id: 15}),
+      body: JSON.stringify({user_id: userId, listing_id: id}),
     })
       .then(response => response.json())
       .then(data => {
@@ -32,6 +34,7 @@ const Card = ({
 
         if (respo?.message == 'Followed successfully') {
           alert('Followed Sucessfully');
+          // getFUN();
         } else {
           console.log(respo?.message);
         }
@@ -66,7 +69,10 @@ const Card = ({
           }}>
           <Text style={{color: 'gray'}}>{price}</Text>
           {!deleteIcon ? (
-            <TouchableOpacity onPress={() => AddFav()}>
+            <TouchableOpacity
+              onPress={() => {
+                AddFav(), getFUN();
+              }}>
               <AntDesign
                 name={isFav == 'no' ? 'hearto' : 'heart'}
                 size={20}

@@ -135,6 +135,8 @@ const Home = ({naviagtion}) => {
           return (
             <>
               <Card
+                getFUN={() => getAllListing()}
+                id={item?.item?.id}
                 name={item?.item?.title}
                 price={`$ ${item?.item?.price}`}
                 bgImage={{
