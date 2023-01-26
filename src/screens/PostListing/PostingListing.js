@@ -44,7 +44,7 @@ const PostingListing = ({navigation, route}) => {
   //data of Fields
   const [title, setTitle] = React.useState('');
   const [price, setPrice] = React.useState('');
-  const [country, setCountry] = React.useState('');
+  const [country, setCountry] = React.useState('Cities');
   const [selectArea, setSelectArea] = React.useState('');
   const [description, setDescription] = React.useState('');
   const [openModal1, setopenModal1] = React.useState(false);
@@ -88,14 +88,15 @@ const PostingListing = ({navigation, route}) => {
     data.append('user_id', userId);
     data.append('title', title);
     data.append('price', price);
-    img.assets.forEach((item, i) => {
-      console.log('FOR EARCH=====>', item.fileName.slice(-8, -1) + 'g');
-      data.append('images[]', {
-        uri: item.uri,
-        type: item.type,
-        name: item.fileName.slice(-8, -1) + 'g',
-      });
-    });
+    data.append('category', Categories);
+    // img.assets.forEach((item, i) => {
+    //   console.log('FOR EARCH=====>', item.fileName.slice(-8, -1) + 'g');
+    //   data.append('images[]', {
+    //     uri: item.uri,
+    //     type: item.type,
+    //     name: item.fileName.slice(-8, -1) + 'g',
+    //   });
+    // });
     // data.append('images', {
 
     // });
@@ -104,9 +105,9 @@ const PostingListing = ({navigation, route}) => {
     //   type: 'image/jpeg',
     //   name: 'test.jpg',
     // });
-    data.append('category', country);
+    data.append('location', country);
     data.append('description', description);
-    data.append('location', selectArea);
+    // data.append('location', selectArea);
 
     await fetch(`${Base_Url}/listings-store`, {
       method: 'POST',
@@ -333,7 +334,7 @@ const PostingListing = ({navigation, route}) => {
           <TextInput
             setTxt={txt => setCountry(txt)}
             placeholderTextColor={Color.darkGray}
-            placeholder={'Country'}
+            placeholder={country}
           />
           {/* <TextField
       
