@@ -61,7 +61,9 @@ const Sell = () => {
                   source={require('../../assets/Icons/Group13722.png')}
                 />
               }
-              nexScreen={() => nav.navigate('PostingListing')}
+              nexScreen={() =>
+                nav.navigate('PostingListing', {Categories: 'Rings'})
+              }
               name={t('common:rings')}
             />
             <SellCategoryContainer
@@ -70,6 +72,9 @@ const Sell = () => {
                   style={{height: 20, width: 20}}
                   source={require('../../assets/Icons/Group13723.png')}
                 />
+              }
+              nexScreen={() =>
+                nav.navigate('PostingListing', {Categories: 'necklaces'})
               }
               name={t('common:necklaces')}
             />
@@ -80,6 +85,9 @@ const Sell = () => {
                   source={require('../../assets/Icons/Group13724.png')}
                 />
               }
+              nexScreen={() =>
+                nav.navigate('PostingListing', {Categories: 'earrings'})
+              }
               name={t('common:earrings')}
             />
             <SellCategoryContainer
@@ -88,6 +96,9 @@ const Sell = () => {
                   style={{height: 20, width: 20}}
                   source={require('../../assets/Icons/Group13725.png')}
                 />
+              }
+              nexScreen={() =>
+                nav.navigate('PostingListing', {Categories: 'bracelat'})
               }
               name={t('common:bracelat')}
             />
@@ -98,6 +109,9 @@ const Sell = () => {
                   source={require('../../assets/Icons/Group13731.png')}
                 />
               }
+              nexScreen={() =>
+                nav.navigate('PostingListing', {Categories: 'bangles'})
+              }
               name={t('common:bangles')}
             />
             <SellCategoryContainer
@@ -106,6 +120,9 @@ const Sell = () => {
                   style={{height: 20, width: 20}}
                   source={require('../../assets/Icons/Group13730.png')}
                 />
+              }
+              nexScreen={() =>
+                nav.navigate('PostingListing', {Categories: 'diamonds'})
               }
               name={t('common:diamonds')}
             />

@@ -33,7 +33,7 @@ import ImagePicker, {
   launchImageLibrary,
 } from 'react-native-image-picker';
 
-const PostingListing = ({navigation}) => {
+const PostingListing = ({navigation, route}) => {
   const {t} = useTranslation();
   const [checked, setChecked] = React.useState(false);
   const [modalVisible, setModalVisible] = React.useState(false);
@@ -49,6 +49,10 @@ const PostingListing = ({navigation}) => {
   const [description, setDescription] = React.useState('');
   const [openModal1, setopenModal1] = React.useState(false);
   const [images, setImages] = React.useState([]);
+  const [img, setImg] = React.useState([]);
+
+  const {Categories} = route.params;
+  console.log('CATEGORUESSSS===>', Categories);
   // const [city, setCity] = React.useState(null);
   // // console.log('title===>', title, price, country, selectArea, description);
   // const spainCities = [
@@ -78,12 +82,28 @@ const PostingListing = ({navigation}) => {
 
   const postListing = async () => {
     const userId = await AsyncStorage.getItem('uid');
+    // console.log('=====>', img);
 
     const data = new FormData();
     data.append('user_id', userId);
     data.append('title', title);
     data.append('price', price);
+    img.assets.forEach((item, i) => {
+      console.log('FOR EARCH=====>', item.fileName.slice(-8, -1) + 'g');
+      data.append('images[]', {
+        uri: item.uri,
+        type: item.type,
+        name: item.fileName.slice(-8, -1) + 'g',
+      });
+    });
+    // data.append('images', {
 
+    // });
+    // data.append('images', {
+    //   uri: images,
+    //   type: 'image/jpeg',
+    //   name: 'test.jpg',
+    // });
     data.append('category', country);
     data.append('description', description);
     data.append('location', selectArea);
@@ -142,6 +162,7 @@ const PostingListing = ({navigation}) => {
       } else {
         const source = response;
         setImages([...images, source.assets[0].uri]);
+        setImg(source);
       }
     });
   };
@@ -203,6 +224,7 @@ const PostingListing = ({navigation}) => {
         const source = response;
         console.log('===>URL============>', source);
         setImages([...images, source.assets[0].uri]);
+
         // imgUri(source.assets[0].uri);
 
         // setBackLicence(source.assets[0].uri);
@@ -298,7 +320,13 @@ const PostingListing = ({navigation}) => {
 
             borderWidth: 1,
             marginVertical: 10,
-            borderRadius: 20,
+
+            borderTopEndRadius: 20,
+            borderTopLeftRadius: 20,
+            borderBottomLeftRadius: countryModal ? 0 : 20,
+            borderBottomRightRadius: countryModal ? 0 : 20,
+            // borderRadius: 20,
+            borderBottomWidth: countryModal ? 1 : 1,
             borderColor: 'gray',
             top: 5,
           }}>
@@ -314,10 +342,50 @@ const PostingListing = ({navigation}) => {
           /> */}
           <TouchableOpacity
             style={{right: 10}}
-            onPress={() => setCountryModal(true)}>
-            <Text>Open</Text>
+            onPress={() => setCountryModal(!countryModal)}>
+            <AntDesign
+              name={countryModal ? 'up' : 'down'}
+              size={20}
+              color="black"
+            />
           </TouchableOpacity>
         </View>
+        {countryModal ? (
+          <>
+            {/* <ScrollView nestedScrollEnabled={true} style={styles.txtContainer}> */}
+            {/* <Text>open</Text>
+              <Text>open</Text>
+              <Text>open</Text>
+              <Text>open</Text>
+              <Text>open</Text>
+              <Text>open</Text>
+              <Text>open</Text>
+              <Text>open</Text> */}
+            <ScrollView nestedScrollEnabled={true} style={styles.txtContainer1}>
+              {cities.map((data, index) => {
+                return (
+                  <>
+                    <TouchableOpacity
+                      style={{
+                        borderBottomWidth: 1,
+                        borderColor: 'black',
+                        paddingVertical: 10,
+                        marginBottom: 22,
+                      }}
+                      onPress={() => {
+                        setCountryModal(false), setCountry(data), alert(data);
+                      }}>
+                      <Text style={{color: 'black', fontWeight: 'bold'}}>
+                        {data}
+                      </Text>
+                    </TouchableOpacity>
+                  </>
+                );
+              })}
+            </ScrollView>
+            {/* </ScrollView> */}
+          </>
+        ) : null}
 
         <TextField
           setTxt={txt => setSelectArea(txt)}
@@ -468,7 +536,7 @@ const PostingListing = ({navigation}) => {
         </View>
       </Modal>
 
-      <Modal
+      {/* <Modal
         statusBarTranslucent={true}
         animationType="slide"
         transparent={true}
@@ -515,7 +583,7 @@ const PostingListing = ({navigation}) => {
             })}
           </ScrollView>
         </View>
-      </Modal>
+      </Modal> */}
     </ScrollView>
   );
 };
@@ -546,6 +614,19 @@ const styles = StyleSheet.create({
     height: 120,
     marginTop: 10,
     padding: 15,
+    textAlignVertical: 'top',
+  },
+  txtContainer1: {
+    borderWidth: 1,
+    borderRadius: 1,
+    borderColor: 'gray',
+    height: 120,
+
+    paddingTop: 30,
+    borderTopWidth: 0,
+    bottom: 10,
+
+    padding: 10,
     textAlignVertical: 'top',
   },
 });
