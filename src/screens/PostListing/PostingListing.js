@@ -388,10 +388,10 @@ const PostingListing = ({navigation, route}) => {
           </>
         ) : null}
 
-        <TextField
+        {/* <TextField
           setTxt={txt => setSelectArea(txt)}
           placeHolder={t('common:selectarealocation')}
-        />
+        /> */}
         <View>
           <TextInput
             onChangeText={txt => setDescription(txt)}

@@ -190,10 +190,10 @@ const MyProfile = ({navigation}) => {
                     data={allListing}
                     numColumns={2}
                     renderItem={data => {
-                      // console.log('INSIDE FLATLIST==>', data?.item);
+                      //  console.log('INSIDE FLATLIST==>', data?.item?.images);
                       return (
                         <>
-                          <Card
+                         <Card
                             // name={t('common:pearlring')}
                             name={data?.item?.title}
                             price={`$ ${data?.item?.price}`}
@@ -244,7 +244,7 @@ const MyProfile = ({navigation}) => {
               </View>
               {/* Button */}
               <View style={{marginTop: 30}}>
-                <Buttons name={t('common:uploadnew')} />
+                <Buttons name={t('common:uploadnew')} onpress={()=>(navigation.navigate('Sell'))} />
               </View>
             </>
           )}
