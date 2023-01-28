@@ -13,9 +13,11 @@ import {
 } from 'react-native';
 import React from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import TextField from '../../components/TextField';
-import Buttons from '../../components/Buttons';
-import {Color} from '../../constants/colors';
+import TextField from '../../../components/TextField';
+
+// import TextField from '../../components/TextField';
+import Buttons from '../../../components/Buttons';
+import {Color} from '../../../constants/colors';
 import {Checkbox} from 'react-native-paper';
 
 // @Vector Icon
@@ -25,7 +27,8 @@ import Gender from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import {useTranslation} from 'react-i18next';
-import {Base_Url} from '../../api/Api';
+// import {Base_Url} from '../../api/Api';
+import {Base_Url} from '../../../api/Api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import ImagePicker, {
@@ -33,7 +36,7 @@ import ImagePicker, {
   launchImageLibrary,
 } from 'react-native-image-picker';
 
-const PostingListing = ({navigation, route}) => {
+const UpdateListing = ({navigation, route}) => {
   const {t} = useTranslation();
   const [checked, setChecked] = React.useState(false);
   const [modalVisible, setModalVisible] = React.useState(false);
@@ -48,11 +51,22 @@ const PostingListing = ({navigation, route}) => {
   const [selectArea, setSelectArea] = React.useState('');
   const [description, setDescription] = React.useState('');
   const [openModal1, setopenModal1] = React.useState(false);
+  const [category, setCategory] = React.useState('');
   const [images, setImages] = React.useState([]);
   const [img, setImg] = React.useState([]);
+  const [id, setId] = React.useState();
 
-  const {Categories} = route?.params;
-  console.log('CATEGORUESSSS===>', Categories);
+  const {allDetails} = route?.params;
+  console.log('CATEGORUESSSS===>', allDetails);
+  React.useEffect(() => {
+    setTitle(allDetails?.title);
+    setPrice(allDetails?.price);
+    setCountry(allDetails?.cites);
+    setDescription(allDetails?.description);
+    setCategory(allDetails?.category);
+    setId(allDetails?.id);
+  }, []);
+
   // const [city, setCity] = React.useState(null);
   // // console.log('title===>', title, price, country, selectArea, description);
   // const spainCities = [
@@ -85,31 +99,17 @@ const PostingListing = ({navigation, route}) => {
     // console.log('=====>', img);
 
     const data = new FormData();
-    data.append('user_id', userId);
+    data.append('listing_id', id);
     data.append('title', title);
     data.append('price', price);
-    data.append('category', Categories);
-    // img.assets.forEach((item, i) => {
-    //   console.log('FOR EARCH=====>', item.fileName.slice(-8, -1) + 'g');
-    //   data.append('images[]', {
-    //     uri: item.uri,
-    //     type: item.type,
-    //     name: item.fileName.slice(-8, -1) + 'g',
-    //   });
-    // });
-    // data.append('images', {
-
-    // });
-    // data.append('images', {
-    //   uri: images,
-    //   type: 'image/jpeg',
-    //   name: 'test.jpg',
-    // });
     data.append('location', country);
     data.append('description', description);
+
+    data.append('category', category);
+
     // data.append('location', selectArea);
 
-    await fetch(`${Base_Url}/listings-store`, {
+    await fetch(`${Base_Url}/listings-update`, {
       method: 'POST',
       // headers: {
       //   'Content-Type': 'application/json',
@@ -138,8 +138,8 @@ const PostingListing = ({navigation, route}) => {
   };
 
   const selectedImg = [
-    {id: 1, imgUri: require('../../assets/SamplePictures/1.png')},
-    {id: 2, imgUri: require('../../assets/SamplePictures/2.png')},
+    {id: 1, imgUri: require('../../../assets/SamplePictures/1.png')},
+    {id: 2, imgUri: require('../../../assets/SamplePictures/2.png')},
   ];
 
   const LaunchImageLibrary = () => {
@@ -304,10 +304,12 @@ const PostingListing = ({navigation, route}) => {
         </View>
         {/* First Container END */}
         <TextField
+          val={title}
           setTxt={txt => setTitle(txt)}
           placeHolder={t('common:listingtitle')}
         />
         <TextField
+          val={price}
           setTxt={txt => setPrice(txt)}
           placeHolder={t('common:price')}
         />
@@ -332,15 +334,16 @@ const PostingListing = ({navigation, route}) => {
             top: 5,
           }}>
           <TextInput
+            value={country}
             setTxt={txt => setCountry(txt)}
             placeholderTextColor={Color.darkGray}
             placeholder={country}
           />
           {/* <TextField
-      
-            setTxt={txt => setCountry(txt)}
-            placeHolder={t('common:country')}
-          /> */}
+        
+              setTxt={txt => setCountry(txt)}
+              placeHolder={t('common:country')}
+            /> */}
           <TouchableOpacity
             style={{right: 10}}
             onPress={() => setCountryModal(!countryModal)}>
@@ -353,15 +356,6 @@ const PostingListing = ({navigation, route}) => {
         </View>
         {countryModal ? (
           <>
-            {/* <ScrollView nestedScrollEnabled={true} style={styles.txtContainer}> */}
-            {/* <Text>open</Text>
-              <Text>open</Text>
-              <Text>open</Text>
-              <Text>open</Text>
-              <Text>open</Text>
-              <Text>open</Text>
-              <Text>open</Text>
-              <Text>open</Text> */}
             <ScrollView nestedScrollEnabled={true} style={styles.txtContainer1}>
               {cities.map((data, index) => {
                 return (
@@ -389,11 +383,12 @@ const PostingListing = ({navigation, route}) => {
         ) : null}
 
         {/* <TextField
-          setTxt={txt => setSelectArea(txt)}
-          placeHolder={t('common:selectarealocation')}
-        /> */}
+            setTxt={txt => setSelectArea(txt)}
+            placeHolder={t('common:selectarealocation')}
+          /> */}
         <View>
           <TextInput
+            value={description}
             onChangeText={txt => setDescription(txt)}
             placeholderTextColor={'gray'}
             style={styles.txtContainer}
@@ -435,7 +430,7 @@ const PostingListing = ({navigation, route}) => {
           onpress={() => {
             postListing();
           }}
-          name={t('common:postlisting')}
+          name="Update Listings"
         />
         <Modal
           animationType="slide"
@@ -467,7 +462,7 @@ const PostingListing = ({navigation, route}) => {
               }}>
               <Image
                 style={{height: 90, width: 90}}
-                source={require('../../assets/Icons/Group13719.png')}
+                source={require('../../../assets/Icons/Group13719.png')}
               />
               <View
                 style={{
@@ -536,60 +531,11 @@ const PostingListing = ({navigation, route}) => {
           </View>
         </View>
       </Modal>
-
-      {/* <Modal
-        statusBarTranslucent={true}
-        animationType="slide"
-        transparent={true}
-        visible={countryModal}
-        onRequestClose={() => {
-          alert('Modal has been closed.');
-          setCountryModal(!countryModal);
-        }}>
-        <View
-          style={{
-            flex: 1,
-            backgroundColor: 'rgba(0,0,0,0.61)',
-            flexDirection: 'column-reverse',
-          }}>
-          <ScrollView
-            style={{
-              backgroundColor: 'white',
-              padding: 20,
-              margin: 30,
-              marginVertical: 230,
-
-              borderRadius: 20,
-              // justifyContent: 'flex-end',
-            }}>
-            {cities.map((data, index) => {
-              return (
-                <>
-                  <TouchableOpacity
-                    onPress={() => {
-                      setCountryModal(false), setCountry(data), alert(data);
-                    }}
-                    style={{
-                      borderBottomWidth: 1,
-                      borderColor: 'black',
-                      padding: 10,
-                      marginBottom: 30,
-                    }}>
-                    <Text style={{color: 'black', fontWeight: 'bold'}}>
-                      {data}
-                    </Text>
-                  </TouchableOpacity>
-                </>
-              );
-            })}
-          </ScrollView>
-        </View>
-      </Modal> */}
     </ScrollView>
   );
 };
 
-export default PostingListing;
+export default UpdateListing;
 
 const styles = StyleSheet.create({
   container: {

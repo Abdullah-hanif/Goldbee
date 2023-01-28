@@ -18,6 +18,10 @@ import ProfileDetails from '../screens/ProfileDetails/ProfileDetails';
 import MyProfile from '../screens/MyProfile/MyProfile';
 import PostingListing from '../screens/PostListing/PostingListing';
 
+// @MyProfile
+import MyListingDetails from '../screens/MyProfile/MyListingDetails/MyListingDetails';
+import UpdateListing from '../screens/MyProfile/MyListingDetails/UpdateListing';
+
 const Stack = createStackNavigator();
 const StackNavigation = () => {
   const config = {
@@ -64,6 +68,8 @@ const StackNavigation = () => {
       <Stack.Screen name="ProfileDetails" component={ProfileDetails} />
       <Stack.Screen name="MyProfile" component={MyProfile} />
       <Stack.Screen name="PostingListing" component={PostingListing} />
+      <Stack.Screen name="MyListingDetails" component={MyListingDetails} />
+      <Stack.Screen name="UpdateListing" component={UpdateListing} />
     </Stack.Navigator>
   );
 };

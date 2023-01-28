@@ -2,9 +2,10 @@ import {StyleSheet, Text, View, TextInput} from 'react-native';
 import React from 'react';
 import {Color} from '../constants/colors';
 
-const TextField = ({placeHolder, setTxt}) => {
+const TextField = ({placeHolder, setTxt, val}) => {
   return (
     <TextInput
+      value={val}
       placeholderTextColor={Color.darkGray}
       style={styles.container}
       placeholder={placeHolder}

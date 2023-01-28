@@ -13,6 +13,7 @@ import React from 'react';
 import {Color} from '../../constants/colors';
 import Buttons from '../../components/Buttons';
 import Card from '../../components/Card';
+import MyCard from './MyListingDetails/Components/MyCard';
 
 import {useTranslation} from 'react-i18next';
 import {Base_Url} from '../../api/Api';
@@ -193,7 +194,7 @@ const MyProfile = ({navigation}) => {
                       //  console.log('INSIDE FLATLIST==>', data?.item?.images);
                       return (
                         <>
-                         <Card
+                          <MyCard
                             // name={t('common:pearlring')}
                             name={data?.item?.title}
                             price={`$ ${data?.item?.price}`}
@@ -214,37 +215,14 @@ const MyProfile = ({navigation}) => {
                       );
                     }}
                   />
-                  {/* <Card
-                    name={t('common:pearlring')}
-                    price="$ 545.00"
-                    bgImage={require('../../assets/SamplePictures/1.png')}
-                    deleteIcon={true}
-                  />
-                  <Card
-                    name={t('common:beadednecklaces')}
-                    price=" $ 175.00"
-                    bgImage={require('../../assets/SamplePictures/2.png')}
-                    deleteIcon={true}
-                  />
-                </View>
-                <View style={{flexDirection: 'row'}}>
-                  <Card
-                    name={t('common:weddingring')}
-                    price="$ 360.00"
-                    bgImage={require('../../assets/SamplePictures/3.png')}
-                    deleteIcon={true}
-                  />
-                  <Card
-                    name={t('common:earringbracelet')}
-                    price="$ 437.00"
-                    bgImage={require('../../assets/SamplePictures/4.png')}
-                    deleteIcon={true}
-                  /> */}
                 </View>
               </View>
               {/* Button */}
               <View style={{marginTop: 30}}>
-                <Buttons name={t('common:uploadnew')} onpress={()=>(navigation.navigate('Sell'))} />
+                <Buttons
+                  name={t('common:uploadnew')}
+                  onpress={() => navigation.navigate('Sell')}
+                />
               </View>
             </>
           )}
