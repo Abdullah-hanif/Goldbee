@@ -27,7 +27,7 @@ const Home = ({naviagtion}) => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({location: 'Maldives'}),
+      body: JSON.stringify({location: 'test'}),
     })
       .then(response => response.json())
       .then(data => {
@@ -153,16 +153,16 @@ const Home = ({naviagtion}) => {
                 id={item?.item?.id}
                 name={item?.item?.title}
                 price={`$ ${item?.item?.price}`}
-                // bgImage={item?.item?.images}
-                bgImage={{
-                  uri: `${
-                    item?.item?.images
-                      ? item?.item?.images
-                      : item?.item?.images == null
-                      ? [1]
-                      : item?.item?.images
-                  }`,
-                }}
+                bgImage={item?.item?.images}
+                // bgImage={{
+                //   uri: `${
+                //     item?.item?.images
+                //       ? item?.item?.images
+                //       : item?.item?.images == null
+                //       ? [1]
+                //       : item?.item?.images
+                //   }`,
+                // }}
                 isFav={item?.item?.isFollowed}
                 productDetails={item?.item}
               />

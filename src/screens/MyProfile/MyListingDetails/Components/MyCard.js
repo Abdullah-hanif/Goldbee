@@ -53,7 +53,7 @@ const MyCard = ({
   };
   const nav = useNavigation();
 
-  console.log('IMAGE URI=====>', bgImage == null ? 'null image' : bgImage[0]);
+  console.log('IMAGE URI=====>', bgImage == null ? 'null image' : bgImage);
   return (
     <TouchableOpacity
       onPress={() =>

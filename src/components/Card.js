@@ -44,6 +44,7 @@ const Card = ({
       });
   };
   const nav = useNavigation();
+  // console.log('Product DETAILS====>', productDetails);
   return (
     <TouchableOpacity
       onPress={() =>
@@ -58,13 +59,12 @@ const Card = ({
           borderTopLeftRadius: 10,
           borderTopRightRadius: 10,
         }}
-        source={bgImage}
-        // source={{
-        //   uri:
-        //     bgImage == null
-        //       ? 'https://www.freshone.com.pk/content/images/thumbs/default-image_550.png'
-        //       : bgImage,
-        // }}
+        source={{
+          uri:
+            bgImage == null
+              ? 'https://www.freshone.com.pk/content/images/thumbs/default-image_550.png'
+              : bgImage[0],
+        }}
       />
       <View style={{padding: 10}}>
         <View

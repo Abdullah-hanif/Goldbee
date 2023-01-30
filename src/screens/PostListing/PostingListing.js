@@ -102,12 +102,12 @@ const PostingListing = ({navigation, route}) => {
     data.append('description', description);
     // data.append('location', selectArea);
 
-    await fetch(`http://95.179.209.186/api/listings-store`, {
+    await fetch(`${Base_Url}/listings-store`, {
       method: 'POST',
-      // headers: {
-      //   'Content-Type': 'application/json',
-      // },
       body: data,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
     })
       .then(response => response.json())
       .then(data => {

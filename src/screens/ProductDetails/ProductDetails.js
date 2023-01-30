@@ -27,8 +27,10 @@ const ProductDetails = ({navigation, route}) => {
   const {t} = useTranslation();
   const {productDetails} = route.params;
 
+  console.log('Product DETAILS====>', productDetails?.images);
+
   const sellerDetail = productDetails['seller-details'];
-  console.log('MY PRODUCT DETAILS=====>', sellerDetail);
+  // console.log('MY PRODUCT DETAILS=====>', sellerDetail);
   const [addFav, setAddFav] = React.useState(false);
   const [imgActive, setimgActive] = React.useState(0);
   onchange = nativeEvent => {
@@ -84,12 +86,12 @@ const ProductDetails = ({navigation, route}) => {
           backgroundColor: 'green',
           height: Dimensions.get('screen').height / 2.3,
         }}>
-        {images.map((e, index) => (
+        {productDetails?.images?.map((e, index) => (
           <Image
             // resizeMode="contain"
             key={index}
             style={{height: '100%', width: Dimensions.get('screen').width}}
-            source={e}
+            source={{uri: e}}
           />
         ))}
       </ScrollView>
@@ -102,7 +104,7 @@ const ProductDetails = ({navigation, route}) => {
           alignSelf: 'center',
           // backgroundColor: 'black',
         }}>
-        {images.map((e, index) => (
+        {productDetails?.images?.map((e, index) => (
           <Text
             key={Math.random() * 1000}
             style={imgActive == index ? styles.dotActive : styles.dot}>
