@@ -18,6 +18,7 @@ import {useIsFocused} from '@react-navigation/native';
 
 const Home = ({naviagtion}) => {
   const [data, setData] = React.useState();
+  // console.log('=====>HOME DATA===>', data);
   const getAllListing = async () => {
     const userId = await AsyncStorage.getItem('uid');
     // console.log('USER ID ====>', userId);
@@ -26,13 +27,14 @@ const Home = ({naviagtion}) => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({user_id: userId}),
+      body: JSON.stringify({location: 'Maldives'}),
     })
       .then(response => response.json())
       .then(data => {
         //   const res = data.json();
         const respo = data;
         // console.log('RESPONSE HOME', respo?.data);
+
         setData(respo?.data[0]?.listings);
         if (respo?.message == 'Logged In successfully') {
           console.log(respo?.status, '=====>');
@@ -53,6 +55,18 @@ const Home = ({naviagtion}) => {
   const {t} = useTranslation();
   const [selected, setSelected] = React.useState(t('common:all'));
   const handleSelected = value => {
+    alert(value);
+    // value==
+    // console.log(
+    //   'KJHDKJHKSH',
+    //   data?.filter(val => val?.category === 'Bracelet'),
+    console.log('FILTER SEARCH ===>,', data[0]?.category);
+    // filterData(value);
+    // );
+    const filterData = data?.filter(val => val?.category === value);
+    setData(filterData);
+    console.log('CONDITOON DATA===>', filterData);
+    value == 'All' ? getAllListing() : null;
     setSelected(value);
   };
 
@@ -139,6 +153,7 @@ const Home = ({naviagtion}) => {
                 id={item?.item?.id}
                 name={item?.item?.title}
                 price={`$ ${item?.item?.price}`}
+                // bgImage={item?.item?.images}
                 bgImage={{
                   uri: `${
                     item?.item?.images

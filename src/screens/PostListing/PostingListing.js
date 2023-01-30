@@ -82,34 +82,27 @@ const PostingListing = ({navigation, route}) => {
 
   const postListing = async () => {
     const userId = await AsyncStorage.getItem('uid');
-    // console.log('=====>', img);
+    console.log('=====>DHJDKD', img);
 
     const data = new FormData();
     data.append('user_id', userId);
     data.append('title', title);
     data.append('price', price);
     data.append('category', Categories);
-    // img.assets.forEach((item, i) => {
-    //   console.log('FOR EARCH=====>', item.fileName.slice(-8, -1) + 'g');
-    //   data.append('images[]', {
-    //     uri: item.uri,
-    //     type: item.type,
-    //     name: item.fileName.slice(-8, -1) + 'g',
-    //   });
-    // });
-    // data.append('images', {
-
-    // });
-    // data.append('images', {
-    //   uri: images,
-    //   type: 'image/jpeg',
-    //   name: 'test.jpg',
-    // });
+    img.forEach((item, i) => {
+      // console.log('FOR EARCH=====>', item.fileName.slice(-8, -1) + 'g');
+      console.log('===>FOR EARCH===>', item?.assets[0].fileName);
+      data.append('images[]', {
+        uri: item?.assets[0].uri,
+        type: item?.assets[0].type,
+        name: item?.assets[0].fileName.slice(-8, -1) + 'g',
+      });
+    });
     data.append('location', country);
     data.append('description', description);
     // data.append('location', selectArea);
 
-    await fetch(`${Base_Url}/listings-store`, {
+    await fetch(`http://95.179.209.186/api/listings-store`, {
       method: 'POST',
       // headers: {
       //   'Content-Type': 'application/json',
@@ -163,7 +156,8 @@ const PostingListing = ({navigation, route}) => {
       } else {
         const source = response;
         setImages([...images, source.assets[0].uri]);
-        setImg(source);
+        setImg([...img, source]);
+        // setImg(source);
       }
     });
   };

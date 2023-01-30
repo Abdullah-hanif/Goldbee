@@ -59,6 +59,12 @@ const Card = ({
           borderTopRightRadius: 10,
         }}
         source={bgImage}
+        // source={{
+        //   uri:
+        //     bgImage == null
+        //       ? 'https://www.freshone.com.pk/content/images/thumbs/default-image_550.png'
+        //       : bgImage,
+        // }}
       />
       <View style={{padding: 10}}>
         <View

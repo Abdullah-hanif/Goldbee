@@ -193,25 +193,29 @@ const MyProfile = ({navigation}) => {
                     renderItem={data => {
                       //  console.log('INSIDE FLATLIST==>', data?.item?.images);
                       return (
-                        <>
-                          <MyCard
-                            // name={t('common:pearlring')}
-                            name={data?.item?.title}
-                            price={`$ ${data?.item?.price}`}
-                            bgImage={{
-                              uri: `${
-                                data?.item?.images
-                                  ? data?.item?.images
-                                  : data?.item?.images == null
-                                  ? [1]
-                                  : data?.item?.images
-                              }`,
-                            }}
-                            deleteIcon={true}
-                            onPress={() => deleteListing(data?.item?.id)}
-                            productDetails={data?.item}
-                          />
-                        </>
+                        console.log('======>FLATLIST ===>', data),
+                        (
+                          <>
+                            <MyCard
+                              // name={t('common:pearlring')}
+                              name={data?.item?.title}
+                              price={`$ ${data?.item?.price}`}
+                              bgImage={data?.item?.images}
+                              // bgImage={{
+                              //   uri: `${
+                              //     data?.item?.images
+                              //       ? data?.item?.images
+                              //       : data?.item?.images == null
+                              //       ? [1]
+                              //       : data?.item?.images
+                              //   }`,
+                              // }}
+                              deleteIcon={true}
+                              onPress={() => deleteListing(data?.item?.id)}
+                              productDetails={data?.item}
+                            />
+                          </>
+                        )
                       );
                     }}
                   />

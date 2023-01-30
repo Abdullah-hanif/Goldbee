@@ -18,6 +18,12 @@ const MyCard = ({
   productDetails,
   getFUN,
 }) => {
+  // console.log(
+  //   'IMG URI===>',
+  //   bgImage == null ? 'null day rha ha' : bgImage[0],
+  //   '======>',
+  // );
+  // alert('woking');
   const AddFav = async () => {
     const userId = await AsyncStorage.getItem('uid');
     // console.log('USER ID ====>', userId);
@@ -46,6 +52,8 @@ const MyCard = ({
       });
   };
   const nav = useNavigation();
+
+  console.log('IMAGE URI=====>', bgImage == null ? 'null image' : bgImage[0]);
   return (
     <TouchableOpacity
       onPress={() =>
@@ -60,7 +68,15 @@ const MyCard = ({
           borderTopLeftRadius: 10,
           borderTopRightRadius: 10,
         }}
-        source={bgImage}
+        source={{
+          uri:
+            bgImage == null
+              ? 'https://www.freshone.com.pk/content/images/thumbs/default-image_550.png'
+              : bgImage[0],
+        }}
+
+        // source={{uri: 'http://95.179.209.186/listingImages/acc7.png'}}
+        // source={bgImage}
       />
       <View style={{padding: 10}}>
         <View
