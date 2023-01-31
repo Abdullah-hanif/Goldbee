@@ -17,7 +17,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useIsFocused} from '@react-navigation/native';
 
 const Home = ({naviagtion}) => {
+  const {t} = useTranslation();
+
   const [data, setData] = React.useState();
+  const [filterData, setFilterData] = React.useState();
+  const [selected, setSelected] = React.useState(t('common:all'));
+
   // console.log('=====>HOME DATA===>', data);
   const getAllListing = async () => {
     const userId = await AsyncStorage.getItem('uid');
@@ -27,7 +32,7 @@ const Home = ({naviagtion}) => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({location: 'test'}),
+      // body: JSON.stringify({location: 'test'}),
     })
       .then(response => response.json())
       .then(data => {
@@ -35,7 +40,13 @@ const Home = ({naviagtion}) => {
         const respo = data;
         // console.log('RESPONSE HOME', respo?.data);
 
-        setData(respo?.data[0]?.listings);
+        let tempData = [];
+        respo?.data?.map(item => {
+          tempData = [...tempData, ...item.listings];
+        });
+        setData(tempData);
+        setFilterData(tempData);
+        // console.log('RESPONSE LENGTH====>', tempData.length);
         if (respo?.message == 'Logged In successfully') {
           console.log(respo?.status, '=====>');
         } else {
@@ -47,26 +58,36 @@ const Home = ({naviagtion}) => {
       });
   };
 
+  const hadlefilter = () => {
+    const filterData = data?.filter(val => val?.category === selected);
+    setFilterData(filterData);
+    // console.log('CONDITOON DATA===>', filterData);
+    selected == 'All' ? getAllListing() : null;
+  };
+
   const focused = useIsFocused();
   React.useEffect(() => {
     getAllListing();
   }, [focused == true]);
 
-  const {t} = useTranslation();
-  const [selected, setSelected] = React.useState(t('common:all'));
+  React.useEffect(() => {
+    hadlefilter();
+  }, [selected]);
+
   const handleSelected = value => {
-    alert(value);
+    // alert(value);
+
     // value==
     // console.log(
     //   'KJHDKJHKSH',
     //   data?.filter(val => val?.category === 'Bracelet'),
-    console.log('FILTER SEARCH ===>,', data[0]?.category);
+    // console.log('FILTER SEARCH ===>,', data[0]?.category);
     // filterData(value);
     // );
-    const filterData = data?.filter(val => val?.category === value);
-    setData(filterData);
-    console.log('CONDITOON DATA===>', filterData);
-    value == 'All' ? getAllListing() : null;
+    // const filterData = data?.filter(val => val?.category === value);
+    // setData(filterData);
+    // console.log('CONDITOON DATA===>', filterData);
+    // value == 'All' ? getAllListing() : null;
     setSelected(value);
   };
 
@@ -143,7 +164,7 @@ const Home = ({naviagtion}) => {
         scrollEnabled
         showsVerticalScrollIndicator={false}
         style={{margin: 20}}
-        data={data}
+        data={filterData}
         numColumns={2}
         renderItem={item => {
           return (

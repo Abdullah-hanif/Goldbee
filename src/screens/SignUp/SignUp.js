@@ -5,6 +5,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  TextInput,
 } from 'react-native';
 import React from 'react';
 import {Color} from '../../constants/colors';
@@ -18,6 +19,9 @@ import {useTranslation} from 'react-i18next';
 import {Base_Url} from '../../api/Api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+// @ICons
+import AntDesign from 'react-native-vector-icons/AntDesign';
+
 const SignUp = () => {
   const navigation = useNavigation();
   const [checked, setChecked] = React.useState(false);
@@ -26,6 +30,10 @@ const SignUp = () => {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [conPassword, setConPassword] = React.useState('');
+  const [Cities, setCities] = React.useState('Cities');
+  const [country, setCountry] = React.useState('Country');
+
+  const [countryModal, setCountryModal] = React.useState(false);
 
   // const [userDetail, setUseDetails] = React.useState({
   //   name: '',
@@ -33,6 +41,19 @@ const SignUp = () => {
   //   password: '',
   //   confirmed_password: '',
   // });
+
+  const cities = [
+    'Madrid',
+    'Barcelona',
+    'Valencia',
+    'Sevilla',
+    'Málaga',
+    'Murcia',
+    'Bilbao',
+    'Zaragoza',
+    'Palma de Mallorca',
+    'Las Palmas de Gran Canaria',
+  ];
 
   const signInUser = () => {
     console.log('STATE====>', firstname, lastName, email, conPassword);
@@ -47,6 +68,7 @@ const SignUp = () => {
         email: email,
         password: password,
         confirmed_password: conPassword,
+        city: Cities,
       }),
     })
       .then(response => response.json())
@@ -56,6 +78,8 @@ const SignUp = () => {
         console.log(respo?.status, '=====>');
         if (respo?.message == 'Registered successfully') {
           alert(respo?.message);
+
+          console.log('RESPONSE======>', respo);
           // navigation.navigate('BottomNavigation');
           navigation.navigate('Login');
         } else {
@@ -92,13 +116,71 @@ const SignUp = () => {
           placeHolder={t('common:email')}
         />
         <TextField
-          setTxt={txt => setEmail(txt)}
+          setTxt={txt => setCountry(txt)}
           placeHolder={t('common:country')}
         />
         <TextField
           setTxt={txt => setPassword(txt)}
           placeHolder={t('common:password')}
         />
+        <View
+          style={[
+            styles.dropDownContainer,
+            {
+              borderBottomLeftRadius: countryModal ? 0 : 20,
+              borderBottomRightRadius: countryModal ? 0 : 20,
+              // borderRadius: 20,
+              borderBottomWidth: countryModal ? 1 : 1,
+            },
+          ]}>
+          <TextInput
+            // setTxt={txt => setCountry(txt)}
+
+            placeholderTextColor={Color.darkGray}
+            placeholder={Cities}
+          />
+          {/* <TextField
+      
+            setTxt={txt => setCountry(txt)}
+            placeHolder={t('common:country')}
+          /> */}
+          <TouchableOpacity
+            style={{right: 10}}
+            onPress={() => setCountryModal(!countryModal)}>
+            <AntDesign
+              name={countryModal ? 'up' : 'down'}
+              size={20}
+              color="black"
+            />
+          </TouchableOpacity>
+        </View>
+        {countryModal ? (
+          <>
+            <ScrollView nestedScrollEnabled={true} style={styles.txtContainer1}>
+              {cities.map((data, index) => {
+                return (
+                  <>
+                    <TouchableOpacity
+                      style={{
+                        borderBottomWidth: 1,
+                        borderColor: 'black',
+                        paddingVertical: 10,
+                        marginBottom: 22,
+                      }}
+                      onPress={() => {
+                        setCountryModal(false), setCities(data);
+                      }}>
+                      <Text style={{color: 'black', fontWeight: 'bold'}}>
+                        {data}
+                      </Text>
+                    </TouchableOpacity>
+                  </>
+                );
+              })}
+            </ScrollView>
+            {/* </ScrollView> */}
+          </>
+        ) : null}
         <TextField
           setTxt={txt => setConPassword(txt)}
           placeHolder={t('common:conformpassword')}
@@ -177,5 +259,21 @@ const styles = StyleSheet.create({
     fontSize: 15,
     left: 10,
     color: Color.darkOrange,
+  },
+  dropDownContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '100%',
+    // padding: 5,
+
+    borderWidth: 1,
+    marginVertical: 10,
+
+    borderTopEndRadius: 20,
+    borderTopLeftRadius: 20,
+
+    borderColor: 'gray',
+    top: 5,
   },
 });
