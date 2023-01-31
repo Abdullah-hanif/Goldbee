@@ -5,6 +5,9 @@ import {
   View,
   Image,
   FlatList,
+  Modal,
+  TextInput,
+  TouchableOpacity,
 } from 'react-native';
 import React from 'react';
 import {Color} from '../../constants/colors';
@@ -16,12 +19,30 @@ import {Base_Url} from '../../api/Api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useIsFocused} from '@react-navigation/native';
 
+// @ICons
+import AntDesign from 'react-native-vector-icons/AntDesign';
+
 const Home = ({naviagtion}) => {
   const {t} = useTranslation();
 
   const [data, setData] = React.useState();
   const [filterData, setFilterData] = React.useState();
   const [selected, setSelected] = React.useState(t('common:all'));
+  const [countryModal, setCountryModal] = React.useState(false);
+  const [Cities, setCities] = React.useState('Cities');
+
+  const cities = [
+    'Madrid',
+    'Barcelona',
+    'Valencia',
+    'Sevilla',
+    'Málaga',
+    'Murcia',
+    'Bilbao',
+    'Zaragoza',
+    'Palma de Mallorca',
+    'Las Palmas de Gran Canaria',
+  ];
 
   // console.log('=====>HOME DATA===>', data);
   const getAllListing = async () => {
@@ -64,6 +85,12 @@ const Home = ({naviagtion}) => {
     // console.log('CONDITOON DATA===>', filterData);
     selected == 'All' ? getAllListing() : null;
   };
+  const hadleCiteiesFilter = () => {
+    const filterData = data?.filter(val => val?.location === 'Bilbao');
+    setFilterData(filterData);
+    // console.log('CONDITOON DATA===>', filterData);
+    // Cities == 'All' ? getAllListing() : null;
+  };
 
   const focused = useIsFocused();
   React.useEffect(() => {
@@ -74,20 +101,11 @@ const Home = ({naviagtion}) => {
     hadlefilter();
   }, [selected]);
 
-  const handleSelected = value => {
-    // alert(value);
+  React.useEffect(() => {
+    hadleCiteiesFilter();
+  }, [Cities]);
 
-    // value==
-    // console.log(
-    //   'KJHDKJHKSH',
-    //   data?.filter(val => val?.category === 'Bracelet'),
-    // console.log('FILTER SEARCH ===>,', data[0]?.category);
-    // filterData(value);
-    // );
-    // const filterData = data?.filter(val => val?.category === value);
-    // setData(filterData);
-    // console.log('CONDITOON DATA===>', filterData);
-    // value == 'All' ? getAllListing() : null;
+  const handleSelected = value => {
     setSelected(value);
   };
 
@@ -95,6 +113,65 @@ const Home = ({naviagtion}) => {
     <View style={styles.container}>
       <View style={{padding: 20}}>
         <SearchBar />
+        <View
+          style={[
+            styles.dropDownContainer,
+            {
+              borderBottomLeftRadius: countryModal ? 0 : 20,
+              borderBottomRightRadius: countryModal ? 0 : 20,
+              // borderRadius: 20,
+              borderBottomWidth: countryModal ? 1 : 1,
+            },
+          ]}>
+          {/* <TextInput
+            // setTxt={txt => setCountry(txt)}
+
+            placeholderTextColor={Color.darkGray}
+            placeholder={Cities}
+          /> */}
+          <Text>{Cities}</Text>
+          {/* <TextField
+      
+            setTxt={txt => setCountry(txt)}
+            placeHolder={t('common:country')}
+          /> */}
+          <TouchableOpacity
+            style={{right: 10}}
+            onPress={() => setCountryModal(!countryModal)}>
+            <AntDesign
+              name={countryModal ? 'up' : 'down'}
+              size={20}
+              color="black"
+            />
+          </TouchableOpacity>
+        </View>
+        {countryModal ? (
+          <>
+            <ScrollView nestedScrollEnabled={true} style={styles.txtContainer1}>
+              {cities.map((data, index) => {
+                return (
+                  <>
+                    <TouchableOpacity
+                      style={{
+                        borderBottomWidth: 1,
+                        borderColor: 'black',
+                        paddingVertical: 10,
+                        marginBottom: 22,
+                      }}
+                      onPress={() => {
+                        setCountryModal(false), setCities(data);
+                      }}>
+                      <Text style={{color: 'black', fontWeight: 'bold'}}>
+                        {data}
+                      </Text>
+                    </TouchableOpacity>
+                  </>
+                );
+              })}
+            </ScrollView>
+            {/* </ScrollView> */}
+          </>
+        ) : null}
       </View>
       <View>
         <ScrollView
@@ -203,5 +280,35 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Color.splashWhite,
     // padding: 20,
+  },
+  dropDownContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '100%',
+    padding: 15,
+    // padding: 5,
+
+    borderWidth: 1,
+    marginVertical: 10,
+
+    borderTopEndRadius: 20,
+    borderTopLeftRadius: 20,
+
+    borderColor: 'gray',
+    top: 5,
+  },
+  txtContainer1: {
+    borderWidth: 1,
+    borderRadius: 1,
+    borderColor: 'gray',
+    height: 120,
+
+    paddingTop: 30,
+    borderTopWidth: 0,
+    bottom: 10,
+
+    padding: 10,
+    textAlignVertical: 'top',
   },
 });

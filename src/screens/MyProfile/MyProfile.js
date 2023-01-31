@@ -19,12 +19,21 @@ import {useTranslation} from 'react-i18next';
 import {Base_Url} from '../../api/Api';
 import {useIsFocused} from '@react-navigation/native';
 
+// @ICONS
+import Feather from 'react-native-vector-icons/Feather';
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {TextInput} from 'react-native-paper';
 
 const MyProfile = ({navigation}) => {
   const {t} = useTranslation();
   const [switchName, setSwitch] = React.useState('MyProfile');
   const [allListing, setAllListing] = React.useState();
+  const [editable, setEditable] = React.useState(false);
+  const [phoneNumber, setPhoneNumber] = React.useState('');
+  const [whatsappNumber, setWhatsappNumber] = React.useState('');
+  const [location, setLocation] = React.useState('');
+
   const focused = useIsFocused();
   React.useEffect(() => {
     getMylisting();
@@ -78,6 +87,10 @@ const MyProfile = ({navigation}) => {
   const hadleSwitc = data => {
     setSwitch(data);
     // alert(switchName, '===>');
+  };
+
+  const SaveData = () => {
+    console.log(phoneNumber, whatsappNumber, location, '=====>DATA LIST');
   };
   return (
     <>
@@ -145,6 +158,8 @@ const MyProfile = ({navigation}) => {
                 </Text>
                 <View style={{marginVertical: 20}}>
                   <InforamtionConainer
+                    getInputTxt={txt => setPhoneNumber(txt)}
+                    editable={editable}
                     text1={t('common:phonnumber')}
                     text2="+1 773 567 8790"
                     icon={
@@ -155,6 +170,8 @@ const MyProfile = ({navigation}) => {
                     }
                   />
                   <InforamtionConainer
+                    getInputTxt={txt => setWhatsappNumber(txt)}
+                    editable={editable}
                     text1="WhatsApp"
                     text2="+773 567 8790"
                     icon={
@@ -165,6 +182,8 @@ const MyProfile = ({navigation}) => {
                     }
                   />
                   <InforamtionConainer
+                    getInputTxt={txt => setLocation(txt)}
+                    editable={editable}
                     text1={t('common:location')}
                     text2="Chicago-USA"
                     icon={
@@ -179,7 +198,16 @@ const MyProfile = ({navigation}) => {
               {/*END Seller Information Section  */}
               {/* Button */}
               <View style={{marginBottom: 20}}>
-                <Buttons name={t('common:editprofile')} />
+                <Buttons
+                  onpress={() => setEditable(true)}
+                  name={t('common:editprofile')}
+                />
+                <Buttons
+                  onpress={() => {
+                    setEditable(false), SaveData();
+                  }}
+                  name="Save"
+                />
               </View>
             </>
           ) : (
@@ -288,7 +316,7 @@ const SwitchButton = ({func}) => {
   );
 };
 
-const InforamtionConainer = ({text1, text2, icon}) => {
+const InforamtionConainer = ({text1, text2, icon, editable, getInputTxt}) => {
   return (
     <>
       <View
@@ -299,13 +327,27 @@ const InforamtionConainer = ({text1, text2, icon}) => {
           flexDirection: 'row',
           marginVertical: 5,
           alignItems: 'center',
+          justifyContent: 'space-between',
         }}>
         {/* <Text style={{textAlignVertical: 'center'}}>Phone</Text>
         {} */}
-        {icon}
-        <View style={{left: 10}}>
-          <Text style={styles.txtStyle}>{text1}</Text>
-          <Text style={styles.txtStyle}>{text2}</Text>
+        <View style={{flexDirection: 'row'}}>
+          {icon}
+          <View style={{left: 10}}>
+            <Text style={styles.txtStyle}>{text1}</Text>
+            {editable ? (
+              <TextInput
+                onChangeText={txt => getInputTxt(txt)}
+                activeOutlineColor="black"
+                activeUnderlineColor="#F6A507"
+                style={{backgroundColor: 'white'}}
+                placeholder={text2}
+                placeholderTextColor="black"
+              />
+            ) : (
+              <Text style={styles.txtStyle}>{text2}</Text>
+            )}
+          </View>
         </View>
       </View>
     </>
