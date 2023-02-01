@@ -57,7 +57,6 @@ const SignUp = () => {
 
   const signInUser = () => {
     console.log('STATE====>', firstname, lastName, email, conPassword);
-
     fetch(`${Base_Url}/register`, {
       method: 'POST',
       headers: {

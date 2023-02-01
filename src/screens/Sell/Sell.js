@@ -74,7 +74,7 @@ const Sell = () => {
                 />
               }
               nexScreen={() =>
-                nav.navigate('PostingListing', {Categories: 'necklaces'})
+                nav.navigate('PostingListing', {Categories: 'Necklaces'})
               }
               name={t('common:necklaces')}
             />
@@ -86,7 +86,7 @@ const Sell = () => {
                 />
               }
               nexScreen={() =>
-                nav.navigate('PostingListing', {Categories: 'earrings'})
+                nav.navigate('PostingListing', {Categories: 'Earrings'})
               }
               name={t('common:earrings')}
             />
@@ -98,7 +98,7 @@ const Sell = () => {
                 />
               }
               nexScreen={() =>
-                nav.navigate('PostingListing', {Categories: 'bracelat'})
+                nav.navigate('PostingListing', {Categories: 'Bracelat'})
               }
               name={t('common:bracelat')}
             />
