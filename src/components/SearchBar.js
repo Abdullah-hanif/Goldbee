@@ -15,7 +15,7 @@ const SearchBar = ({getSearch}) => {
         source={require('../assets/Icons/Group13732.png')}
       />
       <TextInput
-        style={{left: 20}}
+        style={{left: 20,width:'80%'}}
         placeholder={t('common:Search')}
         placeholderTextColor={'gray'}
         onChangeText={txt => getSearch(txt)}

@@ -127,7 +127,7 @@ const ProductDetails = ({navigation, route}) => {
           style={{flexDirection: 'row', alignItems: 'center', marginTop: 30}}>
           <Image
             style={{height: 50, width: 50}}
-            source={require('../../assets/Icons/Ellipse28.png')}
+            source={{uri:sellerDetail?.profile_picture}}
           />
           <View style={{left: 10}}>
             <Text style={{fontWeight: 'bold', fontSize: 15, color: 'black'}}>

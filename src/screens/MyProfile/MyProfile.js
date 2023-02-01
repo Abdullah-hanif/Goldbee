@@ -204,13 +204,13 @@ const MyProfile = ({navigation}) => {
                       justifyContent: 'center',
                       alignItems: 'center',
                       backgroundColor: '#F6A507',
-                      height: 40,
-                      width: 40,
+                      height: 30,
+                      width: 30,
                       bottom: 10,
                       right: 15,
                       borderRadius: 30,
                     }}>
-                    <AntDesign name="camera" size={25} color="black" />
+                    <AntDesign name="camera" size={20} color="black" />
                   </TouchableOpacity>
                 </View>
                 <View style={{left: 10}}>
