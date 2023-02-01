@@ -5,7 +5,7 @@ import Search from 'react-native-vector-icons/AntDesign';
 
 import {useTranslation} from 'react-i18next';
 
-const SearchBar = () => {
+const SearchBar = ({getSearch}) => {
   const {t} = useTranslation();
   return (
     <View style={styles.container}>
@@ -18,6 +18,7 @@ const SearchBar = () => {
         style={{left: 20}}
         placeholder={t('common:Search')}
         placeholderTextColor={'gray'}
+        onChangeText={txt => getSearch(txt)}
       />
     </View>
   );

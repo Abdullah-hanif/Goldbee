@@ -30,6 +30,7 @@ const Home = ({naviagtion}) => {
   const [selected, setSelected] = React.useState(t('common:all'));
   const [countryModal, setCountryModal] = React.useState(false);
   const [Cities, setCities] = React.useState('Cities');
+  const [searchItem, setSearchItem] = React.useState('');
 
   const cities = [
     'Madrid',
@@ -86,10 +87,15 @@ const Home = ({naviagtion}) => {
     selected == 'All' ? getAllListing() : null;
   };
   const hadleCiteiesFilter = () => {
-    const filterData = data?.filter(val => val?.location === 'Bilbao');
+    const filterData = data?.filter(val => val?.location === Cities);
     setFilterData(filterData);
     // console.log('CONDITOON DATA===>', filterData);
     // Cities == 'All' ? getAllListing() : null;
+  };
+
+  const handleSearchItem = searctTxt => {
+    const filterData = data?.filter(val => val?.title === searctTxt);
+    setFilterData(filterData);
   };
 
   const focused = useIsFocused();
@@ -112,7 +118,7 @@ const Home = ({naviagtion}) => {
   return (
     <View style={styles.container}>
       <View style={{padding: 20}}>
-        <SearchBar />
+        <SearchBar getSearch={txt => handleSearchItem(txt)} />
         <View
           style={[
             styles.dropDownContainer,
