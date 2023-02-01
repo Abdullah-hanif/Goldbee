@@ -20,26 +20,36 @@ import {Base_Url} from '../../api/Api';
 import {useIsFocused} from '@react-navigation/native';
 
 // @ICONS
-import Feather from 'react-native-vector-icons/Feather';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {TextInput} from 'react-native-paper';
+
+// @ImagePicker
+import ImagePicker, {
+  launchCamera,
+  launchImageLibrary,
+} from 'react-native-image-picker';
 
 const MyProfile = ({navigation}) => {
   const {t} = useTranslation();
   const [switchName, setSwitch] = React.useState('MyProfile');
   const [allListing, setAllListing] = React.useState();
   const [editable, setEditable] = React.useState(false);
+  const [name, setName] = React.useState('');
   const [phoneNumber, setPhoneNumber] = React.useState('');
   const [whatsappNumber, setWhatsappNumber] = React.useState('');
   const [location, setLocation] = React.useState('');
+  const [profileImg, setProfileImg] = React.useState([]);
 
   const focused = useIsFocused();
+
   React.useEffect(() => {
     getMylisting();
   }, [focused == true]);
 
   const getMylisting = async () => {
+    console.log(profileImg.length, 'LENGYT==>');
     const userId = await AsyncStorage.getItem('uid');
     console.log('USER ID ====>', userId);
     // alert(userId);
@@ -92,6 +102,63 @@ const MyProfile = ({navigation}) => {
   const SaveData = () => {
     console.log(phoneNumber, whatsappNumber, location, '=====>DATA LIST');
   };
+
+  const changeProfilePicture = () => {
+    const options = {
+      selectionLimit: 10,
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+
+    launchImageLibrary(options, response => {
+      // console.log('Image LibraResponse = ', response);
+
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+      } else {
+        const source = response;
+        // setImages([...images, source.assets[0].uri]);
+        // setImg([...img, source]);
+        // console.log('PROFILE IMAGES======>', source.assets[0].uri);
+        setProfileImg(source.assets[0].uri);
+
+        // setImg(source);
+      }
+    });
+  };
+
+  const updateProfile = async () => {
+    const userId = await AsyncStorage.getItem('uid');
+
+    const data = new FormData();
+    data.append('user_id', userId);
+    data.append('name', name);
+
+    await fetch(`${Base_Url}/update-profile`, {
+      method: 'POST',
+      body: data,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+      .then(response => response.json())
+      .then(data => {
+        //   const res = data.json();
+        const respo = data;
+        console.log(respo, 'UPDATE PROFILE=====>');
+        setName(respo?.data?.name);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
+
   return (
     <>
       <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
@@ -119,15 +186,58 @@ const MyProfile = ({navigation}) => {
                   flexDirection: 'row',
                   alignItems: 'center',
                 }}>
-                <Image
-                  style={{height: 65, width: 65}}
-                  source={require('../../assets/Icons/Ellipse28.png')}
-                />
+                <View style={{justifyContent: 'center', alignItems: 'center'}}>
+                  {profileImg.length == 0 ? (
+                    <Image
+                      style={{height: 65, width: 65}}
+                      source={require('../../assets/Icons/Ellipse28.png')}
+                    />
+                  ) : (
+                    <Image
+                      style={{height: 65, width: 65, borderRadius: 35}}
+                      source={{uri: profileImg}}
+                    />
+                  )}
+                  <TouchableOpacity
+                    onPress={() => changeProfilePicture()}
+                    style={{
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      backgroundColor: '#F6A507',
+                      height: 40,
+                      width: 40,
+                      bottom: 10,
+                      right: 15,
+                      borderRadius: 30,
+                    }}>
+                    <AntDesign name="camera" size={25} color="black" />
+                  </TouchableOpacity>
+                </View>
                 <View style={{left: 10}}>
-                  <Text
-                    style={{fontWeight: 'bold', fontSize: 20, color: 'black'}}>
-                    John Micheal
-                  </Text>
+                  {editable ? (
+                    <TextInput
+                      onChangeText={txt => setName(txt)}
+                      activeOutlineColor="black"
+                      activeUnderlineColor="#F6A507"
+                      style={{
+                        backgroundColor: 'white',
+                        fontWeight: 'bold',
+                        fontSize: 20,
+                        color: 'black',
+                      }}
+                      placeholderTextColor="black"
+                      placeholder="John Micheal"
+                    />
+                  ) : (
+                    <Text
+                      style={{
+                        fontWeight: 'bold',
+                        fontSize: 20,
+                        color: 'black',
+                      }}>
+                      {name}
+                    </Text>
+                  )}
                   <Text
                     style={{
                       color: Color.darkOrange,
@@ -204,7 +314,7 @@ const MyProfile = ({navigation}) => {
                 />
                 <Buttons
                   onpress={() => {
-                    setEditable(false), SaveData();
+                    setEditable(false), SaveData(), updateProfile();
                   }}
                   name="Save"
                 />
