@@ -23,8 +23,8 @@ import {useTranslation} from 'react-i18next';
 const Login = () => {
   const navigation = useNavigation();
   const [checked, setChecked] = React.useState(false);
-  const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
+  const [email, setEmail] = React.useState('test@gmail.com');
+  const [password, setPassword] = React.useState('123456');
   const {t} = useTranslation();
 
   const loginUser = async () => {
@@ -76,10 +76,12 @@ const Login = () => {
         </Text>
         <View style={{marginTop: 20}}>
           <TextField
+            val={email}
             setTxt={txt => setEmail(txt)}
             placeHolder={t('common:email')}
           />
           <TextField
+            val={password}
             setTxt={txt => setPassword(txt)}
             placeHolder={t('common:password')}
           />

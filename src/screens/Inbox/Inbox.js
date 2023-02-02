@@ -6,41 +6,103 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {Color} from '../../constants/colors';
 import InboxMessages from '../../components/InboxMessages';
 import {InboxPeople} from '../../constants/dummyData';
+import {SellingChat} from '../../constants/dummyData';
 import {useTranslation} from 'react-i18next';
 import {t} from 'i18next';
+import {getInbox} from '../../api/InboxApi';
+import {Base_Url} from '../../api/Api';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useIsFocused} from '@react-navigation/native';
 
 const Inbox = () => {
   const {t} = useTranslation();
+  const [role, setRole] = useState('buying');
+  const [buyerChat, setBuyerChat] = useState([]);
+  const [sellerChat, setSellerChat] = useState([]);
+
+  const getInbox = async () => {
+    const userId = await AsyncStorage.getItem('uid');
+    await fetch(`${Base_Url}/get-inbox`, {
+      method: 'POST',
+      body: JSON.stringify({user_id: userId}),
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+      .then(response => response.json())
+      .then(data => {
+        //   const res = data.json();
+        const respo = data;
+        role == 'buying'
+          ? setBuyerChat(respo?.buying)
+          : setSellerChat(respo?.selling);
+        console.log(respo?.buying, 'UPDATE PROFILE=====>');
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
+  const focused = useIsFocused();
+  useEffect(() => {
+    getInbox();
+  }, [focused == true]);
+
   return (
     <View style={styles.container}>
+      <Text style={{color: 'black'}}>{role}</Text>
       <View style={styles.screenContainer}>
-        <SwitchButton />
+        <SwitchButton
+          changeRole={txt => {
+            setRole(txt);
+            getInbox();
+          }}
+        />
         <ScrollView showsVerticalScrollIndicator={false}>
           {/* //Main View */}
-          {InboxPeople.map((data, indx) => {
-            return (
-              <InboxMessages
-                key={data.id}
-                name={data.name}
-                productName={data.productName}
-                imageUri={data.imageUri}
-                time={data.time}
-                message={data.message}
-                price={data.price}
-              />
-            );
-          })}
+          {role == 'buying'
+            ? buyerChat.map((data, indx) => {
+                return (
+                  <InboxMessages
+                    key={Math.random() * 1000}
+                    name={data?.seller?.name}
+                    listingId={data?.listing_id}
+                    withId={data?.with_id}
+                    productName={data.listing?.category}
+                    imageUri={data?.seller?.profile_picture}
+                    time={data?.time_ago}
+                    message={data?.last_message}
+                    price={data.listing?.price}
+                    isRead={data?.read}
+                  />
+                );
+              })
+            : sellerChat.map((data, indx) => {
+                return (
+                  <InboxMessages
+                    key={data.id}
+                    name={data?.seller?.name}
+                    listingId={data?.listing_id}
+                    withId={data?.with_id}
+                    productName={data.listing?.category}
+                    imageUri={data?.seller?.profile_picture}
+                    time={data?.time_ago}
+                    message={data?.last_message}
+                    price={data.price}
+                    isRead={data?.read}
+                  />
+                );
+              })}
         </ScrollView>
       </View>
     </View>
   );
 };
 
-const SwitchButton = () => {
+const SwitchButton = ({changeRole}) => {
   const {t} = useTranslation();
 
   const [clicked, setClicked] = React.useState(true);
@@ -54,7 +116,9 @@ const SwitchButton = () => {
           margin: 35,
         }}>
         <TouchableOpacity
-          onPress={() => setClicked(true)}
+          onPress={() => {
+            setClicked(true), changeRole('buying');
+          }}
           style={[
             styles.buttonStyle,
             {
@@ -69,7 +133,9 @@ const SwitchButton = () => {
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => setClicked(false)}
+          onPress={() => {
+            setClicked(false), changeRole('selling');
+          }}
           style={[
             styles.buttonStyle,
             {

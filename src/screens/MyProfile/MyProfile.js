@@ -139,23 +139,11 @@ const MyProfile = ({navigation}) => {
     const data = new FormData();
     data.append('user_id', userId);
     data.append('name', name);
-    // profileImg.forEach((item, i) => {
-    //   // console.log('FOR EARCH=====>', item.fileName.slice(-8, -1) + 'g');
-    //   console.log('===>FOR EARCH===>', item?.assets[0].fileName);
     data.append('profile_picture', {
       uri: profileImg?.assets[0].uri,
       type: profileImg?.assets[0].type,
       name: profileImg?.assets[0].fileName.slice(-8, -1) + 'g',
     });
-
-    // console.log(
-    //   'PROFILE PICKER',
-    //   data.append('profile_picture', {
-    //     uri: item?.assets[0].uri,
-    //     type: item?.assets[0].type,
-    //     name: item?.assets[0].fileName.slice(-8, -1) + 'g',
-    //   }),
-    // );
 
     await fetch(`${Base_Url}/update-profile`, {
       method: 'POST',
