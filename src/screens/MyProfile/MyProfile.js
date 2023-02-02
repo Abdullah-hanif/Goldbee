@@ -126,7 +126,7 @@ const MyProfile = ({navigation}) => {
         // setImages([...images, source.assets[0].uri]);
         // setImg([...img, source]);
         // console.log('PROFILE IMAGES======>', source.assets[0].uri);
-        setProfileImg(source.assets[0].uri);
+        setProfileImg(source);
 
         // setImg(source);
       }
@@ -139,6 +139,23 @@ const MyProfile = ({navigation}) => {
     const data = new FormData();
     data.append('user_id', userId);
     data.append('name', name);
+    // profileImg.forEach((item, i) => {
+    //   // console.log('FOR EARCH=====>', item.fileName.slice(-8, -1) + 'g');
+    //   console.log('===>FOR EARCH===>', item?.assets[0].fileName);
+    data.append('profile_picture', {
+      uri: profileImg?.assets[0].uri,
+      type: profileImg?.assets[0].type,
+      name: profileImg?.assets[0].fileName.slice(-8, -1) + 'g',
+    });
+
+    // console.log(
+    //   'PROFILE PICKER',
+    //   data.append('profile_picture', {
+    //     uri: item?.assets[0].uri,
+    //     type: item?.assets[0].type,
+    //     name: item?.assets[0].fileName.slice(-8, -1) + 'g',
+    //   }),
+    // );
 
     await fetch(`${Base_Url}/update-profile`, {
       method: 'POST',
@@ -152,7 +169,6 @@ const MyProfile = ({navigation}) => {
         //   const res = data.json();
         const respo = data;
         console.log(respo, 'UPDATE PROFILE=====>');
-        setName(respo?.data?.name);
       })
       .catch(error => {
         console.error(error);
@@ -195,7 +211,7 @@ const MyProfile = ({navigation}) => {
                   ) : (
                     <Image
                       style={{height: 65, width: 65, borderRadius: 35}}
-                      source={{uri: profileImg}}
+                      source={{uri: profileImg?.assets[0]?.uri}}
                     />
                   )}
                   <TouchableOpacity
