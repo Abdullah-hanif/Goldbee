@@ -10,21 +10,21 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import React from 'react';
-import { Color } from '../../constants/colors';
+import {Color} from '../../constants/colors';
 import SearchBar from '../../components/SearchBar';
 import CategoryContainer from '../../components/CategoryContainer';
 import Card from '../../components/Card';
-import { useTranslation } from 'react-i18next';
-import { Base_Url } from '../../api/Api';
+import {useTranslation} from 'react-i18next';
+import {Base_Url} from '../../api/Api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useIsFocused } from '@react-navigation/native';
+import {useIsFocused} from '@react-navigation/native';
 
 // @ICons
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
 
-const Home = ({ naviagtion }) => {
-  const { t } = useTranslation();
+const Home = ({naviagtion}) => {
+  const {t} = useTranslation();
 
   const [data, setData] = React.useState();
   const [filterData, setFilterData] = React.useState();
@@ -97,6 +97,9 @@ const Home = ({ naviagtion }) => {
   const handleSearchItem = searctTxt => {
     const filterData = data?.filter(val => val?.title === searctTxt);
     setFilterData(filterData);
+    if (searctTxt == '') {
+      setFilterData(data);
+    }
   };
 
   const focused = useIsFocused();
@@ -118,7 +121,7 @@ const Home = ({ naviagtion }) => {
 
   return (
     <View style={styles.container}>
-      <View style={{ padding: 20 }}>
+      <View style={{padding: 20}}>
         <SearchBar getSearch={txt => handleSearchItem(txt)} />
         <View
           style={[
@@ -136,14 +139,14 @@ const Home = ({ naviagtion }) => {
             placeholderTextColor={Color.darkGray}
             placeholder={Cities}
           /> */}
-          <View style={{flexDirection:'row',alignItems:'center'}}>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <Entypo
               name={'location'}
               size={20}
               color="black"
-              style={{left:'10%'}}
+              style={{left: '10%'}}
             />
-            <Text style={{left:'100%'}}>{Cities}</Text>
+            <Text style={{left: '100%'}}>{Cities}</Text>
           </View>
           {/* <TextField
       
@@ -151,7 +154,7 @@ const Home = ({ naviagtion }) => {
             placeHolder={t('common:country')}
           /> */}
           <TouchableOpacity
-            style={{ right: 10 }}
+            style={{right: 10}}
             onPress={() => setCountryModal(!countryModal)}>
             <AntDesign
               name={countryModal ? 'caretup' : 'caretdown'}
@@ -176,7 +179,7 @@ const Home = ({ naviagtion }) => {
                       onPress={() => {
                         setCountryModal(false), setCities(data);
                       }}>
-                      <Text style={{ color: 'black', fontWeight: 'bold' }}>
+                      <Text style={{color: 'black', fontWeight: 'bold'}}>
                         {data}
                       </Text>
                     </TouchableOpacity>
@@ -192,14 +195,14 @@ const Home = ({ naviagtion }) => {
         <ScrollView
           horizontal={true}
           showsHorizontalScrollIndicator={false}
-          style={{ width: '100%' }}>
+          style={{width: '100%'}}>
           <CategoryContainer
             onPress={handleSelected}
             value={selected}
             name={t('common:all')}
             Icon={
               <Image
-                style={{ height: 20, width: 20 }}
+                style={{height: 20, width: 20}}
                 source={require('../../assets/Icons/Group13721.png')}
               />
             }
@@ -210,7 +213,7 @@ const Home = ({ naviagtion }) => {
             name={t('common:rings')}
             Icon={
               <Image
-                style={{ height: 20, width: 20 }}
+                style={{height: 20, width: 20}}
                 source={require('../../assets/Icons/Group13722.png')}
               />
             }
@@ -221,7 +224,7 @@ const Home = ({ naviagtion }) => {
             name={t('common:necklaces')}
             Icon={
               <Image
-                style={{ height: 20, width: 20 }}
+                style={{height: 20, width: 20}}
                 source={require('../../assets/Icons/Group13723.png')}
               />
             }
@@ -232,7 +235,7 @@ const Home = ({ naviagtion }) => {
             name={t('common:earrings')}
             Icon={
               <Image
-                style={{ height: 20, width: 20 }}
+                style={{height: 20, width: 20}}
                 source={require('../../assets/Icons/Group13724.png')}
               />
             }
@@ -243,7 +246,7 @@ const Home = ({ naviagtion }) => {
             name={t('common:bracelat')}
             Icon={
               <Image
-                style={{ height: 20, width: 20 }}
+                style={{height: 20, width: 20}}
                 source={require('../../assets/Icons/Group13725.png')}
               />
             }
@@ -255,7 +258,7 @@ const Home = ({ naviagtion }) => {
         key={Math.random() * 100000}
         scrollEnabled
         showsVerticalScrollIndicator={false}
-        style={{ margin: 20 }}
+        style={{margin: 20}}
         data={filterData}
         numColumns={2}
         renderItem={item => {
