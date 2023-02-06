@@ -76,14 +76,25 @@ const MyListingDetails = ({navigation, route}) => {
           backgroundColor: 'green',
           height: Dimensions.get('screen').height / 2.3,
         }}>
-        {images.map((e, index) => (
+        {productDetails?.images === null ? (
           <Image
             // resizeMode="contain"
-            key={index}
+            key={Math.random() * 1000}
             style={{height: '100%', width: Dimensions.get('screen').width}}
-            source={e}
+            source={{
+              uri: 'https://www.freshone.com.pk/content/images/thumbs/default-image_550.png',
+            }}
           />
-        ))}
+        ) : (
+          productDetails?.images.map((e, index) => (
+            <Image
+              // resizeMode="contain"
+              key={index}
+              style={{height: '100%', width: Dimensions.get('screen').width}}
+              source={{uri: e}}
+            />
+          ))
+        )}
       </ScrollView>
 
       <View
@@ -94,13 +105,24 @@ const MyListingDetails = ({navigation, route}) => {
           alignSelf: 'center',
           // backgroundColor: 'black',
         }}>
-        {images.map((e, index) => (
-          <Text
+        {productDetails?.images === null ? (
+          <Image
+            // resizeMode="contain"
             key={Math.random() * 1000}
-            style={imgActive == index ? styles.dotActive : styles.dot}>
-            ●
-          </Text>
-        ))}
+            style={{height: '100%', width: Dimensions.get('screen').width}}
+            source={{
+              uri: 'https://www.freshone.com.pk/content/images/thumbs/default-image_550.png',
+            }}
+          />
+        ) : (
+          productDetails?.images.map((e, index) => (
+            <Text
+              key={Math.random() * 1000}
+              style={imgActive == index ? styles.dotActive : styles.dot}>
+              ●
+            </Text>
+          ))
+        )}
       </View>
       {/* //PRofile VIew */}
       <View

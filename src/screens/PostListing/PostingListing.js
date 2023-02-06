@@ -238,7 +238,7 @@ const PostingListing = ({navigation, route}) => {
           style={{
             borderWidth: 1,
             borderColor: 'gray',
-            padding: 10,
+            // padding: 10,
             marginTop: 35,
             borderStyle: 'dashed',
             borderRadius: 10,

@@ -44,8 +44,19 @@ const MyProfile = ({navigation}) => {
 
   const focused = useIsFocused();
 
+  const fetchData = async () => {
+    const name = await AsyncStorage.getItem('userName');
+
+    const img = await AsyncStorage.getItem('imgUri');
+    setName(name);
+    console.log('=======>>', img);
+
+    setProfileImg(img);
+  };
+
   React.useEffect(() => {
     getMylisting();
+    fetchData();
   }, [focused == true]);
 
   const getMylisting = async () => {
@@ -157,6 +168,8 @@ const MyProfile = ({navigation}) => {
         //   const res = data.json();
         const respo = data;
         console.log(respo, 'UPDATE PROFILE=====>');
+        AsyncStorage.setItem('userName', respo?.data?.name);
+        AsyncStorage.setItem('imgUri', respo?.data?.profile_picture);
       })
       .catch(error => {
         console.error(error);
@@ -199,7 +212,12 @@ const MyProfile = ({navigation}) => {
                   ) : (
                     <Image
                       style={{height: 65, width: 65, borderRadius: 35}}
-                      source={{uri: profileImg?.assets[0]?.uri}}
+                      source={{
+                        uri:
+                          profileImg.length > 1
+                            ? profileImg
+                            : profileImg?.assets[0]?.uri,
+                      }}
                     />
                   )}
                   <TouchableOpacity

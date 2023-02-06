@@ -323,7 +323,9 @@ const ChatScreen = ({navigation, route}) => {
   };
 
   const getAllMessges = async () => {
+    console.log('MY MESSAGES=====>', messages);
     const userId = await AsyncStorage.getItem('uid');
+    setSenderID(userId);
     await fetch(`${Base_Url}/get-chat-history`, {
       method: 'POST',
       body: JSON.stringify({user_id: userId, listing_id: '20', with_id: 2}),
@@ -378,17 +380,24 @@ const ChatScreen = ({navigation, route}) => {
     );
 
     const {_id, createdAt, text, user} = messages[0];
+    console.log('My messages===>', text);
 
     sendMessage(text);
   }, []);
 
   const sendMessage = async text => {
+    const userId = await AsyncStorage.getItem('uid');
+
     await fetch(`${Base_Url}/send-message`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({sender_id: 1, listing_id: '20', text: 'hello'}),
+      body: JSON.stringify({
+        sender_id: userId,
+        listing_id: listingId,
+        text: text,
+      }),
     })
       .then(response => response.json())
 
@@ -457,38 +466,38 @@ const ChatScreen = ({navigation, route}) => {
         renderInputToolbar={props => customtInputToolbar(props)}
         renderAvatar={() => <CustomAvatar />}
         user={{
-          _id: 1,
+          _id: senderId,
           name: 'akif',
 
           avatar: 'https://placeimg.com/140/140/any',
         }}
-        renderSend={props => {
-          console.log(props, '===>SND PROPS');
-          return (
-            <TouchableOpacity
-              onPress={() => {
-                let message = {
-                  _id: Math.round(Math.random() * 1000000),
-                  text: 'hello',
-                  createdAt: new Date(),
-                  user: {
-                    _id: 1,
-                    name: 'User',
-                    avatar: 'https://picsum.photos/200',
-                  },
-                };
-                onSend([message]);
-              }}
-              style={{
-                backgroundColor: Color.darkOrange,
-                padding: 15,
-                right: 10,
-                borderRadius: 30,
-              }}>
-              <Send name="send" size={20} color="white" />
-            </TouchableOpacity>
-          );
-        }}
+        // renderSend={props => {
+        //   console.log(props, '===>SND PROPS');
+        //   return (
+        //     <TouchableOpacity
+        //       onPress={() => {
+        //         let message = {
+        //           _id: Math.round(Math.random() * 1000000),
+        //           text: 'hello',
+        //           createdAt: new Date(),
+        //           user: {
+        //             _id: 1,
+        //             name: 'User',
+        //             avatar: 'https://picsum.photos/200',
+        //           },
+        //         };
+        //         onSend([message]);
+        //       }}
+        //       style={{
+        //         backgroundColor: Color.darkOrange,
+        //         padding: 15,
+        //         right: 10,
+        //         borderRadius: 30,
+        //       }}>
+        //       <Send name="send" size={20} color="white" />
+        //     </TouchableOpacity>
+        //   );
+        // }}
         renderBubble={props => {
           return (
             <Bubble

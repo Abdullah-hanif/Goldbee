@@ -77,7 +77,11 @@ const Card = ({
           {!deleteIcon ? (
             <TouchableOpacity
               onPress={() => {
-                AddFav(), getFUN();
+                if (isFav == 'yes') {
+                  alert('already followed');
+                } else {
+                  AddFav(), getFUN();
+                }
               }}>
               <AntDesign
                 name={isFav == 'no' ? 'hearto' : 'heart'}

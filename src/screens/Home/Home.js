@@ -55,7 +55,7 @@ const Home = ({naviagtion}) => {
       headers: {
         'Content-Type': 'application/json',
       },
-      // body: JSON.stringify({location: 'test'}),
+      body: JSON.stringify({user_id: userId}),
     })
       .then(response => response.json())
       .then(data => {

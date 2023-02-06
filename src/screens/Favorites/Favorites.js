@@ -20,13 +20,13 @@ const Favorites = () => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({user_id: userId}),
+      body: JSON.stringify({user_id: 1}),
     })
       .then(response => response.json())
       .then(data => {
         //   const res = data.json();
         const respo = data;
-        console.log('RESPONSE HOME', respo?.data);
+        console.log('RESPONSE HOME FAV ICONS====>', respo?.data);
         setData(respo?.data);
         if (respo?.status == 200) {
           console.log(respo?.status, '=====>');
@@ -54,53 +54,6 @@ const Favorites = () => {
         {t('common:yousavewishlist')}
       </Text>
 
-      {/* <ScrollView showsVerticalScrollIndicator={false} style={{marginTop: 30}}>
-        <View>
-          <View style={{flexDirection: 'row'}}>
-            <Card
-              isFav={true}
-              name={t('common:pearlring')}
-              price="$ 545.00"
-              bgImage={require('../../assets/SamplePictures/1.png')}
-            />
-            <Card
-              isFav={true}
-              name={t('common:beadednecklaces')}
-              price=" $ 175.00"
-              bgImage={require('../../assets/SamplePictures/2.png')}
-            />
-          </View>
-          <View style={{flexDirection: 'row'}}>
-            <Card
-              isFav={true}
-              name={t('common:weddingring')}
-              price="$ 360.00"
-              bgImage={require('../../assets/SamplePictures/3.png')}
-            />
-            <Card
-              isFav={true}
-              name={t('common:earringbracelet')}
-              price="$ 437.00"
-              bgImage={require('../../assets/SamplePictures/4.png')}
-            />
-          </View>
-          <View style={{flexDirection: 'row'}}>
-            <Card
-              isFav={true}
-              name="Wedding Ring"
-              price="$ 360.00"
-              bgImage={require('../../assets/SamplePictures/3.png')}
-            />
-            <Card
-              isFav={true}
-              name="Earring Bracelet"
-              price="$ 437.00"
-              bgImage={require('../../assets/SamplePictures/4.png')}
-            />
-          </View>
-        </View>
-      </ScrollView> */}
-
       <FlatList
         key={Math.random() * 100000}
         showsVerticalScrollIndicator={false}
@@ -108,22 +61,15 @@ const Favorites = () => {
         data={data}
         numColumns={2}
         renderItem={item => {
+          console.log('ITEM NAME', item?.item?.listing?.title);
           return (
             <>
               <Card
-                name={item?.item?.title}
-                price={`$ ${item?.item?.price}`}
-                bgImage={{
-                  uri: `${
-                    item?.item?.images
-                      ? item?.item?.images
-                      : item?.item?.images == null
-                      ? [1]
-                      : item?.item?.images
-                  }`,
-                }}
-                isFav={item?.item?.isFollowed}
-                productDetails={item?.item}
+                name={item?.item?.listing?.title}
+                price={`$ ${item?.item?.listing?.price}`}
+                bgImage={item?.item?.listing?.images}
+                isFav={item?.item?.listing?.isFollowed}
+                productDetails={item?.item?.listing}
               />
 
               {/* {/* </View> */}
