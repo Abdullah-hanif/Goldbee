@@ -16,6 +16,7 @@ const Card = ({
   productDetails,
   getFUN,
 }) => {
+  console.log('====>IMAGES', bgImage);
   const AddFav = async () => {
     const userId = await AsyncStorage.getItem('uid');
     // console.log('USER ID ====>', userId);

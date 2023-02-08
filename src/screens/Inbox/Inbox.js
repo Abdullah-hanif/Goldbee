@@ -53,7 +53,6 @@ const Inbox = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={{color: 'black'}}>{role}</Text>
       <View style={styles.screenContainer}>
         <SwitchButton
           changeRole={txt => {

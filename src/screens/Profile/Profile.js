@@ -13,6 +13,7 @@ import ProfileItemComp from '../../components/ProfileItemComp';
 
 // @Languge import
 import {useTranslation} from 'react-i18next';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Profile = ({navigation}) => {
   const {t} = useTranslation();
@@ -54,6 +55,9 @@ const Profile = ({navigation}) => {
             Icon={require('../../assets/Icons/Group13736.png')}
           />
           <ProfileItemComp
+            onClick={() => {
+              navigation.navigate('Login'), AsyncStorage.clear();
+            }}
             name={t('common:logout')}
             Icon={require('../../assets/Icons/Group40901.png')}
           />

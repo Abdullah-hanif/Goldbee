@@ -49,7 +49,7 @@ const MyProfile = ({navigation}) => {
 
     const img = await AsyncStorage.getItem('imgUri');
     setName(name);
-    console.log('=======>>', img);
+    console.log('=======>>ASYNC STORAGE IMG', img);
 
     setProfileImg(img);
   };
@@ -96,7 +96,7 @@ const MyProfile = ({navigation}) => {
         //   const res = data.json();
         const respo = data;
 
-        console.log(respo, 'DLETE RESPONSE');
+        console.log(respo, 'DLETE RESPONS ');
         alert(respo?.message);
         getMylisting();
       })
@@ -197,151 +197,158 @@ const MyProfile = ({navigation}) => {
           </View>
           {/* //ProfileScren */}
           {switchName == 'MyProfile' ? (
-            <>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                }}>
-                <View style={{justifyContent: 'center', alignItems: 'center'}}>
-                  {profileImg.length == 0 ? (
-                    <Image
-                      style={{height: 65, width: 65}}
-                      source={require('../../assets/Icons/Ellipse28.png')}
-                    />
-                  ) : (
-                    <Image
-                      style={{height: 65, width: 65, borderRadius: 35}}
-                      source={{
-                        uri:
-                          profileImg.length > 1
-                            ? profileImg
-                            : profileImg?.assets[0]?.uri,
-                      }}
-                    />
-                  )}
-                  <TouchableOpacity
-                    onPress={() => changeProfilePicture()}
-                    style={{
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      backgroundColor: '#F6A507',
-                      height: 30,
-                      width: 30,
-                      bottom: 10,
-                      right: 15,
-                      borderRadius: 30,
-                    }}>
-                    <AntDesign name="camera" size={20} color="black" />
-                  </TouchableOpacity>
-                </View>
-                <View style={{left: 10}}>
-                  {editable ? (
-                    <TextInput
-                      onChangeText={txt => setName(txt)}
-                      activeOutlineColor="black"
-                      activeUnderlineColor="#F6A507"
+            (console.log(
+              profileImg,
+              '=======================================>',
+            ),
+            (
+              <>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                  }}>
+                  <View
+                    style={{justifyContent: 'center', alignItems: 'center'}}>
+                    {profileImg?.length == 0 || profileImg == null ? (
+                      <Image
+                        style={{height: 65, width: 65}}
+                        source={require('../../assets/Icons/Ellipse28.png')}
+                      />
+                    ) : (
+                      <Image
+                        style={{height: 65, width: 65, borderRadius: 35}}
+                        source={{
+                          uri:
+                            profileImg?.length > 1
+                              ? profileImg
+                              : profileImg?.assets[0]?.uri,
+                        }}
+                      />
+                    )}
+                    <TouchableOpacity
+                      onPress={() => changeProfilePicture()}
                       style={{
-                        backgroundColor: 'white',
-                        fontWeight: 'bold',
-                        fontSize: 20,
-                        color: 'black',
-                      }}
-                      placeholderTextColor="black"
-                      placeholder="John Micheal"
-                    />
-                  ) : (
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        backgroundColor: '#F6A507',
+                        height: 30,
+                        width: 30,
+                        bottom: 10,
+                        right: 15,
+                        borderRadius: 30,
+                      }}>
+                      <AntDesign name="camera" size={20} color="black" />
+                    </TouchableOpacity>
+                  </View>
+                  <View style={{left: 10}}>
+                    {editable ? (
+                      <TextInput
+                        onChangeText={txt => setName(txt)}
+                        activeOutlineColor="black"
+                        activeUnderlineColor="#F6A507"
+                        style={{
+                          backgroundColor: 'white',
+                          fontWeight: 'bold',
+                          fontSize: 20,
+                          color: 'black',
+                        }}
+                        placeholderTextColor="black"
+                        placeholder="John Micheal"
+                      />
+                    ) : (
+                      <Text
+                        style={{
+                          fontWeight: 'bold',
+                          fontSize: 20,
+                          color: 'black',
+                        }}>
+                        {name}
+                      </Text>
+                    )}
                     <Text
                       style={{
-                        fontWeight: 'bold',
-                        fontSize: 20,
-                        color: 'black',
+                        color: Color.darkOrange,
                       }}>
-                      {name}
+                      Chicago - USA
                     </Text>
-                  )}
+                  </View>
+                </View>
+                {/* END PROFILE HEADER */}
+
+                {/* @About Section */}
+                <View style={{marginVertical: 20}}>
                   <Text
-                    style={{
-                      color: Color.darkOrange,
-                    }}>
-                    Chicago - USA
+                    style={{fontWeight: 'bold', fontSize: 18, color: 'black'}}>
+                    {t('common:about')}
+                  </Text>
+                  <Text style={{color: 'black', flexWrap: 'wrap', top: 10}}>
+                    {t('common:myprofiledetail')}
                   </Text>
                 </View>
-              </View>
-              {/* END PROFILE HEADER */}
+                {/* End About section */}
 
-              {/* @About Section */}
-              <View style={{marginVertical: 20}}>
-                <Text
-                  style={{fontWeight: 'bold', fontSize: 18, color: 'black'}}>
-                  {t('common:about')}
-                </Text>
-                <Text style={{color: 'black', flexWrap: 'wrap', top: 10}}>
-                  {t('common:myprofiledetail')}
-                </Text>
-              </View>
-              {/* End About section */}
-
-              {/* Seller Information Section  */}
-              <View>
-                <Text
-                  style={{fontWeight: 'bold', fontSize: 18, color: 'black'}}>
-                  {t('common:sellerinformation')}
-                </Text>
-                <View style={{marginVertical: 20}}>
-                  <InforamtionConainer
-                    getInputTxt={txt => setPhoneNumber(txt)}
-                    editable={editable}
-                    text1={t('common:phonnumber')}
-                    text2="+1 773 567 8790"
-                    icon={
-                      <Image
-                        style={{height: 30, width: 30}}
-                        source={require('../../assets/Icons/Group4060.png')}
-                      />
-                    }
+                {/* Seller Information Section  */}
+                <View>
+                  <Text
+                    style={{fontWeight: 'bold', fontSize: 18, color: 'black'}}>
+                    {t('common:sellerinformation')}
+                  </Text>
+                  <View style={{marginVertical: 20}}>
+                    <InforamtionConainer
+                      getInputTxt={txt => setPhoneNumber(txt)}
+                      editable={editable}
+                      text1={t('common:phonnumber')}
+                      text2="+1 773 567 8790"
+                      icon={
+                        <Image
+                          style={{height: 30, width: 30}}
+                          source={require('../../assets/Icons/Group4060.png')}
+                        />
+                      }
+                    />
+                    <InforamtionConainer
+                      getInputTxt={txt => setWhatsappNumber(txt)}
+                      editable={editable}
+                      text1="WhatsApp"
+                      text2="+773 567 8790"
+                      icon={
+                        <Image
+                          style={{height: 30, width: 30}}
+                          source={require('../../assets/Icons/Group4067.png')}
+                        />
+                      }
+                    />
+                    <InforamtionConainer
+                      getInputTxt={txt => setLocation(txt)}
+                      editable={editable}
+                      text1={t('common:location')}
+                      text2="Chicago-USA"
+                      icon={
+                        <Image
+                          style={{height: 30, width: 30}}
+                          source={require('../../assets/Icons/Group4039.png')}
+                        />
+                      }
+                    />
+                  </View>
+                </View>
+                {/*END Seller Information Section  */}
+                {/* Button */}
+                <View style={{marginBottom: 20}}>
+                  <Buttons
+                    onpress={() => setEditable(true)}
+                    name={t('common:editprofile')}
                   />
-                  <InforamtionConainer
-                    getInputTxt={txt => setWhatsappNumber(txt)}
-                    editable={editable}
-                    text1="WhatsApp"
-                    text2="+773 567 8790"
-                    icon={
-                      <Image
-                        style={{height: 30, width: 30}}
-                        source={require('../../assets/Icons/Group4067.png')}
-                      />
-                    }
-                  />
-                  <InforamtionConainer
-                    getInputTxt={txt => setLocation(txt)}
-                    editable={editable}
-                    text1={t('common:location')}
-                    text2="Chicago-USA"
-                    icon={
-                      <Image
-                        style={{height: 30, width: 30}}
-                        source={require('../../assets/Icons/Group4039.png')}
-                      />
-                    }
+                  <Buttons
+                    onpress={() => {
+                      setEditable(false), SaveData(), updateProfile();
+                    }}
+                    name="Save"
                   />
                 </View>
-              </View>
-              {/*END Seller Information Section  */}
-              {/* Button */}
-              <View style={{marginBottom: 20}}>
-                <Buttons
-                  onpress={() => setEditable(true)}
-                  name={t('common:editprofile')}
-                />
-                <Buttons
-                  onpress={() => {
-                    setEditable(false), SaveData(), updateProfile();
-                  }}
-                  name="Save"
-                />
-              </View>
-            </>
+              </>
+            ))
           ) : (
             <>
               <View>

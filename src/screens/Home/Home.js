@@ -9,7 +9,7 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {Color} from '../../constants/colors';
 import SearchBar from '../../components/SearchBar';
 import CategoryContainer from '../../components/CategoryContainer';
@@ -32,6 +32,10 @@ const Home = ({naviagtion}) => {
   const [countryModal, setCountryModal] = React.useState(false);
   const [Cities, setCities] = React.useState('Cities');
   const [searchItem, setSearchItem] = React.useState('');
+
+  //Citeis
+  const [citeiesList, setCititesList] = useState([]);
+  const [filterCitiesList, setFilterCiteisList] = useState();
 
   const cities = [
     'Madrid',
@@ -102,9 +106,18 @@ const Home = ({naviagtion}) => {
     }
   };
 
+  const handleSearchCites = searctTxt => {
+    const filterData = citeiesList.filter(val => val == searctTxt);
+    setFilterCiteisList(filterData);
+    if (searctTxt == '') {
+      setFilterCiteisList(citeiesList);
+    }
+  };
+
   const focused = useIsFocused();
   React.useEffect(() => {
     getAllListing();
+    getCityName();
   }, [focused == true]);
 
   React.useEffect(() => {
@@ -117,6 +130,36 @@ const Home = ({naviagtion}) => {
 
   const handleSelected = value => {
     setSelected(value);
+  };
+
+  const getCityName = country => {
+    // setLoading(true);
+    fetch('https://countriesnow.space/api/v0.1/countries/cities', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        country: 'Spain',
+      }),
+    })
+      .then(res => res.json())
+      .then(json => {
+        // setLoading(false)
+        //console.log(json)
+        if (json.error == false) {
+          setCititesList(json.data);
+          setFilterCiteisList(json.data);
+          console.log('CITIES NAME=====>', json.data);
+        } else {
+          alert(json.error);
+        }
+      })
+      .catch(error => {
+        // setLoading(false);
+        console.log('response error ===>', error);
+      });
   };
 
   return (
@@ -165,29 +208,38 @@ const Home = ({naviagtion}) => {
         </View>
         {countryModal ? (
           <>
-            <ScrollView nestedScrollEnabled={true} style={styles.txtContainer1}>
-              {cities.map((data, index) => {
+            <TextInput
+              placeholder="search citeis"
+              style={{
+                borderWidth: 1,
+                borderColor: 'black',
+                // backgroundColor: 'blue',
+                padding: 10,
+              }}
+              onChangeText={txt => handleSearchCites(txt)}
+            />
+            <FlatList
+              style={styles.txtContainer1}
+              data={filterCitiesList}
+              renderItem={item => {
                 return (
-                  <>
-                    <TouchableOpacity
-                      style={{
-                        borderBottomWidth: 1,
-                        borderColor: 'black',
-                        paddingVertical: 10,
-                        marginBottom: 22,
-                      }}
-                      onPress={() => {
-                        setCountryModal(false), setCities(data);
-                      }}>
-                      <Text style={{color: 'black', fontWeight: 'bold'}}>
-                        {data}
-                      </Text>
-                    </TouchableOpacity>
-                  </>
+                  <TouchableOpacity
+                    style={{
+                      borderBottomWidth: 1,
+                      borderColor: 'black',
+                      paddingVertical: 10,
+                      marginBottom: 22,
+                    }}
+                    onPress={() => {
+                      setCountryModal(false), setCities(item.item);
+                    }}>
+                    <Text style={{color: 'black', fontWeight: 'bold'}}>
+                      {item.item}
+                    </Text>
+                  </TouchableOpacity>
                 );
-              })}
-            </ScrollView>
-            {/* </ScrollView> */}
+              }}
+            />
           </>
         ) : null}
       </View>
@@ -248,6 +300,28 @@ const Home = ({naviagtion}) => {
               <Image
                 style={{height: 20, width: 20}}
                 source={require('../../assets/Icons/Group13725.png')}
+              />
+            }
+          />
+          <CategoryContainer
+            onPress={handleSelected}
+            value={selected}
+            name="Bangles"
+            Icon={
+              <Image
+                style={{height: 20, width: 20}}
+                source={require('../../assets/Icons/Group13731.png')}
+              />
+            }
+          />
+          <CategoryContainer
+            onPress={handleSelected}
+            value={selected}
+            name="Diamonds"
+            Icon={
+              <Image
+                style={{height: 20, width: 20}}
+                source={require('../../assets/Icons/Group13730.png')}
               />
             }
           />

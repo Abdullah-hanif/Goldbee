@@ -6,14 +6,15 @@ import {
   TouchableOpacity,
   View,
   TextInput,
+  FlatList,
 } from 'react-native';
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {Color} from '../../constants/colors';
 import TextField from '../../components/TextField';
 import Buttons from '../../components/Buttons';
 // import CheckBox from 'react-native-check-box';
 import {Checkbox} from 'react-native-paper';
-import {useNavigation} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import Back from 'react-native-vector-icons/AntDesign';
 import {useTranslation} from 'react-i18next';
 import {Base_Url} from '../../api/Api';
@@ -35,12 +36,28 @@ const SignUp = () => {
 
   const [countryModal, setCountryModal] = React.useState(false);
 
+  const [citeiesList, setCititesList] = useState([]);
+  const [filterCitiesList, setFilterCiteisList] = useState();
+
   // const [userDetail, setUseDetails] = React.useState({
   //   name: '',
   //   email: '',
   //   password: '',
   //   confirmed_password: '',
   // });
+
+  const focused = useIsFocused();
+  useEffect(() => {
+    getCityName();
+  }, [focused == true]);
+
+  const handleSearchCites = searctTxt => {
+    const filterData = citeiesList.filter(val => val == searctTxt);
+    setFilterCiteisList(filterData);
+    if (searctTxt == '') {
+      setFilterCiteisList(citeiesList);
+    }
+  };
 
   const cities = [
     'Madrid',
@@ -77,16 +94,48 @@ const SignUp = () => {
         console.log(respo?.status, '=====>');
         if (respo?.message == 'Registered successfully') {
           alert(respo?.message);
+          const uid = respo?.data?.id;
+          AsyncStorage.setItem('uid', JSON.stringify(uid));
 
           console.log('RESPONSE======>', respo);
-          // navigation.navigate('BottomNavigation');
-          navigation.navigate('Login');
+          navigation.navigate('BottomNavigation');
+          // navigation.navigate('Login');
         } else {
           alert(respo?.message);
         }
       })
       .catch(error => {
         console.error(error);
+      });
+  };
+
+  const getCityName = country => {
+    // setLoading(true);
+    fetch('https://countriesnow.space/api/v0.1/countries/cities', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        country: 'Spain',
+      }),
+    })
+      .then(res => res.json())
+      .then(json => {
+        // setLoading(false)
+        //console.log(json)
+        if (json.error == false) {
+          setCititesList(json.data);
+          setFilterCiteisList(json.data);
+          console.log('CITIES NAME=====>', json.data);
+        } else {
+          alert(json.error);
+        }
+      })
+      .catch(error => {
+        // setLoading(false);
+        console.log('response error ===>', error);
       });
   };
   const {t} = useTranslation();
@@ -155,10 +204,22 @@ const SignUp = () => {
         </View>
         {countryModal ? (
           <>
-            <ScrollView nestedScrollEnabled={true} style={styles.txtContainer1}>
-              {cities.map((data, index) => {
-                return (
-                  <>
+            <>
+              <TextInput
+                placeholder="search citeis"
+                style={{
+                  borderWidth: 1,
+                  borderColor: 'black',
+                  // backgroundColor: 'blue',
+                  padding: 10,
+                }}
+                onChangeText={txt => handleSearchCites(txt)}
+              />
+              <FlatList
+                style={styles.txtContainer1}
+                data={filterCitiesList}
+                renderItem={item => {
+                  return (
                     <TouchableOpacity
                       style={{
                         borderBottomWidth: 1,
@@ -167,17 +228,16 @@ const SignUp = () => {
                         marginBottom: 22,
                       }}
                       onPress={() => {
-                        setCountryModal(false), setCities(data);
+                        setCountryModal(false), setCities(item.item);
                       }}>
                       <Text style={{color: 'black', fontWeight: 'bold'}}>
-                        {data}
+                        {item.item}
                       </Text>
                     </TouchableOpacity>
-                  </>
-                );
-              })}
-            </ScrollView>
-            {/* </ScrollView> */}
+                  );
+                }}
+              />
+            </>
           </>
         ) : null}
         <TextField
@@ -274,5 +334,18 @@ const styles = StyleSheet.create({
 
     borderColor: 'gray',
     top: 5,
+  },
+  txtContainer1: {
+    borderWidth: 1,
+    borderRadius: 1,
+    borderColor: 'gray',
+    height: 120,
+
+    paddingTop: 30,
+    borderTopWidth: 0,
+    bottom: 10,
+
+    padding: 10,
+    textAlignVertical: 'top',
   },
 });

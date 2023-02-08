@@ -20,7 +20,7 @@ const Favorites = () => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({user_id: 1}),
+      body: JSON.stringify({user_id: userId}),
     })
       .then(response => response.json())
       .then(data => {

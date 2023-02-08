@@ -44,6 +44,7 @@ const Login = () => {
         const respo = data;
         console.log(respo?.status, '=====>');
         if (respo?.message == 'Logged In successfully') {
+          AsyncStorage.setItem('status', 'loggedIn');
           alert(respo?.data?.id);
           const uid = respo?.data?.id;
           console.log('logggg', typeof uid);

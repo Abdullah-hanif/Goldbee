@@ -11,7 +11,7 @@ import {
   StatusBar,
   PermissionsAndroid,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import TextField from '../../components/TextField';
 import Buttons from '../../components/Buttons';
@@ -32,6 +32,8 @@ import ImagePicker, {
   launchCamera,
   launchImageLibrary,
 } from 'react-native-image-picker';
+import {FlatList} from 'react-native-gesture-handler';
+import {useIsFocused} from '@react-navigation/native';
 
 const PostingListing = ({navigation, route}) => {
   const {t} = useTranslation();
@@ -44,15 +46,19 @@ const PostingListing = ({navigation, route}) => {
   //data of Fields
   const [title, setTitle] = React.useState('');
   const [price, setPrice] = React.useState('');
-  const [country, setCountry] = React.useState('Cities');
   const [selectArea, setSelectArea] = React.useState('');
   const [description, setDescription] = React.useState('');
   const [openModal1, setopenModal1] = React.useState(false);
   const [images, setImages] = React.useState([]);
   const [img, setImg] = React.useState([]);
 
+  const [country, setCountry] = React.useState('Cities');
+  const [citeiesList, setCititesList] = useState([]);
+  const [filterCitiesList, setFilterCiteisList] = useState();
+
   const {Categories} = route?.params;
-  console.log('CATEGORUESSSS===>', Categories);
+
+  console.log('CATEGORUESSSS===>', img);
   // const [city, setCity] = React.useState(null);
   // // console.log('title===>', title, price, country, selectArea, description);
   // const spainCities = [
@@ -65,75 +71,8 @@ const PostingListing = ({navigation, route}) => {
   //   {label: 'Málaga', value: 'malaga'},
   // ];
 
-  const cities = [
-    'Madrid',
-    'Barcelona',
-    'Valencia',
-    'Sevilla',
-    'Málaga',
-    'Murcia',
-    'Bilbao',
-    'Zaragoza',
-    'Palma de Mallorca',
-    'Las Palmas de Gran Canaria',
-  ];
   // console.log('Imags Arry===>', images);
   //posing Listing
-
-  const postListing = async () => {
-    const userId = await AsyncStorage.getItem('uid');
-    console.log('=====>DHJDKD', img);
-
-    const data = new FormData();
-    data.append('user_id', userId);
-    data.append('title', title);
-    data.append('price', price);
-    data.append('category', Categories);
-    img.forEach((item, i) => {
-      // console.log('FOR EARCH=====>', item.fileName.slice(-8, -1) + 'g');
-      console.log('===>FOR EARCH===>', item?.assets[0].fileName);
-      data.append('images[]', {
-        uri: item?.assets[0].uri,
-        type: item?.assets[0].type,
-        name: item?.assets[0].fileName.slice(-8, -1) + 'g',
-      });
-    });
-    data.append('location', country);
-    data.append('description', description);
-    // data.append('location', selectArea);
-
-    await fetch(`${Base_Url}/listings-store`, {
-      method: 'POST',
-      body: data,
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    })
-      .then(response => response.json())
-      .then(data => {
-        //   const res = data.json();
-        const respo = data;
-        console.log(respo?.status, '=====>');
-        if (respo?.message == 'Something missing. All fields are required') {
-          alert(respo?.message);
-        } else {
-          // alert(respo?.message);
-          setModalVisible(!modalVisible),
-            setTimeout(() => {
-              setModalVisible(false);
-              navigation.navigate('MyProfile');
-            }, 3000);
-        }
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  };
-
-  const selectedImg = [
-    {id: 1, imgUri: require('../../assets/SamplePictures/1.png')},
-    {id: 2, imgUri: require('../../assets/SamplePictures/2.png')},
-  ];
 
   const LaunchImageLibrary = () => {
     const options = {
@@ -171,60 +110,152 @@ const PostingListing = ({navigation, route}) => {
   };
 
   //CAMERA LAUNCH
-  const LaunchCamera = () => {
-    const options = {
-      storageOptions: {
-        skipBackup: true,
-        path: 'images',
-      },
-    };
-    launchCamera(options, response => {
-      console.log('Response = ', response);
+  const LaunchCamera = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.CAMERA,
+        {
+          title: 'Cool Photo App Camera Permission',
+          message:
+            'Cool Photo App needs access to your camera ' +
+            'so you can take awesome pictures.',
+          buttonNeutral: 'Ask Me Later',
+          buttonNegative: 'Cancel',
+          buttonPositive: 'OK',
+        },
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        console.log('You can use the camera');
+        const options = {
+          storageOptions: {
+            skipBackup: true,
+            path: 'images',
+          },
+        };
+        launchCamera(options, response => {
+          console.log('Response = ', response);
 
-      // Permissions for launchng camera
-      const requestCameraPermission = async () => {
-        try {
-          const granted = await PermissionsAndroid.request(
-            PermissionsAndroid.PERMISSIONS.CAMERA,
-            {
-              title: 'Cool Photo App Camera Permission',
-              message:
-                'Cool Photo App needs access to your camera ' +
-                'so you can take awesome pictures.',
-              buttonNeutral: 'Ask Me Later',
-              buttonNegative: 'Cancel',
-              buttonPositive: 'OK',
-            },
-          );
-          if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-            console.log('You can use the camera');
+          // Permissions for launchng camera
+
+          if (response.didCancel) {
+            console.log('User cancelled image picker');
+          } else if (response.error) {
+            console.log('ImagePicker Error: ', response.error);
+          } else if (response.customButton) {
+            console.log('User tapped custom button: ', response.customButton);
+            alert(response.customButton);
           } else {
-            console.log('Camera permission denied');
+            const source = response;
+            console.log('===>URL============>', source);
+            source?.errorCode
+              ? console.log('error code')
+              : setImages([...images, source?.assets[0]?.uri]);
+            setImg([...img, source]);
+
+            // imgUri(source.assets[0].uri);
+
+            // setBackLicence(source.assets[0].uri);
           }
-        } catch (err) {
-          console.warn(err);
-        }
-      };
-
-      requestCameraPermission();
-
-      if (response.didCancel) {
-        console.log('User cancelled image picker');
-      } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
-      } else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton);
-        alert(response.customButton);
+        });
       } else {
-        const source = response;
-        console.log('===>URL============>', source);
-        setImages([...images, source.assets[0].uri]);
-
-        // imgUri(source.assets[0].uri);
-
-        // setBackLicence(source.assets[0].uri);
+        console.log('Camera permission denied');
       }
+    } catch (err) {
+      console.warn(err);
+    }
+  };
+
+  const postListing = async () => {
+    const userId = await AsyncStorage.getItem('uid');
+    console.log('=====>DHJDKD', img);
+
+    const data = new FormData();
+    data.append('user_id', userId);
+    data.append('title', title);
+    data.append('price', price);
+    data.append('category', Categories);
+    img.forEach((item, i) => {
+      // console.log('FOR EARCH=====>', item.fileName.slice(-8, -1) + 'g');
+      console.log('===>FOR EARCH===>', item?.assets[0].fileName);
+      data.append('images[]', {
+        uri: item?.assets[0].uri,
+        type: item?.assets[0].type,
+        name: item?.assets[0].fileName.slice(-8, -1) + 'g',
+      });
     });
+    data.append('location', country);
+    data.append('description', description);
+    // data.append('location', selectArea);
+
+    await fetch(`http://95.179.209.186/api/listings-store`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      body: data,
+    })
+      .then(response => response.json())
+      .then(data => {
+        //   const res = data.json();
+        const respo = data;
+        console.log(respo?.status, '=====>');
+        if (respo?.message == 'Something missing. All fields are required') {
+          alert(respo?.message);
+        } else {
+          // alert(respo?.message);
+          setModalVisible(!modalVisible),
+            setTimeout(() => {
+              setModalVisible(false);
+              navigation.navigate('MyProfile');
+            }, 3000);
+        }
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
+
+  const focused = useIsFocused();
+
+  useEffect(() => {
+    getCityName();
+  }, [focused == true]);
+
+  const handleSearchCites = searctTxt => {
+    const filterData = citeiesList.filter(val => val == searctTxt);
+    setFilterCiteisList(filterData);
+    if (searctTxt == '') {
+      setFilterCiteisList(citeiesList);
+    }
+  };
+
+  const getCityName = () => {
+    // setLoading(true);
+    fetch('https://countriesnow.space/api/v0.1/countries/cities', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        country: 'Spain',
+      }),
+    })
+      .then(res => res.json())
+      .then(json => {
+        // setLoading(false)
+        //console.log(json)
+        if (json.error == false) {
+          setCititesList(json.data);
+          setFilterCiteisList(json.data);
+        } else {
+          alert(json.error);
+        }
+      })
+      .catch(error => {
+        // setLoading(false);
+        console.log('response error ===>', error);
+      });
   };
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
@@ -248,6 +279,7 @@ const PostingListing = ({navigation, route}) => {
               flexDirection: 'row',
               justifyContent: 'space-between',
               marginTop: 10,
+              padding: 10,
             }}>
             <TouchableOpacity
               // onPress={LaunchImageLibrary}
@@ -347,16 +379,42 @@ const PostingListing = ({navigation, route}) => {
         </View>
         {countryModal ? (
           <>
-            {/* <ScrollView nestedScrollEnabled={true} style={styles.txtContainer}> */}
-            {/* <Text>open</Text>
-              <Text>open</Text>
-              <Text>open</Text>
-              <Text>open</Text>
-              <Text>open</Text>
-              <Text>open</Text>
-              <Text>open</Text>
-              <Text>open</Text> */}
-            <ScrollView nestedScrollEnabled={true} style={styles.txtContainer1}>
+            <>
+              <TextInput
+                placeholder="search citeis"
+                style={{
+                  borderWidth: 1,
+                  borderColor: 'black',
+                  // backgroundColor: 'blue',
+                  padding: 10,
+                }}
+                onChangeText={txt => handleSearchCites(txt)}
+              />
+              <FlatList
+                style={styles.txtContainer1}
+                data={filterCitiesList}
+                renderItem={item => {
+                  return (
+                    <TouchableOpacity
+                      style={{
+                        borderBottomWidth: 1,
+                        borderColor: 'black',
+                        paddingVertical: 10,
+                        marginBottom: 22,
+                      }}
+                      onPress={() => {
+                        setCountryModal(false), setCountry(item.item);
+                      }}>
+                      <Text style={{color: 'black', fontWeight: 'bold'}}>
+                        {item.item}
+                      </Text>
+                    </TouchableOpacity>
+                  );
+                }}
+              />
+            </>
+
+            {/* <ScrollView nestedScrollEnabled={true} style={styles.txtContainer1}>
               {cities.map((data, index) => {
                 return (
                   <>
@@ -368,7 +426,7 @@ const PostingListing = ({navigation, route}) => {
                         marginBottom: 22,
                       }}
                       onPress={() => {
-                        setCountryModal(false), setCountry(data), alert(data);
+                        setCountryModal(false), setCountry(data);
                       }}>
                       <Text style={{color: 'black', fontWeight: 'bold'}}>
                         {data}
@@ -377,7 +435,7 @@ const PostingListing = ({navigation, route}) => {
                   </>
                 );
               })}
-            </ScrollView>
+            </ScrollView> */}
             {/* </ScrollView> */}
           </>
         ) : null}
@@ -507,7 +565,7 @@ const PostingListing = ({navigation, route}) => {
             }}>
             <TouchableOpacity
               onPress={() => {
-                LaunchCamera(), setopenModal1(false);
+                setopenModal1(false), LaunchCamera();
               }}
               style={{flexDirection: 'row'}}>
               <Ico name="camerao" size={30} color="black" />
