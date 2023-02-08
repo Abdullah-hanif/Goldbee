@@ -289,7 +289,7 @@ const MyProfile = ({navigation}) => {
                 {/* End About section */}
 
                 {/* Seller Information Section  */}
-                <View>
+                {/* <View>
                   <Text
                     style={{fontWeight: 'bold', fontSize: 18, color: 'black'}}>
                     {t('common:sellerinformation')}
@@ -332,7 +332,7 @@ const MyProfile = ({navigation}) => {
                       }
                     />
                   </View>
-                </View>
+                </View> */}
                 {/*END Seller Information Section  */}
                 {/* Button */}
                 <View style={{marginBottom: 20}}>
