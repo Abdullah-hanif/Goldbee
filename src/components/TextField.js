@@ -6,7 +6,7 @@ const TextField = ({placeHolder, setTxt, val}) => {
   return (
     <TextInput
       value={val}
-      placeholderTextColor={Color.darkGray}
+      placeholderTextColor={Color.black}
       style={styles.container}
       placeholder={placeHolder}
       onChangeText={txt => setTxt(txt)}

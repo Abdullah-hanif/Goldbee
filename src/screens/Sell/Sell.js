@@ -110,7 +110,7 @@ const Sell = () => {
                 />
               }
               nexScreen={() =>
-                nav.navigate('PostingListing', {Categories: 'bangles'})
+                nav.navigate('PostingListing', {Categories: 'Bangles'})
               }
               name={t('common:bangles')}
             />
@@ -122,7 +122,7 @@ const Sell = () => {
                 />
               }
               nexScreen={() =>
-                nav.navigate('PostingListing', {Categories: 'diamonds'})
+                nav.navigate('PostingListing', {Categories: 'Diamonds'})
               }
               name={t('common:diamonds')}
             />
