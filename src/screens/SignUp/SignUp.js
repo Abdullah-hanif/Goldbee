@@ -216,6 +216,8 @@ const SignUp = () => {
                 onChangeText={txt => handleSearchCites(txt)}
               />
               <FlatList
+                scrollEnabled={true}
+                nestedScrollEnabled={true}
                 style={styles.txtContainer1}
                 data={filterCitiesList}
                 renderItem={item => {
@@ -223,7 +225,7 @@ const SignUp = () => {
                     <TouchableOpacity
                       style={{
                         borderBottomWidth: 1,
-                        borderColor: 'black',
+                        borderColor: Color.gray,
                         paddingVertical: 10,
                         marginBottom: 22,
                       }}
