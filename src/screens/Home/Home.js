@@ -99,7 +99,9 @@ const Home = ({naviagtion}) => {
   };
 
   const handleSearchItem = searctTxt => {
-    const filterData = data?.filter(val => val?.title === searctTxt);
+    const filterData = data?.filter(val =>
+      val?.title.toLowerCase().startsWith(searctTxt.toLowerCase()),
+    );
     setFilterData(filterData);
     if (searctTxt == '') {
       setFilterData(data);
