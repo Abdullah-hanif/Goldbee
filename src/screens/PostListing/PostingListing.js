@@ -10,6 +10,7 @@ import {
   Dimensions,
   StatusBar,
   PermissionsAndroid,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -55,6 +56,8 @@ const PostingListing = ({navigation, route}) => {
   const [country, setCountry] = React.useState('Cities');
   const [citeiesList, setCititesList] = useState([]);
   const [filterCitiesList, setFilterCiteisList] = useState();
+
+  const [Loading, setLoading] = useState(false);
 
   const {Categories} = route?.params;
 
@@ -169,50 +172,66 @@ const PostingListing = ({navigation, route}) => {
     const userId = await AsyncStorage.getItem('uid');
     console.log('=====>DHJDKD', img);
 
-    const data = new FormData();
-    data.append('user_id', userId);
-    data.append('title', title);
-    data.append('price', price);
-    data.append('category', Categories);
-    img.forEach((item, i) => {
-      // console.log('FOR EARCH=====>', item.fileName.slice(-8, -1) + 'g');
-      console.log('===>FOR EARCH===>', item?.assets[0].fileName);
-      data.append('images[]', {
-        uri: item?.assets[0].uri,
-        type: item?.assets[0].type,
-        name: item?.assets[0].fileName.slice(-8, -1) + 'g',
+    if (
+      img !== null &&
+      img !== [] &&
+      img.length != 0 &&
+      title !== undefined &&
+      price !== undefined &&
+      Categories !== undefined &&
+      country !== undefined &&
+      description !== undefined
+    ) {
+      const data = new FormData();
+      data.append('user_id', userId);
+      data.append('title', title);
+      data.append('price', price);
+      data.append('category', Categories);
+      img.forEach((item, i) => {
+        // console.log('FOR EARCH=====>', item.fileName.slice(-8, -1) + 'g');
+        console.log('===>FOR EARCH===>', item?.assets[0].fileName);
+        data.append('images[]', {
+          uri: item?.assets[0].uri,
+          type: item?.assets[0].type,
+          name: item?.assets[0].fileName.slice(-8, -1) + 'g',
+        });
       });
-    });
-    data.append('location', country);
-    data.append('description', description);
-    // data.append('location', selectArea);
-
-    await fetch(`http://95.179.209.186/api/listings-store`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-      body: data,
-    })
-      .then(response => response.json())
-      .then(data => {
-        //   const res = data.json();
-        const respo = data;
-        console.log(respo?.status, '=====>');
-        if (respo?.message == 'Something missing. All fields are required') {
-          alert(respo?.message);
-        } else {
-          // alert(respo?.message);
-          setModalVisible(!modalVisible),
-            setTimeout(() => {
-              setModalVisible(false);
-              navigation.navigate('MyProfile');
-            }, 3000);
-        }
+      data.append('location', country);
+      data.append('description', description);
+      // data.append('location', selectArea);
+      setLoading(true);
+      await fetch(`http://95.179.209.186/api/listings-store`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+        body: data,
       })
-      .catch(error => {
-        console.error(error);
-      });
+        .then(response => response.json())
+        .then(data => {
+          //   const res = data.json();
+          const respo = data;
+          console.log(respo?.status, '=====>');
+          if (respo?.message == 'Something missing. All fields are required') {
+            alert(respo?.message);
+            setLoading(false);
+          } else {
+            // alert(respo?.message);
+            setModalVisible(!modalVisible),
+              setTimeout(() => {
+                setModalVisible(false);
+                setLoading(false);
+                navigation.navigate('BottomNavigation', {screen: 'Home'});
+              }, 3000);
+          }
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    } else {
+      alert('fileds are required');
+      setLoading(false);
+    }
   };
 
   const focused = useIsFocused();
@@ -483,13 +502,22 @@ const PostingListing = ({navigation, route}) => {
           </View>
         </View>
         {/* @Button */}
-        <Buttons
-          onpress={() => {
-            postListing();
-          }}
-          name={t('common:postlisting')}
-        />
+        {Loading ? (
+          <>
+            <TouchableOpacity disabled style={styles.containe11}>
+              <ActivityIndicator size={20} color={Color.yellow} />
+            </TouchableOpacity>
+          </>
+        ) : (
+          <Buttons
+            onpress={() => {
+              postListing();
+            }}
+            name={t('common:postlisting')}
+          />
+        )}
         <Modal
+          statusBarTranslucent
           animationType="slide"
           transparent={true}
           visible={modalVisible}
@@ -681,5 +709,20 @@ const styles = StyleSheet.create({
 
     padding: 10,
     textAlignVertical: 'top',
+  },
+
+  containe11: {
+    marginTop: 30,
+    // margin: 20,
+    borderWidth: 1,
+    borderColor: Color.yellow,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 15,
+    borderRadius: 30,
+  },
+  SignUp11: {
+    color: Color.darkOrange,
+    fontWeight: 'bold',
   },
 });
