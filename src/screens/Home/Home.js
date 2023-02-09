@@ -185,11 +185,15 @@ const Home = ({naviagtion}) => {
             placeholder={Cities}
           /> */}
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <Entypo
+            {/* <Entypo
               name={'location'}
               size={20}
               color="black"
               style={{left: '10%'}}
+            /> */}
+            <Image
+              style={{height: 20, width: 20}}
+              source={require('../../assets/Icons/Group4039.png')}
             />
             <Text style={{left: '100%'}}>{Cities}</Text>
           </View>

@@ -73,7 +73,7 @@ const MyListingDetails = ({navigation, route}) => {
         horizontal
         pagingEnabled
         style={{
-          backgroundColor: 'green',
+          backgroundColor: 'white',
           height: Dimensions.get('screen').height / 2.3,
         }}>
         {productDetails?.images === null ? (
@@ -81,9 +81,7 @@ const MyListingDetails = ({navigation, route}) => {
             // resizeMode="contain"
             key={Math.random() * 1000}
             style={{height: '100%', width: Dimensions.get('screen').width}}
-            source={{
-              uri: 'https://www.freshone.com.pk/content/images/thumbs/default-image_550.png',
-            }}
+            source={require('../../../assets/Icons/MaskGroup121.png')}
           />
         ) : (
           productDetails?.images.map((e, index) => (
@@ -139,7 +137,12 @@ const MyListingDetails = ({navigation, route}) => {
           style={{flexDirection: 'row', alignItems: 'center', marginTop: 30}}>
           <Image
             style={{height: 50, width: 50}}
-            source={require('../../../assets/Icons/Ellipse28.png')}
+            source={
+              sellerDetail?.profile_picture == null
+                ? require('../../../assets/Icons/MaskGroup121.png')
+                : {uri: sellerDetail?.profile_picture}
+            }
+            // source={require('../../../assets/Icons/Ellipse28.png')}
           />
           <View style={{left: 10}}>
             <Text style={{fontWeight: 'bold', fontSize: 15, color: 'black'}}>

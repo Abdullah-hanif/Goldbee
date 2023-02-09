@@ -27,7 +27,7 @@ const ProductDetails = ({navigation, route}) => {
   const {t} = useTranslation();
   const {productDetails} = route.params;
 
-  console.log('Product DETAILS====>', productDetails?.images);
+  console.log('COURUZAL IMAGES====>', productDetails?.images);
 
   const sellerDetail = productDetails['seller-details'];
   // console.log('MY PRODUCT DETAILS=====>', sellerDetail);
@@ -83,17 +83,24 @@ const ProductDetails = ({navigation, route}) => {
         horizontal
         pagingEnabled
         style={{
-          backgroundColor: 'green',
+          backgroundColor: 'white',
           height: Dimensions.get('screen').height / 2.3,
         }}>
-        {productDetails?.images?.map((e, index) => (
+        {productDetails?.images == null ? (
           <Image
-            // resizeMode="contain"
-            key={index}
             style={{height: '100%', width: Dimensions.get('screen').width}}
-            source={{uri: e}}
+            source={require('../../assets/Icons/MaskGroup121.png')}
           />
-        ))}
+        ) : (
+          productDetails?.images?.map((e, index) => (
+            <Image
+              // resizeMode="contain"
+              key={index}
+              style={{height: '100%', width: Dimensions.get('screen').width}}
+              source={{uri: e}}
+            />
+          ))
+        )}
       </ScrollView>
 
       <View
@@ -127,7 +134,11 @@ const ProductDetails = ({navigation, route}) => {
           style={{flexDirection: 'row', alignItems: 'center', marginTop: 30}}>
           <Image
             style={{height: 50, width: 50}}
-            source={{uri:sellerDetail?.profile_picture}}
+            source={
+              sellerDetail?.profile_picture == null
+                ? require('../../assets/Icons/MaskGroup121.png')
+                : {uri: sellerDetail?.profile_picture}
+            }
           />
           <View style={{left: 10}}>
             <Text style={{fontWeight: 'bold', fontSize: 15, color: 'black'}}>

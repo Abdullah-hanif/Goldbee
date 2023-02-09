@@ -60,12 +60,11 @@ const Card = ({
           borderTopLeftRadius: 10,
           borderTopRightRadius: 10,
         }}
-        source={{
-          uri:
-            bgImage == null
-              ? 'https://www.freshone.com.pk/content/images/thumbs/default-image_550.png'
-              : bgImage[0],
-        }}
+        source={
+          bgImage == null
+            ? require('../assets/Icons/MaskGroup121.png')
+            : {uri: bgImage[0]}
+        }
       />
       <View style={{padding: 10}}>
         <View
