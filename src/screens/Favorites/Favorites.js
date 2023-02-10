@@ -1,4 +1,11 @@
-import {FlatList, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {
+  FlatList,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  Image,
+} from 'react-native';
 import React from 'react';
 import {Color} from '../../constants/colors';
 import Card from '../../components/Card';
@@ -10,7 +17,7 @@ import {Base_Url} from '../../api/Api';
 
 const Favorites = () => {
   const {t} = useTranslation();
-  const [data, setData] = React.useState();
+  const [data, setData] = React.useState([]);
 
   const getAllFav = async () => {
     const userId = await AsyncStorage.getItem('uid');
@@ -26,8 +33,9 @@ const Favorites = () => {
       .then(data => {
         //   const res = data.json();
         const respo = data;
-        console.log('RESPONSE HOME FAV ICONS====>', respo?.data);
+
         setData(respo?.data);
+
         if (respo?.status == 200) {
           console.log(respo?.status, '=====>');
         } else {
@@ -54,29 +62,48 @@ const Favorites = () => {
         {t('common:yousavewishlist')}
       </Text>
 
-      <FlatList
-        key={Math.random() * 100000}
-        showsVerticalScrollIndicator={false}
-        scrollEnabled
-        data={data}
-        numColumns={2}
-        renderItem={item => {
-          console.log('ITEM NAME', item?.item?.listing?.title);
-          return (
-            <>
-              <Card
-                name={item?.item?.listing?.title}
-                price={`$ ${item?.item?.listing?.price}`}
-                bgImage={item?.item?.listing?.images}
-                isFav={item?.item?.listing?.isFollowed}
-                productDetails={item?.item?.listing}
-              />
+      {data.length == 0 ? (
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: 'white',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <Image
+            resizeMode="contain"
+            style={{height: 90, width: 90}}
+            source={require('../../assets/Icons/Icon2.png')}
+          />
+          <Text style={{color: Color.gray, fontSize: 15, marginVertical: 10}}>
+            no Favorites Yet!
+          </Text>
+        </View>
+      ) : (
+        <FlatList
+          key={Math.random() * 100000}
+          showsVerticalScrollIndicator={false}
+          scrollEnabled
+          data={data}
+          numColumns={2}
+          renderItem={item => {
+            console.log('ITEM NAME', item?.item?.listing?.title);
+            return (
+              <>
+                <Card
+                  name={item?.item?.listing?.title}
+                  price={`$ ${item?.item?.listing?.price}`}
+                  bgImage={item?.item?.listing?.images}
+                  isFav={item?.item?.listing?.isFollowed}
+                  productDetails={item?.item?.listing}
+                />
 
-              {/* {/* </View> */}
-            </>
-          );
-        }}
-      />
+                {/* {/* </View> */}
+              </>
+            );
+          }}
+        />
+      )}
     </View>
   );
 };

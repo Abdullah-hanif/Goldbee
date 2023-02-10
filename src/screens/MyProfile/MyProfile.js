@@ -7,6 +7,7 @@ import {
   Image,
   FlatList,
   Alert,
+  Dimensions,
 } from 'react-native';
 import React from 'react';
 
@@ -34,7 +35,7 @@ import ImagePicker, {
 const MyProfile = ({navigation}) => {
   const {t} = useTranslation();
   const [switchName, setSwitch] = React.useState('MyProfile');
-  const [allListing, setAllListing] = React.useState();
+  const [allListing, setAllListing] = React.useState([]);
   const [editable, setEditable] = React.useState(false);
   const [name, setName] = React.useState('');
   const [phoneNumber, setPhoneNumber] = React.useState('');
@@ -60,7 +61,7 @@ const MyProfile = ({navigation}) => {
   }, [focused == true]);
 
   const getMylisting = async () => {
-    console.log(profileImg.length, 'LENGYT==>');
+    // console.log(profileImg.length, 'LENGYT==>');
     const userId = await AsyncStorage.getItem('uid');
     console.log('USER ID ====>', userId);
     // alert(userId);
@@ -196,100 +197,104 @@ const MyProfile = ({navigation}) => {
             <SwitchButton func={data => hadleSwitc(data)} />
           </View>
           {/* //ProfileScren */}
-          {switchName == 'MyProfile' ? (
-            (console.log(
-              profileImg,
-              '=======================================>',
-            ),
-            (
-              <>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                  }}>
+          {switchName == 'MyProfile'
+            ? (console.log(
+                profileImg,
+                '=======================================>',
+              ),
+              (
+                <>
                   <View
-                    style={{justifyContent: 'center', alignItems: 'center'}}>
-                    {profileImg?.length == 0 || profileImg == null ? (
-                      <Image
-                        style={{height: 65, width: 65}}
-                        source={require('../../assets/Icons/Ellipse28.png')}
-                      />
-                    ) : (
-                      <Image
-                        style={{height: 65, width: 65, borderRadius: 35}}
-                        source={{
-                          uri:
-                            profileImg?.length > 1
-                              ? profileImg
-                              : profileImg?.assets[0]?.uri,
-                        }}
-                      />
-                    )}
-                    <TouchableOpacity
-                      onPress={() => changeProfilePicture()}
-                      style={{
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        backgroundColor: '#F6A507',
-                        height: 30,
-                        width: 30,
-                        bottom: 10,
-                        right: 15,
-                        borderRadius: 30,
-                      }}>
-                      <AntDesign name="camera" size={20} color="black" />
-                    </TouchableOpacity>
-                  </View>
-                  <View style={{left: 10}}>
-                    {editable ? (
-                      <TextInput
-                        onChangeText={txt => setName(txt)}
-                        activeOutlineColor="black"
-                        activeUnderlineColor="#F6A507"
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                    }}>
+                    <View
+                      style={{justifyContent: 'center', alignItems: 'center'}}>
+                      {profileImg?.length == 0 || profileImg == null ? (
+                        <Image
+                          style={{height: 65, width: 65}}
+                          source={require('../../assets/Icons/Ellipse28.png')}
+                        />
+                      ) : (
+                        <Image
+                          style={{height: 65, width: 65, borderRadius: 35}}
+                          source={{
+                            uri:
+                              profileImg?.length > 1
+                                ? profileImg
+                                : profileImg?.assets[0]?.uri,
+                          }}
+                        />
+                      )}
+                      <TouchableOpacity
+                        onPress={() => changeProfilePicture()}
                         style={{
-                          backgroundColor: 'white',
-                          fontWeight: 'bold',
-                          fontSize: 20,
-                          color: 'black',
-                        }}
-                        placeholderTextColor="black"
-                        placeholder="John Micheal"
-                      />
-                    ) : (
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          backgroundColor: '#F6A507',
+                          height: 30,
+                          width: 30,
+                          bottom: 10,
+                          right: 15,
+                          borderRadius: 30,
+                        }}>
+                        <AntDesign name="camera" size={20} color="black" />
+                      </TouchableOpacity>
+                    </View>
+                    <View style={{left: 10}}>
+                      {editable ? (
+                        <TextInput
+                          onChangeText={txt => setName(txt)}
+                          activeOutlineColor="black"
+                          activeUnderlineColor="#F6A507"
+                          style={{
+                            backgroundColor: 'white',
+                            fontWeight: 'bold',
+                            fontSize: 20,
+                            color: 'black',
+                          }}
+                          placeholderTextColor="black"
+                          placeholder="John Micheal"
+                        />
+                      ) : (
+                        <Text
+                          style={{
+                            fontWeight: 'bold',
+                            fontSize: 20,
+                            color: 'black',
+                          }}>
+                          {name}
+                        </Text>
+                      )}
                       <Text
                         style={{
-                          fontWeight: 'bold',
-                          fontSize: 20,
-                          color: 'black',
+                          color: Color.darkOrange,
                         }}>
-                        {name}
+                        Chicago - USA
                       </Text>
-                    )}
+                    </View>
+                  </View>
+                  {/* END PROFILE HEADER */}
+
+                  {/* @About Section */}
+                  <View style={{marginVertical: 20}}>
                     <Text
                       style={{
-                        color: Color.darkOrange,
+                        fontWeight: 'bold',
+                        fontSize: 18,
+                        color: 'black',
                       }}>
-                      Chicago - USA
+                      {t('common:about')}
+                    </Text>
+                    <Text style={{color: 'black', flexWrap: 'wrap', top: 10}}>
+                      {t('common:myprofiledetail')}
                     </Text>
                   </View>
-                </View>
-                {/* END PROFILE HEADER */}
+                  {/* End About section */}
 
-                {/* @About Section */}
-                <View style={{marginVertical: 20}}>
-                  <Text
-                    style={{fontWeight: 'bold', fontSize: 18, color: 'black'}}>
-                    {t('common:about')}
-                  </Text>
-                  <Text style={{color: 'black', flexWrap: 'wrap', top: 10}}>
-                    {t('common:myprofiledetail')}
-                  </Text>
-                </View>
-                {/* End About section */}
-
-                {/* Seller Information Section  */}
-                {/* <View>
+                  {/* Seller Information Section  */}
+                  {/* <View>
                   <Text
                     style={{fontWeight: 'bold', fontSize: 18, color: 'black'}}>
                     {t('common:sellerinformation')}
@@ -333,26 +338,49 @@ const MyProfile = ({navigation}) => {
                     />
                   </View>
                 </View> */}
-                {/*END Seller Information Section  */}
-                {/* Button */}
-                <View style={{marginBottom: 20}}>
-                  <Buttons
-                    onpress={() => setEditable(true)}
-                    name={t('common:editprofile')}
+                  {/*END Seller Information Section  */}
+                  {/* Button */}
+                  <View style={{marginBottom: 20}}>
+                    <Buttons
+                      onpress={() => setEditable(true)}
+                      name={t('common:editprofile')}
+                    />
+                    <Buttons
+                      onpress={() => {
+                        setEditable(false), SaveData(), updateProfile();
+                      }}
+                      name="Save"
+                    />
+                  </View>
+                </>
+              ))
+            : (console.log('ALL LISTING LENGTH', allListing?.length),
+              allListing?.length == 0 ? (
+                <View
+                  style={{
+                    flex: 1,
+                    backgroundColor: 'white',
+                    justifyContent: 'center',
+                    height: Dimensions.get('screen').height / 2,
+
+                    alignItems: 'center',
+                  }}>
+                  <Image
+                    resizeMode="contain"
+                    style={{height: 90, width: 90}}
+                    source={require('../../assets/Icons/Group13803.png')}
                   />
-                  <Buttons
-                    onpress={() => {
-                      setEditable(false), SaveData(), updateProfile();
-                    }}
-                    name="Save"
-                  />
+                  <Text
+                    style={{
+                      color: Color.gray,
+                      fontSize: 15,
+                      marginVertical: 10,
+                    }}>
+                    no Listing Uploaded
+                  </Text>
                 </View>
-              </>
-            ))
-          ) : (
-            <>
-              <View>
-                <View style={{flexDirection: 'row'}}>
+              ) : (
+                <>
                   <FlatList
                     key={Math.random() * 1000}
                     data={allListing}
@@ -360,43 +388,40 @@ const MyProfile = ({navigation}) => {
                     renderItem={data => {
                       //  console.log('INSIDE FLATLIST==>', data?.item?.images);
                       return (
-                        console.log('======>FLATLIST ===>', data),
-                        (
-                          <>
-                            <MyCard
-                              // name={t('common:pearlring')}
-                              name={data?.item?.title}
-                              price={`$ ${data?.item?.price}`}
-                              bgImage={data?.item?.images}
-                              // bgImage={{
-                              //   uri: `${
-                              //     data?.item?.images
-                              //       ? data?.item?.images
-                              //       : data?.item?.images == null
-                              //       ? [1]
-                              //       : data?.item?.images
-                              //   }`,
-                              // }}
-                              deleteIcon={true}
-                              onPress={() => deleteListing(data?.item?.id)}
-                              productDetails={data?.item}
-                            />
-                          </>
-                        )
+                        // console.log('======>FLATLIST ===>', data),
+                        <>
+                          <MyCard
+                            // name={t('common:pearlring')}
+                            name={data?.item?.title}
+                            price={`$ ${data?.item?.price}`}
+                            bgImage={data?.item?.images}
+                            // bgImage={{
+                            //   uri: `${
+                            //     data?.item?.images
+                            //       ? data?.item?.images
+                            //       : data?.item?.images == null
+                            //       ? [1]
+                            //       : data?.item?.images
+                            //   }`,
+                            // }}
+                            deleteIcon={true}
+                            onPress={() => deleteListing(data?.item?.id)}
+                            productDetails={data?.item}
+                          />
+                        </>
                       );
                     }}
                   />
-                </View>
-              </View>
-              {/* Button */}
-              <View style={{marginTop: 30}}>
-                <Buttons
-                  name={t('common:uploadnew')}
-                  onpress={() => navigation.navigate('Sell')}
-                />
-              </View>
-            </>
-          )}
+
+                  {/* Button */}
+                  <View style={{marginTop: 30}}>
+                    <Buttons
+                      name={t('common:uploadnew')}
+                      onpress={() => navigation.navigate('Sell')}
+                    />
+                  </View>
+                </>
+              ))}
         </View>
       </ScrollView>
     </>
