@@ -88,7 +88,8 @@ const Home = ({naviagtion}) => {
   const hadleCiteiesFilter = () => {
     const filterData = data?.filter(val => val?.location === Cities);
     setFilterData(filterData);
-    // console.log('CONDITOON DATA===>', filterData);
+    console.log('hadleCiteiesFilter===>', filterData?.length);
+    filterData?.length == 0 ? setFind('serachCities') : null;
     // Cities == 'All' ? getAllListing() : null;
   };
 
@@ -254,6 +255,7 @@ const Home = ({naviagtion}) => {
                     borderWidth: 1,
                     borderColor: 'black',
                     borderRadius: 20,
+                    marginHorizontal: 10,
                     // backgroundColor: 'blue',
                     padding: 10,
                   }}
@@ -412,7 +414,7 @@ const Home = ({naviagtion}) => {
             alignItems: 'center',
           }}>
           {find == 'Bangles' ? (
-            <Text>no Bangles found result found</Text>
+            <Text>No Bangles found result found</Text>
           ) : null || find == 'Diamonds' ? (
             <>
               <Image
@@ -477,6 +479,15 @@ const Home = ({naviagtion}) => {
               <Text style={{color: 'gray'}}>
                 No Product Found Based on Citeis
               </Text>
+            </>
+          ) : null || find == 'All' ? (
+            <>
+              {/* <Image
+                resizeMode="contain"
+                style={{height: 80, width: 80}}
+                source={require('../../assets/Icons/Path13197.png')}
+              /> */}
+              <Text style={{color: 'gray'}}>No Diamonds Found</Text>
             </>
           ) : null}
         </View>
