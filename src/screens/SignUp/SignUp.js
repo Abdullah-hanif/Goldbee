@@ -6,18 +6,19 @@ import {
   TouchableOpacity,
   View,
   TextInput,
+  Modal,
   FlatList,
 } from 'react-native';
-import React, { useState, useEffect } from 'react';
-import { Color } from '../../constants/colors';
+import React, {useState, useEffect} from 'react';
+import {Color} from '../../constants/colors';
 import TextField from '../../components/TextField';
 import Buttons from '../../components/Buttons';
 // import CheckBox from 'react-native-check-box';
-import { Checkbox } from 'react-native-paper';
-import { useIsFocused, useNavigation } from '@react-navigation/native';
+import {Checkbox} from 'react-native-paper';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import Back from 'react-native-vector-icons/AntDesign';
-import { useTranslation } from 'react-i18next';
-import { Base_Url } from '../../api/Api';
+import {useTranslation} from 'react-i18next';
+import {Base_Url} from '../../api/Api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // @ICons
@@ -39,6 +40,9 @@ const SignUp = () => {
   const [citeiesList, setCititesList] = useState([]);
   const [filterCitiesList, setFilterCiteisList] = useState();
 
+  // @Modal Cities
+  const [modalVisible, setModalVisible] = useState(false);
+
   // const [userDetail, setUseDetails] = React.useState({
   //   name: '',
   //   email: '',
@@ -52,7 +56,11 @@ const SignUp = () => {
   }, [focused == true]);
 
   const handleSearchCites = searctTxt => {
-    const filterData = citeiesList.filter(val => val == searctTxt);
+    // const filterData = citeiesList.filter(val => val == searctTxt);
+
+    const filterData = citeiesList?.filter(val =>
+      val?.toLowerCase().startsWith(searctTxt.toLowerCase()),
+    );
     setFilterCiteisList(filterData);
     if (searctTxt == '') {
       setFilterCiteisList(citeiesList);
@@ -138,17 +146,17 @@ const SignUp = () => {
         console.log('response error ===>', error);
       });
   };
-  const { t } = useTranslation();
+  const {t} = useTranslation();
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
       <TouchableOpacity onPress={() => navigation.goBack()}>
         <Back name="left" size={20} color="black" />
       </TouchableOpacity>
-      <View style={{ marginTop: '15%' }}>
-        <Text style={{ fontWeight: 'bold', color: Color.black, fontSize: 28 }}>
+      <View style={{marginTop: '15%'}}>
+        <Text style={{fontWeight: 'bold', color: Color.black, fontSize: 28}}>
           {t('common:Signup')}
         </Text>
-        <Text style={{ color: 'black' }}>{t('common:letsgetstarted')}</Text>
+        <Text style={{color: 'black'}}>{t('common:letsgetstarted')}</Text>
       </View>
       <View style={styles.txtInputs}>
         <TextField
@@ -167,7 +175,10 @@ const SignUp = () => {
           setTxt={txt => setCountry(txt)}
           placeHolder={t('common:country')}
         />
-        <View
+        <TouchableOpacity
+          onPress={() => {
+            setCountryModal(!countryModal), setModalVisible(true);
+          }}
           style={[
             styles.dropDownContainer,
             {
@@ -189,19 +200,80 @@ const SignUp = () => {
             placeHolder={t('common:country')}
           /> */}
           <TouchableOpacity
-            style={{ right: 10 }}
+            style={{right: 10}}
             onPress={() => setCountryModal(!countryModal)}>
-            <AntDesign
-              name={countryModal ? 'up' : 'down'}
-              size={20}
-              color="black"
-            />
+            <AntDesign name={'down'} size={20} color="black" />
           </TouchableOpacity>
-        </View>
+        </TouchableOpacity>
         {countryModal ? (
           <>
-            <>
-              <TextInput
+            <Modal
+              statusBarTranslucent={true}
+              animationType="slide"
+              transparent={true}
+              visible={modalVisible}
+              onRequestClose={() => {
+                Alert.alert('Modal has been closed.');
+                setModalVisible(!modalVisible);
+              }}>
+              <View style={{flex: 1, backgroundColor: 'white'}}>
+                <View
+                  style={{
+                    backgroundColor: 'white',
+                    padding: 20,
+                    paddingVertical: 30,
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                  }}
+                  // onPress={() => setModalVisible(false)}
+                >
+                  <Text style={{color: 'black', fontSize: 20}}>
+                    Select Location
+                  </Text>
+                  <TouchableOpacity onPress={() => setModalVisible(false)}>
+                    <AntDesign color="black" name="close" size={30} />
+                  </TouchableOpacity>
+                </View>
+
+                <TextInput
+                  placeholder="search citeis ...."
+                  style={{
+                    borderWidth: 1,
+                    borderColor: 'black',
+                    borderRadius: 20,
+                    marginHorizontal: 10,
+                    // backgroundColor: 'blue',
+                    padding: 10,
+                  }}
+                  onChangeText={txt => handleSearchCites(txt)}
+                />
+                <FlatList
+                  style={styles.txtContainer1}
+                  data={filterCitiesList}
+                  renderItem={item => {
+                    return (
+                      <TouchableOpacity
+                        style={{
+                          borderBottomWidth: 1,
+                          borderColor: 'black',
+                          paddingVertical: 10,
+                          marginBottom: 22,
+                        }}
+                        onPress={() => {
+                          setCountryModal(false), setCities(item.item);
+                        }}>
+                        <Text style={{color: 'black', fontWeight: 'bold'}}>
+                          {item.item}
+                        </Text>
+                      </TouchableOpacity>
+                    );
+                  }}
+                />
+              </View>
+            </Modal>
+
+            {/* <TextInput
                 placeholder="search citeis"
                 style={{
                   borderWidth: 1,
@@ -228,14 +300,13 @@ const SignUp = () => {
                       onPress={() => {
                         setCountryModal(false), setCities(item.item);
                       }}>
-                      <Text style={{ color: 'black', fontWeight: 'bold' }}>
+                      <Text style={{color: 'black', fontWeight: 'bold'}}>
                         {item.item}
                       </Text>
                     </TouchableOpacity>
                   );
                 }}
-              />
-            </>
+              /> */}
           </>
         ) : null}
         <TextField
@@ -263,7 +334,7 @@ const SignUp = () => {
             alignItems: 'center',
             flexWrap: 'wrap',
           }}>
-          <Text style={{ color: 'black' }}>{t('common:iagreetoGoldbee')}</Text>
+          <Text style={{color: 'black'}}>{t('common:iagreetoGoldbee')}</Text>
 
           <Text
             style={{
@@ -280,7 +351,7 @@ const SignUp = () => {
         <Buttons onpress={() => signInUser()} name={t('common:Signup')} />
       </View>
       <View style={styles.bottomTxt}>
-        <Text style={{ color: 'black' }}>
+        <Text style={{color: 'black'}}>
           {t('common:Alreadyhaveandaccount')}
         </Text>
         <TouchableOpacity onPress={() => navigation.navigate('Login')}>

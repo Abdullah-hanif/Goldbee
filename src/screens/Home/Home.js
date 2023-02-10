@@ -285,38 +285,6 @@ const Home = ({naviagtion}) => {
                 />
               </View>
             </Modal>
-            {/* <TextInput
-              placeholder="search citeis"
-              style={{
-                borderWidth: 1,
-                borderColor: 'black',
-                // backgroundColor: 'blue',
-                padding: 10,
-              }}
-              onChangeText={txt => handleSearchCites(txt)}
-            />
-            <FlatList
-              style={styles.txtContainer1}
-              data={filterCitiesList}
-              renderItem={item => {
-                return (
-                  <TouchableOpacity
-                    style={{
-                      borderBottomWidth: 1,
-                      borderColor: 'black',
-                      paddingVertical: 10,
-                      marginBottom: 22,
-                    }}
-                    onPress={() => {
-                      setCountryModal(false), setCities(item.item);
-                    }}>
-                    <Text style={{color: 'black', fontWeight: 'bold'}}>
-                      {item.item}
-                    </Text>
-                  </TouchableOpacity>
-                );
-              }}
-            /> */}
           </>
         ) : null}
       </View>

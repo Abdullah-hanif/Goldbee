@@ -44,6 +44,9 @@ const PostingListing = ({navigation, route}) => {
 
   const [color, setColor] = React.useState('red');
 
+  // @Modal Cities
+  const [modalVisible1, setModalVisible1] = useState(false);
+
   //data of Fields
   const [title, setTitle] = React.useState('');
   const [price, setPrice] = React.useState('');
@@ -241,7 +244,10 @@ const PostingListing = ({navigation, route}) => {
   }, [focused == true]);
 
   const handleSearchCites = searctTxt => {
-    const filterData = citeiesList.filter(val => val == searctTxt);
+    const filterData = citeiesList?.filter(val =>
+      val?.toLowerCase().startsWith(searctTxt.toLowerCase()),
+    );
+    // const filterData = citeiesList.filter(val => val == searctTxt);
     setFilterCiteisList(filterData);
     if (searctTxt == '') {
       setFilterCiteisList(citeiesList);
@@ -356,7 +362,10 @@ const PostingListing = ({navigation, route}) => {
           setTxt={txt => setPrice(txt)}
           placeHolder={t('common:price')}
         />
-        <View
+        <TouchableOpacity
+          onPress={() => {
+            setModalVisible1(true), setCountryModal(!countryModal);
+          }}
           style={{
             flexDirection: 'row',
             justifyContent: 'space-between',
@@ -367,20 +376,21 @@ const PostingListing = ({navigation, route}) => {
             borderWidth: 1,
             marginVertical: 10,
 
-            borderTopEndRadius: 20,
-            borderTopLeftRadius: 20,
-            borderBottomLeftRadius: countryModal ? 0 : 20,
-            borderBottomRightRadius: countryModal ? 0 : 20,
-            // borderRadius: 20,
-            borderBottomWidth: countryModal ? 1 : 1,
+            // borderTopEndRadius: 20,
+            // borderTopLeftRadius: 20,
+            // borderBottomLeftRadius: countryModal ? 0 : 20,
+            // borderBottomRightRadius: countryModal ? 0 : 20,
+            borderRadius: 20,
+            // borderBottomWidth: countryModal ? 1 : 1,
             borderColor: 'gray',
             top: 5,
           }}>
-          <TextInput
+          {/* <TextInput
             setTxt={txt => setCountry(txt)}
             placeholderTextColor={Color.darkGray}
             placeholder={country}
-          />
+          /> */}
+          <Text style={{padding: 20}}>{country}</Text>
           {/* <TextField
       
             setTxt={txt => setCountry(txt)}
@@ -388,18 +398,80 @@ const PostingListing = ({navigation, route}) => {
           /> */}
           <TouchableOpacity
             style={{right: 10}}
-            onPress={() => setCountryModal(!countryModal)}>
-            <AntDesign
-              name={countryModal ? 'up' : 'down'}
-              size={20}
-              color="black"
-            />
+            // onPress={() => setCountryModal(!countryModal)}
+          >
+            <AntDesign name={'down'} size={20} color="black" />
           </TouchableOpacity>
-        </View>
+        </TouchableOpacity>
         {countryModal ? (
           <>
-            <>
-              <TextInput
+            <Modal
+              statusBarTranslucent={true}
+              animationType="slide"
+              transparent={true}
+              visible={modalVisible1}
+              onRequestClose={() => {
+                Alert.alert('Modal has been closed.');
+                setModalVisible1(!modalVisible);
+              }}>
+              <View style={{flex: 1, backgroundColor: 'white'}}>
+                <View
+                  style={{
+                    backgroundColor: 'white',
+                    padding: 20,
+                    paddingVertical: 30,
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                  }}
+                  // onPress={() => setModalVisible(false)}
+                >
+                  <Text style={{color: 'black', fontSize: 20}}>
+                    Select Location
+                  </Text>
+                  <TouchableOpacity onPress={() => setModalVisible1(false)}>
+                    <AntDesign color="black" name="close" size={30} />
+                  </TouchableOpacity>
+                </View>
+
+                <TextInput
+                  placeholder="search citeis ...."
+                  style={{
+                    borderWidth: 1,
+                    borderColor: 'black',
+                    borderRadius: 20,
+                    marginHorizontal: 10,
+                    // backgroundColor: 'blue',
+                    padding: 10,
+                  }}
+                  onChangeText={txt => handleSearchCites(txt)}
+                />
+                <FlatList
+                  style={styles.txtContainer1}
+                  data={filterCitiesList}
+                  renderItem={item => {
+                    return (
+                      <TouchableOpacity
+                        style={{
+                          borderBottomWidth: 1,
+                          borderColor: 'black',
+                          paddingVertical: 10,
+                          marginBottom: 22,
+                        }}
+                        onPress={() => {
+                          setCountryModal(false), setCountry(item.item);
+                        }}>
+                        <Text style={{color: 'black', fontWeight: 'bold'}}>
+                          {item.item}
+                        </Text>
+                      </TouchableOpacity>
+                    );
+                  }}
+                />
+              </View>
+            </Modal>
+
+            {/* <TextInput
                 placeholder="search citeis"
                 style={{
                   borderWidth: 1,
@@ -430,8 +502,7 @@ const PostingListing = ({navigation, route}) => {
                     </TouchableOpacity>
                   );
                 }}
-              />
-            </>
+              /> */}
 
             {/* <ScrollView nestedScrollEnabled={true} style={styles.txtContainer1}>
               {cities.map((data, index) => {
