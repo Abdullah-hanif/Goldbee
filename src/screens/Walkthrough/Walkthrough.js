@@ -136,7 +136,7 @@ const Walkthrough = ({navigation}) => {
             {t('common:Alreadyhaveandaccount')}
           </Text>
           <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-            <Text style={{color: Color.darkOrange, fontWeight: 'bold'}}>
+            <Text style={{color: Color.darkOrange, fontWeight: 'bold',left:5}}>
               {t('common:Login')}
             </Text>
           </TouchableOpacity>
