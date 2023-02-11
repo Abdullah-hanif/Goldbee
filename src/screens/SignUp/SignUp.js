@@ -179,18 +179,10 @@ const SignUp = () => {
           onPress={() => {
             setCountryModal(!countryModal), setModalVisible(true);
           }}
-          style={[
-            styles.dropDownContainer,
-            {
-              borderBottomLeftRadius: countryModal ? 0 : 20,
-              borderBottomRightRadius: countryModal ? 0 : 20,
-              // borderRadius: 20,
-              borderBottomWidth: countryModal ? 1 : 1,
-            },
-          ]}>
+          style={[styles.dropDownContainer, {paddingLeft: 25}]}>
           <TextInput
             // setTxt={txt => setCountry(txt)}
-
+            // style={{paddingLeft: 25}}
             placeholderTextColor={Color.darkGray}
             placeholder={Cities}
           />
@@ -238,11 +230,13 @@ const SignUp = () => {
 
                 <TextInput
                   placeholder="search citeis ...."
+                  placeholderTextColor={'black'}
                   style={{
                     borderWidth: 1,
                     borderColor: 'black',
                     borderRadius: 20,
                     marginHorizontal: 10,
+                    color: 'black',
                     // backgroundColor: 'blue',
                     padding: 10,
                   }}
@@ -401,9 +395,7 @@ const styles = StyleSheet.create({
 
     borderWidth: 1,
     marginVertical: 10,
-
-    borderTopEndRadius: 20,
-    borderTopLeftRadius: 20,
+    borderRadius: 30,
 
     borderColor: 'gray',
     top: 5,

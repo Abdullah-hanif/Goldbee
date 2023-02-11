@@ -57,7 +57,10 @@ const MyCard = ({
   return (
     <TouchableOpacity
       onPress={() =>
-        nav.navigate('MyListingDetails', {productDetails: productDetails})
+        nav.navigate('MyListingDetails', {
+          productDetails: productDetails,
+          deletFunction: onPress,
+        })
       }
       style={styles.container}>
       <Image

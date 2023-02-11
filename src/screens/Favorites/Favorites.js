@@ -90,6 +90,7 @@ const Favorites = () => {
           key={Math.random() * 100000}
           showsVerticalScrollIndicator={false}
           scrollEnabled
+          style={{marginTop: 20}}
           data={data}
           keyExtractor={item => {
             return item.id;

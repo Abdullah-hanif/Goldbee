@@ -62,18 +62,18 @@ const ProductDetails = ({navigation, route}) => {
         </TouchableOpacity>
         <View style={{flexDirection: 'row'}}>
           <TouchableOpacity onPress={() => setAddFav(!addFav)}>
-            <Back
+            {/* <Back
               name={productDetails?.isFollowed == 'yes' ? 'heart' : 'hearto'}
               style={{right: 20}}
               size={20}
               color={
                 productDetails?.isFollowed == 'yes' ? Color.yellow : 'white'
               }
-            />
+            /> */}
           </TouchableOpacity>
-          <TouchableOpacity>
+          {/* <TouchableOpacity>
             <Dots name="dots-three-vertical" size={20} color="white" />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </View>
       {/*END Topbar ICONS */}
