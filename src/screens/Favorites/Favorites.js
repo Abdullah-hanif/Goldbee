@@ -7,19 +7,18 @@ import {
   Image,
 } from 'react-native';
 import React from 'react';
-import { Color } from '../../constants/colors';
+import {Color} from '../../constants/colors';
 import Card from '../../components/Card';
 
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useIsFocused } from '@react-navigation/native';
-import { Base_Url } from '../../api/Api';
+import {useIsFocused} from '@react-navigation/native';
+import {Base_Url} from '../../api/Api';
 
 const Favorites = () => {
-  const { t } = useTranslation();
+  const {t} = useTranslation();
   const [data, setData] = React.useState([]);
-
-
+  const [checkFav, setCheckFav] = React.useState(false);
 
   const getAllFav = async () => {
     const userId = await AsyncStorage.getItem('uid');
@@ -29,7 +28,7 @@ const Favorites = () => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ user_id: userId }),
+      body: JSON.stringify({user_id: userId}),
     })
       .then(response => response.json())
       .then(data => {
@@ -40,6 +39,7 @@ const Favorites = () => {
 
         if (respo?.status == 200) {
           console.log(respo?.status, '=====>');
+          setCheckFav(false);
         } else {
           console.log(respo?.message);
         }
@@ -53,14 +53,18 @@ const Favorites = () => {
 
   React.useEffect(() => {
     getAllFav();
-  }, [focused == true]);
+  }, [focused == true, checkFav]);
+
+  // React.useEffect(() => {
+  //   getAllFav();
+  // }, [check]);
 
   return (
     <View style={styles.container}>
-      <Text style={{ fontWeight: 'bold', fontSize: 25, color: 'black' }}>
+      <Text style={{fontWeight: 'bold', fontSize: 25, color: 'black'}}>
         {t('common:favorites')}
       </Text>
-      <Text style={{ fontSize: 15, color: 'black' }}>
+      <Text style={{fontSize: 15, color: 'black'}}>
         {t('common:yousavewishlist')}
       </Text>
 
@@ -74,10 +78,10 @@ const Favorites = () => {
           }}>
           <Image
             resizeMode="contain"
-            style={{ height: 90, width: 90 }}
+            style={{height: 90, width: 90}}
             source={require('../../assets/Icons/Icon2.png')}
           />
-          <Text style={{ color: Color.gray, fontSize: 15, marginVertical: 10 }}>
+          <Text style={{color: Color.gray, fontSize: 15, marginVertical: 10}}>
             No Favorites Yet!
           </Text>
         </View>
@@ -87,17 +91,23 @@ const Favorites = () => {
           showsVerticalScrollIndicator={false}
           scrollEnabled
           data={data}
-          keyExtractor={item => { return item.id }}
+          keyExtractor={item => {
+            return item.id;
+          }}
           numColumns={2}
           renderItem={item => {
             return (
               <>
                 <Card
+                  id={item?.item?.id}
                   name={item?.item?.listing?.title}
                   price={`$ ${item?.item?.listing?.price}`}
                   bgImage={item?.item?.listing?.images}
                   isFav={!item?.item?.listing?.isFollowed}
-                  getFUN={() => removeFollowed()}
+                  listing_id={item?.item?.listing_id}
+                  getAllFunc={() => alert('wlin')}
+                  // getFUN={() => removeFollowed()}
+                  checkChangeFav={text => setCheckFav(text)}
                   productDetails={item?.item?.listing}
                 />
 
