@@ -10,19 +10,17 @@ import {
 import React from 'react';
 import {ImageSource} from '../../constants/ImageSource';
 import {Color} from '../../constants/colors';
-import {useNavigation} from '@react-navigation/native';
 import {useTranslation} from 'react-i18next';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const Splash = () => {
-  const navigation = useNavigation();
+const Splash = ({navigation}) => {
 
   const checkSession = async () => {
     const check = await AsyncStorage.getItem('status');
     console.log('status', check);
     check == 'loggedIn'
-      ? navigation.navigate('BottomNavigation')
-      : navigation.navigate('Walkthrough');
+      ? navigation.replace('BottomNavigation')
+      : navigation.replace('Walkthrough');
   };
   setTimeout(() => {
     // navigation.navigate('Walkthrough');

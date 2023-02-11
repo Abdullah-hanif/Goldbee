@@ -4,61 +4,75 @@ import {
   View,
   ScrollView,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
-import React, {useState} from 'react';
-import {Color} from '../../constants/colors';
+import React, { useState } from 'react';
+import { Color } from '../../constants/colors';
 import TextField from '../../components/TextField';
 import Buttons from '../../components/Buttons';
-import {Checkbox} from 'react-native-paper';
-import {useNavigation} from '@react-navigation/native';
+import { Checkbox } from 'react-native-paper';
+import { useNavigation } from '@react-navigation/native';
 import Back from 'react-native-vector-icons/AntDesign';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// @API_Call
-import {Base_Url, loginUser} from '../../api/Api';
+// @API_Callefef
+import { Base_Url, loginUser } from '../../api/Api';
 
-// @LANGUGE IMPORTS
-import {useTranslation} from 'react-i18next';
+// @LANGUGE IMPORTSsef 
+import { useTranslation } from 'react-i18next';
 
 const Login = () => {
   const navigation = useNavigation();
   const [checked, setChecked] = React.useState(false);
   const [email, setEmail] = React.useState('test@gmail.com');
   const [password, setPassword] = React.useState('123456');
-  const {t} = useTranslation();
+  const { t } = useTranslation();
+
+  const validateEmail = (email) => {
+    return String(email)
+      .toLowerCase()
+      .match(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      );
+  };
+
 
   const loginUser = async () => {
-    console.log('USERNAME===>', email);
-    console.log('PASSWORD===>', password);
+    try {
+      console.log('USERNAME===>', email);
+      console.log('PASSWORD===>', password);
+      if (!validateEmail(email)) Alert.alert('Error', 'Enter a valid Email')
+      if (password < 6) Alert.alert('Error', 'Enter a correct password')
+      else {
+        fetch(`${Base_Url}/login`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email: email, password: password }),
+        })
+          .then(response => response.json())
+          .then(data => {
+            const respo = data;
+            console.log(respo?.status, '=====>');
+            if (respo?.message == 'Logged In successfully') {
+              AsyncStorage.setItem('status', 'loggedIn');
+              Alert.alert("Error", respo?.message)
+              const uid = respo?.data?.id;
+              console.log('logggg', typeof uid);
+              AsyncStorage.setItem('uid', JSON.stringify(uid));
+              navigation.navigate('BottomNavigation');
+            } else {
+              Alert.alert("Error",respo?.message)
 
-    fetch(`${Base_Url}/login`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({email: email, password: password}),
-    })
-      .then(response => response.json())
-      .then(data => {
-        //   const res = data.json();
-        const respo = data;
-        console.log(respo?.status, '=====>');
-        if (respo?.message == 'Logged In successfully') {
-          AsyncStorage.setItem('status', 'loggedIn');
-          alert(respo?.message);
-          const uid = respo?.data?.id;
-          console.log('logggg', typeof uid);
-          AsyncStorage.setItem('uid', JSON.stringify(uid));
-
-          navigation.navigate('BottomNavigation');
-        } else {
-          alert(respo?.message);
-        }
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  };
+            }
+          })
+      }
+    }
+    catch (error) {
+      Alert.alert('Error', error)
+    }
+  }
 
   return (
     <ScrollView
@@ -68,14 +82,14 @@ const Login = () => {
       <TouchableOpacity onPress={() => navigation.goBack()}>
         <Back name="left" size={20} color="black" />
       </TouchableOpacity>
-      <View style={{marginTop: '15%'}}>
-        <Text style={{fontWeight: 'bold', color: Color.black, fontSize: 28}}>
+      <View style={{ marginTop: '15%' }}>
+        <Text style={{ fontWeight: 'bold', color: Color.black, fontSize: 28 }}>
           {t('common:Login')}
         </Text>
-        <Text style={{color: Color.darkGray, fontSize: 15}}>
+        <Text style={{ color: Color.darkGray, fontSize: 15 }}>
           {t('common:Goldybeeseller')}
         </Text>
-        <View style={{marginTop: 20}}>
+        <View style={{ marginTop: 20 }}>
           <TextField
             val={email}
             setTxt={txt => setEmail(txt)}
@@ -93,7 +107,7 @@ const Login = () => {
             justifyContent: 'space-between',
             marginTop: 10,
           }}>
-          <View style={{flexDirection: 'row'}}>
+          <View style={{ flexDirection: 'row' }}>
             {/* <Text>checkBox</Text> */}
             <Checkbox
               color={checked ? Color.darkOrange : 'black'}
@@ -102,7 +116,7 @@ const Login = () => {
                 setChecked(!checked);
               }}
             />
-            <Text style={{marginTop: 8, color: 'black'}}>
+            <Text style={{ marginTop: 8, color: 'black' }}>
               {t('common:rememberme')}
             </Text>
           </View>
@@ -129,11 +143,11 @@ const Login = () => {
               alignItems: 'center',
               marginTop: '5%',
             }}>
-            <Text style={{color: 'black'}}>
+            <Text style={{ color: 'black' }}>
               {t('common:donthaveanaccount')}{' '}
             </Text>
             <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
-              <Text style={{color: Color.darkOrange, fontWeight: 'bold'}}>
+              <Text style={{ color: Color.darkOrange, fontWeight: 'bold' }}>
                 {t('common:Signup')}
               </Text>
             </TouchableOpacity>

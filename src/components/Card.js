@@ -1,10 +1,10 @@
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {Color} from '../constants/colors';
-import {useNavigation} from '@react-navigation/native';
+import { Color } from '../constants/colors';
+import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {Base_Url} from '../api/Api';
+import { Base_Url } from '../api/Api';
 const Card = ({
   name,
   price,
@@ -25,7 +25,7 @@ const Card = ({
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({user_id: userId, listing_id: id}),
+      body: JSON.stringify({ user_id: userId, listing_id: id }),
     })
       .then(response => response.json())
       .then(data => {
@@ -49,7 +49,7 @@ const Card = ({
   return (
     <TouchableOpacity
       onPress={() =>
-        nav.navigate('ProductDetails', {productDetails: productDetails})
+        nav.navigate('ProductDetails', { productDetails: productDetails })
       }
       style={styles.container}>
       <Image
@@ -63,24 +63,25 @@ const Card = ({
         source={
           bgImage == null
             ? require('../assets/Icons/MaskGroup121.png')
-            : {uri: bgImage[0]}
+            : { uri: bgImage[0] }
         }
       />
-      <View style={{padding: 10}}>
+      <View style={{ padding: 10 }}>
         <View
           style={{
             flexDirection: 'row',
             justifyContent: 'space-between',
             // margin: 10,
           }}>
-          <Text style={{color: 'gray'}}>{price}</Text>
+          <Text style={{ color: 'gray' }}>{price}</Text>
           {!deleteIcon ? (
             <TouchableOpacity
               onPress={() => {
                 if (isFav == 'yes') {
                   alert('already followed');
                 } else {
-                  AddFav(), getFUN();
+                  AddFav()
+                  getFUN()
                 }
               }}>
               <AntDesign
@@ -93,13 +94,13 @@ const Card = ({
             <TouchableOpacity onPress={onPress}>
               {/* <AntDesign name="delete" size={20} color={Color.black} /> */}
               <Image
-                style={{height: 20, width: 20}}
+                style={{ height: 20, width: 20 }}
                 source={require('../assets/Icons/Group5268.png')}
               />
             </TouchableOpacity>
           )}
         </View>
-        <Text style={{marginBottom: 10, fontWeight: 'bold', color: 'black'}}>
+        <Text style={{ marginBottom: 10, fontWeight: 'bold', color: 'black' }}>
           {name}
         </Text>
       </View>

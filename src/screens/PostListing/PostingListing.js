@@ -225,7 +225,7 @@ const PostingListing = ({navigation, route}) => {
                 setModalVisible(false);
                 setLoading(false);
                 navigation.navigate('BottomNavigation', {screen: 'Home'});
-              }, 3000);
+              }, 2000);
           }
         })
         .catch(error => {
@@ -644,10 +644,7 @@ const PostingListing = ({navigation, route}) => {
         animationType="slide"
         transparent={true}
         visible={openModal1}
-        onRequestClose={() => {
-          alert('Modal has been closed.');
-          setopenModal1(!openModal1);
-        }}>
+      >
         <View
           style={{
             flex: 1,

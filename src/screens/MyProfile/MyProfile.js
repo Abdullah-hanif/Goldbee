@@ -7,24 +7,25 @@ import {
   Image,
   FlatList,
   Alert,
+  ActivityIndicator,
   Dimensions,
 } from 'react-native';
 import React from 'react';
 
-import {Color} from '../../constants/colors';
+import { Color } from '../../constants/colors';
 import Buttons from '../../components/Buttons';
 import Card from '../../components/Card';
 import MyCard from './MyListingDetails/Components/MyCard';
 
-import {useTranslation} from 'react-i18next';
-import {Base_Url} from '../../api/Api';
-import {useIsFocused} from '@react-navigation/native';
+import { useTranslation } from 'react-i18next';
+import { Base_Url } from '../../api/Api';
+import { useIsFocused } from '@react-navigation/native';
 
 // @ICONS
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {TextInput} from 'react-native-paper';
+import { TextInput } from 'react-native-paper';
 
 // @ImagePicker
 import ImagePicker, {
@@ -32,8 +33,8 @@ import ImagePicker, {
   launchImageLibrary,
 } from 'react-native-image-picker';
 
-const MyProfile = ({navigation}) => {
-  const {t} = useTranslation();
+const MyProfile = ({ navigation }) => {
+  const { t } = useTranslation();
   const [switchName, setSwitch] = React.useState('MyProfile');
   const [allListing, setAllListing] = React.useState([]);
   const [editable, setEditable] = React.useState(false);
@@ -42,6 +43,8 @@ const MyProfile = ({navigation}) => {
   const [whatsappNumber, setWhatsappNumber] = React.useState('');
   const [location, setLocation] = React.useState('');
   const [profileImg, setProfileImg] = React.useState([]);
+  const [loader, setLoader] = React.useState(true);
+
 
   const focused = useIsFocused();
 
@@ -61,6 +64,7 @@ const MyProfile = ({navigation}) => {
   }, [focused == true]);
 
   const getMylisting = async () => {
+
     // console.log(profileImg.length, 'LENGYT==>');
     const userId = await AsyncStorage.getItem('uid');
     console.log('USER ID ====>', userId);
@@ -70,35 +74,49 @@ const MyProfile = ({navigation}) => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({user_id: userId}),
+      body: JSON.stringify({ user_id: userId }),
     })
       .then(response => response.json())
       .then(data => {
         //   const res = data.json();
         const respo = data;
         setAllListing(respo?.data);
-
+        setLoader(false)
         // console.log(respo?.data, '=====>MY LISTING');
       })
       .catch(error => {
         console.error(error);
       });
   };
+
+  const confirmToDelete = (data) => {
+    Alert.alert('Wait', "Are you sure you want to delete?", [
+      {
+        text: 'Cancel',
+        onPress: () => console.log('Cancel Pressed'),
+        style: 'cancel',
+      },
+      {
+        text: 'Confirm',
+        onPress: () => deleteListing(data)
+      },
+    ]);
+  }
   const deleteListing = async listing_id => {
     fetch(`${Base_Url}/listings-delete`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({listing_id: listing_id}),
+      body: JSON.stringify({ listing_id: listing_id }),
     })
       .then(response => response.json())
       .then(data => {
         //   const res = data.json();
         const respo = data;
 
-        console.log(respo, 'DLETE RESPONS ');
-        alert(respo?.message);
+        console.log(respo, 'DLETE RESPONS ')
+        Alert.alert("Done", respo?.message)
         getMylisting();
       })
       .catch(err => {
@@ -199,9 +217,9 @@ const MyProfile = ({navigation}) => {
           {/* //ProfileScren */}
           {switchName == 'MyProfile'
             ? (console.log(
-                profileImg,
-                '=======================================>',
-              ),
+              profileImg,
+              '=======================================>',
+            ),
               (
                 <>
                   <View
@@ -210,15 +228,15 @@ const MyProfile = ({navigation}) => {
                       alignItems: 'center',
                     }}>
                     <View
-                      style={{justifyContent: 'center', alignItems: 'center'}}>
+                      style={{ justifyContent: 'center', alignItems: 'center' }}>
                       {profileImg?.length == 0 || profileImg == null ? (
                         <Image
-                          style={{height: 65, width: 65}}
+                          style={{ height: 65, width: 65 }}
                           source={require('../../assets/Icons/Ellipse28.png')}
                         />
                       ) : (
                         <Image
-                          style={{height: 65, width: 65, borderRadius: 35}}
+                          style={{ height: 65, width: 65, borderRadius: 35 }}
                           source={{
                             uri:
                               profileImg?.length > 1
@@ -242,7 +260,7 @@ const MyProfile = ({navigation}) => {
                         <AntDesign name="camera" size={20} color="black" />
                       </TouchableOpacity>
                     </View>
-                    <View style={{left: 10}}>
+                    <View style={{ left: 10 }}>
                       {editable ? (
                         <TextInput
                           onChangeText={txt => setName(txt)}
@@ -278,7 +296,7 @@ const MyProfile = ({navigation}) => {
                   {/* END PROFILE HEADER */}
 
                   {/* @About Section */}
-                  <View style={{marginVertical: 20}}>
+                  <View style={{ marginVertical: 20 }}>
                     <Text
                       style={{
                         fontWeight: 'bold',
@@ -287,7 +305,7 @@ const MyProfile = ({navigation}) => {
                       }}>
                       {t('common:about')}
                     </Text>
-                    <Text style={{color: 'black', flexWrap: 'wrap', top: 10}}>
+                    <Text style={{ color: 'black', flexWrap: 'wrap', top: 10 }}>
                       {t('common:myprofiledetail')}
                     </Text>
                   </View>
@@ -340,7 +358,7 @@ const MyProfile = ({navigation}) => {
                 </View> */}
                   {/*END Seller Information Section  */}
                   {/* Button */}
-                  <View style={{marginBottom: 20}}>
+                  <View style={{ marginBottom: 20 }}>
                     <Buttons
                       onpress={() => setEditable(true)}
                       name={t('common:editprofile')}
@@ -355,81 +373,85 @@ const MyProfile = ({navigation}) => {
                 </>
               ))
             : (console.log('ALL LISTING LENGTH', allListing?.length),
-              allListing?.length == 0 ? (
-                <View
-                  style={{
-                    flex: 1,
-                    backgroundColor: 'white',
-                    justifyContent: 'center',
-                    height: Dimensions.get('screen').height / 2,
-
-                    alignItems: 'center',
-                  }}>
-                  <Image
-                    resizeMode="contain"
-                    style={{height: 90, width: 90}}
-                    source={require('../../assets/Icons/Group13803.png')}
-                  />
-                  <Text
+              loader ?
+                <ActivityIndicator size="small" color="#0000ff" /> :
+                allListing?.length == 0 ? (
+                  <View
                     style={{
-                      color: Color.gray,
-                      fontSize: 15,
-                      marginVertical: 10,
-                    }}>
-                    no Listing Uploaded
-                  </Text>
-                </View>
-              ) : (
-                <>
-                  <FlatList
-                    key={Math.random() * 1000}
-                    data={allListing}
-                    numColumns={2}
-                    renderItem={data => {
-                      //  console.log('INSIDE FLATLIST==>', data?.item?.images);
-                      return (
-                        // console.log('======>FLATLIST ===>', data),
-                        <>
-                          <MyCard
-                            // name={t('common:pearlring')}
-                            name={data?.item?.title}
-                            price={`$ ${data?.item?.price}`}
-                            bgImage={data?.item?.images}
-                            // bgImage={{
-                            //   uri: `${
-                            //     data?.item?.images
-                            //       ? data?.item?.images
-                            //       : data?.item?.images == null
-                            //       ? [1]
-                            //       : data?.item?.images
-                            //   }`,
-                            // }}
-                            deleteIcon={true}
-                            onPress={() => deleteListing(data?.item?.id)}
-                            productDetails={data?.item}
-                          />
-                        </>
-                      );
-                    }}
-                  />
+                      flex: 1,
+                      backgroundColor: 'white',
+                      justifyContent: 'center',
+                      height: Dimensions.get('screen').height / 2,
 
-                  {/* Button */}
-                  <View style={{marginTop: 30}}>
-                    <Buttons
-                      name={t('common:uploadnew')}
-                      onpress={() => navigation.navigate('Sell')}
+                      alignItems: 'center',
+                    }}>
+                    <Image
+                      resizeMode="contain"
+                      style={{ height: 90, width: 90 }}
+                      source={require('../../assets/Icons/Group13803.png')}
                     />
+                    <Text
+                      style={{
+                        color: Color.gray,
+                        fontSize: 15,
+                        marginVertical: 10,
+                      }}>
+                      no Listing Uploaded
+                    </Text>
                   </View>
-                </>
-              ))}
+                ) :
+
+                  (
+                    <>
+                      <FlatList
+                        key={Math.random() * 1000}
+                        data={allListing}
+                        numColumns={2}
+                        renderItem={data => {
+                          //  console.log('INSIDE FLATLIST==>', data?.item?.images);
+                          return (
+                            // console.log('======>FLATLIST ===>', data),
+                            <>
+                              <MyCard
+                                // name={t('common:pearlring')}
+                                name={data?.item?.title}
+                                price={`$ ${data?.item?.price}`}
+                                bgImage={data?.item?.images}
+                                // bgImage={{
+                                //   uri: `${
+                                //     data?.item?.images
+                                //       ? data?.item?.images
+                                //       : data?.item?.images == null
+                                //       ? [1]
+                                //       : data?.item?.images
+                                //   }`,
+                                // }}
+                                deleteIcon={true}
+                                onPress={() => confirmToDelete(data?.item?.id)}
+                                productDetails={data?.item}
+                              />
+                            </>
+                          );
+                        }}
+                      />
+
+                      {/* Button */}
+                      <View style={{ marginTop: 30 }}>
+                        <Buttons
+                          name={t('common:uploadnew')}
+                          onpress={() => navigation.navigate('Sell')}
+                        />
+                      </View>
+                    </>
+                  ))}
         </View>
       </ScrollView>
     </>
   );
 };
 
-const SwitchButton = ({func}) => {
-  const {t} = useTranslation();
+const SwitchButton = ({ func }) => {
+  const { t } = useTranslation();
 
   const [clicked, setClicked] = React.useState(true);
   return (
@@ -454,7 +476,7 @@ const SwitchButton = ({func}) => {
             },
           ]}>
           <Text
-            style={{textAlign: 'center', color: clicked ? 'white' : 'black'}}>
+            style={{ textAlign: 'center', color: clicked ? 'white' : 'black' }}>
             {t('common:myprofile')}
           </Text>
         </TouchableOpacity>
@@ -471,7 +493,7 @@ const SwitchButton = ({func}) => {
             },
           ]}>
           <Text
-            style={{textAlign: 'center', color: clicked ? 'black' : 'white'}}>
+            style={{ textAlign: 'center', color: clicked ? 'black' : 'white' }}>
             {t('common:mylistings')}
           </Text>
         </TouchableOpacity>
@@ -480,7 +502,7 @@ const SwitchButton = ({func}) => {
   );
 };
 
-const InforamtionConainer = ({text1, text2, icon, editable, getInputTxt}) => {
+const InforamtionConainer = ({ text1, text2, icon, editable, getInputTxt }) => {
   return (
     <>
       <View
@@ -495,16 +517,16 @@ const InforamtionConainer = ({text1, text2, icon, editable, getInputTxt}) => {
         }}>
         {/* <Text style={{textAlignVertical: 'center'}}>Phone</Text>
         {} */}
-        <View style={{flexDirection: 'row'}}>
+        <View style={{ flexDirection: 'row' }}>
           {icon}
-          <View style={{left: 10}}>
+          <View style={{ left: 10 }}>
             <Text style={styles.txtStyle}>{text1}</Text>
             {editable ? (
               <TextInput
                 onChangeText={txt => getInputTxt(txt)}
                 activeOutlineColor="black"
                 activeUnderlineColor="#F6A507"
-                style={{backgroundColor: 'white'}}
+                style={{ backgroundColor: 'white' }}
                 placeholder={text2}
                 placeholderTextColor="black"
               />
