@@ -16,13 +16,11 @@ import {useTranslation} from 'react-i18next';
 
 const Sell = () => {
   const {t} = useTranslation();
-  const [modal, setModal] = useState(true);
   const nav = useNavigation();
 
   return (
     <>
       <StatusBar hidden />
-
       <View
         style={{
           flex: 1,

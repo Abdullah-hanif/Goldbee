@@ -7,17 +7,19 @@ import {
   Image,
 } from 'react-native';
 import React from 'react';
-import {Color} from '../../constants/colors';
+import { Color } from '../../constants/colors';
 import Card from '../../components/Card';
 
-import {useTranslation} from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useIsFocused} from '@react-navigation/native';
-import {Base_Url} from '../../api/Api';
+import { useIsFocused } from '@react-navigation/native';
+import { Base_Url } from '../../api/Api';
 
 const Favorites = () => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const [data, setData] = React.useState([]);
+
+
 
   const getAllFav = async () => {
     const userId = await AsyncStorage.getItem('uid');
@@ -27,7 +29,7 @@ const Favorites = () => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({user_id: userId}),
+      body: JSON.stringify({ user_id: userId }),
     })
       .then(response => response.json())
       .then(data => {
@@ -55,10 +57,10 @@ const Favorites = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={{fontWeight: 'bold', fontSize: 25, color: 'black'}}>
+      <Text style={{ fontWeight: 'bold', fontSize: 25, color: 'black' }}>
         {t('common:favorites')}
       </Text>
-      <Text style={{fontSize: 15, color: 'black'}}>
+      <Text style={{ fontSize: 15, color: 'black' }}>
         {t('common:yousavewishlist')}
       </Text>
 
@@ -72,11 +74,11 @@ const Favorites = () => {
           }}>
           <Image
             resizeMode="contain"
-            style={{height: 90, width: 90}}
+            style={{ height: 90, width: 90 }}
             source={require('../../assets/Icons/Icon2.png')}
           />
-          <Text style={{color: Color.gray, fontSize: 15, marginVertical: 10}}>
-            no Favorites Yet!
+          <Text style={{ color: Color.gray, fontSize: 15, marginVertical: 10 }}>
+            No Favorites Yet!
           </Text>
         </View>
       ) : (
@@ -85,16 +87,17 @@ const Favorites = () => {
           showsVerticalScrollIndicator={false}
           scrollEnabled
           data={data}
+          keyExtractor={item => { return item.id }}
           numColumns={2}
           renderItem={item => {
-            console.log('ITEM NAME', item?.item?.listing?.title);
             return (
               <>
                 <Card
                   name={item?.item?.listing?.title}
                   price={`$ ${item?.item?.listing?.price}`}
                   bgImage={item?.item?.listing?.images}
-                  isFav={item?.item?.listing?.isFollowed}
+                  isFav={!item?.item?.listing?.isFollowed}
+                  getFUN={() => removeFollowed()}
                   productDetails={item?.item?.listing}
                 />
 
