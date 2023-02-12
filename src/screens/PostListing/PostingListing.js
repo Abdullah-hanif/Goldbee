@@ -315,43 +315,60 @@ const PostingListing = ({navigation, route}) => {
             </TouchableOpacity>
             <AntDesign name="right" size={15} color="black" />
           </View>
-          <ScrollView horizontal>
-            {images.map((val, index) => {
-              // console.log(val);
-              return (
-                <>
-                  <View>
-                    <TouchableOpacity
-                      // key={Math.random() * 1000}
-                      onPress={() => RemoveImage(val)}
-                      style={{
-                        flexDirection: 'row-reverse',
-                        // position: 'absolute',
-                        elevation: 10,
-                        zIndex: 1,
-                      }}>
-                      <AntDesign
-                        name="closecircle"
-                        style={{top: 10}}
-                        size={20}
-                        color="black"
+          {images.length == 0 ? (
+            <>
+              <View
+                style={{
+                  height: 70,
+                  width: 80,
+                  borderRadius: 20,
+                  backgroundColor: 'lightgray',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  margin: 10,
+                }}>
+                <AntDesign color="gray" size={20} name="pluscircle" />
+              </View>
+            </>
+          ) : (
+            <ScrollView horizontal>
+              {images.map((val, index) => {
+                // console.log(val);
+                return (
+                  <>
+                    <View style={{marginVertical: 10, bottom: 10}}>
+                      <TouchableOpacity
+                        // key={Math.random() * 1000}
+                        onPress={() => RemoveImage(val)}
+                        style={{
+                          flexDirection: 'row-reverse',
+                          // position: 'absolute',
+                          elevation: 10,
+                          zIndex: 1,
+                        }}>
+                        <AntDesign
+                          name="closecircle"
+                          style={{top: 10}}
+                          size={20}
+                          color="black"
+                        />
+                      </TouchableOpacity>
+                      <Image
+                        style={{
+                          height: 60,
+                          width: 90,
+                          borderRadius: 10,
+                          marginHorizontal: 5,
+                        }}
+                        source={{uri: val == undefined ? null : val}}
+                        // source={{uri: val}}
                       />
-                    </TouchableOpacity>
-                    <Image
-                      style={{
-                        height: 60,
-                        width: 90,
-                        borderRadius: 10,
-                        marginHorizontal: 5,
-                      }}
-                      source={{uri: val == undefined ? null : val}}
-                      // source={{uri: val}}
-                    />
-                  </View>
-                </>
-              );
-            })}
-          </ScrollView>
+                    </View>
+                  </>
+                );
+              })}
+            </ScrollView>
+          )}
         </View>
         {/* First Container END */}
         <TextField
@@ -441,6 +458,7 @@ const PostingListing = ({navigation, route}) => {
                     borderColor: 'black',
                     borderRadius: 20,
                     marginHorizontal: 10,
+                    color: 'black',
                     // backgroundColor: 'blue',
                     padding: 10,
                   }}
@@ -643,8 +661,7 @@ const PostingListing = ({navigation, route}) => {
         statusBarTranslucent={true}
         animationType="slide"
         transparent={true}
-        visible={openModal1}
-      >
+        visible={openModal1}>
         <View
           style={{
             flex: 1,

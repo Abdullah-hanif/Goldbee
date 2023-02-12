@@ -43,6 +43,9 @@ const Home = ({naviagtion}) => {
   //handle to change View
   const [find, setFind] = useState('notCheck');
 
+  // @check updates or not
+  const [check, setCheck] = React.useState(false);
+
   // console.log('=====>HOME DATA===>', data);
   const getAllListing = async () => {
     const userId = await AsyncStorage.getItem('uid');
@@ -65,6 +68,7 @@ const Home = ({naviagtion}) => {
           tempData = [...tempData, ...item.listings];
         });
         setData(tempData);
+        setCheck(false);
         setFilterData(tempData);
         // console.log('RESPONSE LENGTH====>', tempData.length);
         if (respo?.message == 'Logged In successfully') {
@@ -123,7 +127,7 @@ const Home = ({naviagtion}) => {
   React.useEffect(() => {
     getAllListing();
     getCityName();
-  }, [focused == true]);
+  }, [focused == true, check]);
 
   React.useEffect(() => {
     hadlefilter();
@@ -476,6 +480,7 @@ const Home = ({naviagtion}) => {
                   name={item?.item?.title}
                   price={`$ ${item?.item?.price}`}
                   bgImage={item?.item?.images}
+                  checkChange={text => setCheck(text)}
                   // bgImage={{
                   //   uri: `${
                   //     item?.item?.images

@@ -7,16 +7,31 @@ import {
   NativeModule,
   NativeModules,
 } from 'react-native';
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {Color} from '../../constants/colors';
 import ProfileItemComp from '../../components/ProfileItemComp';
 
 // @Languge import
 import {useTranslation} from 'react-i18next';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useIsFocused} from '@react-navigation/native';
 
 const Profile = ({navigation}) => {
   const {t} = useTranslation();
+  const [img, setImg] = useState('');
+  const [name, setName] = useState('');
+
+  const getUserDetails = async () => {
+    let name = await AsyncStorage.getItem('userName');
+    setName(name);
+    let profileImg = await AsyncStorage.getItem('imgUri');
+    setImg(profileImg);
+  };
+  const focused = useIsFocused();
+  useEffect(() => {
+    getUserDetails();
+  }, [focused == true]);
+
   return (
     <View style={styles.container}>
       <View style={styles.innerContainer}>
@@ -24,12 +39,13 @@ const Profile = ({navigation}) => {
         <View
           style={{flexDirection: 'row', alignItems: 'center', marginTop: 50}}>
           <Image
-            style={{height: 65, width: 65}}
-            source={require('../../assets/Icons/Ellipse28.png')}
+            style={{height: 65, width: 65, borderRadius: 30}}
+            // source={require('../../assets/Icons/Ellipse28.png')}
+            source={{uri: img}}
           />
           <View style={{left: 10}}>
             <Text style={{fontWeight: 'bold', fontSize: 20, color: 'black'}}>
-              John Micheal
+              {name}
             </Text>
             <Text
               style={{

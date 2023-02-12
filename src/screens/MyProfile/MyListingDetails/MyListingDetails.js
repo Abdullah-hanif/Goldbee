@@ -18,15 +18,9 @@ import Buttons from '../../../components/Buttons';
 // @translator
 import {useTranslation} from 'react-i18next';
 
-const images = [
-  require('../../../assets/SamplePictures/2.png'),
-  require('../../../assets/SamplePictures/2.png'),
-  require('../../../assets/SamplePictures/2.png'),
-];
-
 const MyListingDetails = ({navigation, route}) => {
   const {t} = useTranslation();
-  const {productDetails} = route.params;
+  const {productDetails, deletFunction} = route.params;
   console.log('PRODUCT DETAILS==>', productDetails);
 
   const sellerDetail = productDetails['seller-details'];
@@ -61,9 +55,13 @@ const MyListingDetails = ({navigation, route}) => {
           <Back name="left" size={20} color="white" />
         </TouchableOpacity>
         <View style={{flexDirection: 'row'}}>
-          <TouchableOpacity onPress={() => setAddFav(!addFav)}>
+          {/* <TouchableOpacity onPress={() => setAddFav(!addFav)}> */}
+          {/* <TouchableOpacity
+            onPress={() => {
+              deletFunction(), navigation.navigate('MyProfile');
+            }}>
             <Back name="delete" size={20} color={'white'} />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </View>
       {/*END Topbar ICONS */}

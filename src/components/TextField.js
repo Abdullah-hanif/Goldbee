@@ -6,7 +6,7 @@ const TextField = ({placeHolder, setTxt, val}) => {
   return (
     <TextInput
       value={val}
-      placeholderTextColor={Color.black}
+      placeholderTextColor={'black'}
       style={styles.container}
       placeholder={placeHolder}
       onChangeText={txt => setTxt(txt)}
@@ -23,6 +23,8 @@ const styles = StyleSheet.create({
     borderColor: 'gray',
     height: 50,
     marginTop: 10,
-    padding: 15,
+    color: 'black',
+    // padding: 15,
+    paddingLeft: 25,
   },
 });
