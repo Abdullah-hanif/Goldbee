@@ -12,12 +12,12 @@ import {
   PermissionsAndroid,
   ActivityIndicator,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import TextField from '../../components/TextField';
 import Buttons from '../../components/Buttons';
-import {Color} from '../../constants/colors';
-import {Checkbox} from 'react-native-paper';
+import { Color } from '../../constants/colors';
+import { Checkbox } from 'react-native-paper';
 
 // @Vector Icon
 import Ico from 'react-native-vector-icons/AntDesign';
@@ -25,19 +25,19 @@ import Edit from 'react-native-vector-icons/Feather';
 import Gender from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import {useTranslation} from 'react-i18next';
-import {Base_Url} from '../../api/Api';
+import { useTranslation } from 'react-i18next';
+import { Base_Url } from '../../api/Api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import ImagePicker, {
   launchCamera,
   launchImageLibrary,
 } from 'react-native-image-picker';
-import {FlatList} from 'react-native-gesture-handler';
-import {useIsFocused} from '@react-navigation/native';
+import { FlatList } from 'react-native-gesture-handler';
+import { useIsFocused } from '@react-navigation/native';
 
-const PostingListing = ({navigation, route}) => {
-  const {t} = useTranslation();
+const PostingListing = ({ navigation, route }) => {
+  const { t } = useTranslation();
   const [checked, setChecked] = React.useState(false);
   const [modalVisible, setModalVisible] = React.useState(false);
   const [countryModal, setCountryModal] = React.useState(false);
@@ -62,7 +62,7 @@ const PostingListing = ({navigation, route}) => {
 
   const [Loading, setLoading] = useState(false);
 
-  const {Categories} = route?.params;
+  const { Categories } = route?.params;
 
   console.log('CATEGORUESSSS===>', img);
   // const [city, setCity] = React.useState(null);
@@ -224,7 +224,7 @@ const PostingListing = ({navigation, route}) => {
               setTimeout(() => {
                 setModalVisible(false);
                 setLoading(false);
-                navigation.navigate('BottomNavigation', {screen: 'Home'});
+                navigation.navigate('BottomNavigation', { screen: 'Home' });
               }, 2000);
           }
         })
@@ -306,14 +306,17 @@ const PostingListing = ({navigation, route}) => {
               marginTop: 10,
               padding: 10,
             }}>
-            <TouchableOpacity
+          {images.length ===  0 ?   <Text style={{ color: '#000000' }}>
+                {t('common:uploadupto10pictures')}
+              </Text> :  <TouchableOpacity
               // onPress={LaunchImageLibrary}
-              onPress={() => setopenModal1(true)}>
-              <Text style={{color: '#000000'}}>
+              onPress={() => setopenModal1(true)} style={{flexDirection:'row',alignItems:'center'}}>
+              <Text style={{ color: '#000000' }}>
                 {t('common:uploadupto10pictures')}
               </Text>
-            </TouchableOpacity>
-            <AntDesign name="right" size={15} color="black" />
+              <AntDesign name="right" size={15} color="black" style={{left:10}} />
+            </TouchableOpacity>}
+           
           </View>
           {images.length == 0 ? (
             <>
@@ -327,7 +330,9 @@ const PostingListing = ({navigation, route}) => {
                   alignItems: 'center',
                   margin: 10,
                 }}>
-                <AntDesign color="gray" size={20} name="pluscircle" />
+                <TouchableOpacity onPress={() => setopenModal1(true)}>
+                  <AntDesign color="gray" size={20} name="pluscircle" />
+                </TouchableOpacity>
               </View>
             </>
           ) : (
@@ -336,10 +341,10 @@ const PostingListing = ({navigation, route}) => {
                 // console.log(val);
                 return (
                   <>
-                    <View style={{marginVertical: 10, bottom: 10}}>
+                    <View style={{ marginVertical: 10, bottom: 10 }}>
                       <TouchableOpacity
                         // key={Math.random() * 1000}
-                        onPress={() => RemoveImage(val)}
+                        onPress={() => RemoveImage(val) }
                         style={{
                           flexDirection: 'row-reverse',
                           // position: 'absolute',
@@ -348,7 +353,7 @@ const PostingListing = ({navigation, route}) => {
                         }}>
                         <AntDesign
                           name="closecircle"
-                          style={{top: 10}}
+                          style={{ top: 10 }}
                           size={20}
                           color="black"
                         />
@@ -360,8 +365,8 @@ const PostingListing = ({navigation, route}) => {
                           borderRadius: 10,
                           marginHorizontal: 5,
                         }}
-                        source={{uri: val == undefined ? null : val}}
-                        // source={{uri: val}}
+                        source={{ uri: val == undefined ? null : val }}
+                      // source={{uri: val}}
                       />
                     </View>
                   </>
@@ -407,15 +412,15 @@ const PostingListing = ({navigation, route}) => {
             placeholderTextColor={Color.darkGray}
             placeholder={country}
           /> */}
-          <Text style={{padding: 20}}>{country}</Text>
+          <Text style={{ padding: 20 }}>{country}</Text>
           {/* <TextField
       
             setTxt={txt => setCountry(txt)}
             placeHolder={t('common:country')}
           /> */}
           <TouchableOpacity
-            style={{right: 10}}
-            // onPress={() => setCountryModal(!countryModal)}
+            style={{ right: 10 }}
+          // onPress={() => setCountryModal(!countryModal)}
           >
             <AntDesign name={'down'} size={20} color="black" />
           </TouchableOpacity>
@@ -431,7 +436,7 @@ const PostingListing = ({navigation, route}) => {
                 Alert.alert('Modal has been closed.');
                 setModalVisible1(!modalVisible);
               }}>
-              <View style={{flex: 1, backgroundColor: 'white'}}>
+              <View style={{ flex: 1, backgroundColor: 'white' }}>
                 <View
                   style={{
                     backgroundColor: 'white',
@@ -441,9 +446,9 @@ const PostingListing = ({navigation, route}) => {
                     alignItems: 'center',
                     justifyContent: 'space-between',
                   }}
-                  // onPress={() => setModalVisible(false)}
+                // onPress={() => setModalVisible(false)}
                 >
-                  <Text style={{color: 'black', fontSize: 20}}>
+                  <Text style={{ color: 'black', fontSize: 20 }}>
                     Select Location
                   </Text>
                   <TouchableOpacity onPress={() => setModalVisible1(false)}>
@@ -479,7 +484,7 @@ const PostingListing = ({navigation, route}) => {
                         onPress={() => {
                           setCountryModal(false), setCountry(item.item);
                         }}>
-                        <Text style={{color: 'black', fontWeight: 'bold'}}>
+                        <Text style={{ color: 'black', fontWeight: 'bold' }}>
                           {item.item}
                         </Text>
                       </TouchableOpacity>
@@ -577,7 +582,7 @@ const PostingListing = ({navigation, route}) => {
               alignItems: 'center',
               flexWrap: 'wrap',
             }}>
-            <Text style={{color: 'black'}}>{t('common:iagreetoGoldbee')}</Text>
+            <Text style={{ color: 'black' }}>{t('common:iagreetoGoldbee')}</Text>
 
             <Text
               style={{
@@ -635,7 +640,7 @@ const PostingListing = ({navigation, route}) => {
                 alignItems: 'center',
               }}>
               <Image
-                style={{height: 90, width: 90}}
+                style={{ height: 90, width: 90 }}
                 source={require('../../assets/Icons/Group13719.png')}
               />
               <View
@@ -645,10 +650,10 @@ const PostingListing = ({navigation, route}) => {
                   alignItems: 'center',
                 }}>
                 <Text
-                  style={{fontWeight: 'bold', color: 'black', fontSize: 17}}>
+                  style={{ fontWeight: 'bold', color: 'black', fontSize: 17 }}>
                   {t('common:postedscucessfully')}
                 </Text>
-                <Text style={{color: 'black'}}>
+                <Text style={{ color: 'black' }}>
                   {t('common:yourlistingpostedsuccessfully')}
                 </Text>
               </View>
@@ -680,9 +685,9 @@ const PostingListing = ({navigation, route}) => {
               onPress={() => {
                 setopenModal1(false), LaunchCamera();
               }}
-              style={{flexDirection: 'row'}}>
+              style={{ flexDirection: 'row' }}>
               <Ico name="camerao" size={30} color="black" />
-              <Text style={{fontSize: 15, color: 'black', top: 5, left: 10}}>
+              <Text style={{ fontSize: 15, color: 'black', top: 5, left: 10 }}>
                 {t('common:takeaphoto')}
               </Text>
             </TouchableOpacity>
@@ -692,9 +697,9 @@ const PostingListing = ({navigation, route}) => {
               onPress={() => {
                 LaunchImageLibrary(), setopenModal1(false);
               }}
-              style={{flexDirection: 'row'}}>
+              style={{ flexDirection: 'row' }}>
               <Gender name="view-dashboard-outline" size={30} color="black" />
-              <Text style={{fontSize: 15, color: 'black', top: 5, left: 10}}>
+              <Text style={{ fontSize: 15, color: 'black', top: 5, left: 10 }}>
                 {t('common:chosefromGallery')}
               </Text>
             </TouchableOpacity>

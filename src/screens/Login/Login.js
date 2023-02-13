@@ -24,8 +24,8 @@ import {useTranslation} from 'react-i18next';
 const Login = () => {
   const navigation = useNavigation();
   const [checked, setChecked] = React.useState(false);
-  const [email, setEmail] = React.useState('test@gmail.com');
-  const [password, setPassword] = React.useState('123456');
+  const [email, setEmail] = React.useState();
+  const [password, setPassword] = React.useState();
   const {t} = useTranslation();
 
   const validateEmail = email => {
@@ -59,7 +59,7 @@ const Login = () => {
               AsyncStorage.setItem('userName', respo?.data?.name);
               AsyncStorage.setItem('imgUri', respo?.data?.profile_picture);
 
-              Alert.alert('Error', respo?.message);
+              Alert.alert(respo?.message);
               const uid = respo?.data?.id;
               console.log('logggg', typeof uid);
               AsyncStorage.setItem('uid', JSON.stringify(uid));
