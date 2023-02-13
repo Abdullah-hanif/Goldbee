@@ -35,12 +35,12 @@ const ProfileDetails = ({navigation}) => {
             <Text style={{fontWeight: 'bold', fontSize: 24, color: 'black'}}>
               John Micheal
             </Text>
-            <Text
+            {/* <Text
               style={{
                 color: Color.darkOrange,
               }}>
               Chicago - USA
-            </Text>
+            </Text> */}
           </View>
         </TouchableOpacity>
         <Image

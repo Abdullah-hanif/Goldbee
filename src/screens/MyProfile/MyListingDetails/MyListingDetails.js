@@ -9,19 +9,19 @@ import {
   View,
 } from 'react-native';
 import React from 'react';
-import {Color} from '../../../constants/colors';
+import { Color } from '../../../constants/colors';
 import Back from 'react-native-vector-icons/AntDesign';
 import Dots from 'react-native-vector-icons/Entypo';
 // import Buttons from '../../components/Buttons';
 import Buttons from '../../../components/Buttons';
 
 // @translator
-import {useTranslation} from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 
-const MyListingDetails = ({navigation, route}) => {
-  const {t} = useTranslation();
-  const {productDetails, deletFunction} = route.params;
-  console.log('PRODUCT DETAILS==>', productDetails);
+const MyListingDetails = ({ navigation, route }) => {
+  const { t } = useTranslation();
+  const { productDetails, deletFunction } = route.params;
+  console.log('PRODUCT DETAILS==>', productDetails.images);
 
   const sellerDetail = productDetails['seller-details'];
   console.log('MY PRODUCT DETAILS=====>', sellerDetail);
@@ -54,7 +54,7 @@ const MyListingDetails = ({navigation, route}) => {
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Back name="left" size={20} color="white" />
         </TouchableOpacity>
-        <View style={{flexDirection: 'row'}}>
+        <View style={{ flexDirection: 'row' }}>
           {/* <TouchableOpacity onPress={() => setAddFav(!addFav)}> */}
           {/* <TouchableOpacity
             onPress={() => {
@@ -67,7 +67,7 @@ const MyListingDetails = ({navigation, route}) => {
       {/*END Topbar ICONS */}
       <ScrollView
         showsHorizontalScrollIndicator={false}
-        onScroll={({nativeEvent}) => onchange(nativeEvent)}
+        onScroll={({ nativeEvent }) => onchange(nativeEvent)}
         horizontal
         pagingEnabled
         style={{
@@ -78,7 +78,7 @@ const MyListingDetails = ({navigation, route}) => {
           <Image
             // resizeMode="contain"
             key={Math.random() * 1000}
-            style={{height: '100%', width: Dimensions.get('screen').width}}
+            style={{ height: '100%', width: Dimensions.get('screen').width }}
             source={require('../../../assets/Icons/MaskGroup121.png')}
           />
         ) : (
@@ -86,8 +86,8 @@ const MyListingDetails = ({navigation, route}) => {
             <Image
               // resizeMode="contain"
               key={index}
-              style={{height: '100%', width: Dimensions.get('screen').width}}
-              source={{uri: e}}
+              style={{ height: '100%', width: Dimensions.get('screen').width }}
+              source={{ uri: e }}
             />
           ))
         )}
@@ -105,7 +105,7 @@ const MyListingDetails = ({navigation, route}) => {
           <Image
             // resizeMode="contain"
             key={Math.random() * 1000}
-            style={{height: '100%', width: Dimensions.get('screen').width}}
+            style={{ height: '100%', width: Dimensions.get('screen').width }}
             source={{
               uri: 'https://www.freshone.com.pk/content/images/thumbs/default-image_550.png',
             }}
@@ -132,18 +132,18 @@ const MyListingDetails = ({navigation, route}) => {
         }}>
         <TouchableOpacity
           onPress={() => navigation.navigate('ProfileDetails')}
-          style={{flexDirection: 'row', alignItems: 'center', marginTop: 30}}>
+          style={{ flexDirection: 'row', alignItems: 'center', marginTop: 30 }}>
           <Image
-            style={{height: 50, width: 50}}
+            style={{ height: 50, width: 50 }}
             source={
               sellerDetail?.profile_picture == null
                 ? require('../../../assets/Icons/MaskGroup121.png')
-                : {uri: sellerDetail?.profile_picture}
+                : { uri: sellerDetail?.profile_picture }
             }
-            // source={require('../../../assets/Icons/Ellipse28.png')}
+          // source={require('../../../assets/Icons/Ellipse28.png')}
           />
-          <View style={{left: 10}}>
-            <Text style={{fontWeight: 'bold', fontSize: 15, color: 'black'}}>
+          <View style={{ left: 10 }}>
+            <Text style={{ fontWeight: 'bold', fontSize: 15, color: 'black' }}>
               {sellerDetail?.name}
             </Text>
             <Text
@@ -172,12 +172,12 @@ const MyListingDetails = ({navigation, route}) => {
               {/* {t('common:beadednecklaces')} */}
               {productDetails?.title}
             </Text>
-            <Text style={{fontSize: 18, color: 'black', marginTop: 10}}>
+            <Text style={{ fontSize: 18, color: 'black', marginTop: 10 }}>
               $ {productDetails?.price}
             </Text>
           </View>
           <Image
-            style={{height: 70, width: 70, bottom: 20}}
+            style={{ height: 70, width: 70, bottom: 20 }}
             source={require('../../../assets/Icons/Group13720.png')}
           />
         </View>
@@ -197,12 +197,13 @@ const MyListingDetails = ({navigation, route}) => {
             {productDetails?.description}
           </Text>
         </View>
-        <View style={{flexDirection: 'column-reverse', marginTop: '20%'}}>
+        <View style={{ flexDirection: 'column-reverse', marginTop: '20%' }}>
           <Buttons
             onpress={() =>
               navigation.navigate('UpdateListing', {
                 allDetails: {
                   id: productDetails?.id,
+                  images: productDetails.images,
                   title: productDetails?.title,
                   price: productDetails?.price,
                   cites: 'test',
