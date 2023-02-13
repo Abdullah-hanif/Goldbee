@@ -17,8 +17,8 @@ import TextField from '../../../components/TextField';
 
 // import TextField from '../../components/TextField';
 import Buttons from '../../../components/Buttons';
-import {Color} from '../../../constants/colors';
-import {Checkbox} from 'react-native-paper';
+import { Color } from '../../../constants/colors';
+import { Checkbox } from 'react-native-paper';
 
 // @Vector Icon
 import Ico from 'react-native-vector-icons/AntDesign';
@@ -26,9 +26,9 @@ import Edit from 'react-native-vector-icons/Feather';
 import Gender from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import {useTranslation} from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 // import {Base_Url} from '../../api/Api';
-import {Base_Url} from '../../../api/Api';
+import { Base_Url } from '../../../api/Api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import ImagePicker, {
@@ -36,8 +36,8 @@ import ImagePicker, {
   launchImageLibrary,
 } from 'react-native-image-picker';
 
-const UpdateListing = ({navigation, route}) => {
-  const {t} = useTranslation();
+const UpdateListing = ({ navigation, route }) => {
+  const { t } = useTranslation();
   const [checked, setChecked] = React.useState(false);
   const [modalVisible, setModalVisible] = React.useState(false);
   const [countryModal, setCountryModal] = React.useState(false);
@@ -56,7 +56,7 @@ const UpdateListing = ({navigation, route}) => {
   const [img, setImg] = React.useState([]);
   const [id, setId] = React.useState();
 
-  const {allDetails} = route?.params;
+  const { allDetails } = route?.params;
   console.log('CATEGORUESSSS===>', allDetails);
   React.useEffect(() => {
     setTitle(allDetails?.title);
@@ -65,8 +65,8 @@ const UpdateListing = ({navigation, route}) => {
     setDescription(allDetails?.description);
     setCategory(allDetails?.category);
     setId(allDetails?.id);
+    setImages(allDetails?.images)
   }, []);
-
   // const [city, setCity] = React.useState(null);
   // // console.log('title===>', title, price, country, selectArea, description);
   // const spainCities = [
@@ -138,8 +138,8 @@ const UpdateListing = ({navigation, route}) => {
   };
 
   const selectedImg = [
-    {id: 1, imgUri: require('../../../assets/SamplePictures/1.png')},
-    {id: 2, imgUri: require('../../../assets/SamplePictures/2.png')},
+    { id: 1, imgUri: require('../../../assets/SamplePictures/1.png') },
+    { id: 2, imgUri: require('../../../assets/SamplePictures/2.png') },
   ];
 
   const LaunchImageLibrary = () => {
@@ -258,13 +258,14 @@ const UpdateListing = ({navigation, route}) => {
             <TouchableOpacity
               // onPress={LaunchImageLibrary}
               onPress={() => setopenModal1(true)}>
-              <Text style={{color: '#000000'}}>
+              <Text style={{ color: '#000000' }}>
                 {t('common:uploadupto10pictures')}
               </Text>
             </TouchableOpacity>
             <AntDesign name="right" size={15} color="black" />
           </View>
           <ScrollView horizontal>
+            
             {images.map((val, index) => {
               // console.log(val);
               return (
@@ -281,7 +282,7 @@ const UpdateListing = ({navigation, route}) => {
                       }}>
                       <AntDesign
                         name="closecircle"
-                        style={{top: 10}}
+                        style={{ top: 10 }}
                         size={20}
                         color="black"
                       />
@@ -293,8 +294,8 @@ const UpdateListing = ({navigation, route}) => {
                         borderRadius: 10,
                         marginHorizontal: 5,
                       }}
-                      source={{uri: val == undefined ? null : val}}
-                      // source={{uri: val}}
+                      source={{ uri: val == undefined ? null : val }}
+                    // source={{uri: val}}
                     />
                   </View>
                 </>
@@ -345,7 +346,7 @@ const UpdateListing = ({navigation, route}) => {
               placeHolder={t('common:country')}
             /> */}
           <TouchableOpacity
-            style={{right: 10}}
+            style={{ right: 10 }}
             onPress={() => setCountryModal(!countryModal)}>
             <AntDesign
               name={countryModal ? 'up' : 'down'}
@@ -370,7 +371,7 @@ const UpdateListing = ({navigation, route}) => {
                       onPress={() => {
                         setCountryModal(false), setCountry(data), alert(data);
                       }}>
-                      <Text style={{color: 'black', fontWeight: 'bold'}}>
+                      <Text style={{ color: 'black', fontWeight: 'bold' }}>
                         {data}
                       </Text>
                     </TouchableOpacity>
@@ -412,7 +413,7 @@ const UpdateListing = ({navigation, route}) => {
               alignItems: 'center',
               flexWrap: 'wrap',
             }}>
-            <Text style={{color: 'black'}}>{t('common:iagreetoGoldbee')}</Text>
+            <Text style={{ color: 'black' }}>{t('common:iagreetoGoldbee')}</Text>
 
             <Text
               style={{
@@ -461,7 +462,7 @@ const UpdateListing = ({navigation, route}) => {
                 alignItems: 'center',
               }}>
               <Image
-                style={{height: 90, width: 90}}
+                style={{ height: 90, width: 90 }}
                 source={require('../../../assets/Icons/Group13719.png')}
               />
               <View
@@ -471,10 +472,10 @@ const UpdateListing = ({navigation, route}) => {
                   alignItems: 'center',
                 }}>
                 <Text
-                  style={{fontWeight: 'bold', color: 'black', fontSize: 17}}>
+                  style={{ fontWeight: 'bold', color: 'black', fontSize: 17 }}>
                   {t('common:postedscucessfully')}
                 </Text>
-                <Text style={{color: 'black'}}>
+                <Text style={{ color: 'black' }}>
                   {t('common:yourlistingpostedsuccessfully')}
                 </Text>
               </View>
@@ -510,9 +511,9 @@ const UpdateListing = ({navigation, route}) => {
               onPress={() => {
                 LaunchCamera(), setopenModal1(false);
               }}
-              style={{flexDirection: 'row'}}>
+              style={{ flexDirection: 'row' }}>
               <Ico name="camerao" size={30} color="black" />
-              <Text style={{fontSize: 15, color: 'black', top: 5, left: 10}}>
+              <Text style={{ fontSize: 15, color: 'black', top: 5, left: 10 }}>
                 {t('common:takeaphoto')}
               </Text>
             </TouchableOpacity>
@@ -522,9 +523,9 @@ const UpdateListing = ({navigation, route}) => {
               onPress={() => {
                 LaunchImageLibrary(), setopenModal1(false);
               }}
-              style={{flexDirection: 'row'}}>
+              style={{ flexDirection: 'row' }}>
               <Gender name="view-dashboard-outline" size={30} color="black" />
-              <Text style={{fontSize: 15, color: 'black', top: 5, left: 10}}>
+              <Text style={{ fontSize: 15, color: 'black', top: 5, left: 10 }}>
                 {t('common:chosefromGallery')}
               </Text>
             </TouchableOpacity>

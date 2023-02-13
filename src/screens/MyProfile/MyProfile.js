@@ -283,12 +283,12 @@ const MyProfile = ({navigation}) => {
                           {name}
                         </Text>
                       )}
-                      <Text
+                      {/* <Text
                         style={{
                           color: Color.darkOrange,
                         }}>
                         Chicago - USA
-                      </Text>
+                      </Text> */}
                     </View>
                   </View>
                   {/* END PROFILE HEADER */}

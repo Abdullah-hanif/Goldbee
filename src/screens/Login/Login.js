@@ -6,27 +6,26 @@ import {
   TouchableOpacity,
   Alert,
 } from 'react-native';
-import React, {useState} from 'react';
-import {Color} from '../../constants/colors';
+import React, { useState } from 'react';
+import { Color } from '../../constants/colors';
 import TextField from '../../components/TextField';
 import Buttons from '../../components/Buttons';
-import {Checkbox} from 'react-native-paper';
-import {useNavigation} from '@react-navigation/native';
+import { Checkbox } from 'react-native-paper';
+import { useNavigation } from '@react-navigation/native';
 import Back from 'react-native-vector-icons/AntDesign';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // @API_Callefef
-import {Base_Url, loginUser} from '../../api/Api';
+import { Base_Url, loginUser } from '../../api/Api';
 
 // @LANGUGE IMPORTSsef
-import {useTranslation} from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 
-const Login = () => {
-  const navigation = useNavigation();
+const Login = ({ navigation }) => {
   const [checked, setChecked] = React.useState(false);
   const [email, setEmail] = React.useState();
   const [password, setPassword] = React.useState();
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   const validateEmail = email => {
     return String(email)
@@ -48,7 +47,7 @@ const Login = () => {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({email: email, password: password}),
+          body: JSON.stringify({ email: email, password: password }),
         })
           .then(response => response.json())
           .then(data => {
@@ -58,12 +57,14 @@ const Login = () => {
               AsyncStorage.setItem('status', 'loggedIn');
               AsyncStorage.setItem('userName', respo?.data?.name);
               AsyncStorage.setItem('imgUri', respo?.data?.profile_picture);
+              AsyncStorage.setItem('userCity', JSON.stringify(respo?.data?.city));
 
               Alert.alert(respo?.message);
               const uid = respo?.data?.id;
               console.log('logggg', typeof uid);
               AsyncStorage.setItem('uid', JSON.stringify(uid));
-              navigation.navigate('BottomNavigation');
+              console.log("payload", respo?.data);
+              navigation.replace('BottomNavigation');
             } else {
               Alert.alert('Error', respo?.message);
             }
@@ -82,14 +83,14 @@ const Login = () => {
       <TouchableOpacity onPress={() => navigation.goBack()}>
         <Back name="left" size={20} color="black" />
       </TouchableOpacity>
-      <View style={{marginTop: '15%'}}>
-        <Text style={{fontWeight: 'bold', color: Color.black, fontSize: 28}}>
+      <View style={{ marginTop: '15%' }}>
+        <Text style={{ fontWeight: 'bold', color: Color.black, fontSize: 28 }}>
           {t('common:Login')}
         </Text>
-        <Text style={{color: Color.darkGray, fontSize: 15}}>
+        <Text style={{ color: Color.darkGray, fontSize: 15 }}>
           {t('common:Goldybeeseller')}
         </Text>
-        <View style={{marginTop: 20}}>
+        <View style={{ marginTop: 20 }}>
           <TextField
             val={email}
             setTxt={txt => setEmail(txt)}
@@ -107,7 +108,7 @@ const Login = () => {
             justifyContent: 'space-between',
             marginTop: 10,
           }}>
-          <View style={{flexDirection: 'row'}}>
+          <View style={{ flexDirection: 'row' }}>
             {/* <Text>checkBox</Text> */}
             <Checkbox
               color={checked ? Color.darkOrange : 'black'}
@@ -116,7 +117,7 @@ const Login = () => {
                 setChecked(!checked);
               }}
             />
-            <Text style={{marginTop: 8, color: 'black'}}>
+            <Text style={{ marginTop: 8, color: 'black' }}>
               {t('common:rememberme')}
             </Text>
           </View>
@@ -143,11 +144,11 @@ const Login = () => {
               alignItems: 'center',
               marginTop: '5%',
             }}>
-            <Text style={{color: 'black'}}>
+            <Text style={{ color: 'black' }}>
               {t('common:donthaveanaccount')}{' '}
             </Text>
             <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
-              <Text style={{color: Color.darkOrange, fontWeight: 'bold'}}>
+              <Text style={{ color: Color.darkOrange, fontWeight: 'bold' }}>
                 {t('common:Signup')}
               </Text>
             </TouchableOpacity>

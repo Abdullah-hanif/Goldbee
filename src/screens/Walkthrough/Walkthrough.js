@@ -87,7 +87,7 @@ const Walkthrough = ({navigation}) => {
   };
   const renderDoneButton = () => {
     return (
-      <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+      <TouchableOpacity onPress={() => navigation.replace('SignUp')}>
         <View style={styles.buttonCircle}>
           <Text style={{color: Color.darkOrange, fontWeight: 'bold'}}>
             {t('common:Next')}

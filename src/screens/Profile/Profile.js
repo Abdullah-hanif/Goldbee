@@ -47,12 +47,12 @@ const Profile = ({navigation}) => {
             <Text style={{fontWeight: 'bold', fontSize: 20, color: 'black'}}>
               {name}
             </Text>
-            <Text
+            {/* <Text
               style={{
                 color: Color.darkOrange,
               }}>
               Chicago - USA
-            </Text>
+            </Text> */}
           </View>
         </View>
         {/* Profile Header END */}
@@ -72,7 +72,7 @@ const Profile = ({navigation}) => {
           />
           <ProfileItemComp
             onClick={() => {
-              navigation.navigate('Login'), AsyncStorage.clear();
+              navigation.replace('Login'), AsyncStorage.clear();
             }}
             name={t('common:logout')}
             Icon={require('../../assets/Icons/Group40901.png')}
