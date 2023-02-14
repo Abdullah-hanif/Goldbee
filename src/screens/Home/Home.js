@@ -31,8 +31,6 @@ const Home = ({ naviagtion }) => {
   const [selected, setSelected] = React.useState(t('common:all'));
   const [countryModal, setCountryModal] = React.useState(false);
   const [Cities, setCities] = React.useState('');
-  const [CityData, setCityData] = React.useState([]);
-  const [searchItem, setSearchItem] = React.useState('');
 
   // @Modal Cities
   const [modalVisible, setModalVisible] = useState(false);
@@ -49,59 +47,54 @@ const Home = ({ naviagtion }) => {
 
 
   const getAllListing = async () => {
-    const userId = await AsyncStorage.getItem('uid');
-    const userCity = await AsyncStorage.getItem('userCity');
-    setCities(userCity)
-    await fetch(`${Base_Url}/get-listings`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ user_id: userId }),
-    })
-      .then(response => response.json())
-      .then(data => {
-        //   const res = data.json();
-        const respo = data;
-        console.log('RESPONSE HOME', respo?.data[1].listings[0].location);
-        const cityData = respo?.data.filter((val, id) => {
-          //console.log(val.listings[0].location);
-          console.log(Cities === val.listings[0].location);
-          "Cities" === val.listings[0].location ? CityData.push(val.listings[0]) : []
-        })
-        console.log("cityData", cityData);
-        let tempData = [];
-        respo?.data?.map(item => {
-          tempData = [...tempData, ...item.listings];
-        });
-        setData(tempData);
-        setCheck(false);
-        setFilterData(tempData);
-        // console.log('RESPONSE LENGTH====>', tempData.length);
-        if (respo?.message == 'Logged In successfully') {
-          console.log(respo?.status, '=====>');
-        } else {
-          console.log(respo?.message);
-        }
+    const userData = await AsyncStorage.getItem('userData');
+    const parsedData = userData ? JSON.parse(userData) : null;
+
+    if (parsedData) {
+      await fetch(`${Base_Url}/get-listings`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ user_id: parsedData.id }),
       })
-      .catch(error => {
-        console.error(error);
-      });
+        .then(response => response.json())
+        .then(data => {
+          const respo = data;
+          let tempData = [];
+          respo?.data?.map(item => {
+            tempData = [...tempData, ...item.listings];
+          });
+          let newData = getDataByLocation(tempData, Cities)
+          setData(tempData);
+          setCheck(false);
+          setFilterData(newData);
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    }
+
   };
 
   const hadlefilter = () => {
     const filterData = data?.filter(val => val?.category === selected);
-    // setFilterData([]);
-    setFilterData(filterData);
-
+    const cityWise = getDataByLocation(filterData, Cities)
+    setFilterData(cityWise);
     selected == 'All' ? getAllListing() : null;
   };
-  const hadleCiteiesFilter = () => {
-    const filterData = data?.filter(val => val?.location === Cities);
-    setFilterData(filterData);
-    console.log('hadleCiteiesFilter===>', filterData?.length);
-    filterData?.length == 0 ? setFind('serachCities') : null;
-    // Cities == 'All' ? getAllListing() : null;
+
+  const hadleCiteiesFilter = async () => {
+    let updatedData = [];
+    if (selected === 'All') {
+      if (!data) getAllListing();
+      else updatedData = getDataByLocation(data, Cities);
+    }
+    else {
+      const filterData = data?.filter(val => val?.category === selected);
+      updatedData = getDataByLocation(filterData, Cities)
+    }
+    setFilterData(updatedData);
   };
 
   const handleSearchItem = searctTxt => {
@@ -130,11 +123,35 @@ const Home = ({ naviagtion }) => {
     }
   };
 
+  const getDataByLocation = (arr, city) => {
+    let newData = []
+    if (arr && city != '') {
+      arr.map((item) => {
+        if (item.location === city) {
+          newData.push(item)
+        }
+      })
+    }
+    return newData;
+  }
+
+
   const focused = useIsFocused();
   React.useEffect(() => {
     getAllListing();
     getCityName();
   }, [focused == true, check]);
+
+  const setCityFirstTime = async () => {
+    const userData = await AsyncStorage.getItem('userData');
+    const parsedData = userData ? JSON.parse(userData) : null;
+    if (parsedData) setCities(parsedData.city)
+  }
+
+  React.useEffect(() => {
+    setCityFirstTime();
+  }, []);
+
 
   React.useEffect(() => {
     hadlefilter();
@@ -285,7 +302,8 @@ const Home = ({ naviagtion }) => {
                           marginBottom: 22,
                         }}
                         onPress={() => {
-                          setCountryModal(false), setCities(item.item);
+                          setCountryModal(false);
+                          setCities(item.item);
                         }}>
                         <Text style={{ color: 'black', fontWeight: 'bold' }}>
                           {item.item}
