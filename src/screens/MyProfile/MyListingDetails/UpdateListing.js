@@ -183,7 +183,7 @@ const UpdateListing = ({navigation, route}) => {
     const imags = images.filter(image => image !== val);
     // console.log('=====>FILTER FUNCTION KEY====>', imags);
     setImages(imags);
-    console.log(images, '====>UPDATED ARRY');
+    console.log(imags, '====>UPDATED Remove aray');
   };
 
   //CAMERA LAUNCH
@@ -334,6 +334,20 @@ const UpdateListing = ({navigation, route}) => {
           ) : (
             <>
               <ScrollView horizontal>
+                <View
+                  style={{
+                    height: 70,
+                    width: 80,
+                    borderRadius: 20,
+                    backgroundColor: 'lightgray',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    margin: 10,
+                  }}>
+                  <TouchableOpacity onPress={() => setopenModal1(true)}>
+                    <AntDesign color="gray" size={20} name="pluscircle" />
+                  </TouchableOpacity>
+                </View>
                 {images.map((val, index) => {
                   // console.log(val);
                   return (
@@ -369,20 +383,6 @@ const UpdateListing = ({navigation, route}) => {
                     </>
                   );
                 })}
-                <View
-                  style={{
-                    height: 70,
-                    width: 80,
-                    borderRadius: 20,
-                    backgroundColor: 'lightgray',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    margin: 10,
-                  }}>
-                  <TouchableOpacity onPress={() => setopenModal1(true)}>
-                    <AntDesign color="gray" size={20} name="pluscircle" />
-                  </TouchableOpacity>
-                </View>
               </ScrollView>
             </>
           )}

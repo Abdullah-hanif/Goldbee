@@ -9,22 +9,22 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
-import React, { useState } from 'react';
-import { Color } from '../../constants/colors';
+import React, {useState} from 'react';
+import {Color} from '../../constants/colors';
 import SearchBar from '../../components/SearchBar';
 import CategoryContainer from '../../components/CategoryContainer';
 import Card from '../../components/Card';
-import { useTranslation } from 'react-i18next';
-import { Base_Url } from '../../api/Api';
+import {useTranslation} from 'react-i18next';
+import {Base_Url} from '../../api/Api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useIsFocused } from '@react-navigation/native';
+import {useIsFocused} from '@react-navigation/native';
 
 // @ICons
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
 
-const Home = ({ naviagtion }) => {
-  const { t } = useTranslation();
+const Home = ({naviagtion}) => {
+  const {t} = useTranslation();
 
   const [data, setData] = React.useState();
   const [filterData, setFilterData] = React.useState([]);
@@ -45,7 +45,6 @@ const Home = ({ naviagtion }) => {
   // @check updates or not
   const [check, setCheck] = React.useState(false);
 
-
   const getAllListing = async () => {
     const userData = await AsyncStorage.getItem('userData');
     const parsedData = userData ? JSON.parse(userData) : null;
@@ -56,7 +55,7 @@ const Home = ({ naviagtion }) => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ user_id: parsedData.id }),
+        body: JSON.stringify({user_id: parsedData.id}),
       })
         .then(response => response.json())
         .then(data => {
@@ -65,7 +64,7 @@ const Home = ({ naviagtion }) => {
           respo?.data?.map(item => {
             tempData = [...tempData, ...item.listings];
           });
-          let newData = getDataByLocation(tempData, Cities)
+          let newData = getDataByLocation(tempData, Cities);
           setData(tempData);
           setCheck(false);
           setFilterData(newData);
@@ -74,12 +73,11 @@ const Home = ({ naviagtion }) => {
           console.error(error);
         });
     }
-
   };
 
   const hadlefilter = () => {
     const filterData = data?.filter(val => val?.category === selected);
-    const cityWise = getDataByLocation(filterData, Cities)
+    const cityWise = getDataByLocation(filterData, Cities);
     setFilterData(cityWise);
     selected == 'All' ? getAllListing() : null;
   };
@@ -89,10 +87,9 @@ const Home = ({ naviagtion }) => {
     if (selected === 'All') {
       if (!data) getAllListing();
       else updatedData = getDataByLocation(data, Cities);
-    }
-    else {
+    } else {
       const filterData = data?.filter(val => val?.category === selected);
-      updatedData = getDataByLocation(filterData, Cities)
+      updatedData = getDataByLocation(filterData, Cities);
     }
     setFilterData(updatedData);
   };
@@ -110,7 +107,7 @@ const Home = ({ naviagtion }) => {
     }
   };
 
-  const handleSearchCites = (searctTxt) => {
+  const handleSearchCites = searctTxt => {
     // const filterData = citeiesList.filter(val => val == searctTxt);
     const filterData = citeiesList?.filter(val =>
       val?.toLowerCase().startsWith(searctTxt.toLowerCase()),
@@ -124,17 +121,16 @@ const Home = ({ naviagtion }) => {
   };
 
   const getDataByLocation = (arr, city) => {
-    let newData = []
+    let newData = [];
     if (arr && city != '') {
-      arr.map((item) => {
+      arr.map(item => {
         if (item.location === city) {
-          newData.push(item)
+          newData.push(item);
         }
-      })
+      });
     }
     return newData;
-  }
-
+  };
 
   const focused = useIsFocused();
   React.useEffect(() => {
@@ -145,13 +141,12 @@ const Home = ({ naviagtion }) => {
   const setCityFirstTime = async () => {
     const userData = await AsyncStorage.getItem('userData');
     const parsedData = userData ? JSON.parse(userData) : null;
-    if (parsedData) setCities(parsedData.city)
-  }
+    if (parsedData) setCities(parsedData.city);
+  };
 
   React.useEffect(() => {
     setCityFirstTime();
   }, []);
-
 
   React.useEffect(() => {
     hadlefilter();
@@ -198,7 +193,7 @@ const Home = ({ naviagtion }) => {
 
   return (
     <View style={styles.container}>
-      <View style={{ padding: 20 }}>
+      <View style={{padding: 20}}>
         <SearchBar getSearch={txt => handleSearchItem(txt)} />
         <TouchableOpacity
           onPress={() => {
@@ -219,7 +214,7 @@ const Home = ({ naviagtion }) => {
             placeholderTextColor={Color.darkGray}
             placeholder={Cities}
           /> */}
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
             {/* <Entypo
               name={'location'}
               size={20}
@@ -227,10 +222,10 @@ const Home = ({ naviagtion }) => {
               style={{left: '10%'}}
             /> */}
             <Image
-              style={{ height: 20, width: 20 }}
+              style={{height: 20, width: 20}}
               source={require('../../assets/Icons/Group4039.png')}
             />
-            <Text style={{ left: '100%' }}>{Cities}</Text>
+            <Text style={{left: '100%'}}>{Cities}</Text>
           </View>
           {/* <TextField
       
@@ -238,10 +233,10 @@ const Home = ({ naviagtion }) => {
             placeHolder={t('common:country')}
           /> */}
           <TouchableOpacity
-            style={{ right: 10 }}
-          // onPress={() => {
-          //   setCountryModal(!countryModal), setModalVisible(true);
-          // }}
+            style={{right: 10}}
+            // onPress={() => {
+            //   setCountryModal(!countryModal), setModalVisible(true);
+            // }}
           >
             <AntDesign name={'caretdown'} size={18} color="black" />
           </TouchableOpacity>
@@ -257,7 +252,7 @@ const Home = ({ naviagtion }) => {
                 Alert.alert('Modal has been closed.');
                 setModalVisible(!modalVisible);
               }}>
-              <View style={{ flex: 1, backgroundColor: 'white' }}>
+              <View style={{flex: 1, backgroundColor: 'white'}}>
                 <View
                   style={{
                     backgroundColor: 'white',
@@ -267,9 +262,9 @@ const Home = ({ naviagtion }) => {
                     alignItems: 'center',
                     justifyContent: 'space-between',
                   }}
-                // onPress={() => setModalVisible(false)}
+                  // onPress={() => setModalVisible(false)}
                 >
-                  <Text style={{ color: 'black', fontSize: 20 }}>
+                  <Text style={{color: 'black', fontSize: 20}}>
                     Select Location
                   </Text>
                   <TouchableOpacity onPress={() => setModalVisible(false)}>
@@ -305,7 +300,7 @@ const Home = ({ naviagtion }) => {
                           setCountryModal(false);
                           setCities(item.item);
                         }}>
-                        <Text style={{ color: 'black', fontWeight: 'bold' }}>
+                        <Text style={{color: 'black', fontWeight: 'bold'}}>
                           {item.item}
                         </Text>
                       </TouchableOpacity>
@@ -321,14 +316,14 @@ const Home = ({ naviagtion }) => {
         <ScrollView
           horizontal={true}
           showsHorizontalScrollIndicator={false}
-          style={{ width: '100%' }}>
+          style={{width: '100%'}}>
           <CategoryContainer
             onPress={handleSelected}
             value={selected}
             name={t('common:all')}
             Icon={
               <Image
-                style={{ height: 20, width: 20 }}
+                style={{height: 20, width: 20}}
                 source={require('../../assets/Icons/Group13721.png')}
               />
             }
@@ -339,7 +334,7 @@ const Home = ({ naviagtion }) => {
             name={t('common:rings')}
             Icon={
               <Image
-                style={{ height: 20, width: 20 }}
+                style={{height: 20, width: 20}}
                 source={require('../../assets/Icons/Group13722.png')}
               />
             }
@@ -350,7 +345,7 @@ const Home = ({ naviagtion }) => {
             name={t('common:necklaces')}
             Icon={
               <Image
-                style={{ height: 20, width: 20 }}
+                style={{height: 20, width: 20}}
                 source={require('../../assets/Icons/Group13723.png')}
               />
             }
@@ -361,7 +356,7 @@ const Home = ({ naviagtion }) => {
             name={t('common:earrings')}
             Icon={
               <Image
-                style={{ height: 20, width: 20 }}
+                style={{height: 20, width: 20}}
                 source={require('../../assets/Icons/Group13724.png')}
               />
             }
@@ -372,7 +367,7 @@ const Home = ({ naviagtion }) => {
             name={t('common:bracelat')}
             Icon={
               <Image
-                style={{ height: 20, width: 20 }}
+                style={{height: 20, width: 20}}
                 source={require('../../assets/Icons/Group13725.png')}
               />
             }
@@ -383,7 +378,7 @@ const Home = ({ naviagtion }) => {
             name="Bangles"
             Icon={
               <Image
-                style={{ height: 20, width: 20 }}
+                style={{height: 20, width: 20}}
                 source={require('../../assets/Icons/Group13731.png')}
               />
             }
@@ -394,7 +389,7 @@ const Home = ({ naviagtion }) => {
             name="Diamonds"
             Icon={
               <Image
-                style={{ height: 20, width: 20 }}
+                style={{height: 20, width: 20}}
                 source={require('../../assets/Icons/Group13730.png')}
               />
             }
@@ -416,64 +411,64 @@ const Home = ({ naviagtion }) => {
             <>
               <Image
                 resizeMode="contain"
-                style={{ height: 80, width: 80 }}
+                style={{height: 80, width: 80}}
                 source={require('../../assets/Icons/Path13197.png')}
               />
-              <Text style={{ color: 'gray' }}>No Diamonds Found</Text>
+              <Text style={{color: 'gray'}}>No Diamonds Found</Text>
             </>
           ) : null || find == 'Bracelet' ? (
             <>
               <Image
                 resizeMode="contain"
-                style={{ height: 80, width: 80 }}
+                style={{height: 80, width: 80}}
                 source={require('../../assets/Icons/Shape-3.png')}
               />
-              <Text style={{ color: 'gray' }}>No Bracelet Found</Text>
+              <Text style={{color: 'gray'}}>No Bracelet Found</Text>
             </>
           ) : null || find == 'Eearrings' ? (
             <>
               <Image
                 resizeMode="contain"
-                style={{ height: 80, width: 80 }}
+                style={{height: 80, width: 80}}
                 source={require('../../assets/Icons/Shape-2.png')}
               />
-              <Text style={{ color: 'gray' }}>No Eearrings Found</Text>
+              <Text style={{color: 'gray'}}>No Eearrings Found</Text>
             </>
           ) : null || find == 'Necklaces' ? (
             <>
               <Image
                 resizeMode="contain"
-                style={{ height: 80, width: 80 }}
+                style={{height: 80, width: 80}}
                 source={require('../../assets/Icons/Shape-1.png')}
               />
-              <Text style={{ color: 'gray' }}>No Necklaces Found</Text>
+              <Text style={{color: 'gray'}}>No Necklaces Found</Text>
             </>
           ) : null || find == 'Rings' ? (
             <>
               <Image
                 resizeMode="contain"
-                style={{ height: 80, width: 80 }}
+                style={{height: 80, width: 80}}
                 source={require('../../assets/Icons/Shape.png')}
               />
-              <Text style={{ color: 'gray' }}>No Rings Found</Text>
+              <Text style={{color: 'gray'}}>No Rings Found</Text>
             </>
           ) : null || find == 'searchBar' ? (
             <>
               <Image
                 resizeMode="contain"
-                style={{ height: 80, width: 80 }}
+                style={{height: 80, width: 80}}
                 source={require('../../assets/Icons/Icon.png')}
               />
-              <Text style={{ color: 'gray' }}>No Product found </Text>
+              <Text style={{color: 'gray'}}>No Product found </Text>
             </>
           ) : null || find == 'serachCities' ? (
             <>
               <Image
                 resizeMode="contain"
-                style={{ height: 80, width: 80 }}
+                style={{height: 80, width: 80}}
                 source={require('../../assets/Icons/Icon.png')}
               />
-              <Text style={{ color: 'gray' }}>
+              <Text style={{color: 'gray'}}>
                 No Product Found Based on Citeis
               </Text>
             </>
@@ -484,7 +479,7 @@ const Home = ({ naviagtion }) => {
                 style={{height: 80, width: 80}}
                 source={require('../../assets/Icons/Path13197.png')}
               /> */}
-              <Text style={{ color: 'gray' }}>No Diamonds Found</Text>
+              <Text style={{color: 'gray'}}>No Diamonds Found</Text>
             </>
           ) : null}
         </View>
@@ -493,7 +488,7 @@ const Home = ({ naviagtion }) => {
           key={Math.random() * 100000}
           scrollEnabled
           showsVerticalScrollIndicator={false}
-          style={{ margin: 20 }}
+          style={{margin: 20}}
           data={filterData}
           numColumns={2}
           renderItem={item => {
@@ -503,7 +498,7 @@ const Home = ({ naviagtion }) => {
                   getFUN={() => getAllListing()}
                   id={item?.item?.id}
                   name={item?.item?.title}
-                  price={`$ ${item?.item?.price}`}
+                  price={`€ ${item?.item?.price}`}
                   bgImage={item?.item?.images}
                   checkChange={text => setCheck(text)}
                   // bgImage={{

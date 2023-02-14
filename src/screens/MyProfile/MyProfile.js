@@ -38,7 +38,7 @@ const MyProfile = ({navigation}) => {
   const [switchName, setSwitch] = React.useState('MyProfile');
   const [allListing, setAllListing] = React.useState([]);
   const [editable, setEditable] = React.useState(false);
-  const [name, setName] = React.useState('');
+  const [name, setName] = React.useState();
   const [phoneNumber, setPhoneNumber] = React.useState('');
   const [whatsappNumber, setWhatsappNumber] = React.useState('');
   const [location, setLocation] = React.useState('');
@@ -417,7 +417,7 @@ const MyProfile = ({navigation}) => {
                           <MyCard
                             // name={t('common:pearlring')}
                             name={data?.item?.title}
-                            price={`$ ${data?.item?.price}`}
+                            price={`€ ${data?.item?.price}`}
                             bgImage={data?.item?.images}
                             // bgImage={{
                             //   uri: `${
