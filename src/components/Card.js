@@ -2,9 +2,10 @@ import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useState, useEffect} from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {Color} from '../constants/colors';
-import {useNavigation} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Base_Url} from '../api/Api';
+import {useId} from 'react';
 const Card = ({
   name,
   price,
@@ -20,11 +21,27 @@ const Card = ({
   checkChangeFav,
   getAllFunc,
   prodID,
+  sellerDetails,
 }) => {
   console.log(prodID);
   const [followe, setFollowed] = useState(isFav);
   const [userID, setuserID] = React.useState('');
-  // console.log('====>IMAGES', bgImage);
+  console.log(
+    '====>MY SELLER ID +++===================>',
+    sellerDetails,
+    '<=================================',
+  );
+
+  const getUID = async () => {
+    const userId = await AsyncStorage.getItem('uid');
+    setuserID(userId);
+  };
+
+  const focused = useIsFocused();
+  useEffect(() => {
+    getUID();
+  }, [focused == true]);
+
   const AddFav = async () => {
     const userId = await AsyncStorage.getItem('uid');
     setuserID(userId);
@@ -162,7 +179,7 @@ const Card = ({
               }}>
               {userID === prodID ? (
                 <View></View>
-              ) : (
+              ) : sellerDetails == userID ? null : (
                 <AntDesign
                   name={followe == 'no' ? 'hearto' : 'heart'}
                   size={20}

@@ -511,6 +511,7 @@ const Home = ({naviagtion}) => {
                   //   }`,
                   // }}
                   isFav={item?.item?.isFollowed}
+                  sellerDetails={item?.item['seller-details']?.id}
                   productDetails={item?.item}
                 />
                 {/* {/* </View> */}
