@@ -26,11 +26,6 @@ const Card = ({
   console.log(prodID);
   const [followe, setFollowed] = useState(isFav);
   const [userID, setuserID] = React.useState('');
-  console.log(
-    '====>MY SELLER ID +++===================>',
-    sellerDetails,
-    '<=================================',
-  );
 
   const getUID = async () => {
     const userId = await AsyncStorage.getItem('uid');

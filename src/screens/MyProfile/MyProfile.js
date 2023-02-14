@@ -280,7 +280,7 @@ const MyProfile = ({navigation}) => {
                             fontSize: 20,
                             color: 'black',
                           }}>
-                          {name}
+                          {name?.replace('" "', ' ')}
                         </Text>
                       )}
                       {/* <Text

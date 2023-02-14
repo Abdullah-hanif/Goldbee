@@ -394,12 +394,40 @@ const UpdateListing = ({navigation, route}) => {
           placeHolder={t('common:listingtitle')}
         />
         <TextField
-          keyBoarType="number-pad"
-          val={price}
-          setTxt={txt => setPrice(txt)}
-          // placeHolder={t('common:price')}
-          placeHolder={'€ price'}
+          setTxt={txt => setTitle(txt)}
+          placeHolder={t('common:listingtitle')}
         />
+        <View
+          style={{
+            marginVertical: 10,
+            borderWidth: 1,
+            borderRadius: 30,
+            borderColor: 'gray',
+            height: 50,
+            marginTop: 10,
+            color: 'black',
+            // padding: 15,
+            paddingLeft: 25,
+            flexDirection: 'row',
+            alignItems: 'center',
+          }}>
+          <Text style={{color: 'black', fontSize: 22}}>€</Text>
+          {/* <TextField
+            keyBoarType="number-pad"
+            setTxt={txt => setPrice(txt)}
+            placeHolder={'€ price'}
+          /> */}
+          <TextInput
+            keyboardType="number-pad"
+            placeholderTextColor={'gray'}
+            style={{
+              color: 'black',
+              // padding: 15,
+            }}
+            placeholder={'0.00'}
+            onChangeText={txt => setPrice(txt)}
+          />
+        </View>
         {/* <View
           style={{
             flexDirection: 'row',
