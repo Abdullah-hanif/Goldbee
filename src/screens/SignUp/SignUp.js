@@ -9,16 +9,16 @@ import {
   Modal,
   FlatList,
 } from 'react-native';
-import React, {useState, useEffect} from 'react';
-import {Color} from '../../constants/colors';
+import React, { useState, useEffect } from 'react';
+import { Color } from '../../constants/colors';
 import TextField from '../../components/TextField';
 import Buttons from '../../components/Buttons';
 // import CheckBox from 'react-native-check-box';
-import {Checkbox} from 'react-native-paper';
-import {useIsFocused, useNavigation} from '@react-navigation/native';
+import { Checkbox } from 'react-native-paper';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 import Back from 'react-native-vector-icons/AntDesign';
-import {useTranslation} from 'react-i18next';
-import {Base_Url} from '../../api/Api';
+import { useTranslation } from 'react-i18next';
+import { Base_Url } from '../../api/Api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // @ICons
@@ -97,17 +97,13 @@ const SignUp = () => {
     })
       .then(response => response.json())
       .then(data => {
-        //   const res = data.json();
         const respo = data;
-        console.log(respo?.status, '=====>');
         if (respo?.message == 'Registered successfully') {
           alert(respo?.message);
           const uid = respo?.data?.id;
           AsyncStorage.setItem('uid', JSON.stringify(uid));
-
-          console.log('RESPONSE======>', respo);
+          AsyncStorage.setItem('userData', JSON.stringify(respo?.data));
           navigation.navigate('BottomNavigation');
-          // navigation.navigate('Login');
         } else {
           alert(respo?.message);
         }
@@ -146,17 +142,17 @@ const SignUp = () => {
         console.log('response error ===>', error);
       });
   };
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
       <TouchableOpacity onPress={() => navigation.goBack()}>
         <Back name="left" size={20} color="black" />
       </TouchableOpacity>
-      <View style={{marginTop: '15%'}}>
-        <Text style={{fontWeight: 'bold', color: Color.black, fontSize: 28}}>
+      <View style={{ marginTop: '15%' }}>
+        <Text style={{ fontWeight: 'bold', color: Color.black, fontSize: 28 }}>
           {t('common:Signup')}
         </Text>
-        <Text style={{color: 'black'}}>{t('common:letsgetstarted')}</Text>
+        <Text style={{ color: 'black' }}>{t('common:letsgetstarted')}</Text>
       </View>
       <View style={styles.txtInputs}>
         <TextField
@@ -179,7 +175,7 @@ const SignUp = () => {
           onPress={() => {
             setCountryModal(!countryModal), setModalVisible(true);
           }}
-          style={[styles.dropDownContainer, {paddingLeft: 25}]}>
+          style={[styles.dropDownContainer, { paddingLeft: 25 }]}>
           <TextInput
             // setTxt={txt => setCountry(txt)}
             // style={{paddingLeft: 25}}
@@ -192,7 +188,7 @@ const SignUp = () => {
             placeHolder={t('common:country')}
           /> */}
           <TouchableOpacity
-            style={{right: 10}}
+            style={{ right: 10 }}
             onPress={() => setCountryModal(!countryModal)}>
             <AntDesign name={'down'} size={20} color="black" />
           </TouchableOpacity>
@@ -208,7 +204,7 @@ const SignUp = () => {
                 Alert.alert('Modal has been closed.');
                 setModalVisible(!modalVisible);
               }}>
-              <View style={{flex: 1, backgroundColor: 'white'}}>
+              <View style={{ flex: 1, backgroundColor: 'white' }}>
                 <View
                   style={{
                     backgroundColor: 'white',
@@ -218,9 +214,9 @@ const SignUp = () => {
                     alignItems: 'center',
                     justifyContent: 'space-between',
                   }}
-                  // onPress={() => setModalVisible(false)}
+                // onPress={() => setModalVisible(false)}
                 >
-                  <Text style={{color: 'black', fontSize: 20}}>
+                  <Text style={{ color: 'black', fontSize: 20 }}>
                     Select Location
                   </Text>
                   <TouchableOpacity onPress={() => setModalVisible(false)}>
@@ -257,7 +253,7 @@ const SignUp = () => {
                         onPress={() => {
                           setCountryModal(false), setCities(item.item);
                         }}>
-                        <Text style={{color: 'black', fontWeight: 'bold'}}>
+                        <Text style={{ color: 'black', fontWeight: 'bold' }}>
                           {item.item}
                         </Text>
                       </TouchableOpacity>
@@ -328,7 +324,7 @@ const SignUp = () => {
             alignItems: 'center',
             flexWrap: 'wrap',
           }}>
-          <Text style={{color: 'black'}}>{t('common:iagreetoGoldbee')}</Text>
+          <Text style={{ color: 'black' }}>{t('common:iagreetoGoldbee')}</Text>
 
           <Text
             style={{
@@ -345,7 +341,7 @@ const SignUp = () => {
         <Buttons onpress={() => signInUser()} name={t('common:Signup')} />
       </View>
       <View style={styles.bottomTxt}>
-        <Text style={{color: 'black'}}>
+        <Text style={{ color: 'black' }}>
           {t('common:Alreadyhaveandaccount')}
         </Text>
         <TouchableOpacity onPress={() => navigation.navigate('Login')}>
