@@ -64,11 +64,9 @@ const Login = ({navigation}) => {
 
               Alert.alert(respo?.message);
               const uid = respo?.data?.id;
-              console.log('logggg', typeof uid);
               AsyncStorage.setItem('uid', JSON.stringify(uid));
               AsyncStorage.setItem('userData', JSON.stringify(respo?.data));
-              console.log('payload', respo?.data);
-              navigation.replace('BottomNavigation');
+              navigation.navigate('BottomNavigation');
             } else {
               Alert.alert('Error', respo?.message);
             }
