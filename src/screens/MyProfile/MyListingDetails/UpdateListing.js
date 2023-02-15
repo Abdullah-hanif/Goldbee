@@ -304,14 +304,14 @@ const UpdateListing = ({navigation, route}) => {
               justifyContent: 'space-between',
               marginTop: 10,
             }}>
-            <TouchableOpacity
+            <View
             // onPress={LaunchImageLibrary}
             // onPress={() => setopenModal1(true)}
             >
               <Text style={{color: '#000000'}}>
                 {t('common:uploadupto10pictures')}
               </Text>
-            </TouchableOpacity>
+            </View>
             <AntDesign name="right" size={15} color="black" />
           </View>
           {images.length == 0 ? (
@@ -411,7 +411,7 @@ const UpdateListing = ({navigation, route}) => {
             flexDirection: 'row',
             alignItems: 'center',
           }}>
-          <Text style={{color: 'black', fontSize: 22}}>€</Text>
+          <Text style={{color: 'black', fontSize: 20}}>€</Text>
           {/* <TextField
             keyBoarType="number-pad"
             setTxt={txt => setPrice(txt)}
@@ -423,8 +423,12 @@ const UpdateListing = ({navigation, route}) => {
             style={{
               color: 'black',
               // padding: 15,
+              width:'90%',
+              alignItems:'center',
+              justifyContent:'center'
             }}
-            placeholder={'0.00'}
+          
+            placeholder={'  0.00'}
             onChangeText={txt => setPrice(txt)}
           />
         </View>
@@ -480,17 +484,19 @@ const UpdateListing = ({navigation, route}) => {
             alignItems: 'center',
             width: '100%',
             borderWidth: 1,
-            marginVertical: 10,
-            borderRadius: 20,
+            marginVertical: 0,
+            height:'8%',
+            borderRadius: 75,
             borderColor: 'gray',
             top: 5,
+           
           }}>
           {/* <TextInput
             setTxt={txt => setCountry(txt)}
             placeholderTextColor={Color.darkGray}
             placeholder={country}
           /> */}
-          <Text style={{padding: 20}}>{country}</Text>
+          <Text style={{marginLeft:25,alignItems:'center'}}>{country}</Text>
           {/* <TextField
       
             setTxt={txt => setCountry(txt)}
@@ -503,6 +509,7 @@ const UpdateListing = ({navigation, route}) => {
             <AntDesign name={'down'} size={20} color="black" />
           </TouchableOpacity>
         </TouchableOpacity>
+        <View>
         {countryModal ? (
           <>
             <Modal
@@ -573,7 +580,7 @@ const UpdateListing = ({navigation, route}) => {
             </Modal>
           </>
         ) : null}
-
+</View>
         {/* {countryModal ? (
           <>
             <ScrollView nestedScrollEnabled={true} style={styles.txtContainer1}>
@@ -606,7 +613,7 @@ const UpdateListing = ({navigation, route}) => {
             setTxt={txt => setSelectArea(txt)}
             placeHolder={t('common:selectarealocation')}
           /> */}
-        <View>
+        <View style={{marginTop:'3%'}}>
           <TextInput
             value={description}
             onChangeText={txt => setDescription(txt)}

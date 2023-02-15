@@ -2,7 +2,7 @@ import {StyleSheet, Text, View, TextInput} from 'react-native';
 import React from 'react';
 import {Color} from '../constants/colors';
 
-const TextField = ({placeHolder, setTxt, val, keyBoarType}) => {
+const TextField = ({placeHolder, setTxt, val, keyBoarType,secureTextEntry}) => {
   return (
     <TextInput
       keyboardType={keyBoarType}
@@ -11,6 +11,7 @@ const TextField = ({placeHolder, setTxt, val, keyBoarType}) => {
       style={styles.container}
       placeholder={placeHolder}
       onChangeText={txt => setTxt(txt)}
+      secureTextEntry={secureTextEntry}
     />
   );
 };

@@ -142,7 +142,8 @@ const ProductDetails = ({navigation, route}) => {
           />
           <View style={{left: 10}}>
             <Text style={{fontWeight: 'bold', fontSize: 15, color: 'black'}}>
-              {sellerDetail?.name}
+              {sellerDetail?.name == null ? '': sellerDetail?.name }
+             
             </Text>
             <Text
               style={{
@@ -171,7 +172,7 @@ const ProductDetails = ({navigation, route}) => {
               {productDetails?.title}
             </Text>
             <Text style={{fontSize: 18, color: 'black', marginTop: 10}}>
-              $ {productDetails?.price}
+            € {productDetails?.price}
             </Text>
           </View>
           <Image

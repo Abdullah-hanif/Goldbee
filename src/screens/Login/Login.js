@@ -104,6 +104,7 @@ const Login = ({navigation}) => {
             val={password}
             setTxt={txt => setPassword(txt)}
             placeHolder={t('common:password')}
+            secureTextEntry={true}
           />
         </View>
         <View

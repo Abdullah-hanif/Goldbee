@@ -331,8 +331,8 @@ const PostingListing = ({navigation, route}) => {
             <>
               <View
                 style={{
-                  height: 70,
-                  width: 80,
+                  height: 60,
+                  width: 90,
                   borderRadius: 20,
                   backgroundColor: 'lightgray',
                   justifyContent: 'center',
@@ -348,13 +348,14 @@ const PostingListing = ({navigation, route}) => {
             <ScrollView horizontal>
               <View
                 style={{
-                  height: 70,
-                  width: 80,
+                  height: 65,
+                  width: 90,
                   borderRadius: 20,
                   backgroundColor: 'lightgray',
                   justifyContent: 'center',
                   alignItems: 'center',
                   margin: 10,
+                  marginTop:18
                 }}>
                 <TouchableOpacity onPress={() => setopenModal1(true)}>
                   <AntDesign color="gray" size={20} name="pluscircle" />
@@ -417,7 +418,7 @@ const PostingListing = ({navigation, route}) => {
             flexDirection: 'row',
             alignItems: 'center',
           }}>
-          <Text style={{color: 'black', fontSize: 22}}>€</Text>
+          <Text style={{color: 'black', fontSize: 20}}>€</Text>
           {/* <TextField
             keyBoarType="number-pad"
             setTxt={txt => setPrice(txt)}
@@ -429,8 +430,9 @@ const PostingListing = ({navigation, route}) => {
             style={{
               color: 'black',
               // padding: 15,
+              width:'90%'
             }}
-            placeholder={'0.00'}
+            placeholder={'  0.00'}
             onChangeText={txt => setPrice(txt)}
           />
         </View>
@@ -444,8 +446,8 @@ const PostingListing = ({navigation, route}) => {
             alignItems: 'center',
             width: '100%',
             borderWidth: 1,
-            marginVertical: 10,
-            borderRadius: 20,
+            height:'8%',
+            borderRadius: 70,
             borderColor: 'gray',
             top: 5,
           }}>
@@ -454,7 +456,7 @@ const PostingListing = ({navigation, route}) => {
             placeholderTextColor={Color.darkGray}
             placeholder={country}
           /> */}
-          <Text style={{padding: 20}}>{country}</Text>
+          <Text style={{left:25}}>{country}</Text>
           {/* <TextField
       
             setTxt={txt => setCountry(txt)}
@@ -542,7 +544,7 @@ const PostingListing = ({navigation, route}) => {
           setTxt={txt => setSelectArea(txt)}
           placeHolder={t('common:selectarealocation')}
         /> */}
-        <View>
+        <View style={{marginTop:'3%'}}>
           <TextInput
             onChangeText={txt => setDescription(txt)}
             placeholderTextColor={'gray'}

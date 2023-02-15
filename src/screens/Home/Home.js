@@ -94,16 +94,18 @@ const Home = ({naviagtion}) => {
     setFilterData(updatedData);
   };
 
-  const handleSearchItem = searctTxt => {
-    const filterData = data?.filter(val =>
-      val?.title.toLowerCase().startsWith(searctTxt.toLowerCase()),
-    );
+  const handleSearchItem = async(searctTxt) => {
+    const newFilterData = data?.filter(val =>{
+     if(val?. location=== Cities){
+      return val?.title.toLowerCase().startsWith(searctTxt.toLowerCase())
+     } 
+});
 
-    setFilterData(filterData);
+    setFilterData(newFilterData);
     filterData?.length == 0 ? setFind('searchBar') : null;
 
     if (searctTxt == '') {
-      setFilterData(data);
+    await  getAllListing();
     }
   };
 
@@ -406,7 +408,7 @@ const Home = ({naviagtion}) => {
             alignItems: 'center',
           }}>
           {find == 'Bangles' ? (
-            <Text>No Bangles found result found</Text>
+            <Text>No bangles found</Text>
           ) : null || find == 'Diamonds' ? (
             <>
               <Image
@@ -479,7 +481,7 @@ const Home = ({naviagtion}) => {
                 style={{height: 80, width: 80}}
                 source={require('../../assets/Icons/Path13197.png')}
               /> */}
-              <Text style={{color: 'gray'}}>No Diamonds Found</Text>
+              <Text style={{color: 'gray'}}>No items found</Text>
             </>
           ) : null}
         </View>
