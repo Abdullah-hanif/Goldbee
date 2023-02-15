@@ -7,18 +7,19 @@ import {
   TextInput,
   ScrollView,
   Modal,
+  FlatList,
   Dimensions,
   StatusBar,
   PermissionsAndroid,
 } from 'react-native';
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import TextField from '../../../components/TextField';
 
 // import TextField from '../../components/TextField';
 import Buttons from '../../../components/Buttons';
-import { Color } from '../../../constants/colors';
-import { Checkbox } from 'react-native-paper';
+import {Color} from '../../../constants/colors';
+import {Checkbox} from 'react-native-paper';
 
 // @Vector Icon
 import Ico from 'react-native-vector-icons/AntDesign';
@@ -26,18 +27,19 @@ import Edit from 'react-native-vector-icons/Feather';
 import Gender from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 // import {Base_Url} from '../../api/Api';
-import { Base_Url } from '../../../api/Api';
+import {Base_Url} from '../../../api/Api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import ImagePicker, {
   launchCamera,
   launchImageLibrary,
 } from 'react-native-image-picker';
+import {useIsFocused} from '@react-navigation/native';
 
-const UpdateListing = ({ navigation, route }) => {
-  const { t } = useTranslation();
+const UpdateListing = ({navigation, route}) => {
+  const {t} = useTranslation();
   const [checked, setChecked] = React.useState(false);
   const [modalVisible, setModalVisible] = React.useState(false);
   const [countryModal, setCountryModal] = React.useState(false);
@@ -55,8 +57,12 @@ const UpdateListing = ({ navigation, route }) => {
   const [images, setImages] = React.useState([]);
   const [img, setImg] = React.useState([]);
   const [id, setId] = React.useState();
+  const [modalVisible1, setModalVisible1] = useState(false);
 
-  const { allDetails } = route?.params;
+  const [citeiesList, setCititesList] = useState([]);
+  const [filterCitiesList, setFilterCiteisList] = useState();
+
+  const {allDetails} = route?.params;
   console.log('CATEGORUESSSS===>', allDetails);
   React.useEffect(() => {
     setTitle(allDetails?.title);
@@ -65,7 +71,7 @@ const UpdateListing = ({ navigation, route }) => {
     setDescription(allDetails?.description);
     setCategory(allDetails?.category);
     setId(allDetails?.id);
-    setImages(allDetails?.images)
+    setImages(allDetails?.images);
   }, []);
   // const [city, setCity] = React.useState(null);
   // // console.log('title===>', title, price, country, selectArea, description);
@@ -78,6 +84,10 @@ const UpdateListing = ({ navigation, route }) => {
   //   {label: 'Zaragoza', value: 'zaragoza'},
   //   {label: 'Málaga', value: 'malaga'},
   // ];
+  const focused = useIsFocused();
+  useEffect(() => {
+    getCityName();
+  }, [focused == true]);
 
   const cities = [
     'Madrid',
@@ -138,8 +148,8 @@ const UpdateListing = ({ navigation, route }) => {
   };
 
   const selectedImg = [
-    { id: 1, imgUri: require('../../../assets/SamplePictures/1.png') },
-    { id: 2, imgUri: require('../../../assets/SamplePictures/2.png') },
+    {id: 1, imgUri: require('../../../assets/SamplePictures/1.png')},
+    {id: 2, imgUri: require('../../../assets/SamplePictures/2.png')},
   ];
 
   const LaunchImageLibrary = () => {
@@ -173,7 +183,7 @@ const UpdateListing = ({ navigation, route }) => {
     const imags = images.filter(image => image !== val);
     // console.log('=====>FILTER FUNCTION KEY====>', imags);
     setImages(imags);
-    console.log(images, '====>UPDATED ARRY');
+    console.log(imags, '====>UPDATED Remove aray');
   };
 
   //CAMERA LAUNCH
@@ -232,6 +242,46 @@ const UpdateListing = ({ navigation, route }) => {
       }
     });
   };
+
+  const getCityName = () => {
+    // setLoading(true);
+    fetch('https://countriesnow.space/api/v0.1/countries/cities', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        country: 'Spain',
+      }),
+    })
+      .then(res => res.json())
+      .then(json => {
+        // setLoading(false)
+        //console.log(json)
+        if (json.error == false) {
+          setCititesList(json.data);
+          setFilterCiteisList(json.data);
+        } else {
+          alert(json.error);
+        }
+      })
+      .catch(error => {
+        // setLoading(false);
+        console.log('response error ===>', error);
+      });
+  };
+
+  const handleSearchCites = searctTxt => {
+    const filterData = citeiesList?.filter(val =>
+      val?.toLowerCase().startsWith(searctTxt.toLowerCase()),
+    );
+    // const filterData = citeiesList.filter(val => val == searctTxt);
+    setFilterCiteisList(filterData);
+    if (searctTxt == '') {
+      setFilterCiteisList(citeiesList);
+    }
+  };
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
       <View style={styles.secoundContainer}>
@@ -239,7 +289,6 @@ const UpdateListing = ({ navigation, route }) => {
           <AntDesign name="left" size={20} color="black" />
         </TouchableOpacity>
         {/* First Container Started */}
-
         <View
           style={{
             borderWidth: 1,
@@ -256,52 +305,87 @@ const UpdateListing = ({ navigation, route }) => {
               marginTop: 10,
             }}>
             <TouchableOpacity
-              // onPress={LaunchImageLibrary}
-              onPress={() => setopenModal1(true)}>
-              <Text style={{ color: '#000000' }}>
+            // onPress={LaunchImageLibrary}
+            // onPress={() => setopenModal1(true)}
+            >
+              <Text style={{color: '#000000'}}>
                 {t('common:uploadupto10pictures')}
               </Text>
             </TouchableOpacity>
             <AntDesign name="right" size={15} color="black" />
           </View>
-          <ScrollView horizontal>
-            
-            {images.map((val, index) => {
-              // console.log(val);
-              return (
-                <>
-                  <View>
-                    <TouchableOpacity
-                      // key={Math.random() * 1000}
-                      onPress={() => RemoveImage(val)}
-                      style={{
-                        flexDirection: 'row-reverse',
-                        // position: 'absolute',
-                        elevation: 10,
-                        zIndex: 1,
-                      }}>
-                      <AntDesign
-                        name="closecircle"
-                        style={{ top: 10 }}
-                        size={20}
-                        color="black"
-                      />
-                    </TouchableOpacity>
-                    <Image
-                      style={{
-                        height: 60,
-                        width: 90,
-                        borderRadius: 10,
-                        marginHorizontal: 5,
-                      }}
-                      source={{ uri: val == undefined ? null : val }}
-                    // source={{uri: val}}
-                    />
-                  </View>
-                </>
-              );
-            })}
-          </ScrollView>
+          {images.length == 0 ? (
+            <>
+              <View
+                style={{
+                  height: 70,
+                  width: 80,
+                  borderRadius: 20,
+                  backgroundColor: 'lightgray',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  margin: 10,
+                }}>
+                <TouchableOpacity onPress={() => setopenModal1(true)}>
+                  <AntDesign color="gray" size={20} name="pluscircle" />
+                </TouchableOpacity>
+              </View>
+            </>
+          ) : (
+            <>
+              <ScrollView horizontal>
+                <View
+                  style={{
+                    height: 70,
+                    width: 80,
+                    borderRadius: 20,
+                    backgroundColor: 'lightgray',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    margin: 10,
+                  }}>
+                  <TouchableOpacity onPress={() => setopenModal1(true)}>
+                    <AntDesign color="gray" size={20} name="pluscircle" />
+                  </TouchableOpacity>
+                </View>
+                {images.map((val, index) => {
+                  // console.log(val);
+                  return (
+                    <>
+                      <View>
+                        <TouchableOpacity
+                          // key={Math.random() * 1000}
+                          onPress={() => RemoveImage(val)}
+                          style={{
+                            flexDirection: 'row-reverse',
+                            // position: 'absolute',
+                            elevation: 10,
+                            zIndex: 1,
+                          }}>
+                          <AntDesign
+                            name="closecircle"
+                            style={{top: 10}}
+                            size={20}
+                            color="black"
+                          />
+                        </TouchableOpacity>
+                        <Image
+                          style={{
+                            height: 60,
+                            width: 90,
+                            borderRadius: 10,
+                            marginHorizontal: 5,
+                          }}
+                          source={{uri: val == undefined ? null : val}}
+                          // source={{uri: val}}
+                        />
+                      </View>
+                    </>
+                  );
+                })}
+              </ScrollView>
+            </>
+          )}
         </View>
         {/* First Container END */}
         <TextField
@@ -310,11 +394,41 @@ const UpdateListing = ({ navigation, route }) => {
           placeHolder={t('common:listingtitle')}
         />
         <TextField
-          val={price}
-          setTxt={txt => setPrice(txt)}
-          placeHolder={t('common:price')}
+          setTxt={txt => setTitle(txt)}
+          placeHolder={t('common:listingtitle')}
         />
         <View
+          style={{
+            marginVertical: 10,
+            borderWidth: 1,
+            borderRadius: 30,
+            borderColor: 'gray',
+            height: 50,
+            marginTop: 10,
+            color: 'black',
+            // padding: 15,
+            paddingLeft: 25,
+            flexDirection: 'row',
+            alignItems: 'center',
+          }}>
+          <Text style={{color: 'black', fontSize: 22}}>€</Text>
+          {/* <TextField
+            keyBoarType="number-pad"
+            setTxt={txt => setPrice(txt)}
+            placeHolder={'€ price'}
+          /> */}
+          <TextInput
+            keyboardType="number-pad"
+            placeholderTextColor={'gray'}
+            style={{
+              color: 'black',
+              // padding: 15,
+            }}
+            placeholder={'0.00'}
+            onChangeText={txt => setPrice(txt)}
+          />
+        </View>
+        {/* <View
           style={{
             flexDirection: 'row',
             justifyContent: 'space-between',
@@ -345,17 +459,122 @@ const UpdateListing = ({ navigation, route }) => {
               setTxt={txt => setCountry(txt)}
               placeHolder={t('common:country')}
             /> */}
-          <TouchableOpacity
-            style={{ right: 10 }}
+        {/* <TouchableOpacity
+            style={{right: 10}}
             onPress={() => setCountryModal(!countryModal)}>
             <AntDesign
               name={countryModal ? 'up' : 'down'}
               size={20}
               color="black"
             />
+          </TouchableOpacity> */}
+        {/* </View> */}
+
+        <TouchableOpacity
+          onPress={() => {
+            setModalVisible1(true), setCountryModal(!countryModal);
+          }}
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            width: '100%',
+            borderWidth: 1,
+            marginVertical: 10,
+            borderRadius: 20,
+            borderColor: 'gray',
+            top: 5,
+          }}>
+          {/* <TextInput
+            setTxt={txt => setCountry(txt)}
+            placeholderTextColor={Color.darkGray}
+            placeholder={country}
+          /> */}
+          <Text style={{padding: 20}}>{country}</Text>
+          {/* <TextField
+      
+            setTxt={txt => setCountry(txt)}
+            placeHolder={t('common:country')}
+          /> */}
+          <TouchableOpacity
+            style={{right: 10}}
+            // onPress={() => setCountryModal(!countryModal)}
+          >
+            <AntDesign name={'down'} size={20} color="black" />
           </TouchableOpacity>
-        </View>
+        </TouchableOpacity>
         {countryModal ? (
+          <>
+            <Modal
+              statusBarTranslucent={true}
+              animationType="slide"
+              transparent={true}
+              visible={modalVisible1}
+              onRequestClose={() => {
+                Alert.alert('Modal has been closed.');
+                setModalVisible1(!modalVisible);
+              }}>
+              <View style={{flex: 1, backgroundColor: 'white'}}>
+                <View
+                  style={{
+                    backgroundColor: 'white',
+                    padding: 20,
+                    paddingVertical: 30,
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                  }}
+                  // onPress={() => setModalVisible(false)}
+                >
+                  <Text style={{color: 'black', fontSize: 20}}>
+                    Select Location
+                  </Text>
+                  <TouchableOpacity onPress={() => setModalVisible1(false)}>
+                    <AntDesign color="black" name="close" size={30} />
+                  </TouchableOpacity>
+                </View>
+
+                <TextInput
+                  placeholder="search citeis ...."
+                  style={{
+                    borderWidth: 1,
+                    borderColor: 'black',
+                    borderRadius: 20,
+                    marginHorizontal: 10,
+                    color: 'black',
+                    // backgroundColor: 'blue',
+                    padding: 10,
+                  }}
+                  onChangeText={txt => handleSearchCites(txt)}
+                />
+                <FlatList
+                  style={styles.txtContainer1}
+                  data={filterCitiesList}
+                  renderItem={item => {
+                    return (
+                      <TouchableOpacity
+                        style={{
+                          borderBottomWidth: 1,
+                          borderColor: 'black',
+                          paddingVertical: 10,
+                          marginBottom: 22,
+                        }}
+                        onPress={() => {
+                          setCountryModal(false), setCountry(item.item);
+                        }}>
+                        <Text style={{color: 'black', fontWeight: 'bold'}}>
+                          {item.item}
+                        </Text>
+                      </TouchableOpacity>
+                    );
+                  }}
+                />
+              </View>
+            </Modal>
+          </>
+        ) : null}
+
+        {/* {countryModal ? (
           <>
             <ScrollView nestedScrollEnabled={true} style={styles.txtContainer1}>
               {cities.map((data, index) => {
@@ -371,7 +590,7 @@ const UpdateListing = ({ navigation, route }) => {
                       onPress={() => {
                         setCountryModal(false), setCountry(data), alert(data);
                       }}>
-                      <Text style={{ color: 'black', fontWeight: 'bold' }}>
+                      <Text style={{color: 'black', fontWeight: 'bold'}}>
                         {data}
                       </Text>
                     </TouchableOpacity>
@@ -379,10 +598,10 @@ const UpdateListing = ({ navigation, route }) => {
                 );
               })}
             </ScrollView>
-            {/* </ScrollView> */}
           </>
-        ) : null}
-
+        ) : null} */}
+        {/* </ScrollView>
+       
         {/* <TextField
             setTxt={txt => setSelectArea(txt)}
             placeHolder={t('common:selectarealocation')}
@@ -396,7 +615,6 @@ const UpdateListing = ({ navigation, route }) => {
             placeholder={t('common:Describeaboutyoulisting')}
           />
         </View>
-
         <View style={styles.checkBox}>
           <Checkbox
             color={checked ? Color.darkOrange : 'black'}
@@ -413,7 +631,7 @@ const UpdateListing = ({ navigation, route }) => {
               alignItems: 'center',
               flexWrap: 'wrap',
             }}>
-            <Text style={{ color: 'black' }}>{t('common:iagreetoGoldbee')}</Text>
+            <Text style={{color: 'black'}}>{t('common:iagreetoGoldbee')}</Text>
 
             <Text
               style={{
@@ -462,7 +680,7 @@ const UpdateListing = ({ navigation, route }) => {
                 alignItems: 'center',
               }}>
               <Image
-                style={{ height: 90, width: 90 }}
+                style={{height: 90, width: 90}}
                 source={require('../../../assets/Icons/Group13719.png')}
               />
               <View
@@ -472,10 +690,10 @@ const UpdateListing = ({ navigation, route }) => {
                   alignItems: 'center',
                 }}>
                 <Text
-                  style={{ fontWeight: 'bold', color: 'black', fontSize: 17 }}>
+                  style={{fontWeight: 'bold', color: 'black', fontSize: 17}}>
                   {t('common:postedscucessfully')}
                 </Text>
-                <Text style={{ color: 'black' }}>
+                <Text style={{color: 'black'}}>
                   {t('common:yourlistingpostedsuccessfully')}
                 </Text>
               </View>
@@ -511,9 +729,9 @@ const UpdateListing = ({ navigation, route }) => {
               onPress={() => {
                 LaunchCamera(), setopenModal1(false);
               }}
-              style={{ flexDirection: 'row' }}>
+              style={{flexDirection: 'row'}}>
               <Ico name="camerao" size={30} color="black" />
-              <Text style={{ fontSize: 15, color: 'black', top: 5, left: 10 }}>
+              <Text style={{fontSize: 15, color: 'black', top: 5, left: 10}}>
                 {t('common:takeaphoto')}
               </Text>
             </TouchableOpacity>
@@ -523,9 +741,9 @@ const UpdateListing = ({ navigation, route }) => {
               onPress={() => {
                 LaunchImageLibrary(), setopenModal1(false);
               }}
-              style={{ flexDirection: 'row' }}>
+              style={{flexDirection: 'row'}}>
               <Gender name="view-dashboard-outline" size={30} color="black" />
-              <Text style={{ fontSize: 15, color: 'black', top: 5, left: 10 }}>
+              <Text style={{fontSize: 15, color: 'black', top: 5, left: 10}}>
                 {t('common:chosefromGallery')}
               </Text>
             </TouchableOpacity>

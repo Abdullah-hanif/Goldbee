@@ -78,24 +78,24 @@ const ProfileDetails = ({navigation}) => {
           <View style={{flexDirection: 'row'}}>
             <Card
               name={t('common:pearlring')}
-              price="$ 545.00"
+              price="€ 545.00"
               bgImage={require('../../assets/SamplePictures/1.png')}
             />
             <Card
               name={t('common:beadednecklaces')}
-              price=" $ 175.00"
+              price=" € 175.00"
               bgImage={require('../../assets/SamplePictures/2.png')}
             />
           </View>
           <View style={{flexDirection: 'row'}}>
             <Card
               name={t('common:weddingring')}
-              price="$ 360.00"
+              price="€ 360.00"
               bgImage={require('../../assets/SamplePictures/3.png')}
             />
             <Card
               name={t('common:earringbracelet')}
-              price="$ 437.00"
+              price="€ 437.00"
               bgImage={require('../../assets/SamplePictures/4.png')}
             />
           </View>

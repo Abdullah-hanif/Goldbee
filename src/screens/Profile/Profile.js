@@ -45,7 +45,7 @@ const Profile = ({navigation}) => {
           />
           <View style={{left: 10}}>
             <Text style={{fontWeight: 'bold', fontSize: 20, color: 'black'}}>
-              {name}
+              {name?.replace('" "', ' ')}
             </Text>
             {/* <Text
               style={{

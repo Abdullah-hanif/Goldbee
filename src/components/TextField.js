@@ -2,9 +2,10 @@ import {StyleSheet, Text, View, TextInput} from 'react-native';
 import React from 'react';
 import {Color} from '../constants/colors';
 
-const TextField = ({placeHolder, setTxt, val}) => {
+const TextField = ({placeHolder, setTxt, val, keyBoarType}) => {
   return (
     <TextInput
+      keyboardType={keyBoarType}
       value={val}
       placeholderTextColor={'black'}
       style={styles.container}

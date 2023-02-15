@@ -102,7 +102,7 @@ const Favorites = () => {
                 <Card
                   id={item?.item?.id}
                   name={item?.item?.listing?.title}
-                  price={`$ ${item?.item?.listing?.price}`}
+                  price={`€ ${item?.item?.listing?.price}`}
                   bgImage={item?.item?.listing?.images}
                   isFav={!item?.item?.listing?.isFollowed}
                   listing_id={item?.item?.listing_id}
