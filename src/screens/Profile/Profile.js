@@ -22,6 +22,7 @@ const Profile = ({navigation}) => {
   const [name, setName] = useState('');
 
   const getUserDetails = async () => {
+    console.log(img);
     let name = await AsyncStorage.getItem('userName');
     setName(name);
     let profileImg = await AsyncStorage.getItem('imgUri');
@@ -40,8 +41,18 @@ const Profile = ({navigation}) => {
           style={{flexDirection: 'row', alignItems: 'center', marginTop: 50}}>
           <Image
             style={{height: 65, width: 65, borderRadius: 30}}
-            // source={require('../../assets/Icons/Ellipse28.png')}
-            source={{uri: img}}
+            source={
+              img == null
+                ? require('../../assets/Icons/Ellipse28.png')
+                : {uri: img}
+            }
+            // source={
+            //   img == null
+            //     ? require("../../assets/Icons/Ellipse28.png'")
+            //     : {
+            //         uri: img,
+            //       }
+            // }
           />
           <View style={{left: 10}}>
             <Text style={{fontWeight: 'bold', fontSize: 20, color: 'black'}}>
