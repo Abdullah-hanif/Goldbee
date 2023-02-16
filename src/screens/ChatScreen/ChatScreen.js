@@ -309,7 +309,10 @@ import {Base_Url} from '../../api/Api';
 
 const ChatScreen = ({navigation, route}) => {
   const [messages, setMessages] = useState([]);
-  const {imageUri, name, price, productName, listingId, withId} = route.params;
+  // const {imageUri, name, price, productName, listingId, withId} = route?.params;
+  const {listingId} = route?.params;
+  console.log('lisitingId', listingId);
+
   const [senderId, setSenderID] = useState(0);
 
   const customtInputToolbar = props => {
@@ -328,7 +331,11 @@ const ChatScreen = ({navigation, route}) => {
     setSenderID(userId);
     await fetch(`${Base_Url}/get-chat-history`, {
       method: 'POST',
-      body: JSON.stringify({user_id: userId, listing_id: '20', with_id: 2}),
+      body: JSON.stringify({
+        user_id: userId,
+        listing_id: listingId,
+        with_id: 1,
+      }),
       headers: {
         'Content-Type': 'application/json',
       },
@@ -359,18 +366,6 @@ const ChatScreen = ({navigation, route}) => {
   // getAllMessges();
 
   useEffect(() => {
-    // setMessages([
-    //   {
-    //     _id: Math.random() * 1000,
-    //     text: 'hello',
-    //     createdAt: new Date(),
-    //     user: {
-    //       _id: 2,
-    //       name: 'React Native',
-    //       avatar: 'https://placeimg.com/140/140/any',
-    //     },
-    //   },
-    // ]);
     getAllMessges();
   }, []);
 
@@ -436,7 +431,9 @@ const ChatScreen = ({navigation, route}) => {
         <View style={{flexDirection: 'row'}}>
           <Image
             style={{height: 50, width: 50, left: 20, borderRadius: 5}}
-            source={{uri: imageUri}}
+            // source={{uri: imageUri}}
+            source={{uri: 'ttps://placeimg.com/140/140/any'}}
+            h
           />
           <View style={{left: 35}}>
             <Text
@@ -445,7 +442,8 @@ const ChatScreen = ({navigation, route}) => {
                 color: Color.darkOrange,
                 fontSize: 15,
               }}>
-              ${price}
+              {/* ${pric} */}
+              $100
             </Text>
             <Text
               style={{
@@ -454,7 +452,8 @@ const ChatScreen = ({navigation, route}) => {
                 top: 5,
                 fontSize: 15,
               }}>
-              {productName}
+              {/* {productName} */}
+              Necklaces
             </Text>
           </View>
         </View>

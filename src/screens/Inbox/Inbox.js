@@ -26,6 +26,7 @@ const Inbox = () => {
 
   const getInbox = async () => {
     const userId = await AsyncStorage.getItem('uid');
+    console.log(userId, 'USER ID');
     await fetch(`${Base_Url}/get-inbox`, {
       method: 'POST',
       body: JSON.stringify({user_id: userId}),
@@ -37,6 +38,7 @@ const Inbox = () => {
       .then(data => {
         //   const res = data.json();
         const respo = data;
+        console.log('respo', respo);
         role == 'buying'
           ? setBuyerChat(respo?.buying)
           : setSellerChat(respo?.selling);

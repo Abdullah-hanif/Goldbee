@@ -64,7 +64,9 @@ const PostingListing = ({navigation, route}) => {
 
   const {Categories} = route?.params;
 
-  console.log('CATEGORUESSSS===>', img);
+  // console.log('img===>', img[0]?.assets);
+  // console.log('Images===>', images);
+
   // const [city, setCity] = React.useState(null);
   // // console.log('title===>', title, price, country, selectArea, description);
   // const spainCities = [
@@ -109,10 +111,10 @@ const PostingListing = ({navigation, route}) => {
 
   const RemoveImage = val => {
     // console.log(val, '========>REMOVE ITEM');
-    const imags = images.filter(image => image !== val);
+    const imags = img.filter(image => image?.assets[0]?.uri !== val);
     // console.log('=====>FILTER FUNCTION KEY====>', imags);
-    setImages(imags);
-    console.log(images, '====>UPDATED ARRY');
+    setImg(imags);
+    console.log(img, '====>UPDATED ARRY');
   };
 
   //CAMERA LAUNCH
@@ -306,7 +308,7 @@ const PostingListing = ({navigation, route}) => {
               marginTop: 10,
               padding: 10,
             }}>
-            {images.length === 0 ? (
+            {img?.length === 0 ? (
               <Text style={{color: '#000000'}}>
                 {t('common:uploadupto10pictures')}
               </Text>
@@ -327,7 +329,7 @@ const PostingListing = ({navigation, route}) => {
               </TouchableOpacity>
             )}
           </View>
-          {images.length == 0 ? (
+          {img?.length == 0 ? (
             <>
               <View
                 style={{
@@ -355,20 +357,20 @@ const PostingListing = ({navigation, route}) => {
                   justifyContent: 'center',
                   alignItems: 'center',
                   margin: 10,
-                  marginTop:18
+                  marginTop: 18,
                 }}>
                 <TouchableOpacity onPress={() => setopenModal1(true)}>
                   <AntDesign color="gray" size={20} name="pluscircle" />
                 </TouchableOpacity>
               </View>
-              {images.map((val, index) => {
+              {img.map((val, index) => {
                 // console.log(val);
                 return (
                   <>
                     <View style={{marginVertical: 10, bottom: 10}}>
                       <TouchableOpacity
                         // key={Math.random() * 1000}
-                        onPress={() => RemoveImage(val)}
+                        onPress={() => RemoveImage(val?.assets[0]?.uri)}
                         style={{
                           flexDirection: 'row-reverse',
                           // position: 'absolute',
@@ -389,7 +391,12 @@ const PostingListing = ({navigation, route}) => {
                           borderRadius: 10,
                           marginHorizontal: 5,
                         }}
-                        source={{uri: val == undefined ? null : val}}
+                        source={{
+                          uri:
+                            val?.assets[0]?.uri == undefined
+                              ? null
+                              : val?.assets[0]?.uri,
+                        }}
                         // source={{uri: val}}
                       />
                     </View>
@@ -430,7 +437,7 @@ const PostingListing = ({navigation, route}) => {
             style={{
               color: 'black',
               // padding: 15,
-              width:'90%'
+              width: '90%',
             }}
             placeholder={'  0.00'}
             onChangeText={txt => setPrice(txt)}
@@ -446,7 +453,7 @@ const PostingListing = ({navigation, route}) => {
             alignItems: 'center',
             width: '100%',
             borderWidth: 1,
-            height:'8%',
+            height: '8%',
             borderRadius: 70,
             borderColor: 'gray',
             top: 5,
@@ -456,7 +463,7 @@ const PostingListing = ({navigation, route}) => {
             placeholderTextColor={Color.darkGray}
             placeholder={country}
           /> */}
-          <Text style={{left:25}}>{country}</Text>
+          <Text style={{left: 25}}>{country}</Text>
           {/* <TextField
       
             setTxt={txt => setCountry(txt)}
@@ -544,7 +551,7 @@ const PostingListing = ({navigation, route}) => {
           setTxt={txt => setSelectArea(txt)}
           placeHolder={t('common:selectarealocation')}
         /> */}
-        <View style={{marginTop:'3%'}}>
+        <View style={{marginTop: '3%'}}>
           <TextInput
             onChangeText={txt => setDescription(txt)}
             placeholderTextColor={'gray'}
