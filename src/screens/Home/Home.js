@@ -38,10 +38,8 @@ const Home = ({ naviagtion }) => {
   //Citeis
   const [citeiesList, setCititesList] = useState([]);
   const [filterCitiesList, setFilterCiteisList] = useState();
-
   //handle to change View
   const [find, setFind] = useState('notCheck');
-
   // @check updates or not
   const [check, setCheck] = React.useState(false);
 
@@ -60,6 +58,7 @@ const Home = ({ naviagtion }) => {
         .then(response => response.json())
         .then(data => {
           const respo = data;
+          console.log('=====>API CONSOLE', respo);
           let tempData = [];
           respo?.data?.map(item => {
             tempData = [...tempData, ...item.listings];
