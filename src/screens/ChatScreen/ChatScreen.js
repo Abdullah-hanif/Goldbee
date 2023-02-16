@@ -328,7 +328,7 @@ const ChatScreen = ({navigation, route}) => {
     setSenderID(userId);
     await fetch(`${Base_Url}/get-chat-history`, {
       method: 'POST',
-      body: JSON.stringify({user_id: userId, listing_id: '20', with_id: 2}),
+      body: JSON.stringify({user_id: userId, listing_id: '20', with_id: 1}),
       headers: {
         'Content-Type': 'application/json',
       },

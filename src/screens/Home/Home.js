@@ -94,18 +94,18 @@ const Home = ({naviagtion}) => {
     setFilterData(updatedData);
   };
 
-  const handleSearchItem = async(searctTxt) => {
-    const newFilterData = data?.filter(val =>{
-     if(val?. location=== Cities){
-      return val?.title.toLowerCase().startsWith(searctTxt.toLowerCase())
-     } 
-});
+  const handleSearchItem = async searctTxt => {
+    const newFilterData = data?.filter(val => {
+      if (val?.location === Cities) {
+        return val?.title.toLowerCase().startsWith(searctTxt.toLowerCase());
+      }
+    });
 
     setFilterData(newFilterData);
     filterData?.length == 0 ? setFind('searchBar') : null;
 
     if (searctTxt == '') {
-    await  getAllListing();
+      await getAllListing();
     }
   };
 
