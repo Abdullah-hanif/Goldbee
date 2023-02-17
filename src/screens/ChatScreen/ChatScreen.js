@@ -309,32 +309,36 @@ import {Base_Url} from '../../api/Api';
 
 const ChatScreen = ({navigation, route}) => {
   const [messages, setMessages] = useState([]);
-  // const {imageUri, name, price, productName, listingId, withId} = route?.params;
-  const {listingId} = route?.params;
-  console.log('lisitingId', listingId);
+  const {imageUri, name, price, productName, listingId, withId} = route?.params;
+  // const {listingId} = route?.params;
+  const [userId, setUserId] = useState('');
+  console.log('lisitingId', listingId, 'WITH ID', withId);
 
   const [senderId, setSenderID] = useState(0);
+
+  const [data, setData] = useState([]);
 
   const customtInputToolbar = props => {
     return (
       <InputToolbar
         {...props}
         placeholderTextColor="#000000"
-        containerStyle={styles.inputToolBar}
+        // containerStyle={styles.inputToolBar}
       />
     );
   };
 
   const getAllMessges = async () => {
-    console.log('MY MESSAGES=====>', messages);
+    // console.log('MY MESSAGES=====>', messages);
     const userId = await AsyncStorage.getItem('uid');
+    setUserId(userId);
     setSenderID(userId);
     await fetch(`${Base_Url}/get-chat-history`, {
       method: 'POST',
       body: JSON.stringify({
-        user_id: userId,
+        user_id: 1,
         listing_id: listingId,
-        with_id: 1,
+        with_id: 2,
       }),
       headers: {
         'Content-Type': 'application/json',
@@ -342,6 +346,7 @@ const ChatScreen = ({navigation, route}) => {
     })
       .then(response => response.json())
       .then(data => {
+        setData(data);
         setMessages(
           data?.data?.map((data, index) => {
             return {
@@ -352,6 +357,48 @@ const ChatScreen = ({navigation, route}) => {
                 _id: Math.random() * 1000,
                 name: data?.text,
                 avatar: 'https://placeimg.com/140/140/any',
+                sellerId: data?.sender?.id,
+              },
+            };
+          }),
+        );
+        // console.log(data?.data, 'thired PROFILE=====>');
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
+
+  const getMyMessages = async () => {
+    // console.log('MY MESSAGES=====>', messages);
+    const userId = await AsyncStorage.getItem('uid');
+    setUserId(userId);
+    setSenderID(userId);
+    await fetch(`${Base_Url}/get-chat-history`, {
+      method: 'POST',
+      body: JSON.stringify({
+        user_id: 1,
+        listing_id: listingId,
+        with_id: 2,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(response => response.json())
+      .then(data => {
+        setData(data);
+        setMessages(
+          data?.data?.map((data, index) => {
+            return {
+              _id: data?.id,
+              text: data?.text,
+              createdAt: new Date(),
+              user: {
+                _id: Math.random() * 1000,
+                name: data?.text,
+                avatar: 'https://placeimg.com/140/140/any',
+                sellerId: data?.sender?.id,
               },
             };
           }),
@@ -366,7 +413,13 @@ const ChatScreen = ({navigation, route}) => {
   // getAllMessges();
 
   useEffect(() => {
-    getAllMessges();
+    const timer = setInterval(() => {
+      getAllMessges();
+    }, 3000);
+
+    return () => {
+      clearInterval(timer);
+    };
   }, []);
 
   const onSend = useCallback((messages = []) => {
@@ -375,7 +428,7 @@ const ChatScreen = ({navigation, route}) => {
     );
 
     const {_id, createdAt, text, user} = messages[0];
-    console.log('My messages===>', text);
+    // console.log('My messages===>', text);
 
     sendMessage(text);
   }, []);
@@ -413,6 +466,16 @@ const ChatScreen = ({navigation, route}) => {
         />
       </View>
     );
+  };
+
+  const sentBubbleStyle = {
+    backgroundColor: '#E8E8E8',
+    alignSelf: 'flex-end',
+  };
+
+  const receivedBubbleStyle = {
+    backgroundColor: '#00BFFF',
+    alignSelf: 'flex-start',
   };
   return (
     <>
@@ -470,52 +533,29 @@ const ChatScreen = ({navigation, route}) => {
 
           avatar: 'https://placeimg.com/140/140/any',
         }}
-        // renderSend={props => {
-        //   console.log(props, '===>SND PROPS');
-        //   return (
-        //     <TouchableOpacity
-        //       onPress={() => {
-        //         let message = {
-        //           _id: Math.round(Math.random() * 1000000),
-        //           text: 'hello',
-        //           createdAt: new Date(),
-        //           user: {
-        //             _id: 1,
-        //             name: 'User',
-        //             avatar: 'https://picsum.photos/200',
-        //           },
-        //         };
-        //         onSend([message]);
-        //       }}
-        //       style={{
-        //         backgroundColor: Color.darkOrange,
-        //         padding: 15,
-        //         right: 10,
-        //         borderRadius: 30,
-        //       }}>
-        //       <Send name="send" size={20} color="white" />
-        //     </TouchableOpacity>
-        //   );
-        // }}
         renderBubble={props => {
+          const {currentMessage} = props;
+
           return (
             <Bubble
               {...props}
               textStyle={{
                 right: {
-                  color: 'white',
+                  color: 'black',
                 },
               }}
               wrapperStyle={{
-                left: {
+                right: {
+                  // backgroundColor: 'orange',
                   backgroundColor: Color.splashWhite,
 
+                  // bottom: '100%',
+                  // marginBottom: 10,
                   bottom: 35,
+
                   width: '70%',
                   padding: 10,
-
-                  // borderRadius: 20,
-
+                  // borderRadius: 30,
                   shadowColor: '#000',
                   shadowOffset: {
                     width: 0,
@@ -527,15 +567,17 @@ const ChatScreen = ({navigation, route}) => {
 
                   // elevation: 5,
                 },
-                right: {
-                  backgroundColor: 'orange',
-                  // bottom: '100%',
-                  // marginBottom: 10,
-                  bottom: 35,
 
+                left: {
+                  // backgroundColor: Color.splashWhite,
+                  backgroundColor: 'orange',
+
+                  bottom: 35,
                   width: '70%',
                   padding: 10,
-                  // borderRadius: 30,
+
+                  // borderRadius: 20,
+
                   shadowColor: '#000',
                   shadowOffset: {
                     width: 0,
