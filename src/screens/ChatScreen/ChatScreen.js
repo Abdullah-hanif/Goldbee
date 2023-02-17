@@ -329,57 +329,19 @@ const ChatScreen = ({navigation, route}) => {
   };
 
   const getAllMessges = async () => {
-    // console.log('MY MESSAGES=====>', messages);
     const userId = await AsyncStorage.getItem('uid');
     setUserId(userId);
     setSenderID(userId);
+    console.log('MY userID=====>', userId, 'WITH ID', withId);
     await fetch(`${Base_Url}/get-chat-history`, {
       method: 'POST',
       body: JSON.stringify({
-        user_id: 1,
-        listing_id: listingId,
-        with_id: 2,
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then(response => response.json())
-      .then(data => {
-        setData(data);
-        setMessages(
-          data?.data?.map((data, index) => {
-            return {
-              _id: data?.id,
-              text: data?.text,
-              createdAt: new Date(),
-              user: {
-                _id: Math.random() * 1000,
-                name: data?.text,
-                avatar: 'https://placeimg.com/140/140/any',
-                sellerId: data?.sender?.id,
-              },
-            };
-          }),
-        );
-        // console.log(data?.data, 'thired PROFILE=====>');
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  };
+        user_id: userId,
+        // user_id: 1,
 
-  const getMyMessages = async () => {
-    // console.log('MY MESSAGES=====>', messages);
-    const userId = await AsyncStorage.getItem('uid');
-    setUserId(userId);
-    setSenderID(userId);
-    await fetch(`${Base_Url}/get-chat-history`, {
-      method: 'POST',
-      body: JSON.stringify({
-        user_id: 1,
         listing_id: listingId,
-        with_id: 2,
+        with_id: withId,
+        // with_id: 2,
       }),
       headers: {
         'Content-Type': 'application/json',
@@ -397,7 +359,7 @@ const ChatScreen = ({navigation, route}) => {
               user: {
                 _id: Math.random() * 1000,
                 name: data?.text,
-                avatar: 'https://placeimg.com/140/140/any',
+                avatar: `http://95.179.209.186/${data?.sender?.profile_picture}`,
                 sellerId: data?.sender?.id,
               },
             };
@@ -457,11 +419,23 @@ const ChatScreen = ({navigation, route}) => {
       });
   };
 
-  const CustomAvatar = ({currentMessage}) => {
+  const CustomAvatar = props => {
+    const {currentMessage} = props?.props;
+    console.log(
+      'CUSTOM AVATOARR====>',
+      currentMessage?.user?.avatar,
+      '======>',
+    );
+
     return (
       <View style={{width: 40, height: 40, marginBottom: 50, borderRadius: 20}}>
         <Image
-          source={{uri: 'https://placeimg.com/140/140/any'}}
+          source={{
+            uri:
+              currentMessage?.user?.avatar == null || undefined
+                ? 'http://95.179.209.186/userImages/9373.jpg'
+                : currentMessage?.user?.avatar,
+          }}
           style={{width: 40, height: 40, borderRadius: 20}}
         />
       </View>
@@ -526,7 +500,7 @@ const ChatScreen = ({navigation, route}) => {
         alwaysShowSend={true}
         onSend={messages => onSend(messages)}
         renderInputToolbar={props => customtInputToolbar(props)}
-        renderAvatar={() => <CustomAvatar />}
+        renderAvatar={props => <CustomAvatar props={props} />}
         user={{
           _id: senderId,
           name: 'akif',

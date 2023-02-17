@@ -38,11 +38,11 @@ const Inbox = () => {
       .then(data => {
         //   const res = data.json();
         const respo = data;
-        console.log('respo', respo);
+        // console.log('respo', respo);
         role == 'buying'
           ? setBuyerChat(respo?.buying)
           : setSellerChat(respo?.selling);
-        console.log(respo?.buying, 'UPDATE PROFILE=====>');
+        // console.log(respo?.buying, 'UPDATE PROFILE=====>');
       })
       .catch(error => {
         console.error(error);
