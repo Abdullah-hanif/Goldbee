@@ -283,7 +283,7 @@
 
 // export default ChatScreen;
 
-import React, {useState, useCallback, useEffect} from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import {
   View,
   Image,
@@ -291,6 +291,7 @@ import {
   Dimensions,
   TouchableOpacity,
   StyleSheet,
+  Alert,
 } from 'react-native';
 import {
   GiftedChat,
@@ -298,23 +299,21 @@ import {
   Bubble,
   MessageImage,
 } from 'react-native-gifted-chat';
-import {Color} from '../../constants/colors';
+import { Color } from '../../constants/colors';
 
 import Send from 'react-native-vector-icons/Feather';
 import Attachment from 'react-native-vector-icons/Entypo';
 
-import {useTranslation} from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {Base_Url} from '../../api/Api';
+import { Base_Url } from '../../api/Api';
 
-const ChatScreen = ({navigation, route}) => {
+const ChatScreen = ({ navigation, route }) => {
   const [messages, setMessages] = useState([]);
-  // const {imageUri, name, price, productName, listingId, withId} = route?.params;
-  const {listingId} = route?.params;
-  console.log('lisitingId', listingId);
-
   const [senderId, setSenderID] = useState(0);
-
+  // const {imageUri, name, price, productName, listingId, withId} = route?.params;
+  const { listingId } = route?.params;
+  const receiverId = route.params.sellerId
   const customtInputToolbar = props => {
     return (
       <InputToolbar
@@ -326,15 +325,15 @@ const ChatScreen = ({navigation, route}) => {
   };
 
   const getAllMessges = async () => {
-    console.log('MY MESSAGES=====>', messages);
     const userId = await AsyncStorage.getItem('uid');
+
     setSenderID(userId);
     await fetch(`${Base_Url}/get-chat-history`, {
       method: 'POST',
       body: JSON.stringify({
         user_id: userId,
         listing_id: listingId,
-        with_id: 1,
+        with_id: route.params.sellerId,
       }),
       headers: {
         'Content-Type': 'application/json',
@@ -342,28 +341,26 @@ const ChatScreen = ({navigation, route}) => {
     })
       .then(response => response.json())
       .then(data => {
+        const filteredArr = data.data.sort((a, b) => a._id - b._id)
+          .reverse()
         setMessages(
-          data?.data?.map((data, index) => {
+          filteredArr.map((chatMessage) => {
             return {
-              _id: data?.id,
-              text: data?.text,
-              createdAt: new Date(),
+              _id: chatMessage.id,
+              text: chatMessage.text,
+              createdAt: chatMessage.created_at,
               user: {
-                _id: Math.random() * 1000,
-                name: data?.text,
-                avatar: 'https://placeimg.com/140/140/any',
-              },
-            };
-          }),
-        );
-        // console.log(data?.data, 'thired PROFILE=====>');
+                _id: chatMessage.sender_id,
+                avatar: 'https://placeimg.com/140/140/any'
+              }
+            }
+          })
+        )
       })
       .catch(error => {
         console.error(error);
       });
   };
-
-  // getAllMessges();
 
   useEffect(() => {
     getAllMessges();
@@ -372,15 +369,12 @@ const ChatScreen = ({navigation, route}) => {
   const onSend = useCallback((messages = []) => {
     setMessages(previousMessages =>
       GiftedChat.append(previousMessages, messages),
-    );
-
-    const {_id, createdAt, text, user} = messages[0];
-    console.log('My messages===>', text);
-
+    )
+    const { text } = messages[0];
     sendMessage(text);
   }, []);
 
-  const sendMessage = async text => {
+  const sendMessage = async (text) => {
     const userId = await AsyncStorage.getItem('uid');
 
     await fetch(`${Base_Url}/send-message`, {
@@ -390,26 +384,27 @@ const ChatScreen = ({navigation, route}) => {
       },
       body: JSON.stringify({
         sender_id: userId,
+        receiver_id: receiverId,
         listing_id: listingId,
         text: text,
       }),
     })
       .then(response => response.json())
-
       .then(data => {
-        alert(data?.message, 'MESSAGES RESPONSE=====>');
+        console.log(data?.message)
       })
       .catch(error => {
-        console.error(error);
+        console.error(error)
       });
   };
 
-  const CustomAvatar = ({currentMessage}) => {
+
+  const CustomAvatar = ({ currentMessage }) => {
     return (
-      <View style={{width: 40, height: 40, marginBottom: 50, borderRadius: 20}}>
+      <View style={{ width: 40, height: 40, marginBottom: 50, borderRadius: 20 }}>
         <Image
-          source={{uri: 'https://placeimg.com/140/140/any'}}
-          style={{width: 40, height: 40, borderRadius: 20}}
+          source={{ uri: 'https://placeimg.com/140/140/any' }}
+          style={{ width: 40, height: 40, borderRadius: 20 }}
         />
       </View>
     );
@@ -428,14 +423,14 @@ const ChatScreen = ({navigation, route}) => {
             source={require('../../assets/Icons/back.png')}
           />
         </TouchableOpacity>
-        <View style={{flexDirection: 'row'}}>
+        <View style={{ flexDirection: 'row' }}>
           <Image
-            style={{height: 50, width: 50, left: 20, borderRadius: 5}}
+            style={{ height: 50, width: 50, left: 20, borderRadius: 5 }}
             // source={{uri: imageUri}}
-            source={{uri: 'ttps://placeimg.com/140/140/any'}}
+            source={{ uri: 'ttps://placeimg.com/140/140/any' }}
             h
           />
-          <View style={{left: 35}}>
+          <View style={{ left: 35 }}>
             <Text
               style={{
                 fontWeight: 'bold',
@@ -462,90 +457,48 @@ const ChatScreen = ({navigation, route}) => {
         messages={messages}
         alwaysShowSend={true}
         onSend={messages => onSend(messages)}
+        showUserAvatar={true}
+        scrollToBottom={true}
         renderInputToolbar={props => customtInputToolbar(props)}
         renderAvatar={() => <CustomAvatar />}
         user={{
           _id: senderId,
           name: 'akif',
-
           avatar: 'https://placeimg.com/140/140/any',
         }}
-        // renderSend={props => {
-        //   console.log(props, '===>SND PROPS');
-        //   return (
-        //     <TouchableOpacity
-        //       onPress={() => {
-        //         let message = {
-        //           _id: Math.round(Math.random() * 1000000),
-        //           text: 'hello',
-        //           createdAt: new Date(),
-        //           user: {
-        //             _id: 1,
-        //             name: 'User',
-        //             avatar: 'https://picsum.photos/200',
-        //           },
-        //         };
-        //         onSend([message]);
-        //       }}
-        //       style={{
-        //         backgroundColor: Color.darkOrange,
-        //         padding: 15,
-        //         right: 10,
-        //         borderRadius: 30,
-        //       }}>
-        //       <Send name="send" size={20} color="white" />
-        //     </TouchableOpacity>
-        //   );
-        // }}
         renderBubble={props => {
+          const message_sender_id = props.currentMessage.user._id
           return (
             <Bubble
               {...props}
+              position={message_sender_id === senderId ? 'right' : 'left'}
               textStyle={{
                 right: {
-                  color: 'white',
+                  color: Color.splashWhite,
                 },
               }}
               wrapperStyle={{
                 left: {
                   backgroundColor: Color.splashWhite,
-
                   bottom: 35,
                   width: '70%',
                   padding: 10,
-
-                  // borderRadius: 20,
-
                   shadowColor: '#000',
                   shadowOffset: {
                     width: 0,
                     height: 2,
                   },
-
-                  // shadowOpacity: 0.25,
-                  // shadowRadius: 3.84,
-
-                  // elevation: 5,
                 },
                 right: {
-                  backgroundColor: 'orange',
-                  // bottom: '100%',
-                  // marginBottom: 10,
+                  backgroundColor: Color.darkOrange,
                   bottom: 35,
-
                   width: '70%',
                   padding: 10,
-                  // borderRadius: 30,
                   shadowColor: '#000',
                   shadowOffset: {
                     width: 0,
                     height: 2,
                   },
-
-                  // shadowOpacity: 0.25,
-                  // shadowRadius: 3.84,
-
-                  // elevation: 5,
                 },
               }}
             />
@@ -568,7 +521,6 @@ const ChatScreen = ({navigation, route}) => {
                 onSend([message]);
               }}
               style={{
-                // backgroundColor: Color.darkOrange,
                 padding: 15,
                 alignItems: 'center',
                 borderRadius: 30,
@@ -586,7 +538,6 @@ export default ChatScreen;
 
 const styles = StyleSheet.create({
   container: {
-    // height: '15%',
     backgroundColor: Color.splashWhite,
     padding: 20,
     flexDirection: 'row',
@@ -604,10 +555,8 @@ const styles = StyleSheet.create({
   },
   inputToolBar: {
     backgroundColor: Color.splashWhite,
-
     borderTopColor: '#E8E8E8',
     borderTopWidth: 1,
-
     padding: 5,
     margin: 20,
     borderRadius: 30,
