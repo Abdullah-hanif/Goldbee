@@ -9,13 +9,13 @@ import {
   View,
 } from 'react-native';
 import React from 'react';
-import {Color} from '../../constants/colors';
+import { Color } from '../../constants/colors';
 import Back from 'react-native-vector-icons/AntDesign';
 import Dots from 'react-native-vector-icons/Entypo';
 import Buttons from '../../components/Buttons';
 
 // @translator
-import {useTranslation} from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 
 const images = [
   require('../../assets/SamplePictures/2.png'),
@@ -23,12 +23,11 @@ const images = [
   require('../../assets/SamplePictures/2.png'),
 ];
 
-const ProductDetails = ({navigation, route}) => {
-  const {t} = useTranslation();
-  const {productDetails} = route.params;
+const ProductDetails = ({ navigation, route }) => {
+  const { t } = useTranslation();
+  const { productDetails } = route.params;
 
-  console.log('COURUZAL IMAGES====>', productDetails?.images);
-
+  console.log("seller id", productDetails['seller-details']);
   const sellerDetail = productDetails['seller-details'];
   // console.log('MY PRODUCT DETAILS=====>', sellerDetail);
   const [addFav, setAddFav] = React.useState(false);
@@ -60,7 +59,7 @@ const ProductDetails = ({navigation, route}) => {
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Back name="left" size={20} color="white" />
         </TouchableOpacity>
-        <View style={{flexDirection: 'row'}}>
+        <View style={{ flexDirection: 'row' }}>
           <TouchableOpacity onPress={() => setAddFav(!addFav)}>
             {/* <Back
               name={productDetails?.isFollowed == 'yes' ? 'heart' : 'hearto'}
@@ -79,7 +78,7 @@ const ProductDetails = ({navigation, route}) => {
       {/*END Topbar ICONS */}
       <ScrollView
         showsHorizontalScrollIndicator={false}
-        onScroll={({nativeEvent}) => onchange(nativeEvent)}
+        onScroll={({ nativeEvent }) => onchange(nativeEvent)}
         horizontal
         pagingEnabled
         style={{
@@ -88,7 +87,7 @@ const ProductDetails = ({navigation, route}) => {
         }}>
         {productDetails?.images == null ? (
           <Image
-            style={{height: '100%', width: Dimensions.get('screen').width}}
+            style={{ height: '100%', width: Dimensions.get('screen').width }}
             source={require('../../assets/Icons/MaskGroup121.png')}
           />
         ) : (
@@ -96,8 +95,8 @@ const ProductDetails = ({navigation, route}) => {
             <Image
               // resizeMode="contain"
               key={index}
-              style={{height: '100%', width: Dimensions.get('screen').width}}
-              source={{uri: e}}
+              style={{ height: '100%', width: Dimensions.get('screen').width }}
+              source={{ uri: e }}
             />
           ))
         )}
@@ -131,17 +130,17 @@ const ProductDetails = ({navigation, route}) => {
         }}>
         <TouchableOpacity
           onPress={() => navigation.navigate('ProfileDetails')}
-          style={{flexDirection: 'row', alignItems: 'center', marginTop: 30}}>
+          style={{ flexDirection: 'row', alignItems: 'center', marginTop: 30 }}>
           <Image
-            style={{height: 50, width: 50}}
+            style={{ height: 50, width: 50 }}
             source={
               sellerDetail?.profile_picture == null
                 ? require('../../assets/Icons/MaskGroup121.png')
-                : {uri: sellerDetail?.profile_picture}
+                : { uri: sellerDetail?.profile_picture }
             }
           />
-          <View style={{left: 10}}>
-            <Text style={{fontWeight: 'bold', fontSize: 15, color: 'black'}}>
+          <View style={{ left: 10 }}>
+            <Text style={{ fontWeight: 'bold', fontSize: 15, color: 'black' }}>
               {sellerDetail?.name == null ? '' : sellerDetail?.name}
             </Text>
             <Text
@@ -170,16 +169,19 @@ const ProductDetails = ({navigation, route}) => {
               {/* {t('common:beadednecklaces')} */}
               {productDetails?.title}
             </Text>
-            <Text style={{fontSize: 18, color: 'black', marginTop: 10}}>
+            <Text style={{ fontSize: 18, color: 'black', marginTop: 10 }}>
               € {productDetails?.price}
             </Text>
           </View>
           <TouchableOpacity
             onPress={() =>
-              navigation.navigate('ChatScreen', {listingId: productDetails?.id})
+              navigation.navigate('ChatScreen', {
+                listingId: productDetails?.id,
+                sellerId: sellerDetail.id
+              })
             }>
             <Image
-              style={{height: 70, width: 70, bottom: 20}}
+              style={{ height: 70, width: 70, bottom: 20 }}
               source={require('../../assets/Icons/Group13720.png')}
             />
           </TouchableOpacity>
@@ -200,7 +202,7 @@ const ProductDetails = ({navigation, route}) => {
             {productDetails?.description}
           </Text>
         </View>
-        <View style={{flexDirection: 'column-reverse', marginTop: '20%'}}>
+        <View style={{ flexDirection: 'column-reverse', marginTop: '20%' }}>
           <Buttons name={t('common:buynow')} />
         </View>
       </View>
