@@ -300,11 +300,8 @@ import {
   MessageImage,
 } from 'react-native-gifted-chat';
 import { Color } from '../../constants/colors';
-
-import Send from 'react-native-vector-icons/Feather';
 import Attachment from 'react-native-vector-icons/Entypo';
 
-import { useTranslation } from 'react-i18next';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Base_Url } from '../../api/Api';
 
@@ -399,7 +396,7 @@ const ChatScreen = ({ navigation, route }) => {
   };
 
 
-  const CustomAvatar = ({ currentMessage }) => {
+  const CustomAvatar = () => {
     return (
       <View style={{ width: 40, height: 40, marginBottom: 50, borderRadius: 20 }}>
         <Image
@@ -550,7 +547,6 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.44,
     shadowRadius: 10.32,
-
     elevation: 26,
   },
   inputToolBar: {
@@ -567,7 +563,6 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.27,
     shadowRadius: 4.65,
-
     elevation: 6,
   },
 });
