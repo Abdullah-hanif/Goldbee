@@ -308,9 +308,10 @@ import { Base_Url } from '../../api/Api';
 const ChatScreen = ({ navigation, route }) => {
   const [messages, setMessages] = useState([]);
   const [senderId, setSenderID] = useState(0);
-  // const {imageUri, name, price, productName, listingId, withId} = route?.params;
-  const { listingId } = route?.params;
-  const receiverId = route.params.sellerId
+  const listingId = route?.params.listingId;
+  const receiverId = route.params.withId
+  const withProfilePic = route.params.profilePic
+  const postPic = route.params.imageUri
   const customtInputToolbar = props => {
     return (
       <InputToolbar
@@ -320,17 +321,16 @@ const ChatScreen = ({ navigation, route }) => {
       />
     );
   };
-
   const getAllMessges = async () => {
     const userId = await AsyncStorage.getItem('uid');
-
     setSenderID(userId);
+    console.log(receiverId);
     await fetch(`${Base_Url}/get-chat-history`, {
       method: 'POST',
       body: JSON.stringify({
         user_id: userId,
         listing_id: listingId,
-        with_id: route.params.sellerId,
+        with_id: receiverId,
       }),
       headers: {
         'Content-Type': 'application/json',
@@ -348,7 +348,6 @@ const ChatScreen = ({ navigation, route }) => {
               createdAt: chatMessage.created_at,
               user: {
                 _id: chatMessage.sender_id,
-                avatar: 'https://placeimg.com/140/140/any'
               }
             }
           })
@@ -396,11 +395,11 @@ const ChatScreen = ({ navigation, route }) => {
   };
 
 
-  const CustomAvatar = () => {
+  const CustomAvatar = (props) => {
     return (
       <View style={{ width: 40, height: 40, marginBottom: 50, borderRadius: 20 }}>
         <Image
-          source={{ uri: 'https://placeimg.com/140/140/any' }}
+          source={{ uri: props.img }}
           style={{ width: 40, height: 40, borderRadius: 20 }}
         />
       </View>
@@ -424,7 +423,7 @@ const ChatScreen = ({ navigation, route }) => {
           <Image
             style={{ height: 50, width: 50, left: 20, borderRadius: 5 }}
             // source={{uri: imageUri}}
-            source={{ uri: 'ttps://placeimg.com/140/140/any' }}
+            source={{ uri: postPic }}
             h
           />
           <View style={{ left: 35 }}>
@@ -456,12 +455,13 @@ const ChatScreen = ({ navigation, route }) => {
         onSend={messages => onSend(messages)}
         showUserAvatar={true}
         scrollToBottom={true}
+        keyboardShouldPersistTaps={'never'}
         renderInputToolbar={props => customtInputToolbar(props)}
-        renderAvatar={() => <CustomAvatar />}
+        renderAvatarOnTop={true}  
+        renderAvatar={() => <CustomAvatar img={withProfilePic} />}
         user={{
           _id: senderId,
           name: 'akif',
-          avatar: 'https://placeimg.com/140/140/any',
         }}
         renderBubble={props => {
           const message_sender_id = props.currentMessage.user._id

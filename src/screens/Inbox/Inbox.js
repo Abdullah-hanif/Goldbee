@@ -6,20 +6,20 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useState, useEffect} from 'react';
-import {Color} from '../../constants/colors';
+import React, { useState, useEffect } from 'react';
+import { Color } from '../../constants/colors';
 import InboxMessages from '../../components/InboxMessages';
-import {InboxPeople} from '../../constants/dummyData';
-import {SellingChat} from '../../constants/dummyData';
-import {useTranslation} from 'react-i18next';
-import {t} from 'i18next';
-import {getInbox} from '../../api/InboxApi';
-import {Base_Url} from '../../api/Api';
+import { InboxPeople } from '../../constants/dummyData';
+import { SellingChat } from '../../constants/dummyData';
+import { useTranslation } from 'react-i18next';
+import { t } from 'i18next';
+import { getInbox } from '../../api/InboxApi';
+import { Base_Url } from '../../api/Api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useIsFocused} from '@react-navigation/native';
+import { useIsFocused } from '@react-navigation/native';
 
 const Inbox = () => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const [role, setRole] = useState('buying');
   const [buyerChat, setBuyerChat] = useState([]);
   const [sellerChat, setSellerChat] = useState([]);
@@ -29,14 +29,13 @@ const Inbox = () => {
     console.log(userId, 'USER ID');
     await fetch(`${Base_Url}/get-inbox`, {
       method: 'POST',
-      body: JSON.stringify({user_id: userId}),
+      body: JSON.stringify({ user_id: userId }),
       headers: {
         'Content-Type': 'multipart/form-data',
       },
     })
       .then(response => response.json())
       .then(data => {
-        //   const res = data.json();
         const respo = data;
         console.log('respo', respo);
         role == 'buying'
@@ -66,45 +65,48 @@ const Inbox = () => {
           {/* //Main View */}
           {role == 'buying'
             ? buyerChat.map((data, indx) => {
-                return (
-                  <InboxMessages
-                    key={Math.random() * 1000}
-                    name={data?.seller?.name}
-                    listingId={data?.listing_id}
-                    withId={data?.with_id}
-                    productName={data.listing?.category}
-                    imageUri={data?.seller?.profile_picture}
-                    time={data?.time_ago}
-                    message={data?.last_message}
-                    price={data.listing?.price}
-                    isRead={data?.read}
-                  />
-                );
-              })
+              return (
+                <InboxMessages
+                  key={data.listing.id}
+                  name={data?.seller?.name}
+                  listingId={data?.listing_id}
+                  withId={data?.with_id}
+                  productName={data.listing?.category}
+                  time={data?.time_ago}
+                  imageUri={`http://95.179.209.186/${data.listing.images[0]}`}
+                  message={data?.last_message}
+                  price={data?.listing?.price}
+                  isRead={data?.read}
+                  otherData={data}
+                  profilePic={data.with_user.profile_picture}
+                />
+              );
+            })
             : sellerChat.map((data, indx) => {
-                return (
-                  <InboxMessages
-                    key={data.id}
-                    name={data?.seller?.name}
-                    listingId={data?.listing_id}
-                    withId={data?.with_id}
-                    productName={data.listing?.category}
-                    imageUri={data?.seller?.profile_picture}
-                    time={data?.time_ago}
-                    message={data?.last_message}
-                    price={data.price}
-                    isRead={data?.read}
-                  />
-                );
-              })}
+              return (
+                <InboxMessages
+                  key={data.listing.id}
+                  name={data?.seller?.name}
+                  listingId={data?.listing_id}
+                  withId={data?.with_id}
+                  productName={data.listing?.category}
+                  time={data?.time_ago}
+                  imageUri={`http://95.179.209.186/${data.listing.images[0]}`}
+                  message={data?.last_message}
+                  price={data.price}
+                  isRead={data?.read}
+                  otherData={data}
+                />
+              );
+            })}
         </ScrollView>
       </View>
     </View>
   );
 };
 
-const SwitchButton = ({changeRole}) => {
-  const {t} = useTranslation();
+const SwitchButton = ({ changeRole }) => {
+  const { t } = useTranslation();
 
   const [clicked, setClicked] = React.useState(true);
   return (
@@ -129,7 +131,7 @@ const SwitchButton = ({changeRole}) => {
             },
           ]}>
           <Text
-            style={{textAlign: 'center', color: clicked ? 'white' : 'black'}}>
+            style={{ textAlign: 'center', color: clicked ? 'white' : 'black' }}>
             {t('common:buying')}
           </Text>
         </TouchableOpacity>
@@ -146,7 +148,7 @@ const SwitchButton = ({changeRole}) => {
             },
           ]}>
           <Text
-            style={{textAlign: 'center', color: clicked ? 'black' : 'white'}}>
+            style={{ textAlign: 'center', color: clicked ? 'black' : 'white' }}>
             {t('common:selling')}
           </Text>
         </TouchableOpacity>
@@ -155,7 +157,7 @@ const SwitchButton = ({changeRole}) => {
   );
 };
 
-export {SwitchButton};
+export { SwitchButton };
 
 export default Inbox;
 

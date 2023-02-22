@@ -13,6 +13,8 @@ const InboxMessages = ({
   isRead,
   listingId,
   withId,
+  otherData,
+  profilePic
 }) => {
   const nav = useNavigation();
   return (
@@ -25,6 +27,8 @@ const InboxMessages = ({
           productName,
           listingId,
           withId,
+          otherData,
+          profilePic
         })
       }
       style={{
@@ -38,7 +42,7 @@ const InboxMessages = ({
       {/* Images and details */}
       <View style={{flexDirection: 'row'}}>
         <View style={{flexDirection: 'row'}}>
-          {isRead == 'no' ? (
+          {isRead === 'no' ? (
             <View
               style={{
                 height: 20,
