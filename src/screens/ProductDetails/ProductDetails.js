@@ -26,8 +26,6 @@ const images = [
 const ProductDetails = ({ navigation, route }) => {
   const { t } = useTranslation();
   const { productDetails } = route.params;
-
-  console.log("seller id", productDetails['seller-details']);
   const sellerDetail = productDetails['seller-details'];
   // console.log('MY PRODUCT DETAILS=====>', sellerDetail);
   const [addFav, setAddFav] = React.useState(false);
@@ -125,8 +123,6 @@ const ProductDetails = ({ navigation, route }) => {
 
           padding: 20,
           flex: 1,
-          // marginVertical: 20,
-          // marginHorizontal: 20,
         }}>
         <TouchableOpacity
           onPress={() => navigation.navigate('ProfileDetails')}
@@ -177,7 +173,8 @@ const ProductDetails = ({ navigation, route }) => {
             onPress={() =>
               navigation.navigate('ChatScreen', {
                 listingId: productDetails?.id,
-                sellerId: sellerDetail.id
+                withId: sellerDetail.id,
+                profilePic: sellerDetail.profile_picture
               })
             }>
             <Image
