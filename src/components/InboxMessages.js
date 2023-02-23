@@ -1,7 +1,7 @@
-import {StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import React from 'react';
 import Check from 'react-native-vector-icons/AntDesign';
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
 const InboxMessages = ({
   name,
@@ -40,8 +40,8 @@ const InboxMessages = ({
         borderColor: 'lightgray',
       }}>
       {/* Images and details */}
-      <View style={{flexDirection: 'row'}}>
-        <View style={{flexDirection: 'row'}}>
+      <View style={{ flexDirection: 'row' }}>
+        <View style={{ flexDirection: 'row' }}>
           {isRead === 'no' ? (
             <View
               style={{
@@ -56,27 +56,27 @@ const InboxMessages = ({
               }}></View>
           ) : null}
           <Image
-            style={{height: 70, width: 70, borderRadius: 5, zIndex: -1}}
-            source={{uri: imageUri}}
+            style={{ height: 80, width: 80, borderRadius: 5, zIndex: -1 }}
+            source={{ uri: imageUri }}
           />
         </View>
-        <View style={{left: 20}}>
-          <Text style={{color: 'black'}}>{name}</Text>
-          <Text style={{fontWeight: 'bold', color: 'black'}}>
+        <View style={{ left: 20 }}>
+          <Text style={{ color: 'black', fontWeight: '500' }}>{name}</Text>
+          <Text style={{ fontWeight: 'bold', color: 'black', fontSize: 20, marginVertical: 7 }}>
             {productName}
           </Text>
-          <View style={{flexDirection: 'row'}}>
+          <View style={{ flexDirection: 'row' }}>
             <Check
               name="check"
               color={'#000000'}
               size={10}
-              style={{top: 5, right: 5}}
+              style={{ top: 5, right: 5 }}
             />
-            <Text style={{color: '#000000'}}>{message}</Text>
+            <Text style={{ color: '#000000' }}>{message}</Text>
           </View>
         </View>
       </View>
-      <Text style={{color: '#000000', right: 10}}>{time}</Text>
+      <Text style={{ color: '#000000', right: 10 }}>{time}</Text>
     </TouchableOpacity>
   );
 };

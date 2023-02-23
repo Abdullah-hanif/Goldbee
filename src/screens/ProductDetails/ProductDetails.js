@@ -27,7 +27,7 @@ const ProductDetails = ({ navigation, route }) => {
   const { t } = useTranslation();
   const { productDetails } = route.params;
   const sellerDetail = productDetails['seller-details'];
-  // console.log('MY PRODUCT DETAILS=====>', sellerDetail);
+  console.log("productDetails",productDetails);
   const [addFav, setAddFav] = React.useState(false);
   const [imgActive, setimgActive] = React.useState(0);
   onchange = nativeEvent => {
@@ -174,7 +174,10 @@ const ProductDetails = ({ navigation, route }) => {
               navigation.navigate('ChatScreen', {
                 listingId: productDetails?.id,
                 withId: sellerDetail.id,
-                profilePic: sellerDetail.profile_picture
+                profilePic: sellerDetail.profile_picture,
+                imageUri: productDetails.images[0],
+                price: productDetails.price,
+                productName:productDetails.title ,
               })
             }>
             <Image

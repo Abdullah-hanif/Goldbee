@@ -26,7 +26,6 @@ const Inbox = () => {
 
   const getInbox = async () => {
     const userId = await AsyncStorage.getItem('uid');
-    console.log(userId, 'USER ID');
     await fetch(`${Base_Url}/get-inbox`, {
       method: 'POST',
       body: JSON.stringify({ user_id: userId }),
@@ -37,11 +36,9 @@ const Inbox = () => {
       .then(response => response.json())
       .then(data => {
         const respo = data;
-        console.log('respo', respo);
         role == 'buying'
           ? setBuyerChat(respo?.buying)
           : setSellerChat(respo?.selling);
-        console.log(respo?.buying, 'UPDATE PROFILE=====>');
       })
       .catch(error => {
         console.error(error);
@@ -65,17 +62,18 @@ const Inbox = () => {
           {/* //Main View */}
           {role == 'buying'
             ? buyerChat.map((data, indx) => {
+              console.log("dataaa",data );
               return (
                 <InboxMessages
                   key={data.listing.id}
                   name={data?.seller?.name}
                   listingId={data?.listing_id}
                   withId={data?.with_id}
-                  productName={data.listing?.category}
+                  productName={data.listing?.title}
                   time={data?.time_ago}
                   imageUri={`http://95.179.209.186/${data.listing.images[0]}`}
                   message={data?.last_message}
-                  price={data?.listing?.price}
+                  price={data.listing.price}
                   isRead={data?.read}
                   otherData={data}
                   profilePic={data.with_user.profile_picture}
@@ -86,14 +84,14 @@ const Inbox = () => {
               return (
                 <InboxMessages
                   key={data.listing.id}
-                  name={data?.seller?.name}
+                  name={data.with_user.name}
                   listingId={data?.listing_id}
                   withId={data?.with_id}
-                  productName={data.listing?.category}
+                  productName={data.listing?.title}
                   time={data?.time_ago}
                   imageUri={`http://95.179.209.186/${data.listing.images[0]}`}
                   message={data?.last_message}
-                  price={data.price}
+                  price={data.listing.price}
                   isRead={data?.read}
                   otherData={data}
                 />
