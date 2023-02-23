@@ -67,7 +67,7 @@
 //     getAllMessges();
 //   }, []);
 
-// const customtInputToolbar = props => {
+// const CustomtInputToolbar = props => {
 //   return (
 //     <InputToolbar
 //       {...props}
@@ -224,7 +224,7 @@
 //         placeholder={t('common:sendmessage')}
 //         messages={messages}
 //         onSend={messages => onSend(messages)}
-//         renderInputToolbar={props => customtInputToolbar(props)}
+//         renderInputToolbar={props => CustomtInputToolbar(props)}
 //         user={[
 //           {
 //             _id: Math.random() * 1000,
@@ -288,22 +288,20 @@ import {
   View,
   Image,
   Text,
-  Dimensions,
   TouchableOpacity,
   StyleSheet,
-  Alert,
 } from 'react-native';
 import {
   GiftedChat,
   InputToolbar,
   Bubble,
-  MessageImage,
+  Send,
 } from 'react-native-gifted-chat';
 import { Color } from '../../constants/colors';
-import Attachment from 'react-native-vector-icons/Entypo';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Base_Url } from '../../api/Api';
+import Icon from "react-native-vector-icons//Feather"
 
 const ChatScreen = ({ navigation, route }) => {
   const [messages, setMessages] = useState([]);
@@ -312,7 +310,11 @@ const ChatScreen = ({ navigation, route }) => {
   const receiverId = route.params.withId
   const withProfilePic = route.params.profilePic
   const postPic = route.params.imageUri
-  const customtInputToolbar = props => {
+  const productName = route.params.productName
+  const productPrice = route.params.price
+  console.log(listingId,receiverId,senderId);
+  
+  const CustomtInputToolbar = props => {
     return (
       <InputToolbar
         {...props}
@@ -369,7 +371,19 @@ const ChatScreen = ({ navigation, route }) => {
     const { text } = messages[0];
     sendMessage(text);
   }, []);
-
+ 
+const renderSend = (props) => {
+    return (
+      <Send {...props}>
+        <Icon
+          name="send"
+          style={{ marginBottom: 5, marginRight: 5 }}
+          size={36}
+          color={Color.darkOrange}
+        />
+      </Send>
+    )
+  }
   const sendMessage = async (text) => {
     const userId = await AsyncStorage.getItem('uid');
 
@@ -414,6 +428,7 @@ const ChatScreen = ({ navigation, route }) => {
               height: 25,
               width: 25,
               justifyContent: 'center',
+              alignSelf:"center",
               top: 15,
             }}
             source={require('../../assets/Icons/back.png')}
@@ -433,8 +448,7 @@ const ChatScreen = ({ navigation, route }) => {
                 color: Color.darkOrange,
                 fontSize: 15,
               }}>
-              {/* ${pric} */}
-              $100
+              $ {productPrice}
             </Text>
             <Text
               style={{
@@ -443,8 +457,7 @@ const ChatScreen = ({ navigation, route }) => {
                 top: 5,
                 fontSize: 15,
               }}>
-              {/* {productName} */}
-              Necklaces
+              {productName}
             </Text>
           </View>
         </View>
@@ -455,10 +468,12 @@ const ChatScreen = ({ navigation, route }) => {
         onSend={messages => onSend(messages)}
         showUserAvatar={true}
         scrollToBottom={true}
+        placeholder='Send Message...'
         keyboardShouldPersistTaps={'never'}
-        renderInputToolbar={props => customtInputToolbar(props)}
-        renderAvatarOnTop={true}  
-        renderAvatar={() => <CustomAvatar img={withProfilePic} />}
+        renderInputToolbar={props => CustomtInputToolbar(props)}
+        renderAvatarOnTop={true}
+        renderSend={renderSend}
+        renderAvatar={null}
         user={{
           _id: senderId,
           name: 'akif',
@@ -476,19 +491,20 @@ const ChatScreen = ({ navigation, route }) => {
               }}
               wrapperStyle={{
                 left: {
-                  backgroundColor: Color.splashWhite,
-                  bottom: 35,
+                  marginBottom: 25,
                   width: '70%',
+                  backgroundColor: Color.splashWhite,
                   padding: 10,
                   shadowColor: '#000',
                   shadowOffset: {
                     width: 0,
                     height: 2,
+                    
                   },
                 },
                 right: {
                   backgroundColor: Color.darkOrange,
-                  bottom: 35,
+                  marginBottom: 25,
                   width: '70%',
                   padding: 10,
                   shadowColor: '#000',
@@ -501,31 +517,7 @@ const ChatScreen = ({ navigation, route }) => {
             />
           );
         }}
-        renderActions={() => {
-          return (
-            <TouchableOpacity
-              onPress={() => {
-                let message = {
-                  _id: Math.round(Math.random() * 1000000),
-                  text: textInputValue,
-                  createdAt: new Date(),
-                  user: {
-                    _id: 1,
-                    name: 'User',
-                    avatar: 'https://picsum.photos/200',
-                  },
-                };
-                onSend([message]);
-              }}
-              style={{
-                padding: 15,
-                alignItems: 'center',
-                borderRadius: 30,
-              }}>
-              <Attachment name="attachment" size={20} color="black" />
-            </TouchableOpacity>
-          );
-        }}
+       
       />
     </>
   );
@@ -553,8 +545,9 @@ const styles = StyleSheet.create({
     backgroundColor: Color.splashWhite,
     borderTopColor: '#E8E8E8',
     borderTopWidth: 1,
-    padding: 5,
-    margin: 20,
+    paddingBottom: 4,
+    marginHorizontal: 10,
+    marginVertical:7,
     borderRadius: 30,
     shadowColor: '#000',
     shadowOffset: {

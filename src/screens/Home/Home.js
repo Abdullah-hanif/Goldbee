@@ -58,7 +58,6 @@ const Home = ({ naviagtion }) => {
         .then(response => response.json())
         .then(data => {
           const respo = data;
-          console.log('=====>API CONSOLE', respo);
           let tempData = [];
           respo?.data?.map(item => {
             tempData = [...tempData, ...item.listings];
@@ -67,7 +66,6 @@ const Home = ({ naviagtion }) => {
             let newData = getDataByLocation(tempData, Cities);
             setData(tempData);
             setCheck(false);
-            console.log('newData=>', newData)
             setFilterData(newData);
           }
 
@@ -113,13 +111,10 @@ const Home = ({ naviagtion }) => {
   };
 
   const handleSearchCites = searctTxt => {
-    // const filterData = citeiesList.filter(val => val == searctTxt);
     const filterData = citeiesList?.filter(val =>
       val?.toLowerCase().startsWith(searctTxt.toLowerCase()),
     );
     setFilterCiteisList(filterData);
-    // console.log('HANDLE CITEIES SEARCH =====>', filterData);
-    // filterData == [] ? setFind('serachCities') : null;
     if (searctTxt == '') {
       setFilterCiteisList(citeiesList);
     }
@@ -180,18 +175,14 @@ const Home = ({ naviagtion }) => {
     })
       .then(res => res.json())
       .then(json => {
-        // setLoading(false)
-        //console.log(json)
         if (json.error == false) {
           setCititesList(json.data);
           setFilterCiteisList(json.data);
-          // console.log('CITIES NAME=====>', json.data);
         } else {
           alert(json.error);
         }
       })
       .catch(error => {
-        // setLoading(false);
         console.log('response error ===>', error);
       });
   };
