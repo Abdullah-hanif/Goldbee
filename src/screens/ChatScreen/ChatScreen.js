@@ -312,8 +312,7 @@ const ChatScreen = ({ navigation, route }) => {
   const postPic = route.params.imageUri
   const productName = route.params.productName
   const productPrice = route.params.price
-  console.log(listingId,receiverId,senderId);
-  
+
   const CustomtInputToolbar = props => {
     return (
       <InputToolbar
@@ -361,8 +360,8 @@ const ChatScreen = ({ navigation, route }) => {
   };
 
   useEffect(() => {
-    getAllMessges();
-  }, []);
+    getAllMessges()
+  }, [messages]);
 
   const onSend = useCallback((messages = []) => {
     setMessages(previousMessages =>
@@ -371,8 +370,8 @@ const ChatScreen = ({ navigation, route }) => {
     const { text } = messages[0];
     sendMessage(text);
   }, []);
- 
-const renderSend = (props) => {
+
+  const renderSend = (props) => {
     return (
       <Send {...props}>
         <Icon
@@ -428,7 +427,7 @@ const renderSend = (props) => {
               height: 25,
               width: 25,
               justifyContent: 'center',
-              alignSelf:"center",
+              alignSelf: "center",
               top: 15,
             }}
             source={require('../../assets/Icons/back.png')}
@@ -499,7 +498,7 @@ const renderSend = (props) => {
                   shadowOffset: {
                     width: 0,
                     height: 2,
-                    
+
                   },
                 },
                 right: {
@@ -517,7 +516,7 @@ const renderSend = (props) => {
             />
           );
         }}
-       
+
       />
     </>
   );
@@ -547,7 +546,7 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     paddingBottom: 4,
     marginHorizontal: 10,
-    marginVertical:7,
+    marginVertical: 7,
     borderRadius: 30,
     shadowColor: '#000',
     shadowOffset: {

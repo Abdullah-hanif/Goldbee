@@ -1,23 +1,19 @@
-import {StyleSheet, Text, View, NativeModules} from 'react-native';
+import { StyleSheet, NativeModules } from 'react-native';
 import React from 'react';
-import Splash from './src/screens/Splash/Splash';
-import SignUp from './src/screens/SignUp/SignUp';
-import Login from './src/screens/Login/Login';
-import Walkthrough from './src/screens/Walkthrough/Walkthrough';
-import {NavigationContainer} from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import StackNavigation from './src/navigations/StackNavigation';
-
-import {useNavigation} from '@react-navigation/native';
-import {useTranslation} from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 
 // import './src/constants/DCSLocalize';
 import './src/constants/DCSLocalize';
 
 const App = () => {
+
+
   const locale = NativeModules.I18nManager.localeIdentifier;
   console.log('==>LOCAL BEFORE===>', locale);
   const localLang = locale.split('_');
-  const {t, i18n} = useTranslation();
+  const { t, i18n } = useTranslation();
 
   // const localLang = ['es', 'es'];
   // es mean spanish

@@ -48,6 +48,10 @@ const Inbox = () => {
   useEffect(() => {
     getInbox();
   }, [focused == true]);
+  console.log("role", role);
+  console.log("buyerchat", buyerChat);
+
+  console.log("sellerChat", sellerChat);
 
   return (
     <View style={styles.container}>
@@ -59,44 +63,60 @@ const Inbox = () => {
           }}
         />
         <ScrollView showsVerticalScrollIndicator={false}>
-          {/* //Main View */}
+
+          {/* {
+            buyerChat.length === 0 || sellerChat.length === 0 &&
+            <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+              <Text>No Chats Found</Text>
+            </View>
+
+          } */}
           {role == 'buying'
-            ? buyerChat.map((data, indx) => {
-              console.log("dataaa",data );
-              return (
-                <InboxMessages
-                  key={data.listing.id}
-                  name={data?.seller?.name}
-                  listingId={data?.listing_id}
-                  withId={data?.with_id}
-                  productName={data.listing?.title}
-                  time={data?.time_ago}
-                  imageUri={`http://95.179.209.186/${data.listing.images[0]}`}
-                  message={data?.last_message}
-                  price={data.listing.price}
-                  isRead={data?.read}
-                  otherData={data}
-                  profilePic={data.with_user.profile_picture}
-                />
-              );
-            })
-            : sellerChat.map((data, indx) => {
-              return (
-                <InboxMessages
-                  key={data.listing.id}
-                  name={data.with_user.name}
-                  listingId={data?.listing_id}
-                  withId={data?.with_id}
-                  productName={data.listing?.title}
-                  time={data?.time_ago}
-                  imageUri={`http://95.179.209.186/${data.listing.images[0]}`}
-                  message={data?.last_message}
-                  price={data.listing.price}
-                  isRead={data?.read}
-                  otherData={data}
-                />
-              );
-            })}
+            ?
+            buyerChat.length === 0 ?
+              <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+                <Text>No Chats Found</Text>
+              </View> :
+              buyerChat.map((data, indx) => {
+                return (
+                  <InboxMessages
+                    key={data.listing.id}
+                    name={data?.seller?.name}
+                    listingId={data?.listing_id}
+                    withId={data?.with_id}
+                    productName={data.listing?.title}
+                    time={data?.time_ago}
+                    imageUri={`http://95.179.209.186/${data.listing.images[0]}`}
+                    message={data?.last_message}
+                    price={data.listing.price}
+                    isRead={data?.read}
+                    otherData={data}
+                    profilePic={data.with_user.profile_picture}
+                  />
+                )
+              })
+            : sellerChat.length === 0 ?
+              <View style={{ justifyContent: "center", alignItems: "center" }}>
+                <Text>No Chats Found</Text>
+              </View> :
+              sellerChat.map((data, indx) => {
+                return (
+                  <InboxMessages
+                    key={data.listing.id}
+                    name={data.with_user.name}
+                    listingId={data?.listing_id}
+                    withId={data?.with_id}
+                    productName={data.listing?.title}
+                    time={data?.time_ago}
+                    imageUri={`http://95.179.209.186/${data.listing.images[0]}`}
+                    message={data?.last_message}
+                    price={data.listing.price}
+                    isRead={data?.read}
+                    otherData={data}
+                  />
+                )
+              })
+          }
         </ScrollView>
       </View>
     </View>

@@ -1,4 +1,4 @@
-package com.goldbee.newarchitecture;
+package com.goldybee.newarchitecture;
 
 import android.app.Application;
 import androidx.annotation.NonNull;
@@ -19,9 +19,9 @@ import com.facebook.react.fabric.CoreComponentsRegistry;
 import com.facebook.react.fabric.FabricJSIModuleProvider;
 import com.facebook.react.fabric.ReactNativeConfig;
 import com.facebook.react.uimanager.ViewManagerRegistry;
-import com.goldbee.BuildConfig;
-import com.goldbee.newarchitecture.components.MainComponentsRegistry;
-import com.goldbee.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
+import com.goldybee.BuildConfig;
+import com.goldybee.newarchitecture.components.MainComponentsRegistry;
+import com.goldybee.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
 import java.util.ArrayList;
 import java.util.List;
 
