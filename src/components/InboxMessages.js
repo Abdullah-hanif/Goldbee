@@ -42,7 +42,7 @@ const InboxMessages = ({
       {/* Images and details */}
       <View style={{ flexDirection: 'row' }}>
         <View style={{ flexDirection: 'row' }}>
-          {isRead === 'no' ? (
+          {isRead == 'no' ? (
             <View
               style={{
                 height: 20,
@@ -56,13 +56,13 @@ const InboxMessages = ({
               }}></View>
           ) : null}
           <Image
-            style={{ height: 80, width: 80, borderRadius: 5, zIndex: -1 }}
+            style={{ height: 70, width: 70, borderRadius: 5, zIndex: -1 }}
             source={{ uri: imageUri }}
           />
         </View>
         <View style={{ left: 20 }}>
-          <Text style={{ color: 'black', fontWeight: '500' }}>{name}</Text>
-          <Text style={{ fontWeight: 'bold', color: 'black', fontSize: 20, marginVertical: 7 }}>
+          <Text style={{ color: 'black' }}>{name}</Text>
+          <Text style={{ fontWeight: 'bold', color: 'black' }}>
             {productName}
           </Text>
           <View style={{ flexDirection: 'row' }}>
