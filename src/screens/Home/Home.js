@@ -8,8 +8,9 @@ import {
   Modal,
   TextInput,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Color } from '../../constants/colors';
 import SearchBar from '../../components/SearchBar';
 import CategoryContainer from '../../components/CategoryContainer';
@@ -21,8 +22,7 @@ import { useIsFocused } from '@react-navigation/native';
 
 // @ICons
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import Entypo from 'react-native-vector-icons/Entypo';
-
+import * as firebase from '../../components/firebase'
 const Home = ({ naviagtion }) => {
   const { t } = useTranslation();
 
@@ -145,13 +145,18 @@ const Home = ({ naviagtion }) => {
   };
 
   React.useEffect(() => {
+    firebase.getFCMToken()
+    firebase.requestUserPermission()
+    firebase.NotificationListener(naviagtion)
+  }, []);
+
+  React.useEffect(() => {
     setCityFirstTime();
   }, []);
 
   React.useEffect(() => {
     hadlefilter();
   }, [selected]);
-
   React.useEffect(() => {
     hadleCiteiesFilter();
   }, [Cities]);
