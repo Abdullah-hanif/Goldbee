@@ -13,6 +13,8 @@ const InboxMessages = ({
   isRead,
   listingId,
   withId,
+  otherData,
+  profilePic
 }) => {
   const nav = useNavigation();
   return (
@@ -25,6 +27,8 @@ const InboxMessages = ({
           productName,
           listingId,
           withId,
+          otherData,
+          profilePic
         })
       }
       style={{
