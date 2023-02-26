@@ -1,9 +1,10 @@
-import {StyleSheet, Text, View} from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 import {
   CardStyleInterpolators,
   createStackNavigator,
 } from '@react-navigation/stack';
+import { useNavigation } from '@react-navigation/native';
 
 // @Screens
 import Splash from '../screens/Splash/Splash';
@@ -21,9 +22,16 @@ import PostingListing from '../screens/PostListing/PostingListing';
 // @MyProfile
 import MyListingDetails from '../screens/MyProfile/MyListingDetails/MyListingDetails';
 import UpdateListing from '../screens/MyProfile/MyListingDetails/UpdateListing';
+import { NotificationListener } from '../components/firebase';
 
 const Stack = createStackNavigator();
 const StackNavigation = () => {
+  const navigation = useNavigation()
+
+  React.useEffect(() => {
+    NotificationListener(navigation)
+  }, [])
+
   const config = {
     animation: 'spring',
     config: {
@@ -38,7 +46,7 @@ const StackNavigation = () => {
   return (
     <Stack.Navigator
       initialRouteName="Splash"
-      screenOptions={{headerShown: false}}>
+      screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Splash" component={Splash} />
       <Stack.Screen name="Walkthrough" component={Walkthrough} />
       <Stack.Screen name="SignUp" component={SignUp} />

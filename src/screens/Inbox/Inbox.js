@@ -48,10 +48,6 @@ const Inbox = () => {
   useEffect(() => {
     getInbox();
   }, [focused == true]);
-  console.log("role", role);
-  console.log("buyerchat", buyerChat);
-
-  console.log("sellerChat", sellerChat);
 
   return (
     <View style={styles.container}>

@@ -1,5 +1,50 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import messaging from '@react-native-firebase/messaging';
+import { Base_Url } from '../api/Api';
+
+export const onMessage = async (navigation, notification) => {
+    const check = await AsyncStorage.getItem('status')
+    if (check == 'loggedIn') {
+        const { title, body } = notification
+        title = "You have a new message"
+        body = "Click to view"
+        navigation.navigate("BottomNavigation")
+
+
+        // console.log("pressed by notification", notification);
+        // notification?.title === "You have a new message" &&
+        //     navigation.navigate("BottomNavigation")
+
+        // const userId = await AsyncStorage.getItem('uid');
+        // await fetch(`${Base_Url}/get-inbox`, {
+        //     method: 'POST',
+        //     body: JSON.stringify({ user_id: userId }),
+        //     headers: {
+        //         'Content-Type': 'multipart/form-data',
+        //     },
+        // })
+        //     .then(response => response.json())
+        //     .then(data => {
+        //         console.log("OnMessage Data", data);
+        //         data.buying.filter(val => {
+        //             val.read === 'no' ?
+        //                 navigation.navigate("BottomNavigation", { message: "Inbox" })
+        //                 : navigation.navigate("BottomNavigation", { message: "Home" })
+
+        //         })
+        //         data.selling.filter(val => {
+        //             val.read === 'no' ?
+        //                 navigation.navigate("BottomNavigation", { message: "Inbox" })
+        //                 : navigation.navigate("BottomNavigation", { message: "Home" })
+
+        //         })
+        //     })
+        //     .catch(error => {
+        //         console.error(error);
+        //     })
+    }
+}
+
 
 export const requestUserPermission = async () => {
     const authStatus = await messaging().requestPermission();
@@ -30,23 +75,24 @@ export const getFCMToken = async () => {
 
 }
 
-export const NotificationListener = (naviagtion) => {
+export const NotificationListener = (navigation) => {
     // background
-    messaging().onNotificationOpenedApp(remoteMessage => {
-        console.log(
-            'Notification caused app to open from background state:',
-            remoteMessage.notification,
-        )
-        messaging().setBackgroundMessageHandler(async remoteMessage => {
-            console.log('Message handled in the background!', remoteMessage);
+    messaging().onNotificationOpenedApp(message => {
+        const { notification } = message
+        console.log("messaging().onNotificationOpenedApp", message);
+        onMessage(navigation, notification)
+        messaging().setBackgroundMessageHandler(async message => {
+            onMessage(navigation, notification)
+            console.log('Message handled in the background!', message);
         });
         // Quit State
         messaging()
             .getInitialNotification()
-            .then(remoteMessage => {
-                if (remoteMessage) {
-                    console.log('Notification caused app to open from quit state:', remoteMessage.notification,
-                    )
+            .then(message => {
+                if (message) {
+                    onMessage(navigation, notification)
+                    console.log('Notification caused app to open from quit state:', message)
+
                 }
             })
     })
