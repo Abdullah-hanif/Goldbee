@@ -5,6 +5,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import {Color} from '../../../../constants/colors';
 import {useNavigation} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Toast from '../../components/Toast'
 
 import {Base_Url} from '../../../../api/Api';
 const MyCard = ({
@@ -41,7 +42,7 @@ const MyCard = ({
         // console.log('RESPONSE HOME', respo?.data);
 
         if (respo?.message == 'Followed successfully') {
-          alert('Followed Sucessfully');
+          Toast('Followed Sucessfully');
           // getFUN();
         } else {
           console.log(respo?.message);

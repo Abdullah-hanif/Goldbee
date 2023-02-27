@@ -20,30 +20,35 @@ import Back from 'react-native-vector-icons/AntDesign';
 import { useTranslation } from 'react-i18next';
 import { Base_Url } from '../../api/Api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 // @ICons
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import Toast from '../../components/Toast';
 
 const SignUp = () => {
   const navigation = useNavigation();
-  const [checked, setChecked] = React.useState(false);
-  const [firstname, setFirstName] = React.useState('');
-  const [lastName, setLastName] = React.useState('');
-  const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const [conPassword, setConPassword] = React.useState('');
-  const [Cities, setCities] = React.useState('Cities');
-  const [country, setCountry] = React.useState('Country');
+  const [checked, setChecked] = useState(false);
+  const [firstname, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [conPassword, setConPassword] = useState('');
+  const [Cities, setCities] = useState('Cities');
+  const [country, setCountry] = useState('Country');
+  const [togglePassword, setTogglePassword] = useState(true)
+  const [toggleConfirmPassword, setToggleConfirmPassword] = useState(true)
 
-  const [countryModal, setCountryModal] = React.useState(false);
+  const [countryModal, setCountryModal] = useState(false);
 
   const [citeiesList, setCititesList] = useState([]);
   const [filterCitiesList, setFilterCiteisList] = useState();
 
   // @Modal Cities
   const [modalVisible, setModalVisible] = useState(false);
+  const { t } = useTranslation();
 
-  // const [userDetail, setUseDetails] = React.useState({
+  // const [userDetail, setUseDetails] = useState({
   //   name: '',
   //   email: '',
   //   password: '',
@@ -65,6 +70,14 @@ const SignUp = () => {
     if (searctTxt == '') {
       setFilterCiteisList(citeiesList);
     }
+  }
+
+  const validateEmail = email => {
+    return String(email)
+      .toLowerCase()
+      .match(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+      );
   };
 
   const cities = [
@@ -81,7 +94,8 @@ const SignUp = () => {
   ];
 
   const signInUser = () => {
-    console.log('STATE====>', firstname, lastName, email, conPassword);
+    if (!validateEmail(email)) Toast('Enter a valid Email');
+    if (password != conPassword) Toast('Password not matched');
     fetch(`${Base_Url}/register`, {
       method: 'POST',
       headers: {
@@ -99,17 +113,17 @@ const SignUp = () => {
       .then(data => {
         const respo = data;
         if (respo?.message == 'Registered successfully') {
-          alert(respo?.message);
+          Toast(respo?.message);
           const uid = respo?.data?.id;
           AsyncStorage.setItem('uid', JSON.stringify(uid));
           AsyncStorage.setItem('userData', JSON.stringify(respo?.data));
           navigation.navigate('BottomNavigation');
         } else {
-          alert(respo?.message);
+          Toast(respo?.message);
         }
       })
       .catch(error => {
-        console.error(error);
+        Toast(error);
       });
   };
 
@@ -134,15 +148,15 @@ const SignUp = () => {
           setFilterCiteisList(json.data);
           console.log('CITIES NAME=====>', json.data);
         } else {
-          alert(json.error);
+          Toast(json.error);
         }
       })
       .catch(error => {
-        // setLoading(false);
-        console.log('response error ===>', error);
+        Toast(error)
       });
   };
-  const { t } = useTranslation();
+
+
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
       <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -200,10 +214,7 @@ const SignUp = () => {
               animationType="slide"
               transparent={true}
               visible={modalVisible}
-              onRequestClose={() => {
-                Alert.alert('Modal has been closed.');
-                setModalVisible(!modalVisible);
-              }}>
+            >
               <View style={{ flex: 1, backgroundColor: 'white' }}>
                 <View
                   style={{
@@ -299,14 +310,36 @@ const SignUp = () => {
               /> */}
           </>
         ) : null}
-        <TextField
-          setTxt={txt => setPassword(txt)}
-          placeHolder={t('common:password')}
-        />
-        <TextField
-          setTxt={txt => setConPassword(txt)}
-          placeHolder={t('common:conformpassword')}
-        />
+        <View style={{ position: 'relative' }}>
+          <TextField
+            val={password}
+            setTxt={txt => setPassword(txt)}
+            placeHolder={t('common:password')}
+            secureTextEntry={togglePassword}
+          />
+          <Icon
+            style={{ position: 'absolute', top: 25, right: 20 }}
+            name={togglePassword ? "eye-off-outline" : "eye-outline"}
+            size={23}
+            color="black"
+            onPress={() => setTogglePassword(!togglePassword)}
+          />
+        </View>
+        <View style={{ position: 'relative' }}>
+          <TextField
+            val={conPassword}
+            setTxt={txt => setConPassword(txt)}
+            placeHolder={t('common:conformpassword')}
+            secureTextEntry={toggleConfirmPassword}
+          />
+          <Icon
+            style={{ position: 'absolute', top: 25, right: 20 }}
+            name={toggleConfirmPassword ? "eye-off-outline" : "eye-outline"}
+            size={23}
+            color="black"
+            onPress={() => setToggleConfirmPassword(!toggleConfirmPassword)}
+          />
+        </View>
       </View>
       <View style={styles.checkBox}>
         <Checkbox
