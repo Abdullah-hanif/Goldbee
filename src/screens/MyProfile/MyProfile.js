@@ -16,6 +16,7 @@ import {Color} from '../../constants/colors';
 import Buttons from '../../components/Buttons';
 import Card from '../../components/Card';
 import MyCard from './MyListingDetails/Components/MyCard';
+import Toast from '../../components/Toast'
 
 import {useTranslation} from 'react-i18next';
 import {Base_Url} from '../../api/Api';
@@ -114,7 +115,7 @@ const MyProfile = ({navigation}) => {
         const respo = data;
 
         console.log(respo, 'DLETE RESPONS ');
-        Alert.alert('Done', respo?.message);
+        Toast(respo.message)
         getMylisting();
       })
       .catch(err => {

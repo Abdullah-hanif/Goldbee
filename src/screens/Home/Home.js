@@ -8,7 +8,6 @@ import {
   Modal,
   TextInput,
   TouchableOpacity,
-  Alert,
 } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { Color } from '../../constants/colors';
@@ -19,6 +18,7 @@ import { useTranslation } from 'react-i18next';
 import { Base_Url } from '../../api/Api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useIsFocused, useNavigation } from '@react-navigation/native';
+import Toast from '../../components/Toast'
 
 // @ICons
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -183,7 +183,7 @@ const Home = () => {
           setCititesList(json.data);
           setFilterCiteisList(json.data);
         } else {
-          alert(json.error);
+          Toast(json.error);
         }
       })
       .catch(error => {
@@ -248,10 +248,7 @@ const Home = () => {
               animationType="slide"
               transparent={true}
               visible={modalVisible}
-              onRequestClose={() => {
-                Alert.alert('Modal has been closed.');
-                setModalVisible(!modalVisible);
-              }}>
+             >
               <View style={{ flex: 1, backgroundColor: 'white' }}>
                 <View
                   style={{

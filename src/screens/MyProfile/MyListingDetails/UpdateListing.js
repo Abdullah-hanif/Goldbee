@@ -37,6 +37,7 @@ import ImagePicker, {
   launchImageLibrary,
 } from 'react-native-image-picker';
 import {useIsFocused} from '@react-navigation/native';
+import Toast from '../../components/Toast'
 
 const UpdateListing = ({navigation, route}) => {
   const {t} = useTranslation();
@@ -132,9 +133,9 @@ const UpdateListing = ({navigation, route}) => {
         const respo = data;
         console.log(respo?.status, '=====>');
         if (respo?.message == 'Something missing. All fields are required') {
-          alert(respo?.message);
+          Toast(respo?.message);
         } else {
-          // alert(respo?.message);
+          // Toast(respo?.message);
           setModalVisible(!modalVisible),
             setTimeout(() => {
               setModalVisible(false);
@@ -230,7 +231,7 @@ const UpdateListing = ({navigation, route}) => {
         console.log('ImagePicker Error: ', response.error);
       } else if (response.customButton) {
         console.log('User tapped custom button: ', response.customButton);
-        alert(response.customButton);
+        Toast(response.customButton);
       } else {
         const source = response;
         console.log('===>URL============>', source);
@@ -263,7 +264,7 @@ const UpdateListing = ({navigation, route}) => {
           setCititesList(json.data);
           setFilterCiteisList(json.data);
         } else {
-          alert(json.error);
+          Toast(json.error);
         }
       })
       .catch(error => {
@@ -517,10 +518,7 @@ const UpdateListing = ({navigation, route}) => {
               animationType="slide"
               transparent={true}
               visible={modalVisible1}
-              onRequestClose={() => {
-                Alert.alert('Modal has been closed.');
-                setModalVisible1(!modalVisible);
-              }}>
+              >
               <View style={{flex: 1, backgroundColor: 'white'}}>
                 <View
                   style={{
@@ -595,7 +593,7 @@ const UpdateListing = ({navigation, route}) => {
                         marginBottom: 22,
                       }}
                       onPress={() => {
-                        setCountryModal(false), setCountry(data), alert(data);
+                        setCountryModal(false), setCountry(data), Toast(data);
                       }}>
                       <Text style={{color: 'black', fontWeight: 'bold'}}>
                         {data}
@@ -662,10 +660,7 @@ const UpdateListing = ({navigation, route}) => {
           animationType="slide"
           transparent={true}
           visible={modalVisible}
-          onRequestClose={() => {
-            Alert.alert('Modal has been closed.');
-            setModalVisible(!modalVisible);
-          }}>
+          >
           <StatusBar hidden />
           <TouchableOpacity
             onPress={() => setModalVisible(false)}
@@ -714,10 +709,7 @@ const UpdateListing = ({navigation, route}) => {
         animationType="slide"
         transparent={true}
         visible={openModal1}
-        onRequestClose={() => {
-          alert('Modal has been closed.');
-          setopenModal1(!openModal1);
-        }}>
+        >
         <View
           style={{
             flex: 1,
