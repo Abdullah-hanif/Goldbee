@@ -5,9 +5,8 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import {Color} from '../../../../constants/colors';
 import {useNavigation} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Toast from '../../components/Toast'
-
 import {Base_Url} from '../../../../api/Api';
+import Toast from "./../../../../components/Toast";
 const MyCard = ({
   name,
   price,

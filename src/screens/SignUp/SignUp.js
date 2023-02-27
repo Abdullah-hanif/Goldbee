@@ -181,31 +181,31 @@ const SignUp = () => {
           setTxt={txt => setEmail(txt)}
           placeHolder={t('common:email')}
         />
-        <TextField
-          setTxt={txt => setCountry(txt)}
-          placeHolder={t('common:country')}
-        />
         <TouchableOpacity
           onPress={() => {
             setCountryModal(!countryModal), setModalVisible(true);
           }}
-          style={[styles.dropDownContainer, { paddingLeft: 25 }]}>
-          <TextInput
+          style={[styles.dropDownContainer, { paddingLeft: 2 }]}>
+          <Text style={{color:'black',paddingLeft:25}}>{Cities}</Text> 
+          <View setTxt={txt => setCountry(txt)}
+            style={{ paddingLeft: 2 }}>
+
+          </View>
+          {/* <TextInput
             // setTxt={txt => setCountry(txt)}
             // style={{paddingLeft: 25}}
             placeholderTextColor={Color.darkGray}
             placeholder={Cities}
-          />
+          /> */}
           {/* <TextField
-      
-            setTxt={txt => setCountry(txt)}
+         setTxt={txt => setCountry(txt)}
             placeHolder={t('common:country')}
           /> */}
-          <TouchableOpacity
+          <View
             style={{ right: 10 }}
             onPress={() => setCountryModal(!countryModal)}>
             <AntDesign name={'down'} size={20} color="black" />
-          </TouchableOpacity>
+          </View>
         </TouchableOpacity>
         {countryModal ? (
           <>
@@ -236,7 +236,7 @@ const SignUp = () => {
                 </View>
 
                 <TextInput
-                  placeholder="search citeis ...."
+                  placeholder="search cities ...."
                   placeholderTextColor={'black'}
                   style={{
                     borderWidth: 1,
@@ -274,40 +274,7 @@ const SignUp = () => {
               </View>
             </Modal>
 
-            {/* <TextInput
-                placeholder="search citeis"
-                style={{
-                  borderWidth: 1,
-                  borderColor: 'black',
-                  // backgroundColor: 'blue',
-                  padding: 10,
-                }}
-                onChangeText={txt => handleSearchCites(txt)}
-              />
-              <FlatList
-                scrollEnabled={true}
-                nestedScrollEnabled={true}
-                style={styles.txtContainer1}
-                data={filterCitiesList}
-                renderItem={item => {
-                  return (
-                    <TouchableOpacity
-                      style={{
-                        borderBottomWidth: 1,
-                        borderColor: Color.gray,
-                        paddingVertical: 10,
-                        marginBottom: 22,
-                      }}
-                      onPress={() => {
-                        setCountryModal(false), setCities(item.item);
-                      }}>
-                      <Text style={{color: 'black', fontWeight: 'bold'}}>
-                        {item.item}
-                      </Text>
-                    </TouchableOpacity>
-                  );
-                }}
-              /> */}
+
           </>
         ) : null}
         <View style={{ position: 'relative' }}>
@@ -329,7 +296,7 @@ const SignUp = () => {
           <TextField
             val={conPassword}
             setTxt={txt => setConPassword(txt)}
-            placeHolder={t('common:conformpassword')}
+            placeHolder={t('common:Confirm-password')}
             secureTextEntry={toggleConfirmPassword}
           />
           <Icon
@@ -420,6 +387,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     width: '100%',
+    height: '12%',
     // padding: 5,
 
     borderWidth: 1,

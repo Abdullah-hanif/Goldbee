@@ -91,7 +91,7 @@ const Login = ({ navigation }) => {
           {t('common:Login')}
         </Text>
         <Text style={{ color: Color.darkGray, fontSize: 15 }}>
-          {t('common:Goldybeeseller')}
+          {t('common:Goldybee')}
         </Text>
         <View style={{ marginTop: 20 }}>
           <TextField

@@ -35,7 +35,7 @@ import ImagePicker, {
   launchImageLibrary,
 } from 'react-native-image-picker';
 import {useIsFocused} from '@react-navigation/native';
-import Toast from '../../components/Toast'
+import Toast from '../../../components/Toast'
 
 const UpdateListing = ({navigation, route}) => {
   const {t} = useTranslation();
