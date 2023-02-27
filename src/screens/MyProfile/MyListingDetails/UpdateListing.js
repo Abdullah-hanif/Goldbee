@@ -23,9 +23,7 @@ import {Checkbox} from 'react-native-paper';
 
 // @Vector Icon
 import Ico from 'react-native-vector-icons/AntDesign';
-import Edit from 'react-native-vector-icons/Feather';
 import Gender from 'react-native-vector-icons/MaterialCommunityIcons';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import {useTranslation} from 'react-i18next';
 // import {Base_Url} from '../../api/Api';
@@ -41,31 +39,29 @@ import Toast from '../../components/Toast'
 
 const UpdateListing = ({navigation, route}) => {
   const {t} = useTranslation();
-  const [checked, setChecked] = React.useState(false);
-  const [modalVisible, setModalVisible] = React.useState(false);
-  const [countryModal, setCountryModal] = React.useState(false);
+  const [checked, setChecked] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [countryModal, setCountryModal] = useState(false);
 
-  const [color, setColor] = React.useState('red');
 
   //data of Fields
-  const [title, setTitle] = React.useState('');
-  const [price, setPrice] = React.useState('');
-  const [country, setCountry] = React.useState('Cities');
-  const [selectArea, setSelectArea] = React.useState('');
-  const [description, setDescription] = React.useState('');
-  const [openModal1, setopenModal1] = React.useState(false);
-  const [category, setCategory] = React.useState('');
-  const [images, setImages] = React.useState([]);
-  const [img, setImg] = React.useState([]);
-  const [id, setId] = React.useState();
+  const [title, setTitle] = useState('');
+  const [price, setPrice] = useState('');
+  const [country, setCountry] = useState('Cities');
+  const [description, setDescription] = useState('');
+  const [openModal1, setopenModal1] = useState(false);
+  const [category, setCategory] = useState('');
+  const [images, setImages] = useState([]);
+  const [img, setImg] = useState([]);
+  const [id, setId] = useState();
   const [modalVisible1, setModalVisible1] = useState(false);
 
   const [citeiesList, setCititesList] = useState([]);
   const [filterCitiesList, setFilterCiteisList] = useState();
 
   const {allDetails} = route?.params;
-  console.log('CATEGORUESSSS===>', allDetails);
-  React.useEffect(() => {
+
+  useEffect(() => {
     setTitle(allDetails?.title);
     setPrice(allDetails?.price);
     setCountry(allDetails?.cites);
