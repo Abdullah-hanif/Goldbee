@@ -9,7 +9,7 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Color } from '../../constants/colors';
 import SearchBar from '../../components/SearchBar';
 import CategoryContainer from '../../components/CategoryContainer';
@@ -17,15 +17,15 @@ import Card from '../../components/Card';
 import { useTranslation } from 'react-i18next';
 import { Base_Url } from '../../api/Api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useIsFocused } from '@react-navigation/native';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
+import Toast from '../../components/Toast'
 
 // @ICons
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import Entypo from 'react-native-vector-icons/Entypo';
-
-const Home = ({ naviagtion }) => {
+import * as firebase from '../../components/firebase'
+const Home = () => {
   const { t } = useTranslation();
-
+  const navigation = useNavigation()
   const [data, setData] = React.useState();
   const [filterData, setFilterData] = React.useState([]);
   const [selected, setSelected] = React.useState(t('common:all'));
@@ -58,7 +58,6 @@ const Home = ({ naviagtion }) => {
         .then(response => response.json())
         .then(data => {
           const respo = data;
-          console.log('=====>API CONSOLE', respo);
           let tempData = [];
           respo?.data?.map(item => {
             tempData = [...tempData, ...item.listings];
@@ -67,7 +66,6 @@ const Home = ({ naviagtion }) => {
             let newData = getDataByLocation(tempData, Cities);
             setData(tempData);
             setCheck(false);
-            console.log('newData=>', newData)
             setFilterData(newData);
           }
 
@@ -113,13 +111,10 @@ const Home = ({ naviagtion }) => {
   };
 
   const handleSearchCites = searctTxt => {
-    // const filterData = citeiesList.filter(val => val == searctTxt);
     const filterData = citeiesList?.filter(val =>
       val?.toLowerCase().startsWith(searctTxt.toLowerCase()),
     );
     setFilterCiteisList(filterData);
-    // console.log('HANDLE CITEIES SEARCH =====>', filterData);
-    // filterData == [] ? setFind('serachCities') : null;
     if (searctTxt == '') {
       setFilterCiteisList(citeiesList);
     }
@@ -150,13 +145,17 @@ const Home = ({ naviagtion }) => {
   };
 
   React.useEffect(() => {
+    firebase.getFCMToken()
+    firebase.requestUserPermission()
+  }, []);
+
+  React.useEffect(() => {
     setCityFirstTime();
   }, []);
 
   React.useEffect(() => {
     hadlefilter();
   }, [selected]);
-
   React.useEffect(() => {
     hadleCiteiesFilter();
   }, [Cities]);
@@ -180,18 +179,14 @@ const Home = ({ naviagtion }) => {
     })
       .then(res => res.json())
       .then(json => {
-        // setLoading(false)
-        //console.log(json)
         if (json.error == false) {
           setCititesList(json.data);
           setFilterCiteisList(json.data);
-          // console.log('CITIES NAME=====>', json.data);
         } else {
-          alert(json.error);
+          Toast(json.error);
         }
       })
       .catch(error => {
-        // setLoading(false);
         console.log('response error ===>', error);
       });
   };
@@ -253,10 +248,7 @@ const Home = ({ naviagtion }) => {
               animationType="slide"
               transparent={true}
               visible={modalVisible}
-              onRequestClose={() => {
-                Alert.alert('Modal has been closed.');
-                setModalVisible(!modalVisible);
-              }}>
+             >
               <View style={{ flex: 1, backgroundColor: 'white' }}>
                 <View
                   style={{

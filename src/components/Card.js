@@ -6,6 +6,7 @@ import {useIsFocused, useNavigation} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Base_Url} from '../api/Api';
 import {useId} from 'react';
+import Toast from './Toast';
 const Card = ({
   name,
   price,
@@ -55,7 +56,7 @@ const Card = ({
         // console.log('RESPONSE HOME', respo?.data);
 
         if (respo?.message == 'Followed successfully') {
-          alert('Followed Sucessfully');
+          Toast('Followed Sucessfully');
           checkChange(true);
 
           // getFUN();
@@ -71,7 +72,7 @@ const Card = ({
   // console.log('Product DETAILS====>', productDetails);
 
   const RemoveFollowed = async () => {
-    // alert('already followed');
+    // Toast('already followed');
     const userId = await AsyncStorage.getItem('uid');
     // console.log('USER ID ====>', userId);
     await fetch(`${Base_Url}/follow-listing`, {
@@ -88,7 +89,7 @@ const Card = ({
         // console.log('RESPONSE HOME', respo?.data);
 
         if (respo?.message == 'Unfollowed successfully') {
-          alert('Unfollowed successfully');
+          Toast('Unfollowed successfully');
           setFollowed('no');
 
           // getFUN();
@@ -102,7 +103,7 @@ const Card = ({
   };
 
   const RemoveFollowedListing = async id => {
-    // alert('already followed');
+    // Toast('already followed');
     const userId = await AsyncStorage.getItem('uid');
     // console.log('USER ID ====>', userId);
     await fetch(`${Base_Url}/follow-listing`, {
@@ -119,7 +120,7 @@ const Card = ({
         // console.log('RESPONSE HOME', respo?.data);
 
         if (respo?.message == 'Unfollowed successfully') {
-          alert('Unfollowed successfully');
+          Toast('Unfollowed successfully');
           setFollowed('no');
           checkChangeFav(true);
 
@@ -164,7 +165,7 @@ const Card = ({
             <TouchableOpacity
               onPress={() => {
                 if (followe == 'yes') {
-                  // alert('already followed');
+                  // Toast('already followed');
                   RemoveFollowed();
                 } else {
                   AddFav();

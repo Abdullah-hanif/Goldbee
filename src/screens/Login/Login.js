@@ -4,28 +4,32 @@ import {
   View,
   ScrollView,
   TouchableOpacity,
-  Alert,
 } from 'react-native';
-import React, {useState} from 'react';
-import {Color} from '../../constants/colors';
+import React, { useState } from 'react';
+import { Color } from '../../constants/colors';
 import TextField from '../../components/TextField';
 import Buttons from '../../components/Buttons';
-import {Checkbox} from 'react-native-paper';
-import {useNavigation} from '@react-navigation/native';
+import { Checkbox } from 'react-native-paper';
+import { useNavigation } from '@react-navigation/native';
 import Back from 'react-native-vector-icons/AntDesign';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 // @API_Callefef
-import {Base_Url, loginUser} from '../../api/Api';
+import { Base_Url, loginUser } from '../../api/Api';
 
 // @LANGUGE IMPORTSsef
-import {useTranslation} from 'react-i18next';
+import { useTranslation } from 'react-i18next';
+import Toast from '../../components/Toast';
 
-const Login = ({navigation}) => {
+const Login = ({ navigation }) => {
   const [checked, setChecked] = React.useState(false);
   const [email, setEmail] = React.useState();
-  const [password, setPassword] = React.useState();
-  const {t} = useTranslation();
+  const [password, setPassword] = React.useState()
+  const [togglePassword, setTogglePassword] = React.useState(true)
+
+
+  const { t } = useTranslation();
 
   const validateEmail = email => {
     return String(email)
@@ -37,17 +41,15 @@ const Login = ({navigation}) => {
 
   const loginUser = async () => {
     try {
-      console.log('USERNAME===>', email);
-      console.log('PASSWORD===>', password);
-      if (!validateEmail(email)) Alert.alert('Error', 'Enter a valid Email');
-      if (password < 6) Alert.alert('Error', 'Enter a correct password');
+      if (!validateEmail(email)) Toast('Enter a valid Email');
+      if (password < 6) Toast('Enter a correct password');
       else {
         fetch(`${Base_Url}/login`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({email: email, password: password}),
+          body: JSON.stringify({ email: email, password: password }),
         })
           .then(response => response.json())
           .then(data => {
@@ -61,19 +63,18 @@ const Login = ({navigation}) => {
                 'userCity',
                 JSON.stringify(respo?.data?.city),
               );
-
-              Alert.alert(respo?.message);
+              Toast(respo?.message)
               const uid = respo?.data?.id;
               AsyncStorage.setItem('uid', JSON.stringify(uid));
               AsyncStorage.setItem('userData', JSON.stringify(respo?.data));
               navigation.navigate('BottomNavigation');
             } else {
-              Alert.alert('Error', respo?.message);
+              Toast(respo?.message)
             }
           });
       }
     } catch (error) {
-      Alert.alert('Error', error);
+      Toast(error)
     }
   };
 
@@ -85,25 +86,34 @@ const Login = ({navigation}) => {
       <TouchableOpacity onPress={() => navigation.goBack()}>
         <Back name="left" size={20} color="black" />
       </TouchableOpacity>
-      <View style={{marginTop: '15%'}}>
-        <Text style={{fontWeight: 'bold', color: Color.black, fontSize: 28}}>
+      <View style={{ marginTop: '15%' }}>
+        <Text style={{ fontWeight: 'bold', color: Color.black, fontSize: 28 }}>
           {t('common:Login')}
         </Text>
-        <Text style={{color: Color.darkGray, fontSize: 15}}>
+        <Text style={{ color: Color.darkGray, fontSize: 15 }}>
           {t('common:Goldybeeseller')}
         </Text>
-        <View style={{marginTop: 20}}>
+        <View style={{ marginTop: 20 }}>
           <TextField
             val={email}
             setTxt={txt => setEmail(txt)}
             placeHolder={t('common:email')}
           />
-          <TextField
-            val={password}
-            setTxt={txt => setPassword(txt)}
-            placeHolder={t('common:password')}
-            secureTextEntry={true}
-          />
+          <View style={{ position: 'relative' }}>
+            <TextField
+              val={password}
+              setTxt={txt => setPassword(txt)}
+              placeHolder={t('common:password')}
+              secureTextEntry={togglePassword}
+            />
+            <Icon
+              style={{ position: 'absolute',top:25,right:20 }}
+              name={togglePassword ? "eye-off-outline" : "eye-outline"}
+              size={23}
+              color="black"
+              onPress={() => setTogglePassword(!togglePassword)}
+            />
+          </View>
         </View>
         <View
           style={{
@@ -111,7 +121,7 @@ const Login = ({navigation}) => {
             justifyContent: 'space-between',
             marginTop: 10,
           }}>
-          <View style={{flexDirection: 'row'}}>
+          <View style={{ flexDirection: 'row' }}>
             {/* <Text>checkBox</Text> */}
             <Checkbox
               color={checked ? Color.darkOrange : 'black'}
@@ -120,7 +130,7 @@ const Login = ({navigation}) => {
                 setChecked(!checked);
               }}
             />
-            <Text style={{marginTop: 8, color: 'black'}}>
+            <Text style={{ marginTop: 8, color: 'black' }}>
               {t('common:rememberme')}
             </Text>
           </View>
@@ -147,11 +157,11 @@ const Login = ({navigation}) => {
               alignItems: 'center',
               marginTop: '5%',
             }}>
-            <Text style={{color: 'black'}}>
+            <Text style={{ color: 'black' }}>
               {t('common:donthaveanaccount')}{' '}
             </Text>
             <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
-              <Text style={{color: Color.darkOrange, fontWeight: 'bold'}}>
+              <Text style={{ color: Color.darkOrange, fontWeight: 'bold' }}>
                 {t('common:Signup')}
               </Text>
             </TouchableOpacity>

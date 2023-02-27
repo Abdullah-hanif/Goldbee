@@ -23,9 +23,7 @@ import {Checkbox} from 'react-native-paper';
 
 // @Vector Icon
 import Ico from 'react-native-vector-icons/AntDesign';
-import Edit from 'react-native-vector-icons/Feather';
 import Gender from 'react-native-vector-icons/MaterialCommunityIcons';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import {useTranslation} from 'react-i18next';
 // import {Base_Url} from '../../api/Api';
@@ -37,34 +35,33 @@ import ImagePicker, {
   launchImageLibrary,
 } from 'react-native-image-picker';
 import {useIsFocused} from '@react-navigation/native';
+import Toast from '../../components/Toast'
 
 const UpdateListing = ({navigation, route}) => {
   const {t} = useTranslation();
-  const [checked, setChecked] = React.useState(false);
-  const [modalVisible, setModalVisible] = React.useState(false);
-  const [countryModal, setCountryModal] = React.useState(false);
+  const [checked, setChecked] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [countryModal, setCountryModal] = useState(false);
 
-  const [color, setColor] = React.useState('red');
 
   //data of Fields
-  const [title, setTitle] = React.useState('');
-  const [price, setPrice] = React.useState('');
-  const [country, setCountry] = React.useState('Cities');
-  const [selectArea, setSelectArea] = React.useState('');
-  const [description, setDescription] = React.useState('');
-  const [openModal1, setopenModal1] = React.useState(false);
-  const [category, setCategory] = React.useState('');
-  const [images, setImages] = React.useState([]);
-  const [img, setImg] = React.useState([]);
-  const [id, setId] = React.useState();
+  const [title, setTitle] = useState('');
+  const [price, setPrice] = useState('');
+  const [country, setCountry] = useState('Cities');
+  const [description, setDescription] = useState('');
+  const [openModal1, setopenModal1] = useState(false);
+  const [category, setCategory] = useState('');
+  const [images, setImages] = useState([]);
+  const [img, setImg] = useState([]);
+  const [id, setId] = useState();
   const [modalVisible1, setModalVisible1] = useState(false);
 
   const [citeiesList, setCititesList] = useState([]);
   const [filterCitiesList, setFilterCiteisList] = useState();
 
   const {allDetails} = route?.params;
-  console.log('CATEGORUESSSS===>', allDetails);
-  React.useEffect(() => {
+
+  useEffect(() => {
     setTitle(allDetails?.title);
     setPrice(allDetails?.price);
     setCountry(allDetails?.cites);
@@ -132,9 +129,9 @@ const UpdateListing = ({navigation, route}) => {
         const respo = data;
         console.log(respo?.status, '=====>');
         if (respo?.message == 'Something missing. All fields are required') {
-          alert(respo?.message);
+          Toast(respo?.message);
         } else {
-          // alert(respo?.message);
+          // Toast(respo?.message);
           setModalVisible(!modalVisible),
             setTimeout(() => {
               setModalVisible(false);
@@ -230,7 +227,7 @@ const UpdateListing = ({navigation, route}) => {
         console.log('ImagePicker Error: ', response.error);
       } else if (response.customButton) {
         console.log('User tapped custom button: ', response.customButton);
-        alert(response.customButton);
+        Toast(response.customButton);
       } else {
         const source = response;
         console.log('===>URL============>', source);
@@ -263,7 +260,7 @@ const UpdateListing = ({navigation, route}) => {
           setCititesList(json.data);
           setFilterCiteisList(json.data);
         } else {
-          alert(json.error);
+          Toast(json.error);
         }
       })
       .catch(error => {
@@ -517,10 +514,7 @@ const UpdateListing = ({navigation, route}) => {
               animationType="slide"
               transparent={true}
               visible={modalVisible1}
-              onRequestClose={() => {
-                Alert.alert('Modal has been closed.');
-                setModalVisible1(!modalVisible);
-              }}>
+              >
               <View style={{flex: 1, backgroundColor: 'white'}}>
                 <View
                   style={{
@@ -595,7 +589,7 @@ const UpdateListing = ({navigation, route}) => {
                         marginBottom: 22,
                       }}
                       onPress={() => {
-                        setCountryModal(false), setCountry(data), alert(data);
+                        setCountryModal(false), setCountry(data), Toast(data);
                       }}>
                       <Text style={{color: 'black', fontWeight: 'bold'}}>
                         {data}
@@ -662,10 +656,7 @@ const UpdateListing = ({navigation, route}) => {
           animationType="slide"
           transparent={true}
           visible={modalVisible}
-          onRequestClose={() => {
-            Alert.alert('Modal has been closed.');
-            setModalVisible(!modalVisible);
-          }}>
+          >
           <StatusBar hidden />
           <TouchableOpacity
             onPress={() => setModalVisible(false)}
@@ -714,10 +705,7 @@ const UpdateListing = ({navigation, route}) => {
         animationType="slide"
         transparent={true}
         visible={openModal1}
-        onRequestClose={() => {
-          alert('Modal has been closed.');
-          setopenModal1(!openModal1);
-        }}>
+        >
         <View
           style={{
             flex: 1,

@@ -35,6 +35,7 @@ import ImagePicker, {
 } from 'react-native-image-picker';
 import {FlatList} from 'react-native-gesture-handler';
 import {useIsFocused} from '@react-navigation/native';
+import Toast from '../../components/Toast';
 
 const PostingListing = ({navigation, route}) => {
   const {t} = useTranslation();
@@ -151,7 +152,7 @@ const PostingListing = ({navigation, route}) => {
             console.log('ImagePicker Error: ', response.error);
           } else if (response.customButton) {
             console.log('User tapped custom button: ', response.customButton);
-            alert(response.customButton);
+            Toast(response.customButton);
           } else {
             const source = response;
             console.log('===>URL============>', source);
@@ -218,10 +219,10 @@ const PostingListing = ({navigation, route}) => {
           const respo = data;
           console.log(respo?.status, '=====>');
           if (respo?.message == 'Something missing. All fields are required') {
-            alert(respo?.message);
+            Toast(respo?.message);
             setLoading(false);
           } else {
-            // alert(respo?.message);
+            // Toast(respo?.message);
             setModalVisible(!modalVisible),
               setTimeout(() => {
                 setModalVisible(false);
@@ -234,7 +235,7 @@ const PostingListing = ({navigation, route}) => {
           console.error(error);
         });
     } else {
-      alert('fileds are required');
+      Toast('fileds are required');
       setLoading(false);
     }
   };
@@ -276,7 +277,7 @@ const PostingListing = ({navigation, route}) => {
           setCititesList(json.data);
           setFilterCiteisList(json.data);
         } else {
-          alert(json.error);
+          Toast(json.error);
         }
       })
       .catch(error => {
@@ -483,10 +484,7 @@ const PostingListing = ({navigation, route}) => {
               animationType="slide"
               transparent={true}
               visible={modalVisible1}
-              onRequestClose={() => {
-                Alert.alert('Modal has been closed.');
-                setModalVisible1(!modalVisible);
-              }}>
+              >
               <View style={{flex: 1, backgroundColor: 'white'}}>
                 <View
                   style={{
@@ -609,10 +607,7 @@ const PostingListing = ({navigation, route}) => {
           animationType="slide"
           transparent={true}
           visible={modalVisible}
-          onRequestClose={() => {
-            Alert.alert('Modal has been closed.');
-            setModalVisible(!modalVisible);
-          }}>
+          >
           <StatusBar hidden />
           <TouchableOpacity
             onPress={() => setModalVisible(false)}
@@ -707,7 +702,7 @@ const PostingListing = ({navigation, route}) => {
         transparent={true}
         visible={countryModal}
         onRequestClose={() => {
-          alert('Modal has been closed.');
+          Toast('Modal has been closed.');
           setCountryModal(!countryModal);
         }}>
         <View
@@ -731,7 +726,7 @@ const PostingListing = ({navigation, route}) => {
                 <>
                   <TouchableOpacity
                     onPress={() => {
-                      setCountryModal(false), setCountry(data), alert(data);
+                      setCountryModal(false), setCountry(data), Toast(data);
                     }}
                     style={{
                       borderBottomWidth: 1,
