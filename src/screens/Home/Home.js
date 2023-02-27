@@ -18,14 +18,14 @@ import Card from '../../components/Card';
 import { useTranslation } from 'react-i18next';
 import { Base_Url } from '../../api/Api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useIsFocused } from '@react-navigation/native';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 
 // @ICons
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import * as firebase from '../../components/firebase'
-const Home = ({ naviagtion }) => {
+const Home = () => {
   const { t } = useTranslation();
-
+  const navigation = useNavigation()
   const [data, setData] = React.useState();
   const [filterData, setFilterData] = React.useState([]);
   const [selected, setSelected] = React.useState(t('common:all'));
@@ -147,7 +147,6 @@ const Home = ({ naviagtion }) => {
   React.useEffect(() => {
     firebase.getFCMToken()
     firebase.requestUserPermission()
-    firebase.NotificationListener(naviagtion)
   }, []);
 
   React.useEffect(() => {
