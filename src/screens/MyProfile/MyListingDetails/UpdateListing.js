@@ -12,33 +12,33 @@ import {
   StatusBar,
   PermissionsAndroid,
 } from 'react-native';
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import TextField from '../../../components/TextField';
 
 // import TextField from '../../components/TextField';
 import Buttons from '../../../components/Buttons';
-import {Color} from '../../../constants/colors';
-import {Checkbox} from 'react-native-paper';
+import { Color } from '../../../constants/colors';
+import { Checkbox } from 'react-native-paper';
 
 // @Vector Icon
 import Ico from 'react-native-vector-icons/AntDesign';
 import Gender from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import {useTranslation} from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 // import {Base_Url} from '../../api/Api';
-import {Base_Url} from '../../../api/Api';
+import { Base_Url } from '../../../api/Api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import ImagePicker, {
   launchCamera,
   launchImageLibrary,
 } from 'react-native-image-picker';
-import {useIsFocused} from '@react-navigation/native';
+import { useIsFocused } from '@react-navigation/native';
 import Toast from '../../../components/Toast'
 
-const UpdateListing = ({navigation, route}) => {
-  const {t} = useTranslation();
+const UpdateListing = ({ navigation, route }) => {
+  const { t } = useTranslation();
   const [checked, setChecked] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [countryModal, setCountryModal] = useState(false);
@@ -59,7 +59,7 @@ const UpdateListing = ({navigation, route}) => {
   const [citeiesList, setCititesList] = useState([]);
   const [filterCitiesList, setFilterCiteisList] = useState();
 
-  const {allDetails} = route?.params;
+  const { allDetails } = route?.params;
 
   useEffect(() => {
     setTitle(allDetails?.title);
@@ -145,8 +145,8 @@ const UpdateListing = ({navigation, route}) => {
   };
 
   const selectedImg = [
-    {id: 1, imgUri: require('../../../assets/SamplePictures/1.png')},
-    {id: 2, imgUri: require('../../../assets/SamplePictures/2.png')},
+    { id: 1, imgUri: require('../../../assets/SamplePictures/1.png') },
+    { id: 2, imgUri: require('../../../assets/SamplePictures/2.png') },
   ];
 
   const LaunchImageLibrary = () => {
@@ -305,7 +305,7 @@ const UpdateListing = ({navigation, route}) => {
             // onPress={LaunchImageLibrary}
             // onPress={() => setopenModal1(true)}
             >
-              <Text style={{color: '#000000'}}>
+              <Text style={{ color: '#000000' }}>
                 {t('common:uploadupto10pictures')}
               </Text>
             </View>
@@ -361,7 +361,7 @@ const UpdateListing = ({navigation, route}) => {
                           }}>
                           <AntDesign
                             name="closecircle"
-                            style={{top: 10}}
+                            style={{ top: 10 }}
                             size={20}
                             color="black"
                           />
@@ -373,8 +373,8 @@ const UpdateListing = ({navigation, route}) => {
                             borderRadius: 10,
                             marginHorizontal: 5,
                           }}
-                          source={{uri: val == undefined ? null : val}}
-                          // source={{uri: val}}
+                          source={{ uri: val == undefined ? null : val }}
+                        // source={{uri: val}}
                         />
                       </View>
                     </>
@@ -408,7 +408,7 @@ const UpdateListing = ({navigation, route}) => {
             flexDirection: 'row',
             alignItems: 'center',
           }}>
-          <Text style={{color: 'black', fontSize: 20}}>€</Text>
+          <Text style={{ color: 'black', fontSize: 20 }}>€</Text>
           {/* <TextField
             keyBoarType="number-pad"
             setTxt={txt => setPrice(txt)}
@@ -420,11 +420,11 @@ const UpdateListing = ({navigation, route}) => {
             style={{
               color: 'black',
               // padding: 15,
-              width:'90%',
-              alignItems:'center',
-              justifyContent:'center'
+              width: '90%',
+              alignItems: 'center',
+              justifyContent: 'center'
             }}
-          
+
             placeholder={'  0.00'}
             onChangeText={txt => setPrice(txt)}
           />
@@ -482,133 +482,104 @@ const UpdateListing = ({navigation, route}) => {
             width: '100%',
             borderWidth: 1,
             marginVertical: 0,
-            height:'8%',
+            height: '8%',
             borderRadius: 75,
             borderColor: 'gray',
             top: 5,
-           
+
           }}>
           {/* <TextInput
             setTxt={txt => setCountry(txt)}
             placeholderTextColor={Color.darkGray}
             placeholder={country}
           /> */}
-          <Text style={{marginLeft:25,alignItems:'center'}}>{country}</Text>
+          <Text style={{ marginLeft: 25, alignItems: 'center' }}>{country}</Text>
           {/* <TextField
       
             setTxt={txt => setCountry(txt)}
             placeHolder={t('common:country')}
           /> */}
           <TouchableOpacity
-            style={{right: 10}}
-            // onPress={() => setCountryModal(!countryModal)}
+            style={{ right: 10 }}
+          // onPress={() => setCountryModal(!countryModal)}
           >
-            <AntDesign name={'down'} size={20} color="black" />
+            <AntDesign onPress={() => setModalVisible1(true)} name={'down'} size={20} color="black" />
           </TouchableOpacity>
         </TouchableOpacity>
         <View>
-        {countryModal ? (
-          <>
-            <Modal
-              statusBarTranslucent={true}
-              animationType="slide"
-              transparent={true}
-              visible={modalVisible1}
+          {countryModal ? (
+            <>
+              <Modal
+                statusBarTranslucent={true}
+                animationType="slide"
+                transparent={true}
+                visible={modalVisible1}
               >
-              <View style={{flex: 1, backgroundColor: 'white'}}>
-                <View
-                  style={{
-                    backgroundColor: 'white',
-                    padding: 20,
-                    paddingVertical: 30,
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                  }}
-                  // onPress={() => setModalVisible(false)}
-                >
-                  <Text style={{color: 'black', fontSize: 20}}>
-                    Select Location
-                  </Text>
-                  <TouchableOpacity onPress={() => setModalVisible1(false)}>
-                    <AntDesign color="black" name="close" size={30} />
-                  </TouchableOpacity>
-                </View>
-
-                <TextInput
-                  placeholder="search citeis ...."
-                  style={{
-                    borderWidth: 1,
-                    borderColor: 'black',
-                    borderRadius: 20,
-                    marginHorizontal: 10,
-                    color: 'black',
-                    // backgroundColor: 'blue',
-                    padding: 10,
-                  }}
-                  onChangeText={txt => handleSearchCites(txt)}
-                />
-                <FlatList
-                  style={styles.txtContainer1}
-                  data={filterCitiesList}
-                  renderItem={item => {
-                    return (
-                      <TouchableOpacity
-                        style={{
-                          borderBottomWidth: 1,
-                          borderColor: 'black',
-                          paddingVertical: 10,
-                          marginBottom: 22,
-                        }}
-                        onPress={() => {
-                          setCountryModal(false), setCountry(item.item);
-                        }}>
-                        <Text style={{color: 'black', fontWeight: 'bold'}}>
-                          {item.item}
-                        </Text>
-                      </TouchableOpacity>
-                    );
-                  }}
-                />
-              </View>
-            </Modal>
-          </>
-        ) : null}
-</View>
-        {/* {countryModal ? (
-          <>
-            <ScrollView nestedScrollEnabled={true} style={styles.txtContainer1}>
-              {cities.map((data, index) => {
-                return (
-                  <>
-                    <TouchableOpacity
-                      style={{
-                        borderBottomWidth: 1,
-                        borderColor: 'black',
-                        paddingVertical: 10,
-                        marginBottom: 22,
-                      }}
-                      onPress={() => {
-                        setCountryModal(false), setCountry(data), Toast(data);
-                      }}>
-                      <Text style={{color: 'black', fontWeight: 'bold'}}>
-                        {data}
-                      </Text>
+                <View style={{ flex: 1, backgroundColor: 'white' }}>
+                  <View
+                    style={{
+                      backgroundColor: 'white',
+                      padding: 20,
+                      paddingVertical: 30,
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                    }}
+                  >
+                    <Text style={{ color: 'black', fontSize: 20 }}>
+                      Select Location
+                    </Text>
+                    <TouchableOpacity onPress={() => setModalVisible1(false)}>
+                      <AntDesign color="black" name="close" size={30} />
                     </TouchableOpacity>
-                  </>
-                );
-              })}
-            </ScrollView>
-          </>
-        ) : null} */}
-        {/* </ScrollView>
-       
-        {/* <TextField
-            setTxt={txt => setSelectArea(txt)}
-            placeHolder={t('common:selectarealocation')}
-          /> */}
-        <View style={{marginTop:'3%'}}>
+                  </View>
+
+                  <TextInput
+                    placeholder="search cities ...."
+                    placeholderTextColor={'black'}
+                    style={{
+                      borderWidth: 1,
+                      borderColor: 'black',
+                      borderRadius: 20,
+                      marginHorizontal: 10,
+                      color: 'black',
+                      // backgroundColor: 'blue',
+                      padding: 10,
+                    }}
+                    onChangeText={txt => handleSearchCites(txt)}
+                  />
+                  <FlatList
+                    style={styles.txtContainer1}
+                    data={filterCitiesList}
+                    renderItem={item => {
+                      return (
+                        <TouchableOpacity
+                          style={{
+                            borderBottomWidth: 1,
+                            borderColor: 'black',
+                            paddingVertical: 10,
+                            marginBottom: 22,
+                          }}
+                          onPress={() => {
+                            setCountryModal(false), setCountry(item.item);
+                          }}>
+                          <Text style={{ color: 'black', fontWeight: 'bold' }}>
+                            {item.item}
+                          </Text>
+                        </TouchableOpacity>
+                      );
+                    }}
+                  />
+                </View>
+              </Modal>
+
+            </>
+          ) : null}
+        </View>
+
+        <View style={{ marginTop: '3%' }}>
           <TextInput
+            multiline={true}
             value={description}
             onChangeText={txt => setDescription(txt)}
             placeholderTextColor={'gray'}
@@ -632,7 +603,7 @@ const UpdateListing = ({navigation, route}) => {
               alignItems: 'center',
               flexWrap: 'wrap',
             }}>
-            <Text style={{color: 'black'}}>{t('common:iagreetoGoldbee')}</Text>
+            <Text style={{ color: 'black' }}>{t('common:iagreetoGoldbee')}</Text>
 
             <Text
               style={{
@@ -656,7 +627,7 @@ const UpdateListing = ({navigation, route}) => {
           animationType="slide"
           transparent={true}
           visible={modalVisible}
-          >
+        >
           <StatusBar hidden />
           <TouchableOpacity
             onPress={() => setModalVisible(false)}
@@ -678,7 +649,7 @@ const UpdateListing = ({navigation, route}) => {
                 alignItems: 'center',
               }}>
               <Image
-                style={{height: 90, width: 90}}
+                style={{ height: 90, width: 90 }}
                 source={require('../../../assets/Icons/Group13719.png')}
               />
               <View
@@ -688,10 +659,10 @@ const UpdateListing = ({navigation, route}) => {
                   alignItems: 'center',
                 }}>
                 <Text
-                  style={{fontWeight: 'bold', color: 'black', fontSize: 17}}>
+                  style={{ fontWeight: 'bold', color: 'black', fontSize: 17 }}>
                   {t('common:postedscucessfully')}
                 </Text>
-                <Text style={{color: 'black'}}>
+                <Text style={{ color: 'black' }}>
                   {t('common:yourlistingpostedsuccessfully')}
                 </Text>
               </View>
@@ -705,7 +676,7 @@ const UpdateListing = ({navigation, route}) => {
         animationType="slide"
         transparent={true}
         visible={openModal1}
-        >
+      >
         <View
           style={{
             flex: 1,
@@ -724,9 +695,9 @@ const UpdateListing = ({navigation, route}) => {
               onPress={() => {
                 LaunchCamera(), setopenModal1(false);
               }}
-              style={{flexDirection: 'row'}}>
+              style={{ flexDirection: 'row' }}>
               <Ico name="camerao" size={30} color="black" />
-              <Text style={{fontSize: 15, color: 'black', top: 5, left: 10}}>
+              <Text style={{ fontSize: 15, color: 'black', top: 5, left: 10 }}>
                 {t('common:takeaphoto')}
               </Text>
             </TouchableOpacity>
@@ -736,9 +707,9 @@ const UpdateListing = ({navigation, route}) => {
               onPress={() => {
                 LaunchImageLibrary(), setopenModal1(false);
               }}
-              style={{flexDirection: 'row'}}>
+              style={{ flexDirection: 'row' }}>
               <Gender name="view-dashboard-outline" size={30} color="black" />
-              <Text style={{fontSize: 15, color: 'black', top: 5, left: 10}}>
+              <Text style={{ fontSize: 15, color: 'black', top: 5, left: 10 }}>
                 {t('common:chosefromGallery')}
               </Text>
             </TouchableOpacity>

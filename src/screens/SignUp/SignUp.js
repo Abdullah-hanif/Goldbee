@@ -186,7 +186,7 @@ const SignUp = () => {
             setCountryModal(!countryModal), setModalVisible(true);
           }}
           style={[styles.dropDownContainer, { paddingLeft: 2 }]}>
-          <Text style={{color:'black',paddingLeft:25}}>{Cities}</Text> 
+          <Text style={{ color: 'black', paddingLeft: 25 }}>{Cities}</Text>
           <View setTxt={txt => setCountry(txt)}
             style={{ paddingLeft: 2 }}>
 
@@ -204,7 +204,7 @@ const SignUp = () => {
           <View
             style={{ right: 10 }}
             onPress={() => setCountryModal(!countryModal)}>
-            <AntDesign name={'down'} size={20} color="black" />
+            <AntDesign onPress={() => setModalVisible(true)} name={'down'} size={20} color="black" />
           </View>
         </TouchableOpacity>
         {countryModal ? (

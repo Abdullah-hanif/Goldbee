@@ -1,26 +1,33 @@
 import {
   StyleSheet,
-  Text,
   View,
   Image,
-  Dimensions,
   StatusBar,
-  NativeModules,
 } from 'react-native';
 import React from 'react';
-import {ImageSource} from '../../constants/ImageSource';
-import {Color} from '../../constants/colors';
-import {useTranslation} from 'react-i18next';
+import { ImageSource } from '../../constants/ImageSource';
+import { Color } from '../../constants/colors';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const Splash = ({navigation}) => {
+const Splash = ({ navigation }) => {
 
   const checkSession = async () => {
+
+    let isLaunched = await AsyncStorage.getItem("isLaunched")
+    if (!isLaunched) {
+      try {
+        await AsyncStorage.setItem("isLaunched", 'true')
+      }
+      catch (error) {
+        console.log("spalsh error", error);
+      }
+    }
     const check = await AsyncStorage.getItem('status');
     console.log('status', check);
-    check == 'loggedIn'
+    check != 'loggedIn'
       ? navigation.replace('BottomNavigation')
-      : navigation.replace('Walkthrough');
+      : isLaunched === 'true'? navigation.replace('Login')
+      :navigation.replace('Walkthrough')
   };
   setTimeout(() => {
     // navigation.navigate('Walkthrough');
@@ -32,7 +39,7 @@ const Splash = ({navigation}) => {
       <View style={styles.container}>
         <Image
           resizeMode="contain"
-          style={{height: 250, width: 250}}
+          style={{ height: 250, width: 250 }}
           source={ImageSource.splash}
         />
       </View>

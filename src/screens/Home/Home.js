@@ -26,11 +26,11 @@ import * as firebase from '../../components/firebase'
 const Home = () => {
   const { t } = useTranslation();
   const navigation = useNavigation()
-  const [data, setData] = React.useState();
-  const [filterData, setFilterData] = React.useState([]);
-  const [selected, setSelected] = React.useState(t('common:all'));
-  const [countryModal, setCountryModal] = React.useState(false);
-  const [Cities, setCities] = React.useState('');
+  const [data, setData] = useState();
+  const [filterData, setFilterData] = useState([]);
+  const [selected, setSelected] = useState(t('common:all'));
+  const [countryModal, setCountryModal] = useState(false);
+  const [Cities, setCities] = useState('');
 
   // @Modal Cities
   const [modalVisible, setModalVisible] = useState(false);
@@ -41,7 +41,7 @@ const Home = () => {
   //handle to change View
   const [find, setFind] = useState('notCheck');
   // @check updates or not
-  const [check, setCheck] = React.useState(false);
+  const [check, setCheck] = useState(false);
 
   const getAllListing = async () => {
     const userData = await AsyncStorage.getItem('userData');
@@ -133,7 +133,7 @@ const Home = () => {
   };
 
   const focused = useIsFocused();
-  React.useEffect(() => {
+  useEffect(() => {
     getAllListing();
     getCityName();
   }, [focused == true, check]);
@@ -144,19 +144,19 @@ const Home = () => {
     if (parsedData) setCities(parsedData.city);
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     firebase.getFCMToken()
     firebase.requestUserPermission()
   }, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     setCityFirstTime();
   }, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     hadlefilter();
   }, [selected]);
-  React.useEffect(() => {
+  useEffect(() => {
     hadleCiteiesFilter();
   }, [Cities]);
 
@@ -238,7 +238,7 @@ const Home = () => {
           //   setCountryModal(!countryModal), setModalVisible(true);
           // }}
           >
-            <AntDesign name={'caretdown'} size={18} color="black" />
+            <AntDesign onPress={() => setModalVisible(true)} name={'caretdown'} size={18} color="black" />
           </TouchableOpacity>
         </TouchableOpacity>
         {countryModal ? (
@@ -248,7 +248,7 @@ const Home = () => {
               animationType="slide"
               transparent={true}
               visible={modalVisible}
-             >
+            >
               <View style={{ flex: 1, backgroundColor: 'white' }}>
                 <View
                   style={{
@@ -259,7 +259,6 @@ const Home = () => {
                     alignItems: 'center',
                     justifyContent: 'space-between',
                   }}
-                // onPress={() => setModalVisible(false)}
                 >
                   <Text style={{ color: 'black', fontSize: 20 }}>
                     Select Location
@@ -270,12 +269,14 @@ const Home = () => {
                 </View>
 
                 <TextInput
-                  placeholder="search citeis ...."
+                  placeholder="search cities ...."
+                  placeholderTextColor={'black'}
                   style={{
                     borderWidth: 1,
                     borderColor: 'black',
                     borderRadius: 20,
                     marginHorizontal: 10,
+                    color: 'black',
                     // backgroundColor: 'blue',
                     padding: 10,
                   }}
@@ -294,8 +295,7 @@ const Home = () => {
                           marginBottom: 22,
                         }}
                         onPress={() => {
-                          setCountryModal(false);
-                          setCities(item.item);
+                          setCountryModal(false), setCities(item.item);
                         }}>
                         <Text style={{ color: 'black', fontWeight: 'bold' }}>
                           {item.item}
@@ -306,6 +306,8 @@ const Home = () => {
                 />
               </View>
             </Modal>
+
+
           </>
         ) : null}
       </View>

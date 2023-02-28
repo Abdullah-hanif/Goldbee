@@ -13,9 +13,10 @@ import { Color } from '../../constants/colors';
 import Back from 'react-native-vector-icons/AntDesign';
 import Dots from 'react-native-vector-icons/Entypo';
 import Buttons from '../../components/Buttons';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 // @translator
 import { useTranslation } from 'react-i18next';
+import { useState, useEffect } from 'react';
 
 const images = [
   require('../../assets/SamplePictures/2.png'),
@@ -27,9 +28,16 @@ const ProductDetails = ({ navigation, route }) => {
   const { t } = useTranslation();
   const { productDetails } = route.params;
   const sellerDetail = productDetails['seller-details'];
-  console.log("productDetails",productDetails);
-  const [addFav, setAddFav] = React.useState(false);
-  const [imgActive, setimgActive] = React.useState(0);
+  console.log("productDetails", sellerDetail.id);
+  const [addFav, setAddFav] = useState(false);
+  const [imgActive, setimgActive] = useState(null);
+  const [senderId, setSenderID] = useState(0);
+
+  useEffect(async () => {
+    const userId = await AsyncStorage.getItem('uid');
+    setSenderID(userId)
+    console.log("---------------------------->>>>>>>>>>>>", userId);
+  }, [])
   onchange = nativeEvent => {
     if (nativeEvent) {
       const slide = Math.ceil(
@@ -169,7 +177,7 @@ const ProductDetails = ({ navigation, route }) => {
               € {productDetails?.price}
             </Text>
           </View>
-          <TouchableOpacity
+          {sellerDetail.id != senderId ? < TouchableOpacity
             onPress={() =>
               navigation.navigate('ChatScreen', {
                 listingId: productDetails?.id,
@@ -177,14 +185,15 @@ const ProductDetails = ({ navigation, route }) => {
                 profilePic: sellerDetail.profile_picture,
                 imageUri: productDetails.images[0],
                 price: productDetails.price,
-                productName:productDetails.title ,
+                productName: productDetails.title,
               })
             }>
             <Image
               style={{ height: 70, width: 70, bottom: 20 }}
               source={require('../../assets/Icons/Group13720.png')}
             />
-          </TouchableOpacity>
+          </TouchableOpacity> :
+            <View></View>}
         </View>
         {/* Description Details */}
         <View
@@ -208,7 +217,7 @@ const ProductDetails = ({ navigation, route }) => {
       </View>
 
       {/* //END PROFILE VIEW */}
-    </ScrollView>
+    </ScrollView >
   );
 };
 
