@@ -36,25 +36,22 @@ import Toast from '../../components/Toast';
 
 const PostingListing = ({ navigation, route }) => {
   const { t } = useTranslation();
-  const [checked, setChecked] = React.useState(false);
-  const [modalVisible, setModalVisible] = React.useState(false);
-  const [countryModal, setCountryModal] = React.useState(false);
-
-  const [color, setColor] = React.useState('red');
+  const [checked, setChecked] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [countryModal, setCountryModal] = useState(false);
 
   // @Modal Cities
   const [modalVisible1, setModalVisible1] = useState(false);
 
   //data of Fields
-  const [title, setTitle] = React.useState('');
-  const [price, setPrice] = React.useState('');
-  const [selectArea, setSelectArea] = React.useState('');
-  const [description, setDescription] = React.useState('');
-  const [openModal1, setopenModal1] = React.useState(false);
-  const [images, setImages] = React.useState([]);
-  const [img, setImg] = React.useState([]);
+  const [title, setTitle] = useState('');
+  const [price, setPrice] = useState('');
+  const [description, setDescription] = useState('');
+  const [openModal1, setopenModal1] = useState(false);
+  const [images, setImages] = useState([]);
+  const [img, setImg] = useState([]);
 
-  const [country, setCountry] = React.useState('Cities');
+  const [country, setCountry] = useState('Cities');
   const [citeiesList, setCititesList] = useState([]);
   const [filterCitiesList, setFilterCiteisList] = useState();
 
@@ -65,7 +62,7 @@ const PostingListing = ({ navigation, route }) => {
   // console.log('img===>', img[0]?.assets);
   // console.log('Images===>', images);
 
-  // const [city, setCity] = React.useState(null);
+  // const [city, setCity] = useState(null);
   // // console.log('title===>', title, price, country, selectArea, description);
   // const spainCities = [
   //   {label: 'Madrid', value: 'madrid'},
@@ -172,6 +169,7 @@ const PostingListing = ({ navigation, route }) => {
   };
 
   const postListing = async () => {
+    if (!checked) Toast("Confirm the Terms and conditions")
     const userId = await AsyncStorage.getItem('uid');
     console.log('=====>DHJDKD', img);
 
@@ -183,7 +181,8 @@ const PostingListing = ({ navigation, route }) => {
       price !== undefined &&
       Categories !== undefined &&
       country !== undefined &&
-      description !== undefined
+      description !== undefined &&
+      checked === true
     ) {
       const data = new FormData();
       data.append('user_id', userId);

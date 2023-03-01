@@ -60,7 +60,7 @@ const UpdateListing = ({ navigation, route }) => {
   const [filterCitiesList, setFilterCiteisList] = useState();
 
   const { allDetails } = route?.params;
-
+  console.log(route);
   useEffect(() => {
     setTitle(allDetails?.title);
     setPrice(allDetails?.price);
@@ -70,17 +70,7 @@ const UpdateListing = ({ navigation, route }) => {
     setId(allDetails?.id);
     setImages(allDetails?.images);
   }, []);
-  // const [city, setCity] = React.useState(null);
-  // // console.log('title===>', title, price, country, selectArea, description);
-  // const spainCities = [
-  //   {label: 'Madrid', value: 'madrid'},
-  //   {label: 'Barcelona', value: 'barcelona'},
-  //   {label: 'Valencia', value: 'valencia'},
-  //   {label: 'Seville', value: 'seville'},
-  //   {label: 'Bilbao', value: 'bilbao'},
-  //   {label: 'Zaragoza', value: 'zaragoza'},
-  //   {label: 'Málaga', value: 'malaga'},
-  // ];
+
   const focused = useIsFocused();
   useEffect(() => {
     getCityName();
@@ -102,47 +92,58 @@ const UpdateListing = ({ navigation, route }) => {
   //posing Listing
 
   const postListing = async () => {
+    if (!checked) Toast("Confirm the Terms and conditions")
     const userId = await AsyncStorage.getItem('uid');
     // console.log('=====>', img);
+    if (
+      img !== null &&
+      img !== [] &&
+      img.length != 0 &&
+      title !== undefined &&
+      price !== undefined &&
+      country !== undefined &&
+      description !== undefined &&
+      checked === true
+    ) {
+      const data = new FormData();
+      data.append('listing_id', id);
+      data.append('title', title);
+      data.append('price', price);
+      data.append('location', country);
+      data.append('description', description);
 
-    const data = new FormData();
-    data.append('listing_id', id);
-    data.append('title', title);
-    data.append('price', price);
-    data.append('location', country);
-    data.append('description', description);
+      data.append('category', category);
 
-    data.append('category', category);
 
-    // data.append('location', selectArea);
-
-    await fetch(`${Base_Url}/listings-update`, {
-      method: 'POST',
-      // headers: {
-      //   'Content-Type': 'application/json',
-      // },
-      body: data,
-    })
-      .then(response => response.json())
-      .then(data => {
-        //   const res = data.json();
-        const respo = data;
-        console.log(respo?.status, '=====>');
-        if (respo?.message == 'Something missing. All fields are required') {
-          Toast(respo?.message);
-        } else {
-          // Toast(respo?.message);
-          setModalVisible(!modalVisible),
-            setTimeout(() => {
-              setModalVisible(false);
-              navigation.navigate('MyProfile');
-            }, 3000);
-        }
+      await fetch(`${Base_Url}/listings-update`, {
+        method: 'POST',
+        // headers: {
+        //   'Content-Type': 'application/json',
+        // },
+        body: data,
       })
-      .catch(error => {
-        console.error(error);
-      });
-  };
+        .then(response => response.json())
+        .then(data => {
+          //   const res = data.json();
+          const respo = data;
+          console.log(respo?.status, '=====>');
+          if (respo?.message == 'Something missing. All fields are required') {
+            Toast(respo?.message);
+          } else {
+            // Toast(respo?.message);
+            setModalVisible(!modalVisible),
+              setTimeout(() => {
+                setModalVisible(false);
+                navigation.navigate('MyProfile');
+              }, 3000);
+          }
+        })
+
+        .catch(error => {
+          console.error(error);
+        });
+    }
+  }
 
   const selectedImg = [
     { id: 1, imgUri: require('../../../assets/SamplePictures/1.png') },
@@ -390,10 +391,6 @@ const UpdateListing = ({ navigation, route }) => {
           setTxt={txt => setTitle(txt)}
           placeHolder={t('common:listingtitle')}
         />
-        <TextField
-          setTxt={txt => setTitle(txt)}
-          placeHolder={t('common:listingtitle')}
-        />
         <View
           style={{
             marginVertical: 10,
@@ -409,12 +406,8 @@ const UpdateListing = ({ navigation, route }) => {
             alignItems: 'center',
           }}>
           <Text style={{ color: 'black', fontSize: 20 }}>€</Text>
-          {/* <TextField
-            keyBoarType="number-pad"
-            setTxt={txt => setPrice(txt)}
-            placeHolder={'€ price'}
-          /> */}
           <TextInput
+            value={price}
             keyboardType="number-pad"
             placeholderTextColor={'gray'}
             style={{
@@ -429,47 +422,6 @@ const UpdateListing = ({ navigation, route }) => {
             onChangeText={txt => setPrice(txt)}
           />
         </View>
-        {/* <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            width: '100%',
-            // padding: 5,
-
-            borderWidth: 1,
-            marginVertical: 10,
-
-            borderTopEndRadius: 20,
-            borderTopLeftRadius: 20,
-            borderBottomLeftRadius: countryModal ? 0 : 20,
-            borderBottomRightRadius: countryModal ? 0 : 20,
-            // borderRadius: 20,
-            borderBottomWidth: countryModal ? 1 : 1,
-            borderColor: 'gray',
-            top: 5,
-          }}>
-          <TextInput
-            value={country}
-            setTxt={txt => setCountry(txt)}
-            placeholderTextColor={Color.darkGray}
-            placeholder={country}
-          />
-          {/* <TextField
-        
-              setTxt={txt => setCountry(txt)}
-              placeHolder={t('common:country')}
-            /> */}
-        {/* <TouchableOpacity
-            style={{right: 10}}
-            onPress={() => setCountryModal(!countryModal)}>
-            <AntDesign
-              name={countryModal ? 'up' : 'down'}
-              size={20}
-              color="black"
-            />
-          </TouchableOpacity> */}
-        {/* </View> */}
 
         <TouchableOpacity
           onPress={() => {

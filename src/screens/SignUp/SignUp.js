@@ -94,39 +94,49 @@ const SignUp = () => {
   ];
 
   const signInUser = () => {
-    if (!validateEmail(email)) Toast('Enter a valid Email');
-    if (password != conPassword) Toast('Password not matched');
-    fetch(`${Base_Url}/register`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        name: `${firstname}" "${lastName}`,
-        email: email,
-        password: password,
-        confirmed_password: conPassword,
-        city: Cities,
-      }),
-    })
-      .then(response => response.json())
-      .then(data => {
-        const respo = data;
-        if (respo?.message == 'Registered successfully') {
-          Toast(respo?.message);
-          const uid = respo?.data?.id;
-          AsyncStorage.setItem('uid', JSON.stringify(uid));
-          AsyncStorage.setItem('userData', JSON.stringify(respo?.data));
-          navigation.navigate('BottomNavigation');
-        } else {
-          Toast(respo?.message);
-        }
-      })
-      .catch(error => {
-        Toast(error);
-      });
-  };
-
+    try {
+      if (!validateEmail(email)) Toast('Enter a valid Email')
+      if (Cities === "Cities") Toast('Enter your city')
+      if (!firstname) Toast('Enter your first name')
+      if (!lastName) Toast('Enter your last name')
+      if (!checked) Toast('Please agree the terms and conditions')
+      if (password != conPassword) Toast('Password not matched')
+      if (validateEmail(email) && Cities != "Cities" && firstname && lastName
+        && password == conPassword && checked === true) {
+        fetch(`${Base_Url}/register`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            name: `${firstname} ${lastName}`,
+            email: email,
+            password: password,
+            confirmed_password: conPassword,
+            city: Cities,
+          }),
+        })
+          .then(response => response.json())
+          .then(data => {
+            const respo = data;
+            if (respo?.message == 'Registered successfully') {
+              Toast(respo?.message);
+              const uid = respo?.data?.id;
+              AsyncStorage.setItem('uid', JSON.stringify(uid));
+              AsyncStorage.setItem('userData', JSON.stringify(respo?.data));
+              navigation.navigate('BottomNavigation');
+            } else {
+              Toast(respo?.message);
+            }
+          })
+          .catch(error => {
+            Toast(error);
+          });
+      }
+    } catch (error) {
+      Toast(error)
+    };
+  }
   const getCityName = country => {
     // setLoading(true);
     fetch('https://countriesnow.space/api/v0.1/countries/cities', {
