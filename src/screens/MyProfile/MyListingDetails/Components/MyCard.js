@@ -60,6 +60,7 @@ const MyCard = ({
         nav.navigate('MyListingDetails', {
           productDetails: productDetails,
           deletFunction: onPress,
+          
         })
       }
       style={styles.container}>
@@ -76,8 +77,6 @@ const MyCard = ({
             ? require('../../../../assets/Icons/MaskGroup121.png')
             : {uri: bgImage[0]}
         }
-        // source={{uri: 'http://95.179.209.186/listingImages/acc7.png'}}
-        // source={bgImage}
       />
       <View style={{padding: 10}}>
         <View

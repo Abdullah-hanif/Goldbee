@@ -8,43 +8,24 @@ export const onMessage = async (navigation, notification) => {
         const { title, body } = notification
         title = "You have a new message"
         body = "Click to view"
-        navigation.navigate("BottomNavigation")
 
-
-        // console.log("pressed by notification", notification);
-        // notification?.title === "You have a new message" &&
-        //     navigation.navigate("BottomNavigation")
-
-        // const userId = await AsyncStorage.getItem('uid');
-        // await fetch(`${Base_Url}/get-inbox`, {
-        //     method: 'POST',
-        //     body: JSON.stringify({ user_id: userId }),
-        //     headers: {
-        //         'Content-Type': 'multipart/form-data',
-        //     },
-        // })
-        //     .then(response => response.json())
-        //     .then(data => {
-        //         console.log("OnMessage Data", data);
-        //         data.buying.filter(val => {
-        //             val.read === 'no' ?
-        //                 navigation.navigate("BottomNavigation", { message: "Inbox" })
-        //                 : navigation.navigate("BottomNavigation", { message: "Home" })
-
-        //         })
-        //         data.selling.filter(val => {
-        //             val.read === 'no' ?
-        //                 navigation.navigate("BottomNavigation", { message: "Inbox" })
-        //                 : navigation.navigate("BottomNavigation", { message: "Home" })
-
-        //         })
-        //     })
-        //     .catch(error => {
-        //         console.error(error);
-        //     })
+        const userId = await AsyncStorage.getItem('uid');
+        await fetch(`${Base_Url}/store-fcm`, {
+            method: 'POST',
+            body: JSON.stringify({ user_id: userId, fcm: "dS1RzhtHQQaGqKXy-5XQ8z:APA91bHULcjs5TC6Y-ALuxraTzcY_ytTtv0CTlWfmVitdC2lIP_cOkGXoQDChqgYcHKWcRvjEXrfmdjMNuiZ2NE3_2UB3GozQY01aF5kA3H66k6XwqM4ZxFUmwL-um6hBgGHpAtvh74D" }),
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        })
+            .then(response => response.json())
+            .then(data => {
+                return data
+            })
+            .catch(error => {
+                console.log(error);
+            })
     }
 }
-
 
 export const requestUserPermission = async () => {
     const authStatus = await messaging().requestPermission();
@@ -72,7 +53,7 @@ export const getFCMToken = async () => {
             console.log("error", error);
         }
     }
-
+    return fcmToken
 }
 
 export const NotificationListener = (navigation) => {

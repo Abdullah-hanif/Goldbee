@@ -11,25 +11,31 @@ import {
 import React from 'react';
 import { Color } from '../../constants/colors';
 import Back from 'react-native-vector-icons/AntDesign';
-import Dots from 'react-native-vector-icons/Entypo';
 import Buttons from '../../components/Buttons';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 // @translator
 import { useTranslation } from 'react-i18next';
+import { useState, useEffect } from 'react';
 
 const images = [
   require('../../assets/SamplePictures/2.png'),
   require('../../assets/SamplePictures/2.png'),
   require('../../assets/SamplePictures/2.png'),
-];
+]
 
 const ProductDetails = ({ navigation, route }) => {
   const { t } = useTranslation();
-  const { productDetails } = route.params;
-  const sellerDetail = productDetails['seller-details'];
-  console.log("productDetails",productDetails);
-  const [addFav, setAddFav] = React.useState(false);
-  const [imgActive, setimgActive] = React.useState(0);
+  const { productDetails } = route.params
+  const sellerDetail = productDetails['seller-details']
+  const [addFav, setAddFav] = useState(false)
+  const [imgActive, setimgActive] = useState(null)
+  const [senderId, setSenderID] = useState(0)
+  console.log("picccccccccccccccccccccccccc",sellerDetail?.profile_picture)
+  useEffect(async () => {
+    const userId = await AsyncStorage.getItem('uid');
+    setSenderID(userId)
+
+  }, [])
   onchange = nativeEvent => {
     if (nativeEvent) {
       const slide = Math.ceil(
@@ -48,9 +54,7 @@ const ProductDetails = ({ navigation, route }) => {
           flexDirection: 'row',
           justifyContent: 'space-between',
           position: 'absolute',
-          // marginTop: 120,
           padding: 20,
-          // backgroundColor: 'blue',
           zIndex: 1,
           width: '100%',
         }}>
@@ -59,18 +63,7 @@ const ProductDetails = ({ navigation, route }) => {
         </TouchableOpacity>
         <View style={{ flexDirection: 'row' }}>
           <TouchableOpacity onPress={() => setAddFav(!addFav)}>
-            {/* <Back
-              name={productDetails?.isFollowed == 'yes' ? 'heart' : 'hearto'}
-              style={{right: 20}}
-              size={20}
-              color={
-                productDetails?.isFollowed == 'yes' ? Color.yellow : 'white'
-              }
-            /> */}
           </TouchableOpacity>
-          {/* <TouchableOpacity>
-            <Dots name="dots-three-vertical" size={20} color="white" />
-          </TouchableOpacity> */}
         </View>
       </View>
       {/*END Topbar ICONS */}
@@ -128,9 +121,9 @@ const ProductDetails = ({ navigation, route }) => {
           onPress={() => navigation.navigate('ProfileDetails')}
           style={{ flexDirection: 'row', alignItems: 'center', marginTop: 30 }}>
           <Image
-            style={{ height: 50, width: 50 }}
+            style={{ height: 50, width: 50,borderRadius:100 }}
             source={
-              sellerDetail?.profile_picture == null
+              sellerDetail?.profile_picture == 'http://95.179.209.186/'
                 ? require('../../assets/Icons/MaskGroup121.png')
                 : { uri: sellerDetail?.profile_picture }
             }
@@ -169,7 +162,7 @@ const ProductDetails = ({ navigation, route }) => {
               € {productDetails?.price}
             </Text>
           </View>
-          <TouchableOpacity
+          {sellerDetail.id != senderId ? < TouchableOpacity
             onPress={() =>
               navigation.navigate('ChatScreen', {
                 listingId: productDetails?.id,
@@ -177,14 +170,15 @@ const ProductDetails = ({ navigation, route }) => {
                 profilePic: sellerDetail.profile_picture,
                 imageUri: productDetails.images[0],
                 price: productDetails.price,
-                productName:productDetails.title ,
+                productName: productDetails.title,
               })
             }>
             <Image
               style={{ height: 70, width: 70, bottom: 20 }}
               source={require('../../assets/Icons/Group13720.png')}
             />
-          </TouchableOpacity>
+          </TouchableOpacity> :
+            <View></View>}
         </View>
         {/* Description Details */}
         <View
@@ -208,7 +202,7 @@ const ProductDetails = ({ navigation, route }) => {
       </View>
 
       {/* //END PROFILE VIEW */}
-    </ScrollView>
+    </ScrollView >
   );
 };
 

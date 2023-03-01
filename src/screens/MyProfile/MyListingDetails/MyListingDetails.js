@@ -8,10 +8,10 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Color } from '../../../constants/colors';
 import Back from 'react-native-vector-icons/AntDesign';
-import Dots from 'react-native-vector-icons/Entypo';
+import Dots from 'react-native-vector-icons/Entypo'
 // import Buttons from '../../components/Buttons';
 import Buttons from '../../../components/Buttons';
 
@@ -20,13 +20,16 @@ import { useTranslation } from 'react-i18next';
 
 const MyListingDetails = ({ navigation, route }) => {
   const { t } = useTranslation();
-  const { productDetails, deletFunction } = route.params;
-  console.log('PRODUCT DETAILS==>', productDetails.images);
+  const { productDetails } = route.params;
+  console.log('PRODUCT DETAILS==>', productDetails.name)
+  const sellerDetail = productDetails['seller-details']
+  const [imgActive, setimgActive] = useState(0)
 
-  const sellerDetail = productDetails['seller-details'];
-  console.log('MY PRODUCT DETAILS=====>', sellerDetail);
-  const [addFav, setAddFav] = React.useState(false);
-  const [imgActive, setimgActive] = React.useState(0);
+  useEffect(async () => {
+    const userId = await AsyncStorage.getItem('uid');
+    setSenderID(userId)
+
+  }, [])
   onchange = nativeEvent => {
     if (nativeEvent) {
       const slide = Math.ceil(
@@ -36,7 +39,8 @@ const MyListingDetails = ({ navigation, route }) => {
         setimgActive(slide);
       }
     }
-  };
+  }
+
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
       {/* Topbar ICONS */}
@@ -55,13 +59,6 @@ const MyListingDetails = ({ navigation, route }) => {
           <Back name="left" size={20} color="white" />
         </TouchableOpacity>
         <View style={{ flexDirection: 'row' }}>
-          {/* <TouchableOpacity onPress={() => setAddFav(!addFav)}> */}
-          {/* <TouchableOpacity
-            onPress={() => {
-              deletFunction(), navigation.navigate('MyProfile');
-            }}>
-            <Back name="delete" size={20} color={'white'} />
-          </TouchableOpacity> */}
         </View>
       </View>
       {/*END Topbar ICONS */}
@@ -99,11 +96,9 @@ const MyListingDetails = ({ navigation, route }) => {
 
           flexDirection: 'row',
           alignSelf: 'center',
-          // backgroundColor: 'black',
         }}>
         {productDetails?.images === null ? (
           <Image
-            // resizeMode="contain"
             key={Math.random() * 1000}
             style={{ height: '100%', width: Dimensions.get('screen').width }}
             source={{
@@ -120,31 +115,27 @@ const MyListingDetails = ({ navigation, route }) => {
           ))
         )}
       </View>
-      {/* //PRofile VIew */}
       <View
         style={{
           backgroundColor: Color.splashWhite,
 
           padding: 20,
           flex: 1,
-          // marginVertical: 20,
-          // marginHorizontal: 20,
         }}>
         <TouchableOpacity
           onPress={() => navigation.navigate('ProfileDetails')}
           style={{ flexDirection: 'row', alignItems: 'center', marginTop: 30 }}>
           <Image
-            style={{ height: 50, width: 50 }}
+            style={{ height: 50, width: 50, borderRadius: 100 }}
             source={
-              sellerDetail?.profile_picture == null
+              productDetails?.profile == null
                 ? require('../../../assets/Icons/MaskGroup121.png')
-                : { uri: sellerDetail?.profile_picture }
+                : { uri: productDetails?.profile }
             }
-          // source={require('../../../assets/Icons/Ellipse28.png')}
           />
           <View style={{ left: 10 }}>
             <Text style={{ fontWeight: 'bold', fontSize: 15, color: 'black' }}>
-              {sellerDetail?.name}
+              {productDetails.name}
             </Text>
             <Text
               style={{
@@ -176,10 +167,6 @@ const MyListingDetails = ({ navigation, route }) => {
               $ {productDetails?.price}
             </Text>
           </View>
-          <Image
-            style={{ height: 70, width: 70, bottom: 20 }}
-            source={require('../../../assets/Icons/Group13720.png')}
-          />
         </View>
         {/* Description Details */}
         <View
@@ -206,7 +193,7 @@ const MyListingDetails = ({ navigation, route }) => {
                   images: productDetails.images,
                   title: productDetails?.title,
                   price: productDetails?.price,
-                  cites: 'test',
+                  cites: productDetails.location,
                   description: productDetails?.description,
                   category: productDetails?.category,
                 },
