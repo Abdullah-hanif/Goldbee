@@ -447,7 +447,7 @@ const ChatScreen = ({ navigation, route }) => {
                 color: Color.darkOrange,
                 fontSize: 15,
               }}>
-              $ {productPrice}
+              € {productPrice}
             </Text>
             <Text
               style={{
