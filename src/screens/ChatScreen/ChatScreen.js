@@ -75,8 +75,11 @@ const ChatScreen = ({ navigation, route }) => {
   }
 
   useEffect(() => {
-    getAllMessges()
-  }, [messages]);
+    setInterval(() => {
+      getAllMessges()
+    }, 8000);
+  }, []);
+
   console.log(senderId, listingId, receiverId);
   const onSend = useCallback((messages = []) => {
     setMessages(previousMessages =>

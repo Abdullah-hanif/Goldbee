@@ -60,12 +60,16 @@ const Inbox = () => {
         }
         setLoading(false);
         setRefreshing(false)
-      })
+         })
       .catch(error => {
         console.error(error);
       });
   }
   const focused = useIsFocused();
+
+  setInterval(() => {
+    getInbox()
+  }, 8000);
 
   useEffect(() => {
     getInbox();
@@ -103,7 +107,7 @@ const Inbox = () => {
                 {role == 'buying'
                   ?
                   buyerChat.map((data, indx) => {
-                    console.log("data",data.with_id );
+                    console.log("data",data.isRead );
 
                     return (
                       <InboxMessages
