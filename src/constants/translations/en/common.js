@@ -48,7 +48,7 @@ export default {
   all: 'All',
   rings: 'Rings',
   necklaces: 'Necklaces',
-  earrings: 'Eearrings',
+  earrings: 'Earrings',
   bracelat: 'Bracelet',
 
   //Favorites
@@ -91,7 +91,9 @@ export default {
   Describeaboutyoulisting: 'Describe about your listing....',
   postlisting: 'Post Listing',
   postedscucessfully: 'Posted Successfully',
+  updatedscucessfully: 'Updated Successfully',
   yourlistingpostedsuccessfully: 'Your listing posted successfully',
+  yourlistingupdatedsuccessfully: 'Your listing updated successfully',
 
   //Product Details
   productdetails:

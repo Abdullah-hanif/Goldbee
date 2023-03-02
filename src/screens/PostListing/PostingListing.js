@@ -406,6 +406,7 @@ const PostingListing = ({ navigation, route }) => {
         {/* First Container END */}
         <TextField
           setTxt={txt => setTitle(txt)}
+          placeholderTextColor={'gray'}
           placeHolder={t('common:listingtitle')}
         />
         <View
@@ -458,6 +459,7 @@ const PostingListing = ({ navigation, route }) => {
           <Text style={{ left: 25 }}>{country}</Text>
           <TouchableOpacity
             style={{ right: 10 }}
+            onPress={() => setModalVisible1(true)}
           >
             <AntDesign onPress={() => setModalVisible1(true)} name={'down'} size={20} color="black" />
           </TouchableOpacity>
@@ -469,6 +471,7 @@ const PostingListing = ({ navigation, route }) => {
               animationType="slide"
               transparent={true}
               visible={modalVisible1}
+              onRequestClose={() => setModalVisible1(false)}
             >
               <View style={{ flex: 1, backgroundColor: 'white' }}>
                 <View
@@ -593,6 +596,8 @@ const PostingListing = ({ navigation, route }) => {
           animationType="slide"
           transparent={true}
           visible={modalVisible}
+          onRequestClose={() => setModalVisible(false)}
+
         >
           <StatusBar hidden />
           <TouchableOpacity
@@ -641,7 +646,10 @@ const PostingListing = ({ navigation, route }) => {
         statusBarTranslucent={true}
         animationType="slide"
         transparent={true}
-        visible={openModal1}>
+        visible={openModal1}
+        onRequestClose={() => setopenModal1(false)}
+
+      >
         <View
           style={{
             flex: 1,

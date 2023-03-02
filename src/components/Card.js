@@ -24,7 +24,6 @@ const Card = ({
   prodID,
   sellerDetails,
 }) => {
-  console.log("->>>>>>>>>>>>>>>>", sellerDetails);
   const [followe, setFollowed] = useState(isFav);
   const [userID, setuserID] = React.useState('');
 
@@ -122,7 +121,6 @@ const Card = ({
         console.error(error);
       });
   };
-  console.log(userID, sellerDetails);
   return (
     <TouchableOpacity
       onPress={() =>
@@ -154,22 +152,21 @@ const Card = ({
           {!deleteIcon ? (
             <TouchableOpacity
               onPress={() => {
-                if (followe == 'yes') {
-                  // Toast('already followed');
+                if (userID == sellerDetails) {
+                  Toast("You can't follow your own post")
+                }
+                if ( userID != sellerDetails && followe == 'yes') {
                   RemoveFollowed();
-                } else {
+                } else if (userID != sellerDetails && followe == 'no') {
                   AddFav();
                   followe == false ? RemoveFollowedListing(listing_id) : null;
-                  // getFUN();
                 }
               }}>
-              {userID != sellerDetails ?
-                <AntDesign
-                  name={followe == 'no' ? 'hearto' : 'heart'}
-                  size={20}
-                  color={Color.darkOrange}
-                />
-                : <View></View>}
+              <AntDesign
+                name={followe == 'no' ? 'hearto' : 'heart'}
+                size={20}
+                color={Color.darkOrange}
+              />
             </TouchableOpacity>
           ) : (
             <TouchableOpacity onPress={onPress}>

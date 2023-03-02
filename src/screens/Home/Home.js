@@ -201,42 +201,16 @@ const Home = () => {
           }}
           style={[
             styles.dropDownContainer,
-            // {
-            //   borderBottomLeftRadius: countryModal ? 0 : 30,
-            //   borderBottomRightRadius: countryModal ? 0 : 30,
-            //   // borderRadius: 20,
-            //   borderBottomWidth: countryModal ? 1 : 1,
-            // },
           ]}>
-          {/* <TextInput
-            // setTxt={txt => setCountry(txt)}
-
-            placeholderTextColor={Color.darkGray}
-            placeholder={Cities}
-          /> */}
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            {/* <Entypo
-              name={'location'}
-              size={20}
-              color="black"
-              style={{left: '10%'}}
-            /> */}
             <Image
               style={{ height: 20, width: 20 }}
               source={require('../../assets/Icons/Group4039.png')}
             />
             <Text style={{ left: '100%' }}>{Cities}</Text>
           </View>
-          {/* <TextField
-      
-            setTxt={txt => setCountry(txt)}
-            placeHolder={t('common:country')}
-          /> */}
           <TouchableOpacity
             style={{ right: 10 }}
-          // onPress={() => {
-          //   setCountryModal(!countryModal), setModalVisible(true);
-          // }}
           >
             <AntDesign onPress={() => setModalVisible(true)} name={'caretdown'} size={18} color="black" />
           </TouchableOpacity>
@@ -249,7 +223,7 @@ const Home = () => {
               transparent={true}
               visible={modalVisible}
             >
-              <View style={{ flex: 1, backgroundColor: 'white' }}>
+              <View style={{ flex: 1, backgroundColor: 'white',height:"100%" }}>
                 <View
                   style={{
                     backgroundColor: 'white',

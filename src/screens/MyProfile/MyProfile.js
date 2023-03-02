@@ -223,7 +223,7 @@ const MyProfile = ({ navigation }) => {
                       {profileImg?.length == 0 || profileImg == null ? (
                         <Image
                           style={{ height: 65, width: 65 }}
-                          source={require('../../assets/Icons/Ellipse28.png')}
+                          source={require('../../assets/Icons/MaskGroup121.png')}
                         />
                       ) : (
                         <Image
@@ -251,7 +251,7 @@ const MyProfile = ({ navigation }) => {
                         <AntDesign name="camera" size={20} color="black" />
                       </TouchableOpacity>
                     </View>
-                    <View style={{ left: 10 }}>
+                    <View style={{ left: 20,marginBottom:15 }}>
                       {editable ? (
                         <TextInput
                           onChangeText={txt => setName(txt)}
@@ -270,8 +270,10 @@ const MyProfile = ({ navigation }) => {
                         <Text
                           style={{
                             fontWeight: 'bold',
-                            fontSize: 20,
+                            fontSize: 24,
+                            marginBottom:15,
                             color: 'black',
+                            alignSelf:"center"
                           }}>
                           {name?.replace('" "', ' ')}
                         </Text>

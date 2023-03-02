@@ -19,6 +19,7 @@ export const onMessage = async (navigation, notification) => {
         })
             .then(response => response.json())
             .then(data => {
+                console.log("firease data",data);
                 return data
             })
             .catch(error => {
