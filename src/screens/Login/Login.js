@@ -3,6 +3,7 @@ import {
   Text,
   View,
   ScrollView,
+  ActivityIndicator,
   TouchableOpacity,
 } from 'react-native';
 import React, { useState } from 'react';
@@ -10,7 +11,6 @@ import { Color } from '../../constants/colors';
 import TextField from '../../components/TextField';
 import Buttons from '../../components/Buttons';
 import { Checkbox } from 'react-native-paper';
-import { useNavigation } from '@react-navigation/native';
 import Back from 'react-native-vector-icons/AntDesign';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -27,6 +27,7 @@ const Login = ({ navigation }) => {
   const [email, setEmail] = React.useState("ahmed@gmail.com");
   const [password, setPassword] = React.useState("123456")
   const [togglePassword, setTogglePassword] = React.useState(true)
+  const [Loading, setLoading] = useState(false);
 
 
   const { t } = useTranslation();
@@ -41,8 +42,10 @@ const Login = ({ navigation }) => {
 
   const loginUser = async () => {
     try {
+      setLoading(true)
       if (!validateEmail(email)) Toast('Enter a valid Email');
       if (password < 6) Toast('Enter a correct password');
+
       else {
         fetch(`${Base_Url}/login`, {
           method: 'POST',
@@ -54,8 +57,10 @@ const Login = ({ navigation }) => {
           .then(response => response.json())
           .then(data => {
             const respo = data;
-            console.log(respo, '=====>');
             if (respo?.message == 'Logged In successfully') {
+              if(checked){
+                AsyncStorage.setItem('rememberMe', 'true');
+              }
               AsyncStorage.setItem('status', 'loggedIn');
               AsyncStorage.setItem('userName', respo?.data?.name);
               AsyncStorage.setItem('imgUri', respo?.data?.profile_picture);
@@ -67,9 +72,12 @@ const Login = ({ navigation }) => {
               const uid = respo?.data?.id;
               AsyncStorage.setItem('uid', JSON.stringify(uid));
               AsyncStorage.setItem('userData', JSON.stringify(respo?.data));
-              navigation.navigate('BottomNavigation');
+              setLoading(false)
+
+              navigation.replace('BottomNavigation');
             } else {
               Toast(respo?.message)
+              setLoading(false)
             }
           });
       }
@@ -107,7 +115,7 @@ const Login = ({ navigation }) => {
               secureTextEntry={togglePassword}
             />
             <Icon
-              style={{ position: 'absolute',top:25,right:20 }}
+              style={{ position: 'absolute', top: 25, right: 20 }}
               name={togglePassword ? "eye-off-outline" : "eye-outline"}
               size={23}
               color="black"
@@ -149,7 +157,15 @@ const Login = ({ navigation }) => {
           style={{
             marginTop: '50%',
           }}>
-          <Buttons onpress={loginUser} name={t('common:Login')} />
+          <View>
+            <Buttons onpress={() => loginUser()} name={Loading ?
+              <>
+                <TouchableOpacity disabled style={styles.containe11}>
+                  <ActivityIndicator size={20} color={Color.yellow} />
+                </TouchableOpacity>
+              </> :
+              t('common:Login')} />
+          </View>
           <View
             style={{
               flexDirection: 'row',

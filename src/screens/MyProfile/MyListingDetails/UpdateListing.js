@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   Image,
   TextInput,
+  ActivityIndicator,
   ScrollView,
   Modal,
   FlatList,
@@ -55,6 +56,7 @@ const UpdateListing = ({ navigation, route }) => {
   const [img, setImg] = useState([]);
   const [id, setId] = useState();
   const [modalVisible1, setModalVisible1] = useState(false);
+  const [Loading, setLoading] = useState(false);
 
   const [citeiesList, setCititesList] = useState([]);
   const [filterCitiesList, setFilterCiteisList] = useState();
@@ -93,18 +95,8 @@ const UpdateListing = ({ navigation, route }) => {
 
   const postListing = async () => {
     if (!checked) Toast("Confirm the Terms and conditions")
-    const userId = await AsyncStorage.getItem('uid');
-    // console.log('=====>', img);
-    if (
-      img !== null &&
-      img !== [] &&
-      img.length != 0 &&
-      title !== undefined &&
-      price !== undefined &&
-      country !== undefined &&
-      description !== undefined &&
-      checked === true
-    ) {
+    else {
+      setLoading(true)
       const data = new FormData();
       data.append('listing_id', id);
       data.append('title', title);
@@ -114,12 +106,8 @@ const UpdateListing = ({ navigation, route }) => {
 
       data.append('category', category);
 
-
       await fetch(`${Base_Url}/listings-update`, {
         method: 'POST',
-        // headers: {
-        //   'Content-Type': 'application/json',
-        // },
         body: data,
       })
         .then(response => response.json())
@@ -134,6 +122,7 @@ const UpdateListing = ({ navigation, route }) => {
             setModalVisible(!modalVisible),
               setTimeout(() => {
                 setModalVisible(false);
+                setLoading(true)
                 navigation.navigate('MyProfile');
               }, 3000);
           }
@@ -144,6 +133,7 @@ const UpdateListing = ({ navigation, route }) => {
         });
     }
   }
+
 
   const selectedImg = [
     { id: 1, imgUri: require('../../../assets/SamplePictures/1.png') },
@@ -453,7 +443,7 @@ const UpdateListing = ({ navigation, route }) => {
           /> */}
           <TouchableOpacity
             style={{ right: 10 }}
-          // onPress={() => setCountryModal(!countryModal)}
+            onPress={() => setModalVisible1(true)}
           >
             <AntDesign onPress={() => setModalVisible1(true)} name={'down'} size={20} color="black" />
           </TouchableOpacity>
@@ -466,13 +456,15 @@ const UpdateListing = ({ navigation, route }) => {
                 animationType="slide"
                 transparent={true}
                 visible={modalVisible1}
+                onRequestClose={() => setModalVisible1(false)}
               >
-                <View style={{ flex: 1, backgroundColor: 'white' }}>
+
+                <View style={{ flex: 1, backgroundColor: 'white', height: "100%", }}>
                   <View
                     style={{
                       backgroundColor: 'white',
                       padding: 20,
-                      paddingVertical: 30,
+                      paddingTop: 50,
                       flexDirection: 'row',
                       alignItems: 'center',
                       justifyContent: 'space-between',
@@ -495,7 +487,7 @@ const UpdateListing = ({ navigation, route }) => {
                       borderRadius: 20,
                       marginHorizontal: 10,
                       color: 'black',
-                      // backgroundColor: 'blue',
+                      marginBottom: 10,
                       padding: 10,
                     }}
                     onChangeText={txt => handleSearchCites(txt)}
@@ -573,12 +565,19 @@ const UpdateListing = ({ navigation, route }) => {
           onpress={() => {
             postListing();
           }}
-          name="Update Listings"
+          name={Loading ? 
+            <>
+            <TouchableOpacity disabled style={styles.containe11}>
+              <ActivityIndicator size={20} color={Color.yellow} />
+            </TouchableOpacity>
+          </> :
+            "Update Listings"}
         />
         <Modal
           animationType="slide"
           transparent={true}
           visible={modalVisible}
+          onRequestClose={() => setModalVisible(false)}
         >
           <StatusBar hidden />
           <TouchableOpacity
@@ -612,10 +611,10 @@ const UpdateListing = ({ navigation, route }) => {
                 }}>
                 <Text
                   style={{ fontWeight: 'bold', color: 'black', fontSize: 17 }}>
-                  {t('common:postedscucessfully')}
+                  {t('common:updatedscucessfully')}
                 </Text>
                 <Text style={{ color: 'black' }}>
-                  {t('common:yourlistingpostedsuccessfully')}
+                  {t('common:yourlistingupdatedsuccessfully')}
                 </Text>
               </View>
             </View>
@@ -628,6 +627,8 @@ const UpdateListing = ({ navigation, route }) => {
         animationType="slide"
         transparent={true}
         visible={openModal1}
+        onRequestClose={() => setopenModal1(false)}
+
       >
         <View
           style={{

@@ -8,13 +8,14 @@ import React from 'react';
 import { ImageSource } from '../../constants/ImageSource';
 import { Color } from '../../constants/colors';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Toast from '../../components/Toast';
 
 const Splash = ({ navigation }) => {
 
   const checkSession = async () => {
 
     let isLaunched = await AsyncStorage.getItem("isLaunched")
-    if (!isLaunched) {
+    if (isLaunched != 'true') {
       try {
         await AsyncStorage.setItem("isLaunched", 'true')
       }
@@ -23,16 +24,25 @@ const Splash = ({ navigation }) => {
       }
     }
     const check = await AsyncStorage.getItem('status');
-    console.log('status', check);
-    check != 'loggedIn'
-      ? navigation.replace('BottomNavigation')
-      : isLaunched === 'true'? navigation.replace('Login')
-      :navigation.replace('Walkthrough')
+    console.log('status', check, isLaunched);
+    if (isLaunched === 'true' && check === "loggedIn") {
+      navigation.replace('BottomNavigation')
+    }
+    else if (check != "loggedIn" && isLaunched === 'true') {
+      navigation.replace('Login')
+    }
+    else if (check != "loggedIn" && isLaunched != 'true') {
+      navigation.replace('Walkthrough')
+    }
+    else {
+      navigation.replace('Login')
+      Toast("Session expired login again")
+    }
   };
   setTimeout(() => {
     // navigation.navigate('Walkthrough');
     checkSession();
-  }, 4000);
+  }, 3000);
   return (
     <>
       <StatusBar hidden />

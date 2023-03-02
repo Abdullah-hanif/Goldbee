@@ -118,7 +118,8 @@ const ProductDetails = ({ navigation, route }) => {
           flex: 1,
         }}>
         <TouchableOpacity
-          onPress={() => navigation.navigate('ProfileDetails')}
+          // onPress={() => navigation.navigate('ProfileDetails')}
+          onPress={() => navigation.navigate('MyProfile')}
           style={{ flexDirection: 'row', alignItems: 'center', marginTop: 30 }}>
           <Image
             style={{ height: 50, width: 50,borderRadius:100 }}

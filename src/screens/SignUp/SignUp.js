@@ -1,5 +1,5 @@
 import {
-  Dimensions,
+  ActivityIndicator,
   ScrollView,
   StyleSheet,
   Text,
@@ -15,7 +15,7 @@ import TextField from '../../components/TextField';
 import Buttons from '../../components/Buttons';
 // import CheckBox from 'react-native-check-box';
 import { Checkbox } from 'react-native-paper';
-import { useIsFocused, useNavigation } from '@react-navigation/native';
+import { useIsFocused } from '@react-navigation/native';
 import Back from 'react-native-vector-icons/AntDesign';
 import { useTranslation } from 'react-i18next';
 import { Base_Url } from '../../api/Api';
@@ -26,8 +26,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Toast from '../../components/Toast';
 
-const SignUp = () => {
-  const navigation = useNavigation();
+const SignUp = ({ navigation }) => {
   const [checked, setChecked] = useState(false);
   const [firstname, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -38,6 +37,7 @@ const SignUp = () => {
   const [country, setCountry] = useState('Country');
   const [togglePassword, setTogglePassword] = useState(true)
   const [toggleConfirmPassword, setToggleConfirmPassword] = useState(true)
+  const [Loading, setLoading] = useState(false);
 
   const [countryModal, setCountryModal] = useState(false);
 
@@ -95,6 +95,7 @@ const SignUp = () => {
 
   const signInUser = () => {
     try {
+      setLoading(true)
       if (!validateEmail(email)) Toast('Enter a valid Email')
       if (Cities === "Cities") Toast('Enter your city')
       if (!firstname) Toast('Enter your first name')
@@ -118,26 +119,35 @@ const SignUp = () => {
         })
           .then(response => response.json())
           .then(data => {
+            console.log("datatatatta",respo?.data.name);
             const respo = data;
             if (respo?.message == 'Registered successfully') {
               Toast(respo?.message);
               const uid = respo?.data?.id;
               AsyncStorage.setItem('uid', JSON.stringify(uid));
+              AsyncStorage.setItem('userName',`${firstname} ${lastName}`)
               AsyncStorage.setItem('userData', JSON.stringify(respo?.data));
-              navigation.navigate('BottomNavigation');
+              setLoading(false)
+              navigation.replace('BottomNavigation');
             } else {
               Toast(respo?.message);
+              setLoading(false) 
             }
           })
           .catch(error => {
-            Toast(error);
+            Toast(error)
+            setLoading(false)
           });
       }
     } catch (error) {
       Toast(error)
-    };
+    }
+    finally{
+      setLoading(false)
+    }
+
   }
-  const getCityName = country => {
+  const getCityName = () => {
     // setLoading(true);
     fetch('https://countriesnow.space/api/v0.1/countries/cities', {
       method: 'POST',
@@ -169,7 +179,7 @@ const SignUp = () => {
 
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
-      <TouchableOpacity onPress={() => navigation.goBack()}>
+      <TouchableOpacity onPress={() => navigation.navigate('Login')}>
         <Back name="left" size={20} color="black" />
       </TouchableOpacity>
       <View style={{ marginTop: '15%' }}>
@@ -201,16 +211,6 @@ const SignUp = () => {
             style={{ paddingLeft: 2 }}>
 
           </View>
-          {/* <TextInput
-            // setTxt={txt => setCountry(txt)}
-            // style={{paddingLeft: 25}}
-            placeholderTextColor={Color.darkGray}
-            placeholder={Cities}
-          /> */}
-          {/* <TextField
-         setTxt={txt => setCountry(txt)}
-            placeHolder={t('common:country')}
-          /> */}
           <View
             style={{ right: 10 }}
             onPress={() => setCountryModal(!countryModal)}>
@@ -348,7 +348,13 @@ const SignUp = () => {
         </View>
       </View>
       <View>
-        <Buttons onpress={() => signInUser()} name={t('common:Signup')} />
+        <Buttons onpress={() => signInUser()} name={Loading ?
+          <>
+            <TouchableOpacity disabled style={styles.containe11}>
+              <ActivityIndicator size={20} color={Color.yellow} />
+            </TouchableOpacity>
+          </> :
+          t('common:Signup')} />
       </View>
       <View style={styles.bottomTxt}>
         <Text style={{ color: 'black' }}>

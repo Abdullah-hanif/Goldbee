@@ -43,18 +43,11 @@ const Profile = ({navigation}) => {
             style={{height: 65, width: 65, borderRadius: 30}}
             source={
               img == null
-                ? require('../../assets/Icons/Ellipse28.png')
+                ? require('../../assets/Icons/MaskGroup121.png')
                 : {uri: img}
             }
-            // source={
-            //   img == null
-            //     ? require("../../assets/Icons/Ellipse28.png'")
-            //     : {
-            //         uri: img,
-            //       }
-            // }
           />
-          <View style={{left: 10}}>
+          <View style={{left: 10,marginBottom:5}}>
             <Text style={{fontWeight: 'bold', fontSize: 20, color: 'black'}}>
               {name?.replace('" "', ' ')}
             </Text>
