@@ -24,8 +24,8 @@ import Toast from '../../components/Toast';
 
 const Login = ({ navigation }) => {
   const [checked, setChecked] = React.useState(false);
-  const [email, setEmail] = React.useState("ahmed@gmail.com");
-  const [password, setPassword] = React.useState("123456")
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('')
   const [togglePassword, setTogglePassword] = React.useState(true)
   const [Loading, setLoading] = useState(false);
 
