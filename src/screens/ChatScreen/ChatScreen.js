@@ -23,7 +23,6 @@ const ChatScreen = ({ navigation, route }) => {
   const [senderId, setSenderID] = useState(0);
   const listingId = route?.params.listingId;
   const receiverId = route.params.withId
-  const withProfilePic = route.params.profilePic
   const postPic = route.params.imageUri
   const productName = route.params.productName
   const productPrice = route.params.price
@@ -40,7 +39,7 @@ const ChatScreen = ({ navigation, route }) => {
   const getAllMessges = async () => {
     const userId = await AsyncStorage.getItem('uid');
     setSenderID(userId);
-    console.log(receiverId);
+    console.log(userId,receiverId,listingId);
     await fetch(`${Base_Url}/get-chat-history`, {
       method: 'POST',
       body: JSON.stringify({
@@ -75,12 +74,16 @@ const ChatScreen = ({ navigation, route }) => {
   }
 
   useEffect(() => {
-    setInterval(() => {
       getAllMessges()
-    }, 8000);
+  }, [])
+
+  useEffect(() => {
+    const interval = setInterval(() => getAllMessges(), 10000);
+    return () => {
+      clearInterval(interval);
+    };
   }, []);
 
-  console.log(senderId, listingId, receiverId);
   const onSend = useCallback((messages = []) => {
     setMessages(previousMessages =>
       GiftedChat.append(previousMessages, messages),

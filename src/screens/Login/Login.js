@@ -45,8 +45,8 @@ const Login = ({ navigation }) => {
       setLoading(true)
       if (!validateEmail(email)) Toast('Enter a valid Email');
       if (password < 6) Toast('Enter a correct password');
-
       else {
+        
         fetch(`${Base_Url}/login`, {
           method: 'POST',
           headers: {

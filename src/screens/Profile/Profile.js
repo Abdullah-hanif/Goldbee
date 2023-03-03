@@ -18,7 +18,7 @@ import {useIsFocused} from '@react-navigation/native';
 
 const Profile = ({navigation}) => {
   const {t} = useTranslation();
-  const [img, setImg] = useState('');
+  const [img, setImg] = useState(null);
   const [name, setName] = useState('');
 
   const getUserDetails = async () => {
