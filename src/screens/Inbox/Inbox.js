@@ -35,53 +35,52 @@ const Inbox = () => {
     setRefreshing(false)
 
   }
-  async function getInbox() {
-    const userId = await AsyncStorage.getItem('uid');
-    setMyuid(userId)
-    await fetch(`${Base_Url}/get-inbox`, {
-      method: 'POST',
 
-      body: JSON.stringify({ user_id: userId }),
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    })
-      .then(response => response.json())
-      .then(data => {
-        const respo = data;
-        console.log("respppp", respo);
-        setBuyerChat(respo?.buying);
-        setSellerChat(respo?.selling);
-        if (respo?.buying.length === 0) {
-          setBuyerNoChat(true);
-        }
-        if (respo?.selling.length === 0) {
-          setSellerNoChat(true);
-        }
-        setLoading(false);
-        setRefreshing(false)
-         })
-      .catch(error => {
-        console.error(error);
-      });
+  const getInbox = async () => {
+    try {
+      const userId = await AsyncStorage.getItem('uid');
+      setMyuid(userId)
+      fetch(`${Base_Url}/get-inbox`, {
+        method: 'POST',
+        body: JSON.stringify({ user_id: userId }),
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+        .then(response => response.json())
+        .then(data => {
+          setLoading(false)
+          if (data.buying.length === 0) setBuyerNoChat(true)
+          if (data.selling.length === 0) setSellerNoChat(true)
+          if (data.buying.length > 0) setBuyerChat(data?.buying)
+          if (data.selling.length > 0) setSellerChat(data?.selling)
+
+          return data
+        })
+    } catch (error) {
+      Toast(`Wait a moment ${error}`)
+    }
   }
+
   const focused = useIsFocused();
 
-  setInterval(() => {
+  useEffect(() => {
     getInbox()
-  }, 8000);
+  }, [focused == true]);
 
   useEffect(() => {
-    getInbox();
-  }, [focused == true]);
+    const interval = setInterval(() => getInbox(), 10000);
+    return () => {
+      clearInterval(interval);
+    }
+  }, []);
 
   return (
     <View style={styles.container}>
       <View style={styles.screenContainer}>
         <SwitchButton
           changeRole={txt => {
-            setRole(txt);
-            getInbox();
+            setRole(txt)
           }}
         />
         {role == 'buying' && Loading ?
@@ -92,60 +91,66 @@ const Inbox = () => {
               size="large"
             />
           </View> :
-          role == 'buying' && noBuyerChat ?
-            <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-              <Text>No Buying Chats Found</Text>
+          role == 'selling' && Loading ?
+            <View style={styles.loadingContainer}>
+              <ActivityIndicator
+                animating={true}
+                color={Color.darkOrange}
+                size="large"
+              />
             </View> :
-            role == 'selling' && noSellerChat ?
+            role == 'buying' && noBuyerChat ?
               <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-                <Text>No Selling Chats Found</Text>
-              </View>
-              :
-              <ScrollView refreshControl={
-                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-              } showsVerticalScrollIndicator={false}>
-                {role == 'buying'
-                  ?
-                  buyerChat.map((data, indx) => {
-                    console.log("data",data.isRead );
-
-                    return (
-                      <InboxMessages
-                        key={data.listing.id}
-                        name={data.with_user.name}
-                        listingId={data?.listing_id}
-                        withId={data?.with_id}
-                        productName={data.listing?.title}
-                        time={data?.time_ago}
-                        imageUri={`http://95.179.209.186/${data.listing.images[0]}`}
-                        message={data?.last_message}
-                        price={data.listing.price}
-                        isRead={data.read}
-                        otherData={data}
-                        profilePic={data.with_user.profile_picture}
-                      />
-                    )
-                  })
-                  :
-                  sellerChat.map((data, indx) => {
-                    return (
-                      <InboxMessages
-                        key={data.listing.id}
-                        name={data.with_user.name}
-                        listingId={data?.listing_id}
-                        withId={data?.with_id}
-                        productName={data.listing?.title}
-                        time={data?.time_ago}
-                        imageUri={`http://95.179.209.186/${data.listing.images[0]}`}
-                        message={data?.last_message}
-                        price={data.listing.price}
-                        isRead={data?.read}
-                        otherData={data}
-                      />
-                    )
-                  })
-                }
-              </ScrollView>
+                <Text>No Buying Chats Found</Text>
+              </View> :
+              role == 'selling' && noSellerChat ?
+                <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+                  <Text>No Selling Chats Found</Text>
+                </View>
+                :
+                <ScrollView refreshControl={
+                  <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                } showsVerticalScrollIndicator={false}>
+                  {role == 'buying'
+                    ?
+                    buyerChat.map((data, indx) => {
+                      return (
+                        <InboxMessages
+                          key={indx}
+                          name={data.with_user.name}
+                          listingId={data?.listing_id}
+                          withId={data?.with_id}
+                          productName={data.listing?.title}
+                          time={data?.time_ago}
+                          imageUri={`http://95.179.209.186/${data.listing.images[0]}`}
+                          message={data?.last_message}
+                          price={data.listing.price}
+                          isRead={data.read}
+                          otherData={data}
+                          profilePic={data.with_user.profile_picture}
+                        />
+                      )
+                    })
+                    :
+                    sellerChat.map((data, indx) => {
+                      return (
+                        <InboxMessages
+                          key={indx}
+                          name={data.with_user.name}
+                          listingId={data?.listing_id}
+                          withId={data?.with_id}
+                          productName={data.listing?.title}
+                          time={data?.time_ago}
+                          imageUri={`http://95.179.209.186/${data.listing.images[0]}`}
+                          message={data?.last_message}
+                          price={data.listing.price}
+                          isRead={data?.read}
+                          otherData={data}
+                        />
+                      )
+                    })
+                  }
+                </ScrollView>
 
         }
       </View>

@@ -125,6 +125,7 @@ const SignUp = ({ navigation }) => {
               Toast(respo?.message);
               const uid = respo?.data?.id;
               AsyncStorage.setItem('uid', JSON.stringify(uid));
+              AsyncStorage.setItem('status', 'loggedIn');
               AsyncStorage.setItem('userName',`${firstname} ${lastName}`)
               AsyncStorage.setItem('userData', JSON.stringify(respo?.data));
               setLoading(false)
