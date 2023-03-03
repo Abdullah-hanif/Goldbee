@@ -30,7 +30,7 @@ const ProductDetails = ({ navigation, route }) => {
   const [addFav, setAddFav] = useState(false)
   const [imgActive, setimgActive] = useState(null)
   const [senderId, setSenderID] = useState(0)
-  console.log("picccccccccccccccccccccccccc",sellerDetail?.profile_picture)
+  console.log("picccccccccccccccccccccccccc", sellerDetail?.profile_picture)
   useEffect(async () => {
     const userId = await AsyncStorage.getItem('uid');
     setSenderID(userId)
@@ -67,101 +67,56 @@ const ProductDetails = ({ navigation, route }) => {
         </View>
       </View>
       {/*END Topbar ICONS */}
-      <ScrollView
-        showsHorizontalScrollIndicator={false}
-        onScroll={({ nativeEvent }) => onchange(nativeEvent)}
-        horizontal
-        pagingEnabled
-        style={{
-          backgroundColor: 'white',
-          height: Dimensions.get('screen').height / 2.3,
-        }}>
-        {productDetails?.images == null ? (
-          <Image
-            style={{ height: '100%', width: Dimensions.get('screen').width }}
-            source={require('../../assets/Icons/MaskGroup121.png')}
-          />
-        ) : (
-          productDetails?.images?.map((e, index) => (
+      <View >
+        <ScrollView
+          showsHorizontalScrollIndicator={false}
+          onScroll={({ nativeEvent }) => onchange(nativeEvent)}
+          horizontal
+          pagingEnabled
+          style={{
+            backgroundColor: 'white',
+            height: Dimensions.get('screen').height / 2.3,
+          }}>
+          {productDetails?.images == null ? (
             <Image
-              // resizeMode="contain"
-              key={index}
               style={{ height: '100%', width: Dimensions.get('screen').width }}
-              source={{ uri: e }}
+              source={require('../../assets/Icons/MaskGroup121.png')}
             />
-          ))
-        )}
-      </ScrollView>
-
-      <View
-        style={{
-          bottom: 0,
-
-          flexDirection: 'row',
-          alignSelf: 'center',
-          // backgroundColor: 'black',
-        }}>
-        {productDetails?.images?.map((e, index) => (
-          <Text
-            key={Math.random() * 1000}
-            style={imgActive == index ? styles.dotActive : styles.dot}>
-            ●
-          </Text>
-        ))}
-      </View>
-      {/* //PRofile VIew */}
-      <View
-        style={{
-          backgroundColor: Color.splashWhite,
-
-          padding: 20,
-          flex: 1,
-        }}>
-        <TouchableOpacity
-          // onPress={() => navigation.navigate('ProfileDetails')}
-          onPress={() => navigation.navigate('MyProfile')}
-          style={{ flexDirection: 'row', alignItems: 'center', marginTop: 30 }}>
-          <Image
-            style={{ height: 50, width: 50,borderRadius:100 }}
-            source={
-              sellerDetail?.profile_picture == 'http://95.179.209.186/'
-                ? require('../../assets/Icons/MaskGroup121.png')
-                : { uri: sellerDetail?.profile_picture }
-            }
-          />
-          <View style={{ left: 10 }}>
-            <Text style={{ fontWeight: 'bold', fontSize: 15, color: 'black' }}>
-              {sellerDetail?.name == null ? '' : sellerDetail?.name}
-            </Text>
-            <Text
-              style={{
-                color: Color.darkOrange,
-              }}>
-              {productDetails?.location}
-            </Text>
-          </View>
-        </TouchableOpacity>
+          ) : (
+            productDetails?.images?.map((e, index) => (
+              <Image
+                // resizeMode="contain"
+                key={index}
+                style={{ height: '100%', width: Dimensions.get('screen').width }}
+                source={{ uri: e }}
+              />
+            ))
+          )}
+        </ScrollView>
 
         <View
           style={{
-            // margin: 10,
+            bottom: 0,
+
             flexDirection: 'row',
-            justifyContent: 'space-between',
+            alignSelf: 'center',
+            // backgroundColor: 'black',
           }}>
-          <View>
+          {productDetails?.images?.map((e, index) => (
             <Text
-              style={{
-                fontWeight: 'bold',
-                fontSize: 19,
-                color: 'black',
-                marginTop: 10,
-              }}>
-              {/* {t('common:beadednecklaces')} */}
-              {productDetails?.title}
+              key={Math.random() * 1000}
+              style={imgActive == index ? styles.dotActive : styles.dot}>
+              ●
             </Text>
-            <Text style={{ fontSize: 18, color: 'black', marginTop: 10 }}>
-              € {productDetails?.price}
-            </Text>
+          ))}
+        </View>
+      </View>
+      {/* //PRofile VIew */}
+      <View style={{ height: '100%', padding: 8, margin: 8 }}>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+          <View>
+            <Text style={{ fontSize: 20, fontWeight: '600', color: 'black' }}>{productDetails?.title}</Text>
+            <Text style={{ fontSize: 20, fontWeight: '600', marginTop: 5 }}>€ {productDetails?.price}</Text>
           </View>
           {sellerDetail.id != senderId ? < TouchableOpacity
             onPress={() =>
@@ -175,21 +130,21 @@ const ProductDetails = ({ navigation, route }) => {
               })
             }>
             <Image
-              style={{ height: 70, width: 70, bottom: 20 }}
+              style={{ height: 70, width: 70 }}
               source={require('../../assets/Icons/Group13720.png')}
             />
           </TouchableOpacity> :
-            <View></View>}
+            ''
+          }
         </View>
-        {/* Description Details */}
         <View
           style={{
-            marginTop: 20,
+            marginTop: '6%',
           }}>
           <Text
             style={{
               fontSize: 16,
-              color: 'black',
+              color: 'grey',
               textAlign: 'left',
               flexWrap: 'wrap',
             }}>
@@ -197,11 +152,46 @@ const ProductDetails = ({ navigation, route }) => {
             {productDetails?.description}
           </Text>
         </View>
-        <View style={{ flexDirection: 'column-reverse', marginTop: '20%' }}>
+        <View
+          style={{
+            borderWidth: 0.8,
+            borderBottomColor: '#E0E0E0',
+            // borderBottomWidth: StyleSheet.hairlineWidth,
+            marginTop: '6%'
+          }}
+        />
+        <View style={{ marginTop: '6%' }}>
+          <Text style={{ fontSize: 18, fontWeight: '600', color: 'black' }}>Seller details</Text>
+        </View>
+        {/* for profile pic */}
+        <TouchableOpacity
+          // onPress={() => navigation.navigate('ProfileDetails')}
+          onPress={() => navigation.navigate('MyProfile')}
+          style={{ flexDirection: 'row', alignItems: 'center', marginTop: '6%' }}>
+          <Image
+            style={{ height: 50, width: 50, borderRadius: 100 }}
+            source={
+              sellerDetail?.profile_picture == 'http://95.179.209.186/'
+                ? require('../../assets/Icons/MaskGroup121.png')
+                : { uri: sellerDetail?.profile_picture }
+            }
+          />
+          <View style={{ left: 15 }}>
+            <Text style={{ fontWeight: 'bold', fontSize: 15, color: 'black' }}>
+              {sellerDetail?.name == null ? '' : sellerDetail?.name}
+            </Text>
+            <Text
+              style={{
+                color: Color.darkOrange,
+              }}>
+              {productDetails?.location}
+            </Text>
+          </View>
+        </TouchableOpacity>
+        <View style={{ marginTop: '5%' }}>
           <Buttons name={t('common:buynow')} />
         </View>
       </View>
-
       {/* //END PROFILE VIEW */}
     </ScrollView >
   );
