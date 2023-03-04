@@ -7,20 +7,20 @@ import {
   Image,
   TouchableOpacity,
   View,
-} from 'react-native';
-import React, { useEffect, useState } from 'react';
-import { Color } from '../../../constants/colors';
-import Back from 'react-native-vector-icons/AntDesign';
+} from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { Color } from '../../../constants/colors'
+import Back from 'react-native-vector-icons/AntDesign'
 import Dots from 'react-native-vector-icons/Entypo'
-// import Buttons from '../../components/Buttons';
-import Buttons from '../../../components/Buttons';
+// import Buttons from '../../components/Buttons'
+import Buttons from '../../../components/Buttons'
 
 // @translator
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next'
 
 const MyListingDetails = ({ navigation, route }) => {
-  const { t } = useTranslation();
-  const { productDetails } = route.params;
+  const { t } = useTranslation()
+  const { productDetails } = route.params
   console.log('PRODUCT DETAILS==>', productDetails.name)
   const sellerDetail = productDetails['seller-details']
   const [imgActive, setimgActive] = useState(0)
@@ -29,9 +29,9 @@ const MyListingDetails = ({ navigation, route }) => {
     if (nativeEvent) {
       const slide = Math.ceil(
         nativeEvent.contentOffset.x / nativeEvent.layoutMeasurement.width,
-      );
+      )
       if (slide != imgActive) {
-        setimgActive(slide);
+        setimgActive(slide)
       }
     }
   }
@@ -90,7 +90,6 @@ const MyListingDetails = ({ navigation, route }) => {
 
             flexDirection: 'row',
             alignSelf: 'center',
-            // backgroundColor: 'black',
           }}>
           {productDetails?.images?.map((e, index) => (
             <Text
@@ -181,10 +180,10 @@ const MyListingDetails = ({ navigation, route }) => {
       </View>
       {/* //END PROFILE VIEW */}
     </ScrollView>
-  );
-};
+  )
+}
 
-export default MyListingDetails;
+export default MyListingDetails
 
 const styles = StyleSheet.create({
   container: {
@@ -203,4 +202,4 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 20,
   },
-});
+})

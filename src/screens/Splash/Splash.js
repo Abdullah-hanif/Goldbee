@@ -28,6 +28,9 @@ const Splash = ({ navigation }) => {
     if (isLaunched === 'true' && check === "loggedIn") {
       navigation.replace('BottomNavigation')
     }
+    else if(check === "loggedIn"){
+      navigation.replace('BottomNavigation')
+    }
     else if (check != "loggedIn" && isLaunched === 'true') {
       navigation.replace('Login')
     }
@@ -40,7 +43,6 @@ const Splash = ({ navigation }) => {
     }
   };
   setTimeout(() => {
-    // navigation.navigate('Walkthrough');
     checkSession();
   }, 3000);
   return (
