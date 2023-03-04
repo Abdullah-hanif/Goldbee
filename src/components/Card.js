@@ -15,6 +15,7 @@ const Card = ({
   onPress,
   isFav,
   deleteIcon,
+  isHide = false,
   productDetails,
   getFUN,
   listing_id,
@@ -71,7 +72,9 @@ const Card = ({
 
 
   const RemoveFollowed = async () => {
+
     const userId = await AsyncStorage.getItem('uid');
+
     await fetch(`${Base_Url}/follow-listing`, {
       method: 'POST',
       headers: {
@@ -81,12 +84,15 @@ const Card = ({
     })
       .then(response => response.json())
       .then(data => {
+
         const respo = data;
+
+
         if (respo?.message == 'Unfollowed successfully') {
           Toast('Unfollowed successfully');
           setFollowed('no');
 
-          // getFUN();
+
         } else {
           console.log(respo?.message);
         }
@@ -97,6 +103,7 @@ const Card = ({
   };
 
   const RemoveFollowedListing = async id => {
+
     const userId = await AsyncStorage.getItem('uid');
     await fetch(`${Base_Url}/follow-listing`, {
       method: 'POST',
@@ -107,12 +114,14 @@ const Card = ({
     })
       .then(response => response.json())
       .then(data => {
+        //   const res = data.json();
         const respo = data;
         if (respo?.message == 'Unfollowed successfully') {
           Toast('Unfollowed successfully');
           setFollowed('no');
           checkChangeFav(true);
 
+          // getFUN();
         } else {
           console.log(respo?.message);
         }
@@ -142,7 +151,7 @@ const Card = ({
         }
       />
       <View style={{ padding: 10 }}>
-        <View
+        {!isHide && <View
           style={{
             flexDirection: 'row',
             justifyContent: 'space-between',
@@ -155,9 +164,9 @@ const Card = ({
                 if (userID == sellerDetails) {
                   Toast("You can't follow your own post")
                 }
-                if ( userID != sellerDetails && followe == 'yes') {
+                else if (followe == 'yes') {
                   RemoveFollowed();
-                } else if (userID != sellerDetails && followe == 'no') {
+                } else {
                   AddFav();
                   followe == false ? RemoveFollowedListing(listing_id) : null;
                 }
@@ -165,18 +174,18 @@ const Card = ({
               <AntDesign
                 name={followe == 'no' ? 'hearto' : 'heart'}
                 size={20}
-                color={Color.darkOrange}
-              />
+                color={Color.darkOrange} />
             </TouchableOpacity>
           ) : (
             <TouchableOpacity onPress={onPress}>
+              {/* <AntDesign name="delete" size={20} color={Color.black} /> */}
               <Image
                 style={{ height: 20, width: 20 }}
                 source={require('../assets/Icons/Group5268.png')}
               />
             </TouchableOpacity>
           )}
-        </View>
+        </View>}
         <Text style={{ marginBottom: 10, fontWeight: 'bold', color: 'black' }}>
           {name}
         </Text>

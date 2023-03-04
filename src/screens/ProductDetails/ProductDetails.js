@@ -30,7 +30,6 @@ const ProductDetails = ({ navigation, route }) => {
   const [addFav, setAddFav] = useState(false)
   const [imgActive, setimgActive] = useState(null)
   const [senderId, setSenderID] = useState(0)
-  console.log("picccccccccccccccccccccccccc", sellerDetail?.profile_picture)
   useEffect(async () => {
     const userId = await AsyncStorage.getItem('uid');
     setSenderID(userId)
@@ -148,7 +147,6 @@ const ProductDetails = ({ navigation, route }) => {
               textAlign: 'left',
               flexWrap: 'wrap',
             }}>
-            {/* {t('common:productdetails')} */}
             {productDetails?.description}
           </Text>
         </View>
@@ -156,7 +154,6 @@ const ProductDetails = ({ navigation, route }) => {
           style={{
             borderWidth: 0.8,
             borderBottomColor: '#E0E0E0',
-            // borderBottomWidth: StyleSheet.hairlineWidth,
             marginTop: '6%'
           }}
         />
@@ -165,8 +162,10 @@ const ProductDetails = ({ navigation, route }) => {
         </View>
         {/* for profile pic */}
         <TouchableOpacity
-          // onPress={() => navigation.navigate('ProfileDetails')}
-          onPress={() => navigation.navigate('MyProfile')}
+          onPress={() => navigation.navigate('ProfileDetails', {
+            productDetails: productDetails,
+            sellerDetails: sellerDetail
+          })}
           style={{ flexDirection: 'row', alignItems: 'center', marginTop: '6%' }}>
           <Image
             style={{ height: 50, width: 50, borderRadius: 100 }}
