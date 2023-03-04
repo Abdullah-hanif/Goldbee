@@ -52,7 +52,7 @@ const ProfileDetails = ({ navigation, route }) => {
       </TouchableOpacity>
       {/* //Profile Section  */}
       <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-        <TouchableOpacity
+        <View
           style={{ flexDirection: 'row', alignItems: 'center', marginTop: 30 }}>
           <Image
             style={{ margin: 5, height: 50, width: 50, borderRadius: 100 }}
@@ -73,11 +73,11 @@ const ProfileDetails = ({ navigation, route }) => {
               {sellerDetail.city}
             </Text>
           </View>
-        </TouchableOpacity>
-        <Image
+        </View>
+        {/* <Image
           style={{ height: 70, width: 70, alignSelf: 'center', top: 22 }}
           source={require('../../assets/Icons/Group13720.png')}
-        />
+        /> */}
       </View>
       {/* END PROFILE SECTION */}
 
@@ -117,6 +117,7 @@ const ProfileDetails = ({ navigation, route }) => {
                 name={item?.item?.title}
                 price={`€ ${item?.item?.price}`}
                 isFav={'no'}
+                isHide={true}
                 bgImage={item?.item?.images}
                 productDetails={productDetails}
               />
