@@ -57,6 +57,7 @@ const Login = ({ navigation }) => {
           .then(response => response.json())
           .then(data => {
             const respo = data
+            console.log(respo,'loginn detailss')
             if (respo?.message == 'Logged In successfully') {
               if(checked){
                 AsyncStorage.setItem('rememberMe', 'true')
