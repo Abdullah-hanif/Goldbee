@@ -23,10 +23,10 @@ import { useTranslation } from 'react-i18next';
 import Toast from '../../components/Toast';
 
 const Login = ({ navigation }) => {
-  const [checked, setChecked] = React.useState(false);
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("")
-  const [togglePassword, setTogglePassword] = React.useState(true)
+  const [checked, setChecked] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("")
+  const [togglePassword, setTogglePassword] = useState(true)
   const [Loading, setLoading] = useState(false);
 
 
