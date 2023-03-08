@@ -97,8 +97,8 @@ const ChatScreen = ({ navigation, route }) => {
       <Send {...props}>
         <Icon
           name="send"
-          style={{ marginHorizontal: 3, alignItems: "center", alignSelf: 'center' }}
-          size={34}
+          style={{ marginHorizontal: 3,paddingHorizontal:3, alignItems: "center", alignSelf: 'center' }}
+          size={33}
           color={Color.darkOrange}
         />
       </Send>

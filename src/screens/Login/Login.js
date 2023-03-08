@@ -5,22 +5,22 @@ import {
   ScrollView,
   ActivityIndicator,
   TouchableOpacity,
-} from 'react-native';
-import React, { useState } from 'react';
-import { Color } from '../../constants/colors';
-import TextField from '../../components/TextField';
-import Buttons from '../../components/Buttons';
-import { Checkbox } from 'react-native-paper';
-import Back from 'react-native-vector-icons/AntDesign';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+} from 'react-native'
+import React, { useState } from 'react'
+import { Color } from '../../constants/colors'
+import TextField from '../../components/TextField'
+import Buttons from '../../components/Buttons'
+import { Checkbox } from 'react-native-paper'
+import Back from 'react-native-vector-icons/AntDesign'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 // @API_Callefef
-import { Base_Url, loginUser } from '../../api/Api';
+import { Base_Url } from '../../api/Api'
 
 // @LANGUGE IMPORTSsef
-import { useTranslation } from 'react-i18next';
-import Toast from '../../components/Toast';
+import { useTranslation } from 'react-i18next'
+import Toast from '../../components/Toast'
 
 const Login = ({ navigation }) => {
   const [checked, setChecked] = useState(false);
@@ -30,21 +30,22 @@ const Login = ({ navigation }) => {
   const [Loading, setLoading] = useState(false);
 
 
-  const { t } = useTranslation();
+
+  const { t } = useTranslation()
 
   const validateEmail = email => {
     return String(email)
       .toLowerCase()
       .match(
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-      );
-  };
+        /^(([^<>()[\]\\.,:\s@"]+(\.[^<>()[\]\\.,:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+      )
+  }
 
   const loginUser = async () => {
     try {
       setLoading(true)
-      if (!validateEmail(email)) Toast('Enter a valid Email');
-      if (password < 6) Toast('Enter a correct password');
+      if (!validateEmail(email)) Toast('Enter a valid Email')
+      if (password < 6) Toast('Enter a correct password')
       else {
         
         fetch(`${Base_Url}/login`, {
@@ -56,35 +57,36 @@ const Login = ({ navigation }) => {
         })
           .then(response => response.json())
           .then(data => {
-            const respo = data;
+            const respo = data
+            console.log(respo,'loginn detailss')
             if (respo?.message == 'Logged In successfully') {
               if(checked){
-                AsyncStorage.setItem('rememberMe', 'true');
+                AsyncStorage.setItem('rememberMe', 'true')
               }
-              AsyncStorage.setItem('status', 'loggedIn');
-              AsyncStorage.setItem('userName', respo?.data?.name);
-              AsyncStorage.setItem('imgUri', respo?.data?.profile_picture);
+              AsyncStorage.setItem('status', 'loggedIn')
+              AsyncStorage.setItem('userName', respo?.data?.name)
+              AsyncStorage.setItem('imgUri', respo?.data?.profile_picture)
               AsyncStorage.setItem(
                 'userCity',
                 JSON.stringify(respo?.data?.city),
-              );
+              )
               Toast(respo?.message)
-              const uid = respo?.data?.id;
-              AsyncStorage.setItem('uid', JSON.stringify(uid));
-              AsyncStorage.setItem('userData', JSON.stringify(respo?.data));
+              const uid = respo?.data?.id
+              AsyncStorage.setItem('uid', JSON.stringify(uid))
+              AsyncStorage.setItem('userData', JSON.stringify(respo?.data))
               setLoading(false)
 
-              navigation.replace('BottomNavigation');
+              navigation.replace('BottomNavigation')
             } else {
               Toast(respo?.message)
               setLoading(false)
             }
-          });
+          })
       }
     } catch (error) {
       Toast(error)
     }
-  };
+  }
 
   return (
     <ScrollView
@@ -135,7 +137,7 @@ const Login = ({ navigation }) => {
               color={checked ? Color.darkOrange : 'black'}
               status={checked ? 'checked' : 'unchecked'}
               onPress={() => {
-                setChecked(!checked);
+                setChecked(!checked)
               }}
             />
             <Text style={{ marginTop: 8, color: 'black' }}>
@@ -185,10 +187,10 @@ const Login = ({ navigation }) => {
         </View>
       </View>
     </ScrollView>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login
 
 const styles = StyleSheet.create({
   container: {
@@ -196,4 +198,4 @@ const styles = StyleSheet.create({
     backgroundColor: Color.splashWhite,
     padding: 20,
   },
-});
+})

@@ -10,7 +10,7 @@ import {
   ActivityIndicator,
   Dimensions,
 } from 'react-native';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { Color } from '../../constants/colors';
 import Buttons from '../../components/Buttons';
@@ -36,12 +36,12 @@ import ImagePicker, {
 
 const MyProfile = ({ navigation }) => {
   const { t } = useTranslation();
-  const [switchName, setSwitch] = React.useState('MyProfile');
-  const [allListing, setAllListing] = React.useState([]);
-  const [editable, setEditable] = React.useState(false);
-  const [name, setName] = React.useState();
-  const [profileImg, setProfileImg] = React.useState([]);
-  const [loader, setLoader] = React.useState(true);
+  const [switchName, setSwitch] = useState('MyProfile');
+  const [allListing, setAllListing] = useState([]);
+  const [editable, setEditable] = useState(false);
+  const [name, setName] = useState();
+  const [profileImg, setProfileImg] = useState([]);
+  const [loader, setLoader] = useState(true);
 
   const focused = useIsFocused();
 
@@ -55,7 +55,7 @@ const MyProfile = ({ navigation }) => {
     setProfileImg(img);
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     getMylisting();
     fetchData();
   }, [focused == true]);
@@ -251,7 +251,7 @@ const MyProfile = ({ navigation }) => {
                         <AntDesign name="camera" size={20} color="black" />
                       </TouchableOpacity>
                     </View>
-                    <View style={{ left: 20,marginBottom:15 }}>
+                    <View style={{ left: 20, marginBottom: 15 }}>
                       {editable ? (
                         <TextInput
                           onChangeText={txt => setName(txt)}
@@ -271,9 +271,9 @@ const MyProfile = ({ navigation }) => {
                           style={{
                             fontWeight: 'bold',
                             fontSize: 24,
-                            marginBottom:15,
+                            marginBottom: 15,
                             color: 'black',
-                            alignSelf:"center"
+                            alignSelf: "center"
                           }}>
                           {name?.replace('" "', ' ')}
                         </Text>
@@ -440,7 +440,7 @@ const MyProfile = ({ navigation }) => {
 const SwitchButton = ({ func }) => {
   const { t } = useTranslation();
 
-  const [clicked, setClicked] = React.useState(true);
+  const [clicked, setClicked] = useState(true);
   return (
     <>
       <View
