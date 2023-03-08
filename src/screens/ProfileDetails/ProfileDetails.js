@@ -58,7 +58,7 @@ const ProfileDetails = ({ navigation, route }) => {
             style={{ margin: 5, height: 50, width: 50, borderRadius: 100 }}
             source={
               sellerDetail.profile_picture == "http://95.179.209.186/"
-                ? require('../../assets/Icons/noPic.png.png')
+                ? require('../../assets/Icons/noPic.png')
                 : { uri: sellerDetail.profile_picture }
             }
           />
