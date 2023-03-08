@@ -143,7 +143,7 @@ const MyListingDetails = ({ navigation, route }) => {
             style={{ height: 50, width: 50, borderRadius: 100 }}
             source={
               productDetails?.profile == null
-                ? require('../../../assets/Icons/MaskGroup121.png')
+                ? require('../../assets/Icons/noPic.png.png')
                 : { uri: productDetails?.profile }
             }
           />

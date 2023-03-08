@@ -223,7 +223,7 @@ const MyProfile = ({ navigation }) => {
                       {profileImg?.length == 0 || profileImg == null ? (
                         <Image
                           style={{ height: 65, width: 65 }}
-                          source={require('../../assets/Icons/MaskGroup121.png')}
+                          source={require('../../assets/Icons/noPic.png')}
                         />
                       ) : (
                         <Image
