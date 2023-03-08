@@ -13,7 +13,6 @@ import React, { useState, useEffect } from 'react';
 import { Color } from '../../constants/colors';
 import TextField from '../../components/TextField';
 import Buttons from '../../components/Buttons';
-// import CheckBox from 'react-native-check-box';
 import { Checkbox } from 'react-native-paper';
 import { useIsFocused } from '@react-navigation/native';
 import Back from 'react-native-vector-icons/AntDesign';
@@ -21,11 +20,11 @@ import { useTranslation } from 'react-i18next';
 import { Base_Url } from '../../api/Api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import messaging from '@react-native-firebase/messaging';
 
 // @ICons
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Toast from '../../components/Toast';
+import * as firebase from '../../components/firebase'
 
 
 const SignUp = ({ navigation }) => {
@@ -48,21 +47,13 @@ const SignUp = ({ navigation }) => {
 
   // @Modal Cities
   const [modalVisible, setModalVisible] = useState(false);
-  const { t } = useTranslation();
-
-  // const [userDetail, setUseDetails] = useState({
-  //   name: '',
-  //   email: '',
-  //   password: '',
-  //   confirmed_password: '',
-  // });
+  const { t } = useTranslation()
 
   const focused = useIsFocused();
   useEffect(() => {
     getCityName();
   }, [focused == true]);
   const handleSearchCites = searctTxt => {
-    // const filterData = citeiesList.filter(val => val == searctTxt);
 
     const filterData = citeiesList?.filter(val =>
       val?.toLowerCase().startsWith(searctTxt.toLowerCase()),
@@ -80,22 +71,9 @@ const SignUp = ({ navigation }) => {
         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
       );
   };
-
-  const cities = [
-    'Madrid',
-    'Barcelona',
-    'Valencia',
-    'Sevilla',
-    'Málaga',
-    'Murcia',
-    'Bilbao',
-    'Zaragoza',
-    'Palma de Mallorca',
-    'Las Palmas de Gran Canaria',
-  ];
-
-  const signInUser = () => {
+  const signInUser = async () => {
     try {
+      let fcmToken = await AsyncStorage.getItem("FCMToken")
       setLoading(true)
       if (!validateEmail(email)) Toast('Enter a valid Email')
       if (Cities === "Cities") Toast('Enter your city')
@@ -120,17 +98,18 @@ const SignUp = ({ navigation }) => {
         })
           .then(response => response.json())
           .then(data => {
-            console.log("datatatatta", respo?.data.name);
             const respo = data;
+
             if (respo?.message == 'Registered successfully') {
               Toast(respo?.message);
               const uid = respo?.data?.id;
               AsyncStorage.setItem('uid', JSON.stringify(uid));
               AsyncStorage.setItem('status', 'loggedIn');
               AsyncStorage.setItem('userName', `${firstname} ${lastName}`)
-              AsyncStorage.setItem('userData', JSON.stringify(respo?.data));
+              AsyncStorage.setItem('userData', JSON.stringify(respo?.data))
+              firebase.getMessage(uid, fcmToken)
               setLoading(false)
-              navigation.replace('BottomNavigation');
+              navigation.replace('BottomNavigation')
             } else {
               Toast(respo?.message);
               setLoading(false)
@@ -150,53 +129,7 @@ const SignUp = ({ navigation }) => {
 
   }
 
-  const getFCMToken = async () => {
-    let fcmToken = await AsyncStorage.getItem("FCMToken")
-    console.log("old Token", fcmToken);
-    if (!fcmToken) {
-      try {
-        const fcmToken = await messaging().getToken()
-        if (fcmToken) {
-          await AsyncStorage.setItem("FCMToken", fcmToken)
-          console.log("new Token", fcmToken);
-        }
-      }
-      catch (error) {
-        console.log("error", error);
-      }
-    }
-    return fcmToken
-  }
-  const onMessage = async (navigation, notification) => {
-    const check = await AsyncStorage.getItem('status')
-    if (check == 'loggedIn') {
-      // const { title, body } = notification
-      // title = "You have a new message"
-      // body = "Click to view"
-
-      let fcmToken = await getFCMToken()
-      console.log("rrferg", fcmToken);
-      const userId = await AsyncStorage.getItem('uid');
-      fetch(`${Base_Url}/store-fcm`, {
-        method: 'POST',
-        body: JSON.stringify({ user_id: userId, fcm: fcmToken }),
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      })
-        .then(response => response.json())
-        .then(data => {
-          console.log("firease data", data);
-          // navigation.navigate('Login');
-          return data
-        })
-        .catch(error => {
-          console.log(error);
-        })
-    }
-  }
   const getCityName = () => {
-    // setLoading(true);
     fetch('https://countriesnow.space/api/v0.1/countries/cities', {
       method: 'POST',
       headers: {
@@ -209,15 +142,9 @@ const SignUp = ({ navigation }) => {
     })
       .then(res => res.json())
       .then(json => {
-        // setLoading(false)
-        //console.log(json)
-        // console.log(json, 'json')
-
         if (json.error == false) {
-
           setCititesList(json.data);
           setFilterCiteisList(json.data);
-          console.log('CITIES NAME=====>', json.data);
         } else {
           Toast(json.error);
         }
@@ -399,7 +326,7 @@ const SignUp = ({ navigation }) => {
         </View>
       </View>
       <View>
-        <Buttons onpress={() => {signInUser();  onMessage()}} name={Loading ?
+        <Buttons onpress={() => signInUser()} name={Loading ?
           <>
             <TouchableOpacity disabled style={styles.containe11}>
               <ActivityIndicator size={20} color={Color.yellow} />
@@ -411,7 +338,7 @@ const SignUp = ({ navigation }) => {
         <Text style={{ color: 'black' }}>
           {t('common:Alreadyhaveandaccount')}
         </Text>
-        <TouchableOpacity onPress={() => {navigation.navigate('Login') }}>
+        <TouchableOpacity onPress={() => { navigation.navigate('Login') }}>
           <Text style={styles.loginTxt}>{t('common:Login')} </Text>
         </TouchableOpacity>
       </View>

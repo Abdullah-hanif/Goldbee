@@ -4,14 +4,17 @@ import {
   Image,
   StatusBar,
 } from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ImageSource } from '../../constants/ImageSource';
 import { Color } from '../../constants/colors';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from '../../components/Toast';
+import * as firebase from '../../components/firebase'
 
 const Splash = ({ navigation }) => {
-
+  useEffect(() => {
+    firebase.getFCMToken()
+  }, [])
   const checkSession = async () => {
 
     let isLaunched = await AsyncStorage.getItem("isLaunched")
@@ -28,7 +31,7 @@ const Splash = ({ navigation }) => {
     if (isLaunched === 'true' && check === "loggedIn") {
       navigation.replace('BottomNavigation')
     }
-    else if(check === "loggedIn"){
+    else if (check === "loggedIn") {
       navigation.replace('BottomNavigation')
     }
     else if (check != "loggedIn" && isLaunched === 'true') {

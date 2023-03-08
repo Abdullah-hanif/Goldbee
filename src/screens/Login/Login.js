@@ -6,7 +6,7 @@ import {
   ActivityIndicator,
   TouchableOpacity,
 } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Color } from '../../constants/colors'
 import TextField from '../../components/TextField'
 import Buttons from '../../components/Buttons'
@@ -14,6 +14,7 @@ import { Checkbox } from 'react-native-paper'
 import Back from 'react-native-vector-icons/AntDesign'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import * as firebase from '../../components/firebase'
 
 // @API_Callefef
 import { Base_Url } from '../../api/Api'
@@ -23,12 +24,11 @@ import { useTranslation } from 'react-i18next'
 import Toast from '../../components/Toast'
 
 const Login = ({ navigation }) => {
-  const [checked, setChecked] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("")
+  const [checked, setChecked] = useState(false)
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const [togglePassword, setTogglePassword] = useState(true)
-  const [Loading, setLoading] = useState(false);
-
+  const [Loading, setLoading] = useState(false)
 
 
   const { t } = useTranslation()
@@ -43,11 +43,13 @@ const Login = ({ navigation }) => {
 
   const loginUser = async () => {
     try {
+      let fcmToken = await AsyncStorage.getItem("FCMToken")
+      console.log("myyyyy", fcmToken);
+      console.log("stored login fcm", fcmToken);
       setLoading(true)
       if (!validateEmail(email)) Toast('Enter a valid Email')
       if (password < 6) Toast('Enter a correct password')
       else {
-        
         fetch(`${Base_Url}/login`, {
           method: 'POST',
           headers: {
@@ -58,24 +60,21 @@ const Login = ({ navigation }) => {
           .then(response => response.json())
           .then(data => {
             const respo = data
-            console.log(respo,'loginn detailss')
+            console.log(respo, 'loginn detailss')
             if (respo?.message == 'Logged In successfully') {
-              if(checked){
+              if (checked) {
                 AsyncStorage.setItem('rememberMe', 'true')
               }
               AsyncStorage.setItem('status', 'loggedIn')
               AsyncStorage.setItem('userName', respo?.data?.name)
               AsyncStorage.setItem('imgUri', respo?.data?.profile_picture)
-              AsyncStorage.setItem(
-                'userCity',
-                JSON.stringify(respo?.data?.city),
-              )
+              AsyncStorage.setItem('userCity', JSON.stringify(respo?.data?.city))
               Toast(respo?.message)
               const uid = respo?.data?.id
               AsyncStorage.setItem('uid', JSON.stringify(uid))
               AsyncStorage.setItem('userData', JSON.stringify(respo?.data))
               setLoading(false)
-
+              firebase.getMessage(uid, fcmToken)
               navigation.replace('BottomNavigation')
             } else {
               Toast(respo?.message)
