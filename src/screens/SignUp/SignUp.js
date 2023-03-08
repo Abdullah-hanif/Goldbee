@@ -21,10 +21,12 @@ import { useTranslation } from 'react-i18next';
 import { Base_Url } from '../../api/Api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import messaging from '@react-native-firebase/messaging';
 
 // @ICons
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Toast from '../../components/Toast';
+
 
 const SignUp = ({ navigation }) => {
   const [checked, setChecked] = useState(false);
@@ -59,7 +61,6 @@ const SignUp = ({ navigation }) => {
   useEffect(() => {
     getCityName();
   }, [focused == true]);
-
   const handleSearchCites = searctTxt => {
     // const filterData = citeiesList.filter(val => val == searctTxt);
 
@@ -119,20 +120,20 @@ const SignUp = ({ navigation }) => {
         })
           .then(response => response.json())
           .then(data => {
-            console.log("datatatatta",respo?.data.name);
+            console.log("datatatatta", respo?.data.name);
             const respo = data;
             if (respo?.message == 'Registered successfully') {
               Toast(respo?.message);
               const uid = respo?.data?.id;
               AsyncStorage.setItem('uid', JSON.stringify(uid));
               AsyncStorage.setItem('status', 'loggedIn');
-              AsyncStorage.setItem('userName',`${firstname} ${lastName}`)
+              AsyncStorage.setItem('userName', `${firstname} ${lastName}`)
               AsyncStorage.setItem('userData', JSON.stringify(respo?.data));
               setLoading(false)
               navigation.replace('BottomNavigation');
             } else {
               Toast(respo?.message);
-              setLoading(false) 
+              setLoading(false)
             }
           })
           .catch(error => {
@@ -143,10 +144,56 @@ const SignUp = ({ navigation }) => {
     } catch (error) {
       Toast(error)
     }
-    finally{
+    finally {
       setLoading(false)
     }
 
+  }
+
+  const getFCMToken = async () => {
+    let fcmToken = await AsyncStorage.getItem("FCMToken")
+    console.log("old Token", fcmToken);
+    if (!fcmToken) {
+      try {
+        const fcmToken = await messaging().getToken()
+        if (fcmToken) {
+          await AsyncStorage.setItem("FCMToken", fcmToken)
+          console.log("new Token", fcmToken);
+        }
+      }
+      catch (error) {
+        console.log("error", error);
+      }
+    }
+    return fcmToken
+  }
+  const onMessage = async (navigation, notification) => {
+    const check = await AsyncStorage.getItem('status')
+    if (check == 'loggedIn') {
+      // const { title, body } = notification
+      // title = "You have a new message"
+      // body = "Click to view"
+
+      let fcmToken = await getFCMToken()
+      console.log("rrferg", fcmToken);
+      const userId = await AsyncStorage.getItem('uid');
+      fetch(`${Base_Url}/store-fcm`, {
+        method: 'POST',
+        body: JSON.stringify({ user_id: userId, fcm: fcmToken }),
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log("firease data", data);
+          // navigation.navigate('Login');
+          return data
+        })
+        .catch(error => {
+          console.log(error);
+        })
+    }
   }
   const getCityName = () => {
     // setLoading(true);
@@ -164,7 +211,10 @@ const SignUp = ({ navigation }) => {
       .then(json => {
         // setLoading(false)
         //console.log(json)
+        // console.log(json, 'json')
+
         if (json.error == false) {
+
           setCititesList(json.data);
           setFilterCiteisList(json.data);
           console.log('CITIES NAME=====>', json.data);
@@ -349,7 +399,7 @@ const SignUp = ({ navigation }) => {
         </View>
       </View>
       <View>
-        <Buttons onpress={() => signInUser()} name={Loading ?
+        <Buttons onpress={() => {signInUser();  onMessage()}} name={Loading ?
           <>
             <TouchableOpacity disabled style={styles.containe11}>
               <ActivityIndicator size={20} color={Color.yellow} />
@@ -361,7 +411,7 @@ const SignUp = ({ navigation }) => {
         <Text style={{ color: 'black' }}>
           {t('common:Alreadyhaveandaccount')}
         </Text>
-        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+        <TouchableOpacity onPress={() => {navigation.navigate('Login') }}>
           <Text style={styles.loginTxt}>{t('common:Login')} </Text>
         </TouchableOpacity>
       </View>

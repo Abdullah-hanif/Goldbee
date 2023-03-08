@@ -7,26 +7,26 @@ import {
   Text,
   TouchableOpacity,
   View,
-} from 'react-native';
-import React, { useState, useEffect } from 'react';
-import { Color } from '../../constants/colors';
-import InboxMessages from '../../components/InboxMessages';
-import { useTranslation } from 'react-i18next';
-import { Base_Url } from '../../api/Api';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useIsFocused } from '@react-navigation/native';
+} from 'react-native'
+import React, { useState, useEffect } from 'react'
+import { Color } from '../../constants/colors'
+import InboxMessages from '../../components/InboxMessages'
+import { useTranslation } from 'react-i18next'
+import { Base_Url } from '../../api/Api'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useIsFocused } from '@react-navigation/native'
 import Toast from '../../components/Toast'
 
 const Inbox = () => {
-  const { t } = useTranslation();
-  const [role, setRole] = useState('buying');
-  const [buyerChat, setBuyerChat] = useState([]);
-  const [sellerChat, setSellerChat] = useState([]);
-  const [Loading, setLoading] = useState(true);
-  const [noBuyerChat, setBuyerNoChat] = useState(false);
-  const [noSellerChat, setSellerNoChat] = useState(false);
-  const [refreshing, setRefreshing] = useState(false);
-  const [myuid, setMyuid] = useState('');
+  const { t } = useTranslation()
+  const [role, setRole] = useState('buying')
+  const [buyerChat, setBuyerChat] = useState([])
+  const [sellerChat, setSellerChat] = useState([])
+  const [Loading, setLoading] = useState(true)
+  const [noBuyerChat, setBuyerNoChat] = useState(false)
+  const [noSellerChat, setSellerNoChat] = useState(false)
+  const [refreshing, setRefreshing] = useState(false)
+  const [myuid, setMyuid] = useState('')
 
   const onRefresh = () => {
     setRefreshing(true)
@@ -38,7 +38,7 @@ const Inbox = () => {
 
   const getInbox = async () => {
     try {
-      const userId = await AsyncStorage.getItem('uid');
+      const userId = await AsyncStorage.getItem('uid')
       setMyuid(userId)
       fetch(`${Base_Url}/get-inbox`, {
         method: 'POST',
@@ -62,18 +62,18 @@ const Inbox = () => {
     }
   }
 
-  const focused = useIsFocused();
+  const focused = useIsFocused()
 
   useEffect(() => {
     getInbox()
-  }, [focused == true]);
+  }, [focused == true])
 
   useEffect(() => {
-    const interval = setInterval(() => getInbox(), 10000);
+    const interval = setInterval(() => getInbox(), 10000)
     return () => {
-      clearInterval(interval);
+      clearInterval(interval)
     }
-  }, []);
+  }, [])
 
   return (
     <View style={styles.container}>
@@ -83,15 +83,10 @@ const Inbox = () => {
             setRole(txt)
           }}
         />
-        {role == 'buying' && Loading ?
-          <View style={styles.loadingContainer}>
-            <ActivityIndicator
-              animating={true}
-              color={Color.darkOrange}
-              size="large"
-            />
-          </View> :
-          role == 'selling' && Loading ?
+        <ScrollView refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }>
+          {role == 'buying' && Loading ?
             <View style={styles.loadingContainer}>
               <ActivityIndicator
                 animating={true}
@@ -99,69 +94,77 @@ const Inbox = () => {
                 size="large"
               />
             </View> :
-            role == 'buying' && noBuyerChat ?
-              <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-                <Text>No Buying Chats Found</Text>
+            role == 'selling' && Loading ?
+              <View style={styles.loadingContainer}>
+                <ActivityIndicator
+                  animating={true}
+                  color={Color.darkOrange}
+                  size="large"
+                />
               </View> :
-              role == 'selling' && noSellerChat ?
-                <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-                  <Text>No Selling Chats Found</Text>
-                </View>
-                :
-                <ScrollView refreshControl={
-                  <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-                } showsVerticalScrollIndicator={false}>
-                  {role == 'buying'
-                    ?
-                    buyerChat.map((data, indx) => {
-                      return (
-                        <InboxMessages
-                          key={indx}
-                          name={data.with_user.name}
-                          listingId={data?.listing_id}
-                          withId={data?.with_id}
-                          productName={data.listing?.title}
-                          time={data?.time_ago}
-                          imageUri={`http://95.179.209.186/${data.listing.images[0]}`}
-                          message={data?.last_message}
-                          price={data.listing.price}
-                          isRead={data.read}
-                          otherData={data}
-                          profilePic={data.with_user.profile_picture}
-                        />
-                      )
-                    })
-                    :
-                    sellerChat.map((data, indx) => {
-                      return (
-                        <InboxMessages
-                          key={indx}
-                          name={data.with_user.name}
-                          listingId={data?.listing_id}
-                          withId={data?.with_id}
-                          productName={data.listing?.title}
-                          time={data?.time_ago}
-                          imageUri={`http://95.179.209.186/${data.listing.images[0]}`}
-                          message={data?.last_message}
-                          price={data.listing.price}
-                          isRead={data?.read}
-                          otherData={data}
-                        />
-                      )
-                    })
-                  }
-                </ScrollView>
-
-        }
+              role == 'buying' && noBuyerChat ?
+                <View style={{ flex: 1,height:550, justifyContent: "center", alignItems: "center" }}>
+                  <Text>No Buying Chats Found</Text>
+                </View> :
+                role == 'selling' && noSellerChat ?
+                  <View style={{ flex: 1,height:550, justifyContent: "center", alignItems: "center" }}>
+                    <Text>No Selling Chats Found</Text>
+                  </View>
+                  :
+                  <ScrollView refreshControl={
+                    <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                  } showsVerticalScrollIndicator={false}>
+                    {role == 'buying'
+                      ?
+                      buyerChat.map((data, indx) => {
+                        return (
+                          <InboxMessages
+                            key={indx}
+                            name={data.with_user.name}
+                            listingId={data?.listing_id}
+                            withId={data?.with_id}
+                            productName={data.listing?.title}
+                            time={data?.time_ago}
+                            imageUri={`http://95.179.209.186/${data.listing.images[0]}`}
+                            message={data?.last_message}
+                            price={data.listing.price}
+                            isRead={myuid != data?.sender_id ? data.read : 'yes'}
+                            otherData={data}
+                            profilePic={data.with_user.profile_picture}
+                          />
+                        )
+                      })
+                      :
+                      sellerChat.map((data, indx) => {
+                        return (
+                          <InboxMessages
+                            key={indx}
+                            name={data.with_user.name}
+                            listingId={data?.listing_id}
+                            withId={data?.with_id}
+                            productName={data.listing?.title}
+                            time={data?.time_ago}
+                            imageUri={`http://95.179.209.186/${data.listing.images[0]}`}
+                            message={data?.last_message}
+                            price={data.listing.price}
+                            isRead={myuid != data?.sender_id ? data.read : 'yes'}
+                            otherData={data}
+                          />
+                        )
+                      })
+                    }
+                  </ScrollView>
+          }
+        </ScrollView>
       </View>
     </View>
-  );
-};
+  )
+}
 
 const SwitchButton = ({ changeRole }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
-  const [clicked, setClicked] = React.useState(true);
+  const [clicked, setClicked] = React.useState(true)
   return (
     <>
       <View
@@ -173,7 +176,7 @@ const SwitchButton = ({ changeRole }) => {
         }}>
         <TouchableOpacity
           onPress={() => {
-            setClicked(true), changeRole('buying');
+            setClicked(true), changeRole('buying')
           }}
           style={[
             styles.buttonStyle,
@@ -190,7 +193,7 @@ const SwitchButton = ({ changeRole }) => {
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
-            setClicked(false), changeRole('selling');
+            setClicked(false), changeRole('selling')
           }}
           style={[
             styles.buttonStyle,
@@ -207,12 +210,12 @@ const SwitchButton = ({ changeRole }) => {
         </TouchableOpacity>
       </View>
     </>
-  );
-};
+  )
+}
 
-export { SwitchButton };
+export { SwitchButton }
 
-export default Inbox;
+export default Inbox
 
 const styles = StyleSheet.create({
   container: {
@@ -247,4 +250,4 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-});
+})
