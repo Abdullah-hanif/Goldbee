@@ -22,10 +22,9 @@ import Toast from '../../components/Toast'
 
 // @ICons
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import * as firebase from '../../components/firebase'
+
 const Home = () => {
   const { t } = useTranslation();
-  const navigation = useNavigation()
   const [data, setData] = useState();
   const [filterData, setFilterData] = useState([]);
   const [selected, setSelected] = useState(t('common:all'));
@@ -145,12 +144,7 @@ const Home = () => {
   };
 
   useEffect(() => {
-    firebase.getFCMToken()
-    firebase.requestUserPermission()
-  }, []);
-
-  useEffect(() => {
-    setCityFirstTime();
+    setCityFirstTime()
   }, []);
 
   useEffect(() => {
@@ -166,7 +160,6 @@ const Home = () => {
   };
 
   const getCityName = country => {
-    // setLoading(true);
     fetch('https://countriesnow.space/api/v0.1/countries/cities', {
       method: 'POST',
       headers: {
@@ -223,7 +216,7 @@ const Home = () => {
               transparent={true}
               visible={modalVisible}
             >
-              <View style={{ flex: 1, backgroundColor: 'white',height:"100%" }}>
+              <View style={{ flex: 1, backgroundColor: 'white', height: "100%" }}>
                 <View
                   style={{
                     backgroundColor: 'white',

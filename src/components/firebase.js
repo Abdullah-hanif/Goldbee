@@ -19,17 +19,11 @@ export const getFCMToken = async () => {
     }
     return fcmToken
 }
-export const onMessage = async (navigation, notification) => {
+export const getMessage = async (uid, fcmToken) => {
     const check = await AsyncStorage.getItem('status')
     if (check == 'loggedIn') {
-        // const { title, body } = notification
-        // title = "You have a new message"
-        // body = "Click to view"
-
-        let fcmToken = await getFCMToken()
-        console.log("rrferg", fcmToken);
-        const userId = await AsyncStorage.getItem('uid');
-         fetch(`${Base_Url}/store-fcm`, {
+        const userId = await AsyncStorage.getItem('uid')
+        fetch(`${Base_Url}/store-fcm`, {
             method: 'POST',
             body: JSON.stringify({ user_id: userId, fcm: fcmToken }),
             headers: {
@@ -59,26 +53,24 @@ export const requestUserPermission = async () => {
 }
 
 
-
-export const NotificationListener = (navigation) => {
+export const NotificationListener = async () => {
+    let fcmToken = await getFCMToken()
+    const userId = await AsyncStorage.getItem('uid')
     // background
     messaging().onNotificationOpenedApp(message => {
-        const { notification } = message
-        console.log("messaging().onNotificationOpenedApp", message);
-        onMessage(navigation, notification)
-        
+        getMessage(userId, fcmToken)
+
         messaging().setBackgroundMessageHandler(async message => {
-            onMessage(navigation, notification)
-            console.log('Message handled in the background!', message);
+            getMessage(userId, fcmToken)
+
         });
+
         // Quit State
         messaging()
             .getInitialNotification()
             .then(message => {
                 if (message) {
-                    onMessage(navigation, notification)
-                    console.log('Notification caused app to open from quit state:', message)
-
+                    getMessage(userId, fcmToken)
                 }
             })
     })
