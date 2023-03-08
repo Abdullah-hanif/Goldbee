@@ -43,7 +43,7 @@ const Profile = ({navigation}) => {
             style={{height: 65, width: 65, borderRadius: 30}}
             source={
               img == null
-                ? require('../../assets/Icons/MaskGroup121.png')
+                ? require('../../assets/Icons/noPic.png')
                 : {uri: img}
             }
           />

@@ -171,7 +171,7 @@ const ProductDetails = ({ navigation, route }) => {
             style={{ height: 50, width: 50, borderRadius: 100 }}
             source={
               sellerDetail?.profile_picture == 'http://95.179.209.186/'
-                ? require('../../assets/Icons/MaskGroup121.png')
+                ? require('../../assets/Icons/noPic.png.png')
                 : { uri: sellerDetail?.profile_picture }
             }
           />
