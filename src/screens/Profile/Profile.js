@@ -7,17 +7,17 @@ import {
   NativeModule,
   NativeModules,
 } from 'react-native';
-import React, {useState, useEffect} from 'react';
-import {Color} from '../../constants/colors';
+import React, { useState, useEffect } from 'react';
+import { Color } from '../../constants/colors';
 import ProfileItemComp from '../../components/ProfileItemComp';
 
 // @Languge import
-import {useTranslation} from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useIsFocused} from '@react-navigation/native';
+import { useIsFocused } from '@react-navigation/native';
 
-const Profile = ({navigation}) => {
-  const {t} = useTranslation();
+const Profile = ({ navigation }) => {
+  const { t } = useTranslation();
   const [img, setImg] = useState(null);
   const [name, setName] = useState('');
 
@@ -38,17 +38,17 @@ const Profile = ({navigation}) => {
       <View style={styles.innerContainer}>
         {/* Profile Header Started */}
         <View
-          style={{flexDirection: 'row', alignItems: 'center', marginTop: 50}}>
+          style={{ flexDirection: 'row', alignItems: 'center', marginTop: 50 }}>
           <Image
-            style={{height: 65, width: 65, borderRadius: 30}}
+            style={{ height: 65, width: 65, borderRadius: 30 }}
             source={
               img == null
                 ? require('../../assets/Icons/noPic.png')
-                : {uri: img}
+                : { uri: img }
             }
           />
-          <View style={{left: 10,marginBottom:5}}>
-            <Text style={{fontWeight: 'bold', fontSize: 20, color: 'black'}}>
+          <View style={{ left: 10, marginBottom: 5 }}>
+            <Text style={{ fontWeight: 'bold', fontSize: 20, color: 'black' }}>
               {name?.replace('" "', ' ')}
             </Text>
             {/* <Text
@@ -60,7 +60,7 @@ const Profile = ({navigation}) => {
           </View>
         </View>
         {/* Profile Header END */}
-        <View style={{marginTop: 30}}>
+        <View style={{ marginTop: 30 }}>
           <ProfileItemComp
             onClick={() => navigation.navigate('MyProfile')}
             name={t('common:profile')}
