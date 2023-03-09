@@ -179,7 +179,7 @@ const Home = () => {
         }
       })
       .catch(error => {
-        console.log('response error ===>', error);
+        Toast(error)
       });
   };
 

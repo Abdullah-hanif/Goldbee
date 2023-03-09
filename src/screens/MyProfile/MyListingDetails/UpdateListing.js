@@ -322,31 +322,29 @@ const UpdateListing = ({ navigation, route }) => {
           ) : (
             <>
               <ScrollView horizontal>
-                <View
-                  style={{
-                    height: 70,
-                    width: 80,
-                    borderRadius: 20,
-                    backgroundColor: 'lightgray',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    margin: 10,
-                  }}>
+              <View
+                style={{
+                  height: 65,
+                  width: 90,
+                  borderRadius: 20,
+                  backgroundColor: 'lightgray',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  margin: 10,
+                  marginTop: 18,
+                }}>
                   <TouchableOpacity onPress={() => setopenModal1(true)}>
                     <AntDesign color="gray" size={20} name="pluscircle" />
                   </TouchableOpacity>
                 </View>
                 {images.map((val, index) => {
-                  // console.log(val);
                   return (
                     <>
                       <View>
                         <TouchableOpacity
-                          // key={Math.random() * 1000}
                           onPress={() => RemoveImage(val)}
                           style={{
                             flexDirection: 'row-reverse',
-                            // position: 'absolute',
                             elevation: 10,
                             zIndex: 1,
                           }}>

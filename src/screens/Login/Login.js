@@ -6,7 +6,7 @@ import {
   ActivityIndicator,
   TouchableOpacity,
 } from 'react-native'
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { Color } from '../../constants/colors'
 import TextField from '../../components/TextField'
 import Buttons from '../../components/Buttons'
@@ -44,7 +44,6 @@ const Login = ({ navigation }) => {
   const loginUser = async () => {
     try {
       let fcmToken = await AsyncStorage.getItem("FCMToken")
-      console.log("stored login fcm", fcmToken);
       setLoading(true)
       if (!validateEmail(email)) Toast('Enter a valid Email')
       if (password < 6) Toast('Enter a correct password')
@@ -66,7 +65,8 @@ const Login = ({ navigation }) => {
               }
               AsyncStorage.setItem('status', 'loggedIn')
               AsyncStorage.setItem('userName', respo?.data?.name)
-              AsyncStorage.setItem('imgUri', respo?.data?.profile_picture)
+              console.log(respo?.data);
+              AsyncStorage.setItem('imgUri', respo.data.profile_picture)
               AsyncStorage.setItem('userCity', JSON.stringify(respo?.data?.city))
               Toast(respo?.message)
               const uid = respo?.data?.id

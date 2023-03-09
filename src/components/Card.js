@@ -5,7 +5,6 @@ import { Color } from '../constants/colors';
 import { useIsFocused, useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Base_Url } from '../api/Api';
-import { useId } from 'react';
 import Toast from './Toast';
 const Card = ({
   name,
@@ -17,16 +16,13 @@ const Card = ({
   deleteIcon,
   isHide = false,
   productDetails,
-  getFUN,
   listing_id,
   checkChange,
   checkChangeFav,
-  getAllFunc,
-  prodID,
   sellerDetails,
 }) => {
   const [followe, setFollowed] = useState(isFav);
-  const [userID, setuserID] = React.useState('');
+  const [userID, setuserID] = useState('');
 
   const getUID = async () => {
     const userId = await AsyncStorage.getItem('uid');
@@ -41,7 +37,6 @@ const Card = ({
   const AddFav = async () => {
     const userId = await AsyncStorage.getItem('uid');
     setuserID(userId);
-    // console.log('USER ID ====>', userId);
     await fetch(`${Base_Url}/follow-listing`, {
       method: 'POST',
       headers: {
@@ -51,15 +46,11 @@ const Card = ({
     })
       .then(response => response.json())
       .then(data => {
-        //   const res = data.json();
         const respo = data;
-        // console.log('RESPONSE HOME', respo?.data);
 
         if (respo?.message == 'Followed successfully') {
           Toast('Followed Sucessfully');
           checkChange(true);
-
-          // getFUN();
         } else {
           console.log(respo?.message);
         }
@@ -114,14 +105,12 @@ const Card = ({
     })
       .then(response => response.json())
       .then(data => {
-        //   const res = data.json();
         const respo = data;
         if (respo?.message == 'Unfollowed successfully') {
           Toast('Unfollowed successfully');
           setFollowed('no');
           checkChangeFav(true);
 
-          // getFUN();
         } else {
           console.log(respo?.message);
         }
