@@ -15,6 +15,7 @@ import ProfileItemComp from '../../components/ProfileItemComp';
 import { useTranslation } from 'react-i18next';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useIsFocused } from '@react-navigation/native';
+import * as firebase from '../../components/firebase'
 
 const Profile = ({ navigation }) => {
   const { t } = useTranslation();
@@ -76,7 +77,9 @@ const Profile = ({ navigation }) => {
           />
           <ProfileItemComp
             onClick={() => {
-              navigation.replace('Login'), AsyncStorage.clear();
+              navigation.replace('Login')
+              AsyncStorage.clear()
+              firebase.getFCMToken()
             }}
             name={t('common:logout')}
             Icon={require('../../assets/Icons/Group40901.png')}

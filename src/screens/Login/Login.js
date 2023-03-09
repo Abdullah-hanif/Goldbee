@@ -44,7 +44,6 @@ const Login = ({ navigation }) => {
   const loginUser = async () => {
     try {
       let fcmToken = await AsyncStorage.getItem("FCMToken")
-      console.log("myyyyy", fcmToken);
       console.log("stored login fcm", fcmToken);
       setLoading(true)
       if (!validateEmail(email)) Toast('Enter a valid Email')
