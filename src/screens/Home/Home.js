@@ -45,7 +45,6 @@ const Home = () => {
   const getAllListing = async () => {
     const userData = await AsyncStorage.getItem('userData');
     const parsedData = userData ? JSON.parse(userData) : null;
-
     if (parsedData) {
       await fetch(`${Base_Url}/get-listings`, {
         method: 'POST',
