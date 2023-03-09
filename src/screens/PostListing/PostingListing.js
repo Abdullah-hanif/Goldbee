@@ -59,23 +59,7 @@ const PostingListing = ({ navigation, route }) => {
 
   const { Categories } = route?.params;
 
-  // console.log('img===>', img[0]?.assets);
-  // console.log('Images===>', images);
 
-  // const [city, setCity] = useState(null);
-  // // console.log('title===>', title, price, country, selectArea, description);
-  // const spainCities = [
-  //   {label: 'Madrid', value: 'madrid'},
-  //   {label: 'Barcelona', value: 'barcelona'},
-  //   {label: 'Valencia', value: 'valencia'},
-  //   {label: 'Seville', value: 'seville'},
-  //   {label: 'Bilbao', value: 'bilbao'},
-  //   {label: 'Zaragoza', value: 'zaragoza'},
-  //   {label: 'Málaga', value: 'malaga'},
-  // ];
-
-  // console.log('Imags Arry===>', images);
-  //posing Listing
 
   const LaunchImageLibrary = () => {
     const options = {
@@ -87,7 +71,6 @@ const PostingListing = ({ navigation, route }) => {
     };
 
     launchImageLibrary(options, response => {
-      // console.log('Image LibraResponse = ', response);
 
       if (response.didCancel) {
         console.log('User cancelled image picker');
@@ -190,7 +173,6 @@ const PostingListing = ({ navigation, route }) => {
       data.append('price', price);
       data.append('category', Categories);
       img.forEach((item, i) => {
-        // console.log('FOR EARCH=====>', item.fileName.slice(-8, -1) + 'g');
         console.log('===>FOR EARCH===>', item?.assets[0].fileName);
         data.append('images[]', {
           uri: item?.assets[0].uri,
@@ -211,14 +193,12 @@ const PostingListing = ({ navigation, route }) => {
       })
         .then(response => response.json())
         .then(data => {
-          //   const res = data.json();
           const respo = data;
           console.log(respo?.status, '=====>');
           if (respo?.message == 'Something missing. All fields are required') {
             Toast(respo?.message);
             setLoading(false);
           } else {
-            // Toast(respo?.message);
             setModalVisible(!modalVisible),
               setTimeout(() => {
                 setModalVisible(false);
@@ -246,7 +226,6 @@ const PostingListing = ({ navigation, route }) => {
     const filterData = citeiesList?.filter(val =>
       val?.toLowerCase().startsWith(searctTxt.toLowerCase()),
     );
-    // const filterData = citeiesList.filter(val => val == searctTxt);
     setFilterCiteisList(filterData);
     if (searctTxt == '') {
       setFilterCiteisList(citeiesList);
@@ -267,8 +246,6 @@ const PostingListing = ({ navigation, route }) => {
     })
       .then(res => res.json())
       .then(json => {
-        // setLoading(false)
-        //console.log(json)
         if (json.error == false) {
           setCititesList(json.data);
           setFilterCiteisList(json.data);
@@ -277,7 +254,6 @@ const PostingListing = ({ navigation, route }) => {
         }
       })
       .catch(error => {
-        // setLoading(false);
         console.log('response error ===>', error);
       });
   };

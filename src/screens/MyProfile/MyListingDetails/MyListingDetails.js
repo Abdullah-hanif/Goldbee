@@ -127,7 +127,6 @@ const MyListingDetails = ({ navigation, route }) => {
           style={{
             borderWidth: 0.8,
             borderBottomColor: '#E0E0E0',
-            // borderBottomWidth: StyleSheet.hairlineWidth,
             marginTop: '6%'
           }}
         />
@@ -136,7 +135,6 @@ const MyListingDetails = ({ navigation, route }) => {
         </View>
         {/* for profile pic */}
         <TouchableOpacity
-          // onPress={() => navigation.navigate('ProfileDetails')}
           onPress={() => navigation.navigate('MyProfile')}
           style={{ flexDirection: 'row', alignItems: 'center', marginTop: '6%' }}>
           <Image

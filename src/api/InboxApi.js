@@ -1,9 +1,9 @@
 //write a function Post api using fetch function in react native?
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {Base_Url} from './Api';
+import { Base_Url } from './Api';
 
-export const getInbox = async (url, data) => {
+export const getInbox = async (data) => {
   const userId = await AsyncStorage.getItem('uid');
   try {
     const response = await fetch(`${Base_Url}/get-inbox`, {
