@@ -1,30 +1,30 @@
-import { StyleSheet, Text, View } from 'react-native';
-import React from 'react';
+import { StyleSheet } from 'react-native'
+import React from 'react'
 import {
   CardStyleInterpolators,
   createStackNavigator,
-} from '@react-navigation/stack';
-import { useNavigation } from '@react-navigation/native';
+} from '@react-navigation/stack'
+import { useNavigation } from '@react-navigation/native'
 
 // @Screens
-import Splash from '../screens/Splash/Splash';
-import Login from '../screens/Login/Login';
-import Walkthrough from '../screens/Walkthrough/Walkthrough';
-import SignUp from '../screens/SignUp/SignUp';
-import BottomNavigation from './BottomNavigation';
-import ChatScreen from '../screens/ChatScreen/ChatScreen';
-import ProductDetails from '../screens/ProductDetails/ProductDetails';
-import Home from '../screens/Home/Home';
-import ProfileDetails from '../screens/ProfileDetails/ProfileDetails';
-import MyProfile from '../screens/MyProfile/MyProfile';
-import PostingListing from '../screens/PostListing/PostingListing';
+import Splash from '../screens/Splash/Splash'
+import Login from '../screens/Login/Login'
+import Walkthrough from '../screens/Walkthrough/Walkthrough'
+import SignUp from '../screens/SignUp/SignUp'
+import BottomNavigation from './BottomNavigation'
+import ChatScreen from '../screens/ChatScreen/ChatScreen'
+import ProductDetails from '../screens/ProductDetails/ProductDetails'
+import Home from '../screens/Home/Home'
+import ProfileDetails from '../screens/ProfileDetails/ProfileDetails'
+import MyProfile from '../screens/MyProfile/MyProfile'
+import PostingListing from '../screens/PostListing/PostingListing'
 
 // @MyProfile
-import MyListingDetails from '../screens/MyProfile/MyListingDetails/MyListingDetails';
-import UpdateListing from '../screens/MyProfile/MyListingDetails/UpdateListing';
-import { NotificationListener } from '../components/firebase';
+import MyListingDetails from '../screens/MyProfile/MyListingDetails/MyListingDetails'
+import UpdateListing from '../screens/MyProfile/MyListingDetails/UpdateListing'
+import { NotificationListener } from '../components/firebase'
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator()
 const StackNavigation = () => {
   const navigation = useNavigation()
 
@@ -42,7 +42,7 @@ const StackNavigation = () => {
       restDisplacementThreshold: 0.01,
       restSpeedThreshold: 0.01,
     },
-  };
+  }
   return (
     <Stack.Navigator
       initialRouteName="Splash"
@@ -79,9 +79,9 @@ const StackNavigation = () => {
       <Stack.Screen name="MyListingDetails" component={MyListingDetails} />
       <Stack.Screen name="UpdateListing" component={UpdateListing} />
     </Stack.Navigator>
-  );
-};
+  )
+}
 
-export default StackNavigation;
+export default StackNavigation
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({})

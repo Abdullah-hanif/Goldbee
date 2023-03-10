@@ -3,12 +3,12 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import StackNavigation from './src/navigations/StackNavigation';
 import { useTranslation } from 'react-i18next';
-
+import { OnPressNotification } from './src/components/firebase';
 // import './src/constants/DCSLocalize';
 import './src/constants/DCSLocalize';
 const App = () => {
-  const locale = NativeModules.I18nManager.localeIdentifier;
- 
+  const locale = NativeModules.I18nManager.localeIdentifier
+
   const localLang = locale.split('_');
   const { t, i18n } = useTranslation();
 
