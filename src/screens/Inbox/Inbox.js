@@ -1,5 +1,4 @@
 import {
-  Image,
   ScrollView,
   StyleSheet,
   ActivityIndicator,
@@ -27,6 +26,7 @@ const Inbox = () => {
   const [noSellerChat, setSellerNoChat] = useState(false)
   const [refreshing, setRefreshing] = useState(false)
   const [myuid, setMyuid] = useState('')
+
 
   const onRefresh = () => {
     setRefreshing(true)
@@ -68,12 +68,14 @@ const Inbox = () => {
     getInbox()
   }, [focused == true])
 
+
   useEffect(() => {
     const interval = setInterval(() => getInbox(), 10000)
     return () => {
       clearInterval(interval)
     }
   }, [])
+
 
   return (
     <View style={styles.container}>
@@ -103,11 +105,11 @@ const Inbox = () => {
                 />
               </View> :
               role == 'buying' && noBuyerChat ?
-                <View style={{ flex: 1,height:550, justifyContent: "center", alignItems: "center" }}>
+                <View style={{ flex: 1, height: 550, justifyContent: "center", alignItems: "center" }}>
                   <Text>No Buying Chats Found</Text>
                 </View> :
                 role == 'selling' && noSellerChat ?
-                  <View style={{ flex: 1,height:550, justifyContent: "center", alignItems: "center" }}>
+                  <View style={{ flex: 1, height: 550, justifyContent: "center", alignItems: "center" }}>
                     <Text>No Selling Chats Found</Text>
                   </View>
                   :
@@ -116,6 +118,7 @@ const Inbox = () => {
                   } showsVerticalScrollIndicator={false}>
                     {role == 'buying'
                       ?
+
                       buyerChat.map((data, indx) => {
                         return (
                           <InboxMessages
@@ -151,7 +154,7 @@ const Inbox = () => {
                             otherData={data}
                           />
                         )
-                      })
+                      }).reverse()
                     }
                   </ScrollView>
           }
@@ -249,6 +252,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    height:550
+    height: 550
   },
 })
