@@ -74,7 +74,6 @@ const SignUp = ({ navigation }) => {
   const signInUser = async () => {
     try {
       let fcmToken = await AsyncStorage.getItem("FCMToken")
-      setLoading(true)
       if (!validateEmail(email)) Toast('Enter a valid Email')
       if (Cities === "Cities") Toast('Enter your city')
       if (!firstname) Toast('Enter your first name')
@@ -83,6 +82,7 @@ const SignUp = ({ navigation }) => {
       if (password != conPassword) Toast('Password not matched')
       if (validateEmail(email) && Cities != "Cities" && firstname && lastName
         && password == conPassword && checked === true) {
+        setLoading(true)
         fetch(`${Base_Url}/register`, {
           method: 'POST',
           headers: {
@@ -108,7 +108,6 @@ const SignUp = ({ navigation }) => {
               AsyncStorage.setItem('userName', `${firstname} ${lastName}`)
               AsyncStorage.setItem('userData', JSON.stringify(respo?.data))
               firebase.getMessage(uid, fcmToken)
-              setLoading(false)
               navigation.replace('BottomNavigation')
             } else {
               Toast(respo?.message);
@@ -117,14 +116,10 @@ const SignUp = ({ navigation }) => {
           })
           .catch(error => {
             Toast(error)
-            setLoading(false)
           });
       }
     } catch (error) {
       Toast(error)
-    }
-    finally {
-      setLoading(false)
     }
 
   }
@@ -328,7 +323,7 @@ const SignUp = ({ navigation }) => {
       <View>
         <Buttons onpress={() => signInUser()} name={Loading ?
           <>
-            <TouchableOpacity disabled style={styles.containe11}>
+            <TouchableOpacity disabled>
               <ActivityIndicator size={20} color={Color.yellow} />
             </TouchableOpacity>
           </> :

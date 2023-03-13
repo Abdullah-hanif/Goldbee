@@ -40,8 +40,8 @@ export const getMessage = async (uid, fcmToken) => {
 }
 
 export const OnPressNotification = async (navigation, message,) => {
-    navigation.navigate("BottomNavigation", { screen: 'Inbox' })
-    console.log("message", message)
+    navigation.navigate("Splash", { screen: 'Inbox' })
+    console.log("message", JSON.parse(message.data.data))
 }
 
 export const requestUserPermission = async () => {

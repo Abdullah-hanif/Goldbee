@@ -33,7 +33,6 @@ const Inbox = () => {
     Toast("Successfully Refreshed")
     getInbox()
     setRefreshing(false)
-
   }
 
   const getInbox = async () => {
@@ -61,7 +60,7 @@ const Inbox = () => {
       Toast(`Wait a moment ${error}`)
     }
   }
-
+  console.log("buyercht", buyerChat.sort((a, b) => { b.with_user.createdAt - a.with_user.createdAt }))
   const focused = useIsFocused()
 
   useEffect(() => {
