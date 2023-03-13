@@ -54,7 +54,7 @@ const ChatScreen = ({ navigation, route }) => {
       .then(response => response.json())
       .then(data => {
         const filteredArr = data.data.sort((a, b) => a._id - b._id)
-          .reverse()
+          .reverse();
         setMessages(
           filteredArr.map((chatMessage) => {
             return {

@@ -60,7 +60,27 @@ const Inbox = () => {
       Toast(`Wait a moment ${error}`)
     }
   }
-  console.log("buyercht", buyerChat.sort((a, b) => { b.with_user.createdAt - a.with_user.createdAt }))
+  
+  // for buyer sorting chats 
+  const buyerSorted = buyerChat.sort((a,b)=>{
+    const dateA = new Date(`${a.message_created_at}`).valueOf();
+    const dateB = new Date(`${b.message_created_at}`).valueOf();
+    if(dateA > dateB){
+      return 1; // return -1 here for DESC order
+    }
+    return -1 // return 1 here for DESC Order
+  }).reverse();
+
+  // for seller sorting chats 
+  const sellerSorted = sellerChat.sort((a,b)=>{
+    const dateA = new Date(`${a.message_created_at}`).valueOf();
+    const dateB = new Date(`${b.message_created_at}`).valueOf();
+    if(dateA > dateB){
+      return 1; // return -1 here for DESC order
+    }
+    return -1 // return 1 here for DESC Order
+  }).reverse();
+  
   const focused = useIsFocused()
 
   useEffect(() => {
@@ -118,7 +138,7 @@ const Inbox = () => {
                     {role == 'buying'
                       ?
 
-                      buyerChat.map((data, indx) => {
+                      buyerSorted.map((data, indx) => {
                         return (
                           <InboxMessages
                             key={indx}
@@ -137,7 +157,7 @@ const Inbox = () => {
                         )
                       })
                       :
-                      sellerChat.map((data, indx) => {
+                      sellerSorted.map((data, indx) => {
                         return (
                           <InboxMessages
                             key={indx}
@@ -153,7 +173,7 @@ const Inbox = () => {
                             otherData={data}
                           />
                         )
-                      }).reverse()
+                      })
                     }
                   </ScrollView>
           }
