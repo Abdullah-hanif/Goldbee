@@ -4,13 +4,11 @@ import { Base_Url } from '../api/Api';
 
 export const getFCMToken = async () => {
     let fcmToken = await AsyncStorage.getItem("FCMToken")
-    console.log("old Token", fcmToken);
     if (!fcmToken) {
         try {
             const fcmToken = await messaging().getToken()
             if (fcmToken) {
                 await AsyncStorage.setItem("FCMToken", fcmToken)
-                console.log("new Token", fcmToken);
             }
         }
         catch (error) {
@@ -33,12 +31,17 @@ export const getMessage = async (uid, fcmToken) => {
             .then(response => response.json())
             .then(data => {
                 console.log("firease data", data);
-                return data
+
             })
             .catch(error => {
                 console.log(error);
             })
     }
+}
+
+export const OnPressNotification = async (navigation, message,) => {
+    navigation.navigate("Splash", { screen: 'Inbox' })
+    console.log("message", JSON.parse(message.data.data))
 }
 
 export const requestUserPermission = async () => {
@@ -51,28 +54,26 @@ export const requestUserPermission = async () => {
         console.log('Authorization status:', authStatus);
     }
 }
+    
 
-
-export const NotificationListener = async () => {
+export const NotificationListener = async (navigation) => {
     let fcmToken = await getFCMToken()
     const userId = await AsyncStorage.getItem('uid')
+
     // background
     messaging().onNotificationOpenedApp(message => {
-        getMessage(userId, fcmToken)
-
-        messaging().setBackgroundMessageHandler(async message => {
-            getMessage(userId, fcmToken)
-
-        });
-
-        // Quit State
-        messaging()
-            .getInitialNotification()
-            .then(message => {
-                if (message) {
-                    getMessage(userId, fcmToken)
-                }
-            })
+        OnPressNotification(navigation, message,)
     })
+    messaging().setBackgroundMessageHandler(async message => {
+        getMessage(userId, fcmToken)
+    })
+    // Quit State
+    messaging()
+        .getInitialNotification()
+        .then(message => {
+            if (message) {
+                OnPressNotification(navigation, message,)
+            }
+        })
 
 }

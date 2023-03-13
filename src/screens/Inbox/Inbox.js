@@ -1,5 +1,4 @@
 import {
-  Image,
   ScrollView,
   StyleSheet,
   ActivityIndicator,
@@ -28,12 +27,12 @@ const Inbox = () => {
   const [refreshing, setRefreshing] = useState(false)
   const [myuid, setMyuid] = useState('')
 
+
   const onRefresh = () => {
     setRefreshing(true)
     Toast("Successfully Refreshed")
     getInbox()
     setRefreshing(false)
-
   }
 
   const getInbox = async () => {
@@ -61,12 +60,33 @@ const Inbox = () => {
       Toast(`Wait a moment ${error}`)
     }
   }
+  
+  // for buyer sorting chats 
+  const buyerSorted = buyerChat.sort((a,b)=>{
+    const dateA = new Date(`${a.message_created_at}`).valueOf();
+    const dateB = new Date(`${b.message_created_at}`).valueOf();
+    if(dateA > dateB){
+      return 1; // return -1 here for DESC order
+    }
+    return -1 // return 1 here for DESC Order
+  }).reverse();
 
+  // for seller sorting chats 
+  const sellerSorted = sellerChat.sort((a,b)=>{
+    const dateA = new Date(`${a.message_created_at}`).valueOf();
+    const dateB = new Date(`${b.message_created_at}`).valueOf();
+    if(dateA > dateB){
+      return 1; // return -1 here for DESC order
+    }
+    return -1 // return 1 here for DESC Order
+  }).reverse();
+  
   const focused = useIsFocused()
 
   useEffect(() => {
     getInbox()
   }, [focused == true])
+
 
   useEffect(() => {
     const interval = setInterval(() => getInbox(), 10000)
@@ -74,6 +94,7 @@ const Inbox = () => {
       clearInterval(interval)
     }
   }, [])
+
 
   return (
     <View style={styles.container}>
@@ -103,11 +124,11 @@ const Inbox = () => {
                 />
               </View> :
               role == 'buying' && noBuyerChat ?
-                <View style={{ flex: 1,height:550, justifyContent: "center", alignItems: "center" }}>
+                <View style={{ flex: 1, height: 550, justifyContent: "center", alignItems: "center" }}>
                   <Text>No Buying Chats Found</Text>
                 </View> :
                 role == 'selling' && noSellerChat ?
-                  <View style={{ flex: 1,height:550, justifyContent: "center", alignItems: "center" }}>
+                  <View style={{ flex: 1, height: 550, justifyContent: "center", alignItems: "center" }}>
                     <Text>No Selling Chats Found</Text>
                   </View>
                   :
@@ -116,7 +137,8 @@ const Inbox = () => {
                   } showsVerticalScrollIndicator={false}>
                     {role == 'buying'
                       ?
-                      buyerChat.map((data, indx) => {
+
+                      buyerSorted.map((data, indx) => {
                         return (
                           <InboxMessages
                             key={indx}
@@ -135,7 +157,7 @@ const Inbox = () => {
                         )
                       })
                       :
-                      sellerChat.map((data, indx) => {
+                      sellerSorted.map((data, indx) => {
                         return (
                           <InboxMessages
                             key={indx}
@@ -249,6 +271,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    height:550
+    height: 550
   },
 })

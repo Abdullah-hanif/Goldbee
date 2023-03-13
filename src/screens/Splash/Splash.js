@@ -11,7 +11,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from '../../components/Toast';
 import * as firebase from '../../components/firebase'
 
-const Splash = ({ navigation }) => {
+const Splash = ({ navigation, route }) => {
+  console.log("splash", route.params)
   useEffect(() => {
     firebase.getFCMToken()
   }, [])
@@ -29,10 +30,10 @@ const Splash = ({ navigation }) => {
     const check = await AsyncStorage.getItem('status');
     console.log('status', check, isLaunched);
     if (isLaunched === 'true' && check === "loggedIn") {
-      navigation.replace('BottomNavigation')
+      navigation.replace('BottomNavigation', route.params)
     }
     else if (check === "loggedIn") {
-      navigation.replace('BottomNavigation')
+      navigation.replace('BottomNavigation', route.params)
     }
     else if (check != "loggedIn" && isLaunched === 'true') {
       navigation.replace('Login')
