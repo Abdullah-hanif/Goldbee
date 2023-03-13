@@ -24,40 +24,40 @@ const Tab = createBottomTabNavigator();
 const BottomNavigation = ({ route }) => {
   console.log("route", route.params);
   const { t } = useTranslation()
-  const [notRead, setNoRead] = useState(false)
-  let messages = 0
+  // const [notRead, setNoRead] = useState(false)
+  // let messages = 0
 
-  const InboxNotification = async () => {
-    try {
-      const userId = await AsyncStorage.getItem('uid')
-      fetch(`${Base_Url}/get-inbox`, {
-        method: 'POST',
-        body: JSON.stringify({ user_id: userId }),
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      })
-        .then(response => response.json())
-        .then(data => {
-          data.selling.filter((val) => {
-            if (val?.read === 'no') {
-              messages++
-            }
-          })
-          data.buying.filter(val => {
-            if (val?.read === 'no') {
-              messages++
-            }
-          })
-          messages > 0 ? setNoRead(true) : setNoRead(false)
-        })
-    } catch (error) {
-      console.log("error", error);
-    }
-  }
-  useEffect(() => {
-    InboxNotification()
-  }, [])
+  // const InboxNotification = async () => {
+  //   try {
+  //     const userId = await AsyncStorage.getItem('uid')
+  //     fetch(`${Base_Url}/get-inbox`, {
+  //       method: 'POST',
+  //       body: JSON.stringify({ user_id: userId }),
+  //       headers: {
+  //         'Content-Type': 'multipart/form-data',
+  //       },
+  //     })
+  //       .then(response => response.json())
+  //       .then(data => {
+  //         data.selling.filter((val) => {
+  //           if (val?.read === 'no') {
+  //             messages++
+  //           }
+  //         })
+  //         data.buying.filter(val => {
+  //           if (val?.read === 'no') {
+  //             messages++
+  //           }
+  //         })
+  //         messages > 0 ? setNoRead(true) : setNoRead(false)
+  //       })
+  //   } catch (error) {
+  //     console.log("error", error);
+  //   }
+  // }
+  // useEffect(() => {
+  //   InboxNotification()
+  // }, [])
 
   const config = {
     animation: 'spring',
@@ -160,7 +160,7 @@ const BottomNavigation = ({ route }) => {
           // },
           tabBarIcon: ({ focused }) => (
             <View>
-              {notRead && <View
+              {/* {notRead && <View
                 style={{
                   height: 15,
                   width: 15,
@@ -170,7 +170,7 @@ const BottomNavigation = ({ route }) => {
                   zIndex: 1,
                   right: -10,
                   bottom: 15,
-                }} />}
+                }} />} */}
               <Image
                 source={BottomTabIcon.Inbox}
                 style={{

@@ -61,24 +61,24 @@ const Inbox = () => {
     }
   }
   
-  // for buyer sorting chats 
+  
   const buyerSorted = buyerChat.sort((a,b)=>{
     const dateA = new Date(`${a.message_created_at}`).valueOf();
     const dateB = new Date(`${b.message_created_at}`).valueOf();
     if(dateA > dateB){
-      return 1; // return -1 here for DESC order
+      return 1
     }
-    return -1 // return 1 here for DESC Order
+    return -1 
   }).reverse();
 
-  // for seller sorting chats 
+
   const sellerSorted = sellerChat.sort((a,b)=>{
     const dateA = new Date(`${a.message_created_at}`).valueOf();
     const dateB = new Date(`${b.message_created_at}`).valueOf();
     if(dateA > dateB){
-      return 1; // return -1 here for DESC order
+      return 1;
     }
-    return -1 // return 1 here for DESC Order
+    return -1 
   }).reverse();
   
   const focused = useIsFocused()
