@@ -17,6 +17,7 @@ import { Color } from '../../constants/colors';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Base_Url } from '../../api/Api';
 import Icon from "react-native-vector-icons//Feather"
+import Toast from '../../components/Toast';
 
 const ChatScreen = ({ navigation, route }) => {
   const [messages, setMessages] = useState([]);
@@ -53,8 +54,7 @@ const ChatScreen = ({ navigation, route }) => {
     })
       .then(response => response.json())
       .then(data => {
-        const filteredArr = data.data.sort((a, b) => a._id - b._id)
-          .reverse();
+        const filteredArr = data.data.sort((a, b) => a._id - b._id).reverse()
         setMessages(
           filteredArr.map((chatMessage) => {
             return {
@@ -78,7 +78,7 @@ const ChatScreen = ({ navigation, route }) => {
   }, [])
 
   useEffect(() => {
-    const interval = setInterval(() => getAllMessges(), 10000);
+    const interval = setInterval(() => getAllMessges(), 9000);
     return () => {
       clearInterval(interval);
     };
@@ -97,7 +97,7 @@ const ChatScreen = ({ navigation, route }) => {
       <Send {...props}>
         <Icon
           name="send"
-          style={{ marginHorizontal: 3,paddingHorizontal:3, alignItems: "center", alignSelf: 'center' }}
+          style={{ marginHorizontal: 3, alignItems: "center", alignSelf: 'center' }}
           size={33}
           color={Color.darkOrange}
         />
@@ -121,10 +121,11 @@ const ChatScreen = ({ navigation, route }) => {
     })
       .then(response => response.json())
       .then(data => {
-        console.log(data?.message)
+        console.log("helloooo",data)
+        console.log("users",typeof receiverId,listingId,text)
       })
       .catch(error => {
-        console.error(error)
+        Toast(error.message)
       });
   };
 

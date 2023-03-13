@@ -12,7 +12,6 @@ import Toast from '../../components/Toast';
 import * as firebase from '../../components/firebase'
 
 const Splash = ({ navigation, route }) => {
-  console.log("splash", route.params)
   useEffect(() => {
     firebase.getFCMToken()
   }, [])
@@ -28,7 +27,6 @@ const Splash = ({ navigation, route }) => {
       }
     }
     const check = await AsyncStorage.getItem('status');
-    console.log('status', check, isLaunched);
     if (isLaunched === 'true' && check === "loggedIn") {
       navigation.replace('BottomNavigation', route.params)
     }
