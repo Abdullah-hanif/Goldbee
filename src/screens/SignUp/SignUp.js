@@ -28,13 +28,14 @@ import * as firebase from '../../components/firebase'
 
 
 const SignUp = ({ navigation }) => {
+  const { t } = useTranslation()
   const [checked, setChecked] = useState(false);
   const [firstname, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [conPassword, setConPassword] = useState('');
-  const [Cities, setCities] = useState('Cities');
+  const [Cities, setCities] = useState(t('common:cities'));
   const [country, setCountry] = useState('Country');
   const [togglePassword, setTogglePassword] = useState(true)
   const [toggleConfirmPassword, setToggleConfirmPassword] = useState(true)
@@ -47,8 +48,6 @@ const SignUp = ({ navigation }) => {
 
   // @Modal Cities
   const [modalVisible, setModalVisible] = useState(false);
-  const { t } = useTranslation()
-
   const focused = useIsFocused();
   useEffect(() => {
     getCityName();
@@ -179,7 +178,7 @@ const SignUp = ({ navigation }) => {
             setCountryModal(!countryModal), setModalVisible(true);
           }}
           style={[styles.dropDownContainer, { paddingLeft: 2 }]}>
-          <Text style={{ color: 'black', paddingLeft: 25 }}>{Cities}</Text>
+          <Text style={{ color: 'black', paddingLeft: 25 }}>{Cities} </Text>
           <View setTxt={txt => setCountry(txt)}
             style={{ paddingLeft: 2 }}>
 
@@ -211,7 +210,7 @@ const SignUp = ({ navigation }) => {
                 // onPress={() => setModalVisible(false)}
                 >
                   <Text style={{ color: 'black', fontSize: 20 }}>
-                    Select Location
+                    {t('common:selectlocation')}
                   </Text>
                   <TouchableOpacity onPress={() => setModalVisible(false)}>
                     <AntDesign color="black" name="close" size={30} />
@@ -219,7 +218,7 @@ const SignUp = ({ navigation }) => {
                 </View>
 
                 <TextInput
-                  placeholder="search cities ...."
+                  placeholder={t('common:searchcities')}
                   placeholderTextColor={'black'}
                   style={{
                     borderWidth: 1,
@@ -279,7 +278,7 @@ const SignUp = ({ navigation }) => {
           <TextField
             val={conPassword}
             setTxt={txt => setConPassword(txt)}
-            placeHolder={t('common:Confirm-password')}
+            placeHolder={t('common:conformpassword')}
             secureTextEntry={toggleConfirmPassword}
           />
           <Icon

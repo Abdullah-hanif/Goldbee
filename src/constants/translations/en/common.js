@@ -26,9 +26,12 @@ export default {
   email: 'Email',
   country: 'Country',
   password: 'Password',
-  conformpassword: 'Conform Password',
+  conformpassword: 'Confirm Password',
   iagreetoGoldbee: 'I agree to Goldbee',
   termsandCondition: 'terms and condition',
+  searchcities:'Search cities',
+  selectlocation:'Select Location',
+  cities:'Cities',
 
   //Login
   rememberme: 'Remember me ?',
@@ -64,6 +67,7 @@ export default {
   buying: 'Buying',
   selling: 'Selling',
   sendmessage: 'Send Message',
+  
 
   //ProfileScreen
   changepassword: 'Change Password',
@@ -112,4 +116,17 @@ export default {
   finalpriceplease: 'Final Price Please',
   whatistheexactsize: 'what is the exact size',
   fullandfinaldemand: 'Full and Final Demand plz',
+
+  // contact us
+  contactus: 'Contact us',
+  submit: 'Submit',
+  message:'Message',
+  subject:'Subject',
+  yourname:'Your name',
+
+  // change password
+  changepassword:'Change Password',
+  newpassword:'New password',
+  confirmnewpassword:'Confirm new password'
+
 };

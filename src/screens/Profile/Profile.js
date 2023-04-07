@@ -68,10 +68,12 @@ const Profile = ({ navigation }) => {
             Icon={require('../../assets/Icons/Group4076.png')}
           />
           <ProfileItemComp
+           onClick={() => navigation.navigate('ChangePassword')}
             name={t('common:changepassword')}
             Icon={require('../../assets/Icons/Group4085.png')}
           />
           <ProfileItemComp
+           onClick={() => navigation.navigate('ContactUs')}
             name={t('common:contactus')}
             Icon={require('../../assets/Icons/Group13736.png')}
           />

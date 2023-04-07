@@ -17,12 +17,15 @@ import ProductDetails from '../screens/ProductDetails/ProductDetails'
 import Home from '../screens/Home/Home'
 import ProfileDetails from '../screens/ProfileDetails/ProfileDetails'
 import MyProfile from '../screens/MyProfile/MyProfile'
+import ContactUs from "./../screens/contact us/Index";
 import PostingListing from '../screens/PostListing/PostingListing'
 
 // @MyProfile
 import MyListingDetails from '../screens/MyProfile/MyListingDetails/MyListingDetails'
 import UpdateListing from '../screens/MyProfile/MyListingDetails/UpdateListing'
 import { NotificationListener } from '../components/firebase'
+import ChangePassword from "../screens/change password/ChangePassword"
+
 
 const Stack = createStackNavigator()
 const StackNavigation = () => {
@@ -75,6 +78,8 @@ const StackNavigation = () => {
       <Stack.Screen name="ProductDetails" component={ProductDetails} />
       <Stack.Screen name="ProfileDetails" component={ProfileDetails} />
       <Stack.Screen name="MyProfile" component={MyProfile} />
+      <Stack.Screen name="ContactUs" component={ContactUs} />
+      <Stack.Screen name="ChangePassword" component={ChangePassword} />
       <Stack.Screen name="PostingListing" component={PostingListing} />
       <Stack.Screen name="MyListingDetails" component={MyListingDetails} />
       <Stack.Screen name="UpdateListing" component={UpdateListing} />

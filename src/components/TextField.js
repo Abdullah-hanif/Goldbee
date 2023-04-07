@@ -1,18 +1,25 @@
-import {StyleSheet, Text, View, TextInput} from 'react-native';
+import {StyleSheet, Text, View, TextInput,Image} from 'react-native';
 import React from 'react';
 import {Color} from '../constants/colors';
 
-const TextField = ({placeHolder, setTxt, val, keyBoarType,secureTextEntry}) => {
+const TextField = ({placeHolder, setTxt, val, keyBoarType,secureTextEntry,Icon=false}) => {
   return (
+
+    <View  style={styles.container}>
+     { Icon &&
+      <View style={{paddingLeft:20}}><Image source={require('../assets/Icons/Group4085.png')} style={{height:20,width:20}}/></View>
+   }
+    <View style={{paddingLeft:10}}>
     <TextInput
       keyboardType={keyBoarType}
       value={val}
       placeholderTextColor={'black'}
-      style={styles.container}
       placeholder={placeHolder}
       onChangeText={txt => setTxt(txt)}
       secureTextEntry={secureTextEntry}
     />
+    </View>
+    </View>
   );
 };
 
@@ -26,7 +33,8 @@ const styles = StyleSheet.create({
     height: 50,
     marginTop: 10,
     color: 'black',
-    // padding: 15,
-    paddingLeft: 25,
+    display:'flex',
+    flexDirection:'row',
+    alignItems:'center'
   },
 });
