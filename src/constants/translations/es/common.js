@@ -27,6 +27,9 @@ export default {
   conformpassword: 'Conforme Contraseña',
   iagreetoGoldbee: 'Estoy de acuerdo con Goldbee',
   termsandCondition: 'Términos y condiciones',
+  searchcities:'Buscar ciudades',
+  selectlocation:'Seleccionar ubicación',
+  cities:'Ciudades',
 
   //Login
   rememberme: 'Acuérdate de mí ?',
@@ -63,6 +66,7 @@ export default {
   buying: 'Comprar',
   selling: 'Venta',
   sendmessage: 'Enviar mensaje',
+  
 
   //ProfileScreen
   changepassword: 'Cambia la contraseña',
@@ -110,4 +114,16 @@ export default {
   finalpriceplease: 'precio final por favor',
   whatistheexactsize: 'cual es el tamaño exacto',
   fullandfinaldemand: 'Demanda completa y final por favor',
+
+   // contact us
+   contactus: 'Contacta con nosotras',
+   submit: 'entregar',
+   message:'Mensaje',
+   subject:'Sujeta',
+   yourname:'Su nombre',
+
+   // change password
+  changepassword:'Cambiar la contraseña',
+  newpassword:'Nueva contraseña',
+  confirmnewpassword:'Confirmar nueva contraseña'
 };

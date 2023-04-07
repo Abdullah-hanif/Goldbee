@@ -53,15 +53,15 @@ const Walkthrough = ({navigation}) => {
             source={item.image}
           />
 
-          <ScrollView showsVerticalScrollIndicator={false}>
-            <View style={{marginTop: 25, margin: 20, backgroundColor: 'white'}}>
+          {/* <ScrollView showsVerticalScrollIndicator={false}> */}
+            <View style={{marginTop: 10, margin: 20, backgroundColor: 'white'}}>
               <View>
                 <Text
                   style={{
                     fontWeight: '700',
                     color: 'black',
                     fontSize: 24,
-                    marginTop: 20,
+                    marginTop: 15,
                   }}>
                   {item.title}
                 </Text>
@@ -70,7 +70,7 @@ const Walkthrough = ({navigation}) => {
                 {item.text}
               </Text>
             </View>
-          </ScrollView>
+          {/* </ScrollView> */}
         </View>
       </>
     );
@@ -101,22 +101,22 @@ const Walkthrough = ({navigation}) => {
       {/* <ScrollView style={{flex: 1, backgroundColor: 'blue'}}> */}
       <ScrollView
         showsVerticalScrollIndicator={false}
-        style={{flex: 1, backgroundColor: Color.splashWhite}}>
+        style={{flex: 1, backgroundColor: Color.splashWhite,padding:5}}>
         <AppIntroSlider
-          style={{backgroundColor: 'white'}}
+          style={{backgroundColor: 'white',height:'90%'}}
           data={slides}
           renderItem={renderItem}
           renderDoneButton={renderDoneButton}
           renderNextButton={renderNextButton}
           dotStyle={{
             backgroundColor: Color.darkOrange,
-            marginBottom: Dimensions.get('screen').height / 4,
+            marginBottom: Dimensions.get('screen').height / 5,
           }}
           activeDotStyle={{
-            marginBottom: Dimensions.get('screen').height / 4,
+            marginBottom: Dimensions.get('screen').height / 5,
             backgroundColor: Color.darkGray,
           }}
-          contentContainerStyle={{marginBottom: 160}}
+          contentContainerStyle={{marginBottom: 120}}
 
           // ya dots ko chupa dyta ha
           // renderPagination={() => null}
@@ -130,7 +130,8 @@ const Walkthrough = ({navigation}) => {
             backgroundColor: 'white',
 
             padding: 10,
-            marginBottom: 30,
+           // marginBottom: 280,
+            
           }}>
           <Text style={{color: 'black'}}>
             {t('common:Alreadyhaveandaccount')}
@@ -157,6 +158,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     justifyContent: 'center',
     alignItems: 'center',
+    bottom:18
   },
   slide: {
     flex: 1,
