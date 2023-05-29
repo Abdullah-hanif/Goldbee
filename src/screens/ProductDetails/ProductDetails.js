@@ -188,7 +188,7 @@ const ProductDetails = ({ navigation, route }) => {
           </View>
         </TouchableOpacity>
         <View style={{ marginTop: '5%' }}>
-          <Buttons name={t('common:buynow')} />
+          <Buttons name={t('common:buynow')} onpress={()=>(navigation.navigate('PaymentScreen',{productDetails}))}/>
         </View>
       </View>
       {/* //END PROFILE VIEW */}
