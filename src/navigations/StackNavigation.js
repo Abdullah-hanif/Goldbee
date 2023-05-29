@@ -25,6 +25,7 @@ import MyListingDetails from '../screens/MyProfile/MyListingDetails/MyListingDet
 import UpdateListing from '../screens/MyProfile/MyListingDetails/UpdateListing'
 import { NotificationListener } from '../components/firebase'
 import ChangePassword from "../screens/change password/ChangePassword"
+import PaymentScreen from "../screens/PaymentScreen/PaymentScreen"
 
 
 const Stack = createStackNavigator()
@@ -83,6 +84,7 @@ const StackNavigation = () => {
       <Stack.Screen name="PostingListing" component={PostingListing} />
       <Stack.Screen name="MyListingDetails" component={MyListingDetails} />
       <Stack.Screen name="UpdateListing" component={UpdateListing} />
+      <Stack.Screen name="PaymentScreen" component={PaymentScreen} />
     </Stack.Navigator>
   )
 }
