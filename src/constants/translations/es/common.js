@@ -23,9 +23,9 @@ export default {
   lastname: 'Apellido',
   email: 'Correo electrónico',
   country: 'País',
-  password: 'Clave',
-  conformpassword: 'Conforme Contraseña',
-  iagreetoGoldbee: 'Estoy de acuerdo con Goldbee',
+  password: 'Contraseña',
+  conformpassword: 'Confirmar contraseña',
+  iagreetoGoldbee: 'Estoy de acuerdo con Goldybee',
   termsandCondition: 'Términos y condiciones',
   searchcities:'Buscar ciudades',
   selectlocation:'Seleccionar ubicación',
@@ -38,10 +38,10 @@ export default {
   donthaveanaccount: '¿No tienes una cuenta?',
 
   //Bottomtab
-  home: 'Hogar',
-  favorites: 'Favoritas',
+  home: 'Inicio',
+  favorites: 'Favorito ',
   sell: 'Vender',
-  inbox: 'charlar',
+  inbox: 'Mensajes',
   profile: 'Perfil',
 
   //Homepage
@@ -51,7 +51,13 @@ export default {
   necklaces: 'Collares',
   earrings: 'Aretes',
   bracelat: 'Pulsera',
-
+  Nobanglesfound:'No se encontraron brazaletes',
+  Nodiamondsfound:'No se encontraron diamantes',
+  Nobraceletfound:'No se encontró ninguna pulsera',
+  Noeearringsfound:'No se encontraron aretes',
+  Nonecklacesfound:'No se encontraron collares',
+  Noringsfound:'No se encontraron anillos',
+  Noproductfound:'Ningún producto encontrado',
   //Favorites
 
   yousavewishlist: 'Guardaste la lista de deseos',
@@ -70,7 +76,7 @@ export default {
 
   //ProfileScreen
   changepassword: 'Cambia la contraseña',
-  contactus: 'Contacta con nosotras',
+  contactus: 'Contacta con nosotros',
   logout: 'Cerrar sesión',
 
   //My Profile
@@ -91,10 +97,13 @@ export default {
   listingtitle: 'Título del listado',
   price: 'Precio',
   selectarealocation: 'Seleccionar área/ubicación',
-  Describeaboutyoulisting: 'Describa sobre su listado....',
-  postlisting: 'Listado de publicaciones',
+  Describeaboutyoulisting: 'Haz una descripción del producto',
+  postlisting: 'Subir producto',
   postedscucessfully: 'Publicado correctamente',
   yourlistingpostedsuccessfully: 'Su listado publicado con éxito',
+  Cities:"cuidad",
+  Searchcities:"Buscar cuidad",
+  Selectlocation:"Seleccionar ubicación",
 
   //Product Details
   beadednecklaces: 'Collares de cuentas',
@@ -116,7 +125,7 @@ export default {
   fullandfinaldemand: 'Demanda completa y final por favor',
 
    // contact us
-   contactus: 'Contacta con nosotras',
+   contactus: 'Contacta con nosotros',
    submit: 'entregar',
    message:'Mensaje',
    subject:'Sujeta',

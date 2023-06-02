@@ -17,6 +17,7 @@ const TextField = ({placeHolder, setTxt, val, keyBoarType,secureTextEntry,Icon=f
       placeholder={placeHolder}
       onChangeText={txt => setTxt(txt)}
       secureTextEntry={secureTextEntry}
+      style={{width:270}}
     />
     </View>
     </View>

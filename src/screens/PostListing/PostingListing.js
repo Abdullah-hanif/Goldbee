@@ -432,7 +432,7 @@ const PostingListing = ({ navigation, route }) => {
             borderColor: 'gray',
             top: 5,
           }}>
-          <Text style={{ left: 25 }}>{country}</Text>
+          <Text style={{ left: 25 }}>{country ? country : t('common:Cities')}</Text>
           <TouchableOpacity
             style={{ right: 10 }}
             onPress={() => setModalVisible1(true)}
@@ -461,7 +461,7 @@ const PostingListing = ({ navigation, route }) => {
                   }}
                 >
                   <Text style={{ color: 'black', fontSize: 20 }}>
-                    Select Location
+                   {t('common:Selectlocation')}
                   </Text>
                   <TouchableOpacity onPress={() => setModalVisible1(false)}>
                     <AntDesign color="black" name="close" size={30} />
@@ -469,7 +469,7 @@ const PostingListing = ({ navigation, route }) => {
                 </View>
 
                 <TextInput
-                  placeholder="search cities ...."
+                  placeholder={t('common:Searchcities')}
                   placeholderTextColor={'black'}
                   style={{
                     borderWidth: 1,
@@ -544,7 +544,7 @@ const PostingListing = ({ navigation, route }) => {
             <Text
               style={{
                 textDecorationLine: 'underline',
-                left: 10,
+                left: 6,
                 fontWeight: 'bold',
                 color: 'black',
               }}>

@@ -27,7 +27,7 @@ export default {
   country: 'Country',
   password: 'Password',
   conformpassword: 'Confirm Password',
-  iagreetoGoldbee: 'I agree to Goldbee',
+  iagreetoGoldbee: 'I agree to Goldybee',
   termsandCondition: 'terms and condition',
   searchcities:'Search cities',
   selectlocation:'Select Location',
@@ -53,7 +53,14 @@ export default {
   necklaces: 'Necklaces',
   earrings: 'Earrings',
   bracelat: 'Bracelet',
-
+  Nobanglesfound:'No bangles found',
+  Nodiamondsfound:'No diamonds found',
+  Nobanglesfound:'No bangles found',
+  Nobraceletfound:'No Bracelet Found',
+  Noeearringsfound:'No Eearrings Found',
+  Nonecklacesfound:'No Necklaces Found',
+  Noringsfound:'No Rings Found',
+  Noproductfound:'No Product found',
   //Favorites
 
   yousavewishlist: 'You saved wishlist',
@@ -98,6 +105,9 @@ export default {
   updatedscucessfully: 'Updated Successfully',
   yourlistingpostedsuccessfully: 'Your listing posted successfully',
   yourlistingupdatedsuccessfully: 'Your listing updated successfully',
+  Cities:'Cities',
+  Searchcities:"Search cities",
+  Selectlocation:"Select location",
 
   //Product Details
   productdetails:
