@@ -199,7 +199,7 @@ const Home = () => {
               style={{ height: 20, width: 20 }}
               source={require('../../assets/Icons/Group4039.png')}
             />
-            <Text style={{ left: '100%' }}>{Cities}</Text>
+            <Text style={{ left: '100%' }}>{Cities?Cities:t('Cities')}</Text>
           </View>
           <TouchableOpacity
             style={{ right: 10 }}
@@ -227,7 +227,7 @@ const Home = () => {
                   }}
                 >
                   <Text style={{ color: 'black', fontSize: 20 }}>
-                    Select Location
+                    {t('common:selectlocation')}
                   </Text>
                   <TouchableOpacity onPress={() => setModalVisible(false)}>
                     <AntDesign color="black" name="close" size={30} />
@@ -235,7 +235,7 @@ const Home = () => {
                 </View>
 
                 <TextInput
-                  placeholder="search cities ...."
+                  placeholder={t('common:searchcities')}
                   placeholderTextColor={'black'}
                   style={{
                     borderWidth: 1,
@@ -340,7 +340,7 @@ const Home = () => {
           <CategoryContainer
             onPress={handleSelected}
             value={selected}
-            name="Bangles"
+            name={t('common:bangles')}
             Icon={
               <Image
                 style={{ height: 20, width: 20 }}
@@ -351,7 +351,7 @@ const Home = () => {
           <CategoryContainer
             onPress={handleSelected}
             value={selected}
-            name="Diamonds"
+            name={t('common:diamonds')}
             Icon={
               <Image
                 style={{ height: 20, width: 20 }}
@@ -371,7 +371,7 @@ const Home = () => {
             alignItems: 'center',
           }}>
           {find == 'Bangles' ? (
-            <Text>No bangles found</Text>
+            <Text>{t('common:Nobanglesfound')}</Text>
           ) : null || find == 'Diamonds' ? (
             <>
               <Image
@@ -379,7 +379,7 @@ const Home = () => {
                 style={{ height: 80, width: 80 }}
                 source={require('../../assets/Icons/Path13197.png')}
               />
-              <Text style={{ color: 'gray' }}>No Diamonds Found</Text>
+              <Text style={{ color: 'gray' }}>{t('common:Nodiamondsfound')}</Text>
             </>
           ) : null || find == 'Bracelet' ? (
             <>
@@ -388,7 +388,7 @@ const Home = () => {
                 style={{ height: 80, width: 80 }}
                 source={require('../../assets/Icons/Shape-3.png')}
               />
-              <Text style={{ color: 'gray' }}>No Bracelet Found</Text>
+              <Text style={{ color: 'gray' }}>{t('common:Nobraceletfound')}</Text>
             </>
           ) : null || find == 'Eearrings' ? (
             <>
@@ -397,7 +397,7 @@ const Home = () => {
                 style={{ height: 80, width: 80 }}
                 source={require('../../assets/Icons/Shape-2.png')}
               />
-              <Text style={{ color: 'gray' }}>No Eearrings Found</Text>
+              <Text style={{ color: 'gray' }}>{t('common:Noeearringsfound')}</Text>
             </>
           ) : null || find == 'Necklaces' ? (
             <>
@@ -406,7 +406,7 @@ const Home = () => {
                 style={{ height: 80, width: 80 }}
                 source={require('../../assets/Icons/Shape-1.png')}
               />
-              <Text style={{ color: 'gray' }}>No Necklaces Found</Text>
+              <Text style={{ color: 'gray' }}>{t('common:Nonecklacesfound')}</Text>
             </>
           ) : null || find == 'Rings' ? (
             <>
@@ -415,7 +415,7 @@ const Home = () => {
                 style={{ height: 80, width: 80 }}
                 source={require('../../assets/Icons/Shape.png')}
               />
-              <Text style={{ color: 'gray' }}>No Rings Found</Text>
+              <Text style={{ color: 'gray' }}>{t('common:Noringsfound')}</Text>
             </>
           ) : null || find == 'searchBar' ? (
             <>
@@ -424,7 +424,7 @@ const Home = () => {
                 style={{ height: 80, width: 80 }}
                 source={require('../../assets/Icons/Icon.png')}
               />
-              <Text style={{ color: 'gray' }}>No Product found </Text>
+              <Text style={{ color: 'gray' }}>{t('common:Noproductfound')}</Text>
             </>
           ) : null || find == 'serachCities' ? (
             <>
